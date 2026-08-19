@@ -21,6 +21,15 @@ def _resolve_local(root: Path, relative: object, *, field: str) -> tuple[Path | 
     candidate = Path(relative)
     if candidate.is_absolute():
         return None, Issue("release.path-absolute", f"{field} must be relative", field)
+    cursor = root
+    for part in candidate.parts:
+        cursor /= part
+        if cursor.is_symlink():
+            return None, Issue(
+                "release.path-symlink",
+                f"{field} must not contain symlinks",
+                field,
+            )
     resolved = (root / candidate).resolve()
     try:
         resolved.relative_to(root)
@@ -194,6 +203,9 @@ def verify_release_manifest(
             "release_eligible": False,
             "status": "ERROR",
             "gate_statuses": {},
+            "content_valid": False,
+            "content_status": "ERROR",
+            "content_gate_statuses": {},
             "issues": [Issue("release.manifest-parse", str(exc), str(manifest_path)).as_dict()],
         }
     issues.extend(registry.validate(manifest, "release-manifest"))
@@ -203,21 +215,27 @@ def verify_release_manifest(
             "release_eligible": False,
             "status": "ERROR",
             "gate_statuses": {},
+            "content_valid": False,
+            "content_status": "ERROR",
+            "content_gate_statuses": {},
             "issues": [issue.as_dict() for issue in issues],
         }
 
     artifact_ids: list[str] = []
     artifact_paths: list[str] = []
     gate_artifact_statuses: dict[str, list[str]] = {}
+    gate_artifact_content_statuses: dict[str, list[str]] = {}
     for index, artifact in enumerate(manifest["artifacts"]):
         artifact_ids.append(artifact["id"])
         artifact_paths.append(artifact["path"])
         gate = artifact["gate"]
         gate_artifact_statuses.setdefault(gate, [])
+        gate_artifact_content_statuses.setdefault(gate, [])
         path, path_issue = _resolve_local(root, artifact["path"], field=f"/artifacts/{index}/path")
         if path_issue:
             issues.append(path_issue)
             gate_artifact_statuses[gate].append("ERROR")
+            gate_artifact_content_statuses[gate].append("ERROR")
             continue
         assert path is not None
         if not path.is_file():
@@ -229,6 +247,7 @@ def verify_release_manifest(
                 )
             )
             gate_artifact_statuses[gate].append("INCOMPLETE")
+            gate_artifact_content_statuses[gate].append("INCOMPLETE")
             continue
         observed_digest = file_digest(path)
         if observed_digest != artifact["digest"]:
@@ -240,17 +259,33 @@ def verify_release_manifest(
                 )
             )
             gate_artifact_statuses[gate].append("FAIL")
+            gate_artifact_content_statuses[gate].append("FAIL")
             continue
         try:
             report = load_document(path)
         except DocumentError as exc:
             issues.append(Issue("release.gate-report-parse", str(exc), f"/artifacts/{index}/path"))
             gate_artifact_statuses[gate].append("ERROR")
+            gate_artifact_content_statuses[gate].append("ERROR")
             continue
         status, report_issues = _verify_gate_report(
             report, expected_gate=gate, root=root, report_path=path
         )
-        gate_artifact_statuses[gate].append(status)
+        gate_artifact_content_statuses[gate].append(status)
+        if status == "PASS":
+            gate_artifact_statuses[gate].append("INCOMPLETE")
+            issues.append(
+                Issue(
+                    "release.gate-unattested",
+                    (
+                        f"gate {gate!r} is content-consistent but no registered deterministic "
+                        "verifier attests its producer, candidate commit, and raw evidence format"
+                    ),
+                    f"/artifacts/{index}",
+                )
+            )
+        else:
+            gate_artifact_statuses[gate].append(status)
         issues.extend(
             Issue(issue.code, issue.message, f"{artifact['path']}:{issue.path}")
             for issue in report_issues
@@ -268,10 +303,13 @@ def verify_release_manifest(
             )
 
     gate_statuses: dict[str, str] = {}
+    content_gate_statuses: dict[str, str] = {}
     for gate in manifest["required_gates"]:
         statuses = gate_artifact_statuses.get(gate, [])
+        content_statuses = gate_artifact_content_statuses.get(gate, [])
         if not statuses:
             gate_statuses[gate] = "INCOMPLETE"
+            content_gate_statuses[gate] = "INCOMPLETE"
             issues.append(
                 Issue(
                     "release.gate-missing",
@@ -281,8 +319,11 @@ def verify_release_manifest(
             )
         else:
             gate_statuses[gate] = aggregate_status(statuses)
+            content_gate_statuses[gate] = aggregate_status(content_statuses)
 
     overall_status = aggregate_status(gate_statuses.values())
+    content_status = aggregate_status(content_gate_statuses.values())
+    content_issues = [issue for issue in issues if issue.code != "release.gate-unattested"]
     eligible = not issues and overall_status == "PASS"
     claimed = manifest.get("claimed_release_eligible")
     return {
@@ -290,6 +331,9 @@ def verify_release_manifest(
         "release_eligible": eligible,
         "status": overall_status,
         "gate_statuses": gate_statuses,
+        "content_valid": not content_issues,
+        "content_status": content_status,
+        "content_gate_statuses": content_gate_statuses,
         "claimed_release_eligible": claimed,
         "claim_matches_derived": claimed is None or claimed == eligible,
         "issues": [issue.as_dict() for issue in issues],

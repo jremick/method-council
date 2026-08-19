@@ -58,14 +58,19 @@ def _verify(manifest, root):
     )
 
 
-def test_release_eligibility_is_derived_from_bound_bytes(tmp_path):
+def test_arbitrary_bound_bytes_and_self_asserted_pass_cannot_make_release_eligible(tmp_path):
     manifest, _, _ = _write_release(tmp_path)
 
     result = _verify(manifest, tmp_path)
 
-    assert result["valid"]
-    assert result["release_eligible"]
-    assert result["status"] == "PASS"
+    assert not result["valid"]
+    assert not result["release_eligible"]
+    assert result["status"] == "INCOMPLETE"
+    assert result["gate_statuses"] == {"tests": "INCOMPLETE"}
+    assert result["content_valid"]
+    assert result["content_status"] == "PASS"
+    assert result["content_gate_statuses"] == {"tests": "PASS"}
+    assert any(issue["code"] == "release.gate-unattested" for issue in result["issues"])
 
 
 def test_forged_top_level_pass_does_not_override_failed_check(tmp_path):
@@ -149,3 +154,31 @@ def test_gate_report_cannot_bind_itself_as_evidence(tmp_path):
 
     assert not result["release_eligible"]
     assert any(issue["code"] == "release.evidence-self-reference" for issue in result["issues"])
+
+
+def test_bound_evidence_cannot_be_a_symlink(tmp_path):
+    manifest, _, evidence = _write_release(tmp_path)
+    target = tmp_path / "evidence" / "actual-results.txt"
+    target.write_bytes(evidence.read_bytes())
+    evidence.unlink()
+    evidence.symlink_to(target)
+
+    result = _verify(manifest, tmp_path)
+
+    assert not result["release_eligible"]
+    assert result["status"] == "ERROR"
+    assert any(issue["code"] == "release.path-symlink" for issue in result["issues"])
+
+
+def test_gate_report_artifact_cannot_be_a_symlink(tmp_path):
+    manifest, report, _ = _write_release(tmp_path)
+    target = tmp_path / "reports" / "actual-tests.json"
+    target.write_bytes(report.read_bytes())
+    report.unlink()
+    report.symlink_to(target)
+
+    result = _verify(manifest, tmp_path)
+
+    assert not result["release_eligible"]
+    assert result["status"] == "ERROR"
+    assert any(issue["code"] == "release.path-symlink" for issue in result["issues"])
