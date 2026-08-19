@@ -1,6 +1,9 @@
 import json
 from pathlib import Path
 
+import pytest
+
+from method_council.documents import MAX_DOCUMENT_BYTES
 from method_council.evidence import file_digest
 from method_council.release import verify_release_manifest
 from method_council.schema import SchemaRegistry
@@ -182,3 +185,47 @@ def test_gate_report_artifact_cannot_be_a_symlink(tmp_path):
     assert not result["release_eligible"]
     assert result["status"] == "ERROR"
     assert any(issue["code"] == "release.path-symlink" for issue in result["issues"])
+
+
+def test_top_level_manifest_cannot_be_a_symlink(tmp_path):
+    manifest, _, _ = _write_release(tmp_path)
+    linked_manifest = tmp_path / "linked-manifest.json"
+    linked_manifest.symlink_to(manifest)
+
+    result = _verify(linked_manifest, tmp_path)
+
+    assert not result["release_eligible"]
+    assert result["status"] == "ERROR"
+    issue = next(issue for issue in result["issues"] if issue["code"] == "release.manifest-parse")
+    assert "symlink" in issue["message"]
+
+
+@pytest.mark.skipif(not Path("/dev/zero").exists(), reason="requires a POSIX zero device")
+def test_top_level_manifest_device_fails_closed_without_reading(tmp_path):
+    result = _verify(Path("/dev/zero"), tmp_path)
+
+    assert not result["release_eligible"]
+    assert result["status"] == "ERROR"
+    issue = next(issue for issue in result["issues"] if issue["code"] == "release.manifest-parse")
+    assert "not a regular file" in issue["message"]
+
+
+@pytest.mark.parametrize(
+    ("input_name", "issue_code"),
+    [
+        ("manifest", "release.manifest-parse"),
+        ("report", "release.artifact-read"),
+        ("evidence", "release.evidence-read"),
+    ],
+)
+def test_every_release_input_is_bounded(tmp_path, input_name, issue_code):
+    manifest, report, evidence = _write_release(tmp_path)
+    path = {"manifest": manifest, "report": report, "evidence": evidence}[input_name]
+    with path.open("wb") as handle:
+        handle.truncate(MAX_DOCUMENT_BYTES + 1)
+
+    result = _verify(manifest, tmp_path)
+
+    assert not result["release_eligible"]
+    issue = next(issue for issue in result["issues"] if issue["code"] == issue_code)
+    assert "exceeds" in issue["message"]

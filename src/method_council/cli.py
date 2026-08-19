@@ -207,7 +207,9 @@ def _verify_acceptance_command(args: argparse.Namespace) -> int:
 
 
 def _verify_release_command(args: argparse.Namespace) -> int:
-    manifest = Path(args.manifest).resolve()
+    manifest = Path(args.manifest)
+    if not manifest.is_absolute():
+        manifest = Path.cwd() / manifest
     root = _root(args.root, manifest)
     result = verify_release_manifest(manifest, root=root)
     _emit(result)

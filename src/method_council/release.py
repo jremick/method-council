@@ -2,15 +2,69 @@
 
 from __future__ import annotations
 
+import json
+import os
+import stat
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from method_council.documents import DocumentError, load_document
-from method_council.evidence import file_digest
+import yaml
+
+from method_council.documents import MAX_DOCUMENT_BYTES, DocumentError
+from method_council.evidence import content_digest
 from method_council.issues import Issue
 from method_council.schema import SchemaRegistry
 from method_council.status import PRIMARY_STATUSES, aggregate_status
+
+
+def _read_regular_file(path: Path) -> bytes:
+    """Read a bounded regular file without following a final symlink or device."""
+
+    lexical = path if path.is_absolute() else Path.cwd() / path
+    cursor = Path(lexical.anchor)
+    for part in lexical.parts[1:]:
+        cursor /= part
+        if cursor.is_symlink():
+            raise DocumentError(f"release input is a symlink: {path}")
+
+    flags = os.O_RDONLY | os.O_NONBLOCK | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        descriptor = os.open(path, flags)
+    except OSError as exc:
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+
+    try:
+        metadata = os.fstat(descriptor)
+        if not stat.S_ISREG(metadata.st_mode):
+            raise DocumentError(f"release input is not a regular file: {path}")
+        if metadata.st_size > MAX_DOCUMENT_BYTES:
+            raise DocumentError(f"release input exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}")
+        with os.fdopen(descriptor, "rb") as handle:
+            descriptor = -1
+            data = handle.read(MAX_DOCUMENT_BYTES + 1)
+    except OSError as exc:
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+
+    if len(data) > MAX_DOCUMENT_BYTES:
+        raise DocumentError(f"release input exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}")
+    return data
+
+
+def _load_regular_document(path: Path, data: bytes | None = None) -> Any:
+    raw = data if data is not None else _read_regular_file(path)
+    try:
+        text = raw.decode("utf-8")
+        if path.suffix.lower() == ".json":
+            return json.loads(text)
+        if path.suffix.lower() in {".yaml", ".yml"}:
+            return yaml.safe_load(text)
+    except (UnicodeError, json.JSONDecodeError, yaml.YAMLError) as exc:
+        raise DocumentError(f"could not parse {path}: {exc}") from exc
+    raise DocumentError(f"unsupported structured document extension: {path.suffix}")
 
 
 def _resolve_local(root: Path, relative: object, *, field: str) -> tuple[Path | None, Issue | None]:
@@ -59,14 +113,17 @@ def _verify_binding(
         return [
             Issue("release.evidence-self-reference", "gate report cannot bind itself", check_path)
         ]
-    if not path.is_file():
+    if not path.exists():
         return [
             Issue("release.evidence-missing", f"bound evidence does not exist: {path}", check_path)
         ]
     expected = binding.get("digest")
     if not isinstance(expected, str) or not expected.startswith("sha256:"):
         return [Issue("release.evidence-digest-invalid", "invalid evidence digest", check_path)]
-    observed = file_digest(path)
+    try:
+        observed = content_digest(_read_regular_file(path))
+    except DocumentError as exc:
+        return [Issue("release.evidence-read", str(exc), check_path)]
     if observed != expected:
         return [
             Issue(
@@ -196,7 +253,7 @@ def verify_release_manifest(
     registry = registry or SchemaRegistry(root / "schemas")
     issues: list[Issue] = []
     try:
-        manifest = load_document(manifest_path)
+        manifest = _load_regular_document(manifest_path)
     except DocumentError as exc:
         return {
             "valid": False,
@@ -238,7 +295,7 @@ def verify_release_manifest(
             gate_artifact_content_statuses[gate].append("ERROR")
             continue
         assert path is not None
-        if not path.is_file():
+        if not path.exists():
             issues.append(
                 Issue(
                     "release.artifact-missing",
@@ -249,7 +306,14 @@ def verify_release_manifest(
             gate_artifact_statuses[gate].append("INCOMPLETE")
             gate_artifact_content_statuses[gate].append("INCOMPLETE")
             continue
-        observed_digest = file_digest(path)
+        try:
+            report_bytes = _read_regular_file(path)
+        except DocumentError as exc:
+            issues.append(Issue("release.artifact-read", str(exc), f"/artifacts/{index}/path"))
+            gate_artifact_statuses[gate].append("ERROR")
+            gate_artifact_content_statuses[gate].append("ERROR")
+            continue
+        observed_digest = content_digest(report_bytes)
         if observed_digest != artifact["digest"]:
             issues.append(
                 Issue(
@@ -262,7 +326,7 @@ def verify_release_manifest(
             gate_artifact_content_statuses[gate].append("FAIL")
             continue
         try:
-            report = load_document(path)
+            report = _load_regular_document(path, report_bytes)
         except DocumentError as exc:
             issues.append(Issue("release.gate-report-parse", str(exc), f"/artifacts/{index}/path"))
             gate_artifact_statuses[gate].append("ERROR")

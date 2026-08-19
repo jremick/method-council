@@ -118,3 +118,18 @@ def test_aggregate_rejects_duplicate_method_passes(tmp_path, capsys):
     assert exit_code == 1
     assert payload["status"] == "ERROR"
     assert any(issue["code"] == "aggregate.duplicate-method" for issue in payload["issues"])
+
+
+def test_verify_release_cli_does_not_resolve_a_symlinked_manifest(tmp_path, capsys):
+    target = tmp_path / "manifest-target.json"
+    target.write_text("{}", encoding="utf-8")
+    manifest = tmp_path / "manifest.json"
+    manifest.symlink_to(target)
+
+    exit_code = main(["verify-release", str(manifest), "--root", str(REPO_ROOT)])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 1
+    assert not payload["release_eligible"]
+    issue = next(issue for issue in payload["issues"] if issue["code"] == "release.manifest-parse")
+    assert "symlink" in issue["message"]
