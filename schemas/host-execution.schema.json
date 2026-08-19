@@ -34,6 +34,7 @@
     "event_counts",
     "event_sequence",
     "non_json_line_count",
+    "event_stream_truncated",
     "final_message_digest",
     "verification_digest",
     "verification_valid",
@@ -151,6 +152,7 @@
       "items": { "type": "string", "minLength": 1 }
     },
     "non_json_line_count": { "type": "integer", "minimum": 0 },
+    "event_stream_truncated": { "const": false },
     "final_message_digest": {
       "type": ["string", "null"],
       "pattern": "^sha256:[a-f0-9]{64}$"

@@ -16,7 +16,7 @@ from datetime import datetime
 from pathlib import Path, PurePosixPath
 from typing import Any, Final
 
-from method_council.documents import DocumentError, load_document
+from method_council.documents import MAX_DOCUMENT_BYTES, DocumentError, load_document
 from method_council.evidence import canonical_json_digest, content_digest, file_digest
 from method_council.issues import Issue
 from method_council.run import verify_run
@@ -262,8 +262,13 @@ def _copy_regular_file(source: Path, destination: Path) -> None:
     descriptor = os.open(source, flags)
     try:
         with os.fdopen(descriptor, "rb", closefd=False) as input_handle:
-            if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+            metadata = os.fstat(descriptor)
+            if not stat.S_ISREG(metadata.st_mode):
                 raise ValueError(f"source artifact is not a regular file: {source}")
+            if metadata.st_size > MAX_DOCUMENT_BYTES:
+                raise ValueError(
+                    f"source artifact exceeds {MAX_DOCUMENT_BYTES} byte limit: {source}"
+                )
             with destination.open("xb") as output_handle:
                 shutil.copyfileobj(input_handle, output_handle)
     finally:
@@ -278,6 +283,14 @@ def copy_expected_artifacts(
     """Copy an allowlist of regular files and reject all symlinks in the source run."""
 
     issues: list[Issue] = []
+    if source_run_dir.is_symlink():
+        return [], [
+            Issue(
+                "acceptance.artifact-root-symlink",
+                "model-writable run root is a symlink",
+                ".",
+            )
+        ]
     symlinks = _symlinks_under(source_run_dir)
     for relative in symlinks:
         issues.append(
@@ -724,6 +737,7 @@ def verify_acceptance(
             "timed_out": False,
             "raw_prompt_persisted": False,
             "raw_event_stream_persisted": False,
+            "event_stream_truncated": False,
             "verification_valid": True,
             "source_mutations": [],
         }

@@ -10,6 +10,7 @@ from method_council.acceptance import (
     git_source_identity,
     tracked_file_state,
 )
+from method_council.documents import MAX_DOCUMENT_BYTES
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER = ROOT / "scripts" / "run_codex_acceptance.py"
@@ -110,3 +111,28 @@ def test_copy_rejects_path_traversal_before_creating_host_run(tmp_path):
     assert ledger == []
     assert [issue.code for issue in issues] == ["acceptance.artifact-path"]
     assert not (tmp_path / "host-run").exists()
+
+
+def test_copy_rejects_symlinked_run_root(tmp_path):
+    real_run = tmp_path / "real-run"
+    real_run.mkdir()
+    linked_run = tmp_path / "linked-run"
+    linked_run.symlink_to(real_run, target_is_directory=True)
+
+    ledger, issues = copy_expected_artifacts(linked_run, tmp_path / "host-run", ["run.json"])
+
+    assert ledger == []
+    assert [issue.code for issue in issues] == ["acceptance.artifact-root-symlink"]
+    assert not (tmp_path / "host-run").exists()
+
+
+def test_copy_rejects_oversized_expected_artifact(tmp_path):
+    source = tmp_path / "model-run"
+    source.mkdir()
+    with (source / "run.json").open("wb") as handle:
+        handle.truncate(MAX_DOCUMENT_BYTES + 1)
+
+    ledger, issues = copy_expected_artifacts(source, tmp_path / "host-run", ["run.json"])
+
+    assert ledger == []
+    assert [issue.code for issue in issues] == ["acceptance.artifact-copy"]

@@ -13,11 +13,11 @@ from method_council.acceptance import (
     task_spec,
     verify_acceptance,
 )
+from method_council.catalog import load_catalog
 from method_council.evidence import content_digest, file_digest
-from method_council.run import verify_run
+from method_council.run import prepare_run, verify_run
 
 ROOT = Path(__file__).resolve().parents[2]
-RECORDED = ROOT / "evidence" / "acceptance" / "accept-architecture-storage-20260819"
 RUN_ID = "accept-architecture-storage-20260819"
 TASK_ID = "architecture-storage"
 
@@ -29,51 +29,90 @@ def _write(path: Path, payload: dict) -> None:
 def _build_valid_bundle(tmp_path: Path) -> Path:
     bundle = tmp_path / RUN_ID
     profile, task_path = task_spec(TASK_ID)
-    expected = expected_model_artifacts(ROOT, profile)
-    for relative in expected:
-        destination = bundle / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(RECORDED / relative, destination)
-    run_path = bundle / "run.json"
-    run = json.loads(run_path.read_text(encoding="utf-8"))
-    run["route"].update(
-        {
-            "profile_id": profile,
-            "allow_preview": True,
-            "challenge_required": True,
-        }
-    )
-    _write(run_path, run)
-    for relative in expected:
-        if not relative.startswith("method-results/"):
-            continue
-        result_path = bundle / relative
-        result = json.loads(result_path.read_text(encoding="utf-8"))
-        result["status"] = "INCOMPLETE"
-        _write(result_path, result)
-    report_path = bundle / "report.json"
-    report = json.loads(report_path.read_text(encoding="utf-8"))
-    report["status"] = "INCOMPLETE"
-    report["method_ledger"] = [
-        {
-            "method_id": method_id,
-            "status": "INCOMPLETE",
-            "result_digest": file_digest(bundle / f"method-results/{method_id}.json"),
-        }
-        for method_id in run["methods"]
-    ]
-    _write(report_path, report)
-
     source = git_source_identity(ROOT)
     verification_root = tmp_path / "verification-source"
     extract_git_snapshot(ROOT, source["source_commit"], verification_root)
     verification_run = verification_root / "runs" / "acceptance" / RUN_ID
-    for relative in expected:
-        destination = verification_run / relative
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(bundle / relative, destination)
+    question = (verification_root / task_path).read_text(encoding="utf-8")
+    prepared = prepare_run(
+        root=verification_root,
+        run_dir=verification_run,
+        question=question,
+        catalog=load_catalog(verification_root),
+        profile_id=profile,
+        activity=None,
+        rigor=None,
+        method_ids=[],
+        allow_preview=True,
+        require_challenge=False,
+        evidence_specs=[f"case={task_path}"],
+        evidence_kind="repository",
+        adapter="codex",
+        provider_state="verified",
+        model_requested=None,
+        model_observed=None,
+        external_api_calls=False,
+        correlation_group=f"codex-{RUN_ID}",
+    )
+    assert prepared["valid"] is True
+    run = prepared["run"]
+    result_paths: dict[str, Path] = {}
+    for method_id in run["methods"]:
+        result = {
+            "schema_version": "0.1.0",
+            "run_id": RUN_ID,
+            "method_id": method_id,
+            "method_version": "0.1.0",
+            "rigor": "standard",
+            "status": "INCOMPLETE",
+            "side_conditions": ["CORRELATED"],
+            "completed_steps": [],
+            "findings": [],
+            "alternatives": [],
+            "method_artifact": {},
+            "confidence": {
+                "band": "not-assessed",
+                "basis": "Synthetic verifier fixture only.",
+            },
+            "change_conditions": [],
+            "errors": [],
+            "execution": run["host"],
+        }
+        result_path = verification_run / "method-results" / f"{method_id}.json"
+        _write(result_path, result)
+        result_paths[method_id] = result_path
+    report = {
+        "schema_version": "0.1.0",
+        "run_id": RUN_ID,
+        "status": "INCOMPLETE",
+        "side_conditions": ["CORRELATED"],
+        "judgment": "Synthetic verifier fixture remains incomplete.",
+        "decision_boundary": "Acceptance contract checks only.",
+        "next_action": "Retain the incomplete status.",
+        "key_judgments": [],
+        "strongest_alternative": "No model judgment was produced.",
+        "assumptions": [],
+        "unknowns": ["No live model execution occurred."],
+        "dissent": [],
+        "checkpoint": {"trigger": "Fixture changes", "indicators": ["Digest changes"]},
+        "method_ledger": [
+            {
+                "method_id": method_id,
+                "status": "INCOMPLETE",
+                "result_digest": file_digest(result_paths[method_id]),
+            }
+            for method_id in run["methods"]
+        ],
+        "limitations": ["This is structural test data, not execution evidence."],
+    }
+    _write(verification_run / "report.json", report)
     verification = verify_run(verification_run, root=verification_root)
     assert verification["valid"] is True
+    expected = expected_model_artifacts(verification_root, profile)
+    for relative in expected:
+        destination = bundle / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(verification_run / relative, destination)
     _write(bundle / "verification.json", verification)
     recorded_run_path = f"runs/acceptance/{RUN_ID}"
     prompt = build_acceptance_prompt(TASK_ID, profile, task_path, recorded_run_path, RUN_ID)
@@ -119,6 +158,7 @@ def _build_valid_bundle(tmp_path: Path) -> Path:
         "event_counts": dict(sorted(Counter(sequence).items())),
         "event_sequence": sequence,
         "non_json_line_count": 0,
+        "event_stream_truncated": False,
         "final_message_digest": content_digest("complete"),
         "verification_digest": file_digest(bundle / "verification.json"),
         "verification_valid": True,

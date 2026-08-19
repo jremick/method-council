@@ -4,16 +4,19 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import shutil
+import signal
 import subprocess
 import tempfile
+import threading
 import time
 from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Final, TextIO
+from typing import BinaryIO, Final
 
 from method_council.acceptance import (
     TASKS,
@@ -32,6 +35,7 @@ from method_council.evidence import content_digest, file_digest
 from method_council.run import verify_run
 
 _SYNC_COMMAND: Final = ["uv", "sync", "--frozen", "--all-groups"]
+_EVENT_STREAM_MAX_BYTES: Final = 16 * 1024 * 1024
 _ENV_ALLOWLIST: Final = {
     "HOME",
     "LANG",
@@ -99,14 +103,15 @@ def _codex_state(executable: Path | None = None) -> tuple[str, str]:
 
 
 def _event_summary(
-    stream: TextIO,
+    stream: BinaryIO,
 ) -> tuple[dict[str, int], list[str], int, str | None]:
     counts: Counter[str] = Counter()
     sequence: list[str] = []
     non_json_line_count = 0
     final_digest: str | None = None
     stream.seek(0)
-    for raw_line in stream:
+    for encoded_line in stream:
+        raw_line = encoded_line.decode("utf-8", errors="replace")
         try:
             event = json.loads(raw_line)
         except json.JSONDecodeError:
@@ -124,6 +129,73 @@ def _event_summary(
         ):
             final_digest = content_digest(item["text"])
     return dict(sorted(counts.items())), sequence, non_json_line_count, final_digest
+
+
+def _kill_process_group(process_id: int) -> None:
+    with contextlib.suppress(ProcessLookupError):
+        os.killpg(process_id, signal.SIGKILL)
+
+
+def _run_codex(
+    command: list[str],
+    *,
+    cwd: Path,
+    environment: dict[str, str],
+    prompt: str,
+    timeout: int,
+    stream: BinaryIO,
+) -> tuple[int, bool, bool]:
+    """Run Codex in its own process group while bounding and draining output."""
+
+    process = subprocess.Popen(
+        command,
+        cwd=cwd,
+        env=environment,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        start_new_session=True,
+    )
+    assert process.stdin is not None and process.stdout is not None
+    state = {"written": 0, "truncated": False}
+
+    def drain() -> None:
+        for chunk in iter(lambda: process.stdout.read(64 * 1024), b""):
+            remaining = _EVENT_STREAM_MAX_BYTES - state["written"]
+            if remaining > 0:
+                retained = chunk[:remaining]
+                stream.write(retained)
+                state["written"] += len(retained)
+            if len(chunk) > max(remaining, 0):
+                state["truncated"] = True
+
+    reader = threading.Thread(target=drain, name="codex-event-drain", daemon=True)
+    reader.start()
+    try:
+        try:
+            process.stdin.write(prompt.encode("utf-8"))
+            process.stdin.close()
+        except BrokenPipeError:
+            pass
+        try:
+            process.wait(timeout=timeout)
+            exit_code = int(process.returncode)
+            timed_out = False
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            exit_code = 124
+    finally:
+        _kill_process_group(process.pid)
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            _kill_process_group(process.pid)
+        reader.join(timeout=5)
+        process.stdout.close()
+    if reader.is_alive():
+        raise RuntimeError("Codex event drain did not terminate after process-group shutdown")
+    stream.flush()
+    return exit_code, timed_out, bool(state["truncated"])
 
 
 def _sanitized_environment() -> dict[str, str]:
@@ -223,25 +295,18 @@ def main(argv: list[str] | None = None) -> int:
         event_counts: dict[str, int] = {}
         event_sequence: list[str] = []
         non_json_line_count = 0
+        event_stream_truncated = False
         final_message_digest: str | None = None
         if sync_exit_code == 0:
-            with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stream:
-                try:
-                    completed = subprocess.run(
-                        command,
-                        cwd=execution_root,
-                        env=environment,
-                        input=prompt,
-                        stdout=stream,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        check=False,
-                        timeout=args.timeout,
-                    )
-                    exit_code = completed.returncode
-                except subprocess.TimeoutExpired:
-                    timed_out = True
-                    exit_code = 124
+            with tempfile.TemporaryFile(mode="w+b") as stream:
+                exit_code, timed_out, event_stream_truncated = _run_codex(
+                    command,
+                    cwd=execution_root,
+                    environment=environment,
+                    prompt=prompt,
+                    timeout=args.timeout,
+                    stream=stream,
+                )
                 (
                     event_counts,
                     event_sequence,
@@ -264,6 +329,8 @@ def main(argv: list[str] | None = None) -> int:
                 expected_paths,
             )
             execution_issues.extend(issue.as_dict() for issue in copy_issues)
+            if not host_run.exists():
+                host_run.mkdir(parents=True)
         else:
             host_run.mkdir(parents=True)
             execution_issues.append(
@@ -318,6 +385,7 @@ def main(argv: list[str] | None = None) -> int:
             "event_counts": event_counts,
             "event_sequence": event_sequence,
             "non_json_line_count": non_json_line_count,
+            "event_stream_truncated": event_stream_truncated,
             "final_message_digest": final_message_digest,
             "verification_digest": file_digest(verification_path),
             "verification_valid": bool(run_verdict["valid"]),
@@ -332,7 +400,14 @@ def main(argv: list[str] | None = None) -> int:
         _write_json(host_run / "acceptance-verdict.json", acceptance_verdict)
 
         run_dir.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(host_run, run_dir, symlinks=False)
+        with tempfile.TemporaryDirectory(
+            prefix=f".{args.run_id}-publish-", dir=run_dir.parent
+        ) as publish_parent:
+            publish_candidate = Path(publish_parent) / args.run_id
+            shutil.copytree(host_run, publish_candidate, symlinks=False)
+            os.replace(publish_candidate, run_dir)
+
+    acceptance_verdict = verify_acceptance(run_dir, root=root)
 
     result = {
         "valid": bool(acceptance_verdict["valid"]),
