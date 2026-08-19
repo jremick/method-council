@@ -1,0 +1,80 @@
+schema_version: "0.1.0"
+kind: "adapter-compiler-input"
+id: "codex"
+version: "0.1.0"
+status: "preview"
+summary: "Codex-first adapter for native ChatGPT-subscription methodology runs."
+
+canonical_inputs:
+  - "schemas/method.schema.json"
+  - "schemas/profile.schema.json"
+  - "schemas/run.schema.json"
+  - "schemas/method-result.schema.json"
+  - "schemas/report.schema.json"
+  - "schemas/provider-status.schema.json"
+  - "methods/"
+  - "profiles/"
+
+compiler:
+  id: "method-council-adapter-compiler"
+  version: "0.1.0"
+  generated_metadata_required:
+    - "canonical_input_digest"
+    - "generator_id"
+    - "generator_version"
+
+host:
+  family: "codex"
+  authentication: "chatgpt-subscription"
+  subscription_path: "preview"
+  external_provider_dependencies: []
+  required_capabilities:
+    - "skills"
+    - "bounded-subagents-or-sequential-fallback"
+    - "local-command-execution"
+
+defaults:
+  external_provider_calls: false
+  tool_side_effects: false
+  raw_prompt_persistence: false
+  hidden_chain_of_thought_requested: false
+  same_host_passes_correlated: true
+  default_rigor: "standard"
+
+activities:
+  - "analyse"
+  - "investigate"
+  - "decide"
+  - "forecast"
+  - "architect"
+  - "review"
+
+rigors:
+  rapid:
+    minimum_methods: 1
+    maximum_methods: 2
+  standard:
+    minimum_methods: 3
+    maximum_methods: 4
+  intensive:
+    minimum_methods: 4
+    maximum_methods: 6
+
+command_contract:
+  - "validate"
+  - "route"
+  - "check"
+  - "aggregate"
+  - "verify-release"
+
+templates:
+  method_task: "adapters/codex/templates/method-task.md"
+  challenge_task: "adapters/codex/templates/challenge-task.md"
+  synthesis_task: "adapters/codex/templates/synthesis-task.md"
+
+skill_source: "skill/method-council"
+generated_targets:
+  - "SKILL.md"
+  - "agents/openai.yaml"
+  - "references/routing.md"
+  - "references/orchestration.md"

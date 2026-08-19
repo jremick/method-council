@@ -1,0 +1,5 @@
+interface:
+  display_name: "Method Council"
+  short_description: "Apply sourced methods with traceable evidence"
+  brand_color: "#2C4258"
+  default_prompt: "Use $method-council to analyse this question with an explainable route and traceable report."
