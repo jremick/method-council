@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from method_council.acceptance import verify_acceptance
 from method_council.catalog import load_catalog, validate_repository
 from method_council.documents import DocumentError, load_document, repository_root
 from method_council.evidence import file_digest, validate_result_evidence
@@ -195,6 +196,16 @@ def _verify_run_command(args: argparse.Namespace) -> int:
     return 0 if result["valid"] else 1
 
 
+def _verify_acceptance_command(args: argparse.Namespace) -> int:
+    root = _root(args.root, Path(args.bundle_dir))
+    bundle_dir = Path(args.bundle_dir)
+    if not bundle_dir.is_absolute():
+        bundle_dir = root / bundle_dir
+    result = verify_acceptance(bundle_dir, root=root)
+    _emit(result)
+    return 0 if result["valid"] else 1
+
+
 def _verify_release_command(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest).resolve()
     root = _root(args.root, manifest)
@@ -289,6 +300,16 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("run_dir", help="run directory containing run.json and artifacts")
     run_parser.add_argument("--root", help="repository root (auto-detected by default)")
     run_parser.set_defaults(handler=_verify_run_command)
+
+    acceptance_parser = subparsers.add_parser(
+        "verify-acceptance",
+        help="recompute a content-bound verdict for host-recorded acceptance evidence",
+    )
+    acceptance_parser.add_argument(
+        "bundle_dir", help="acceptance bundle containing run and host evidence"
+    )
+    acceptance_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    acceptance_parser.set_defaults(handler=_verify_acceptance_command)
 
     release_parser = subparsers.add_parser(
         "verify-release", help="derive release eligibility from content-bound gate reports"

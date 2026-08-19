@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/acceptance-verdict.schema.json",
+  "title": "Deterministic acceptance bundle verdict",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "acceptance_id",
+    "valid",
+    "run_status",
+    "run_side_conditions",
+    "task",
+    "profile",
+    "source_commit",
+    "source_tree",
+    "task_digest",
+    "prompt_digest",
+    "host_execution_digest",
+    "run_verification_digest",
+    "model_artifact_ledger",
+    "attestation",
+    "issues"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "acceptance_id": { "type": "string", "minLength": 1 },
+    "valid": { "type": "boolean" },
+    "run_status": { "enum": ["PASS", "FAIL", "ERROR", "INCOMPLETE"] },
+    "run_side_conditions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["DEGRADED", "CORRELATED", "SKIPPED"] }
+    },
+    "task": { "type": "string", "minLength": 1 },
+    "profile": { "type": "string", "minLength": 1 },
+    "source_commit": { "type": "string", "minLength": 1 },
+    "source_tree": { "type": "string", "minLength": 1 },
+    "task_digest": { "type": "string", "minLength": 1 },
+    "prompt_digest": { "type": "string", "minLength": 1 },
+    "host_execution_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "run_verification_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "model_artifact_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "digest"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "attestation": { "const": "unsigned-local-recorder" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "path"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

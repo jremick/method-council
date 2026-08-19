@@ -23,6 +23,8 @@ SCHEMA_ALIASES = {
     "provider-status": "provider-status.schema.json",
     "release-manifest": "release-manifest.schema.json",
     "run-verdict": "run-verdict.schema.json",
+    "host-execution": "host-execution.schema.json",
+    "acceptance-verdict": "acceptance-verdict.schema.json",
 }
 
 _RFC3339_ZONE = re.compile(r"(?:Z|[+-][0-9]{2}:[0-9]{2})$")

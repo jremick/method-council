@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/host-execution.schema.json",
+  "title": "Unsigned local host execution evidence",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "kind",
+    "attestation",
+    "run_id",
+    "task",
+    "profile",
+    "run_path",
+    "source_commit",
+    "source_tree",
+    "source_manifest_digest",
+    "source_mutations",
+    "task_digest",
+    "prompt_digest",
+    "model_artifact_ledger",
+    "raw_prompt_persisted",
+    "raw_event_stream_persisted",
+    "codex_cli_version",
+    "codex_executable",
+    "authentication_observed",
+    "model_requested",
+    "model_observed",
+    "uv_sync",
+    "started_at",
+    "completed_at",
+    "duration_seconds",
+    "process_exit_code",
+    "timed_out",
+    "event_counts",
+    "event_sequence",
+    "non_json_line_count",
+    "final_message_digest",
+    "verification_digest",
+    "verification_valid",
+    "verification_status"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "kind": { "const": "codex-subscription-acceptance-evidence" },
+    "attestation": { "const": "unsigned-local-recorder" },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{6,62}[a-z0-9])$"
+    },
+    "task": {
+      "enum": [
+        "architecture-storage",
+        "investigation-duplicates",
+        "release-missing-evidence",
+        "hostile-review"
+      ]
+    },
+    "profile": { "type": "string", "minLength": 1 },
+    "run_path": {
+      "type": "string",
+      "pattern": "^runs/acceptance/[a-z0-9](?:[a-z0-9-]{6,62}[a-z0-9])$"
+    },
+    "source_commit": {
+      "oneOf": [
+        { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      ]
+    },
+    "source_tree": {
+      "oneOf": [
+        { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      ]
+    },
+    "source_manifest_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "source_mutations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "change"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "change": {
+            "enum": ["deleted", "type-changed", "content-changed", "mode-changed"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "task_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "prompt_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "model_artifact_ledger": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "raw_prompt_persisted": { "const": false },
+    "raw_event_stream_persisted": { "const": false },
+    "codex_cli_version": { "type": "string", "minLength": 1 },
+    "codex_executable": {
+      "type": "object",
+      "required": [
+        "command",
+        "resolved_basename",
+        "resolved_path_digest",
+        "executable_digest"
+      ],
+      "properties": {
+        "command": { "const": "codex" },
+        "resolved_basename": { "type": "string", "minLength": 1 },
+        "resolved_path_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "executable_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "authentication_observed": { "const": "chatgpt" },
+    "model_requested": { "type": "null" },
+    "model_observed": { "type": "null" },
+    "uv_sync": {
+      "type": "object",
+      "required": ["command", "exit_code"],
+      "properties": {
+        "command": {
+          "const": ["uv", "sync", "--frozen", "--all-groups"]
+        },
+        "exit_code": { "type": "integer" }
+      },
+      "additionalProperties": false
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "duration_seconds": { "type": "number", "minimum": 0 },
+    "process_exit_code": { "type": "integer" },
+    "timed_out": { "type": "boolean" },
+    "event_counts": {
+      "type": "object",
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "additionalProperties": { "type": "integer", "minimum": 1 }
+    },
+    "event_sequence": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "non_json_line_count": { "type": "integer", "minimum": 0 },
+    "final_message_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "verification_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "verification_valid": { "type": "boolean" },
+    "verification_status": { "enum": ["PASS", "FAIL", "ERROR", "INCOMPLETE"] }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "digest"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

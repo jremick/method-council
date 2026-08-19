@@ -50,6 +50,7 @@ def test_frozen_wave_one_commands_are_exposed():
         "check",
         "aggregate",
         "verify-run",
+        "verify-acceptance",
         "verify-release",
     }
 
