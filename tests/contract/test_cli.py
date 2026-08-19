@@ -24,6 +24,14 @@ def _result(method_id: str, status: str = "PASS") -> dict:
         },
         "change_conditions": [],
         "errors": [],
+        "execution": {
+            "adapter": "codex",
+            "provider_state": "verified",
+            "model_requested": None,
+            "model_observed": None,
+            "external_api_calls": False,
+            "correlation_group": "codex-test",
+        },
     }
 
 
@@ -35,7 +43,15 @@ def test_frozen_wave_one_commands_are_exposed():
         if getattr(action, "choices", None)
     )
 
-    assert set(choices) == {"validate", "route", "check", "aggregate", "verify-release"}
+    assert set(choices) == {
+        "validate",
+        "route",
+        "prepare",
+        "check",
+        "aggregate",
+        "verify-run",
+        "verify-release",
+    }
 
 
 def test_check_emits_json_and_nonzero_for_invalid_document(tmp_path, capsys):

@@ -14,6 +14,7 @@ from method_council.evidence import file_digest, validate_result_evidence
 from method_council.issues import Issue
 from method_council.release import verify_release_manifest
 from method_council.routing import ACTIVITIES, RIGOR_COUNTS, validate_route
+from method_council.run import prepare_run, verify_run
 from method_council.schema import SCHEMA_ALIASES, SchemaRegistry
 from method_council.status import aggregate_results, aggregate_status
 
@@ -153,6 +154,47 @@ def _aggregate_command(args: argparse.Namespace) -> int:
     return 0 if result["valid"] else 1
 
 
+def _prepare_command(args: argparse.Namespace) -> int:
+    root = _root(args.root)
+    question_path = Path(args.question_file).resolve() if args.question_file else None
+    question = question_path.read_text(encoding="utf-8") if question_path else sys.stdin.read()
+    run_dir = Path(args.run_dir)
+    if not run_dir.is_absolute():
+        run_dir = root / run_dir
+    result = prepare_run(
+        root=root,
+        run_dir=run_dir,
+        question=question,
+        catalog=load_catalog(root),
+        profile_id=args.profile,
+        activity=args.activity,
+        rigor=args.rigor,
+        method_ids=args.method or [],
+        allow_preview=args.allow_preview,
+        require_challenge=args.require_challenge,
+        evidence_specs=args.evidence or [],
+        evidence_kind=args.evidence_kind,
+        adapter=args.adapter,
+        provider_state=args.provider_state,
+        model_requested=args.model_requested,
+        model_observed=args.model_observed,
+        external_api_calls=args.external_api_calls,
+        correlation_group=args.correlation_group,
+    )
+    _emit(result)
+    return 0 if result["valid"] else 1
+
+
+def _verify_run_command(args: argparse.Namespace) -> int:
+    root = _root(args.root, Path(args.run_dir))
+    run_dir = Path(args.run_dir)
+    if not run_dir.is_absolute():
+        run_dir = root / run_dir
+    result = verify_run(run_dir, root=root)
+    _emit(result)
+    return 0 if result["valid"] else 1
+
+
 def _verify_release_command(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest).resolve()
     root = _root(args.root, manifest)
@@ -206,6 +248,47 @@ def build_parser() -> argparse.ArgumentParser:
     aggregate_parser.add_argument("results", nargs="+", help="method-result JSON or YAML files")
     aggregate_parser.add_argument("--root", help="repository root (auto-detected by default)")
     aggregate_parser.set_defaults(handler=_aggregate_command)
+
+    prepare_parser = subparsers.add_parser(
+        "prepare", help="create a content-bound run scaffold without calling a model"
+    )
+    prepare_parser.add_argument("run_dir", help="new or empty run directory under the repository")
+    prepare_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    prepare_parser.add_argument("--profile", help="canonical profile id")
+    prepare_parser.add_argument("--activity", choices=sorted(ACTIVITIES))
+    prepare_parser.add_argument("--rigor", choices=sorted(RIGOR_COUNTS))
+    prepare_parser.add_argument("--method", action="append", help="method id; repeat")
+    prepare_parser.add_argument("--allow-preview", action="store_true")
+    prepare_parser.add_argument("--require-challenge", action="store_true")
+    prepare_parser.add_argument(
+        "--question-file", help="public/non-sensitive question fixture; stdin otherwise"
+    )
+    prepare_parser.add_argument(
+        "--evidence", action="append", help="bind repository file as ID=PATH"
+    )
+    prepare_parser.add_argument(
+        "--evidence-kind",
+        choices=["user-supplied", "repository", "retrieved", "observed", "generated"],
+        default="repository",
+    )
+    prepare_parser.add_argument("--adapter", default="codex")
+    prepare_parser.add_argument(
+        "--provider-state",
+        choices=["verified", "preview", "unverified", "unavailable", "degraded"],
+        default="unverified",
+    )
+    prepare_parser.add_argument("--model-requested")
+    prepare_parser.add_argument("--model-observed")
+    prepare_parser.add_argument("--external-api-calls", action="store_true")
+    prepare_parser.add_argument("--correlation-group")
+    prepare_parser.set_defaults(handler=_prepare_command)
+
+    run_parser = subparsers.add_parser(
+        "verify-run", help="derive a deterministic verdict from a run directory"
+    )
+    run_parser.add_argument("run_dir", help="run directory containing run.json and artifacts")
+    run_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    run_parser.set_defaults(handler=_verify_run_command)
 
     release_parser = subparsers.add_parser(
         "verify-release", help="derive release eligibility from content-bound gate reports"
