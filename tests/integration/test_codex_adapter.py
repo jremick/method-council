@@ -120,4 +120,4 @@ def test_templates_keep_untrusted_data_in_explicit_boundaries() -> None:
         assert "{{external_api_calls}}" in template
         assert "{{correlation_group}}" in template
         assert "CORRELATED" in template
-    assert "method-council verify-run" in synthesis_task
+    assert "uv run --frozen method-council verify-run" in synthesis_task

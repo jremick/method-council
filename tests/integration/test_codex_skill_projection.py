@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -16,6 +17,15 @@ ROOT = Path(__file__).resolve().parents[2]
 CANONICAL = ROOT / "skill" / "method-council"
 PROJECTION = ROOT / ".agents" / "skills" / "method-council"
 SYNC_SCRIPT = ROOT / "scripts" / "sync_codex_skill.py"
+WORKFLOW_COMMANDS = (
+    "validate",
+    "route",
+    "prepare",
+    "check",
+    "aggregate",
+    "verify-run",
+    "verify-release",
+)
 
 
 def _load_sync_script() -> ModuleType:
@@ -84,6 +94,42 @@ def test_projection_metadata_and_content_have_no_personal_absolute_paths() -> No
     for relative, content in _files(PROJECTION).items():
         text = content.decode("utf-8")
         assert all(marker not in text for marker in forbidden), relative
+
+
+def test_repo_local_codex_workflows_use_locked_uv_invocations() -> None:
+    workflow = "|".join(re.escape(command) for command in WORKFLOW_COMMANDS)
+    bare_invocation = re.compile(
+        rf"(?<!uv run --frozen )(?<![\w$./-])method-council\s+(?:{workflow})\b"
+    )
+
+    for root in (CANONICAL, PROJECTION, ROOT / "adapters" / "codex"):
+        for path in sorted(root.rglob("*")):
+            if not path.is_file():
+                continue
+            text = path.read_text(encoding="utf-8")
+            assert bare_invocation.search(text) is None, path.relative_to(ROOT)
+
+
+def test_locked_uv_workflow_command_runs_without_an_activated_environment() -> None:
+    uv = shutil.which("uv")
+    if uv is None:
+        pytest.skip("uv is unavailable")
+
+    environment = os.environ.copy()
+    for name in ("VIRTUAL_ENV", "PYTHONPATH", "UV_PROJECT_ENVIRONMENT"):
+        environment.pop(name, None)
+
+    result = subprocess.run(
+        [uv, "run", "--frozen", "method-council", "route", "--help"],
+        cwd=ROOT,
+        env=environment,
+        capture_output=True,
+        check=False,
+        text=True,
+        timeout=30,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "--activity" in result.stdout
 
 
 def test_sync_is_content_bound_idempotent_and_removes_stale_files(tmp_path: Path) -> None:

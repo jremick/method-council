@@ -44,7 +44,7 @@ that can change the conclusion; method count is not a quality measure.
 Run the deterministic route check before delegating any pass:
 
 ```text
-method-council route --activity <activity> --rigor <rigor> --method <id> ... [--require-challenge]
+uv run --frozen method-council route --activity <activity> --rigor <rigor> --method <id> ... [--require-challenge]
 ```
 
 The checker owns known IDs, activity fit, catalog state, count, uniqueness,
@@ -60,7 +60,7 @@ method. For private or ad hoc questions, pass the question on standard input so
 the raw text is not written to the run bundle:
 
 ```text
-method-council prepare runs/<run-id> --activity <activity> --rigor <rigor> --method <id> ...
+uv run --frozen method-council prepare runs/<run-id> --activity <activity> --rigor <rigor> --method <id> ...
 ```
 
 The command reads standard input unless `--question-file` is supplied. Use a
@@ -98,7 +98,7 @@ For `standard` and `intensive` runs, or whenever subagents are used, read
 - Validate every returned artifact before it can contribute:
 
 ```text
-method-council check --schema method-result --run runs/<run-id>/run.json <result-path>
+uv run --frozen method-council check --schema method-result --run runs/<run-id>/run.json <result-path>
 ```
 
 One repair attempt is permitted only for a structurally malformed response when
@@ -114,7 +114,7 @@ force consensus.
 Derive primary status and the method ledger from checked artifacts:
 
 ```text
-method-council aggregate <method-result> ...
+uv run --frozen method-council aggregate <method-result> ...
 ```
 
 Deterministic status precedence is `FAIL > ERROR > INCOMPLETE > PASS`.
@@ -128,8 +128,8 @@ dissent, checkpoint indicators, method ledger, routing conditions, and
 limitations. Validate the report, then verify the complete content-bound run:
 
 ```text
-method-council check --schema report <report-path>
-method-council verify-run runs/<run-id>
+uv run --frozen method-council check --schema report <report-path>
+uv run --frozen method-council verify-run runs/<run-id>
 ```
 
 `verify-run` is authoritative for exact method coverage, run/evidence binding,

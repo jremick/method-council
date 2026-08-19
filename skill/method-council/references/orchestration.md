@@ -69,7 +69,8 @@ status, side conditions, and ledger as constraints on synthesis. The synthesis
 pass may explain convergence or divergence but cannot alter those derived
 values, invent evidence references, or discard a dissenting valid result.
 
-Validate the final report, then run `method-council verify-run <run-dir>` to bind
+Validate the final report, then run
+`uv run --frozen method-council verify-run <run-dir>` to bind
 the report to the selected methods, result bytes, evidence, derived status, and
 correlation state. If repair is possible without changing evidence, allow one
 structural repair. Otherwise return the non-passing validation state and the
