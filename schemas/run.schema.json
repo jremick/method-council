@@ -36,13 +36,28 @@
     },
     "route": {
       "type": "object",
-      "required": ["source", "validated", "why"],
+      "required": [
+        "source", "validated", "profile_id", "allow_preview", "challenge_required", "why"
+      ],
       "properties": {
         "source": { "enum": ["profile", "model-proposal", "user-explicit"] },
-        "validated": { "type": "boolean" },
+        "validated": { "const": true },
+        "profile_id": {
+          "type": ["string", "null"],
+          "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+        },
+        "allow_preview": { "type": "boolean" },
+        "challenge_required": { "type": "boolean" },
         "why": { "type": "array", "minItems": 1, "items": { "type": "string" } }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "source": { "const": "profile" } } },
+          "then": { "properties": { "profile_id": { "type": "string" } } },
+          "else": { "properties": { "profile_id": { "const": null } } }
+        }
+      ]
     },
     "host": {
       "type": "object",

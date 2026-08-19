@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import stat
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from datetime import UTC, datetime
@@ -10,12 +12,13 @@ from pathlib import Path
 from typing import Any
 
 from method_council.catalog import Catalog, load_catalog
-from method_council.documents import DocumentError, load_document
+from method_council.documents import MAX_DOCUMENT_BYTES, DocumentError
 from method_council.evidence import content_digest, file_digest, validate_result_evidence
 from method_council.issues import Issue
+from method_council.result_validation import validate_pass_semantics
 from method_council.routing import validate_route
 from method_council.schema import SchemaRegistry
-from method_council.status import aggregate_results
+from method_council.status import aggregate_results, aggregate_status
 
 
 def _under_root(root: Path, candidate: Path, *, require_file: bool = False) -> Path:
@@ -138,7 +141,14 @@ def prepare_run(
         "raw_prompt_persisted": False,
         "methods": list(method_ids),
         "evidence": evidence,
-        "route": {"source": route_source, "validated": True, "why": route_why},
+        "route": {
+            "source": route_source,
+            "validated": True,
+            "profile_id": profile_id,
+            "allow_preview": allow_preview,
+            "challenge_required": require_challenge,
+            "why": route_why,
+        },
         "host": {
             "adapter": adapter,
             "provider_state": provider_state,
@@ -175,29 +185,141 @@ def _prefixed(issues: Sequence[Issue], prefix: str) -> list[Issue]:
     return [Issue(issue.code, issue.message, f"{prefix}:{issue.path}") for issue in issues]
 
 
-def _load_object(path: Path, code: str, issues: list[Issue]) -> dict[str, Any] | None:
+def _read_regular_document(path: Path) -> bytes:
+    """Read one regular child document without following symlinks or exceeding the cap."""
+
     try:
-        document = load_document(path)
-    except DocumentError as exc:
+        if path.is_symlink():
+            raise DocumentError(f"structured document is a symlink: {path}")
+        flags = os.O_RDONLY | os.O_NONBLOCK | getattr(os, "O_NOFOLLOW", 0)
+        descriptor = os.open(path, flags)
+    except (OSError, DocumentError) as exc:
+        if isinstance(exc, DocumentError):
+            raise
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+
+    try:
+        metadata = os.fstat(descriptor)
+        if not stat.S_ISREG(metadata.st_mode):
+            raise DocumentError(f"structured document is not a regular file: {path}")
+        if metadata.st_size > MAX_DOCUMENT_BYTES:
+            raise DocumentError(
+                f"structured document exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}"
+            )
+        with os.fdopen(descriptor, "rb") as handle:
+            descriptor = -1
+            data = handle.read(MAX_DOCUMENT_BYTES + 1)
+    except OSError as exc:
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+
+    if len(data) > MAX_DOCUMENT_BYTES:
+        raise DocumentError(f"structured document exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}")
+    return data
+
+
+def _load_object(
+    path: Path, code: str, issues: list[Issue]
+) -> tuple[dict[str, Any] | None, str | None]:
+    try:
+        raw = _read_regular_document(path)
+        document = json.loads(raw)
+    except (DocumentError, json.JSONDecodeError, UnicodeError) as exc:
         issues.append(Issue(code, str(exc), path.as_posix()))
-        return None
+        return None, None
     if not isinstance(document, dict):
         issues.append(Issue(code, "document must be an object", path.as_posix()))
-        return None
-    return document
+        return None, None
+    return document, content_digest(raw)
 
 
-def _invalid_status(issues: Sequence[Issue]) -> str:
+def _invalid_status(issues: Sequence[Issue], valid_status: str) -> str:
     incomplete_codes = {
         "run.result-missing",
         "run.report-missing",
         "run.evidence-missing",
+        "run.report-status-unsupported-pass",
+        "run.report-ledger-unsupported-pass",
     }
-    return (
+    issue_status = (
         "INCOMPLETE"
-        if issues and all(issue.code in incomplete_codes for issue in issues)
+        if issues
+        and all(
+            issue.code in incomplete_codes or issue.code.startswith("result.pass-")
+            for issue in issues
+        )
         else "ERROR"
     )
+    return aggregate_status([valid_status, issue_status])
+
+
+def _validate_manifest_route(run: Mapping[str, Any], catalog: Catalog, issues: list[Issue]) -> None:
+    route_policy = run["route"]
+    source = route_policy["source"]
+    profile_id = route_policy["profile_id"]
+    if source == "profile":
+        profile = catalog.profiles.get(profile_id)
+        if profile is None:
+            issues.append(
+                Issue(
+                    "run.profile-unknown",
+                    f"route references unknown profile {profile_id!r}",
+                    "/route/profile_id",
+                )
+            )
+        else:
+            expected = {
+                "activity": profile["activity"],
+                "rigor": profile["rigor"],
+                "methods": profile["methods"],
+            }
+            for field, expected_value in expected.items():
+                if run[field] != expected_value:
+                    issues.append(
+                        Issue(
+                            "run.profile-mismatch",
+                            f"run {field} does not exactly match profile {profile_id!r}",
+                            f"/{field}",
+                        )
+                    )
+            if route_policy["challenge_required"] != profile["challenge_required"]:
+                issues.append(
+                    Issue(
+                        "run.profile-mismatch",
+                        f"challenge policy does not exactly match profile {profile_id!r}",
+                        "/route/challenge_required",
+                    )
+                )
+            if profile["status"] in {"draft", "preview"} and not route_policy["allow_preview"]:
+                issues.append(
+                    Issue(
+                        "run.profile-preview-disallowed",
+                        f"profile {profile_id!r} requires preview opt-in",
+                        "/route/allow_preview",
+                    )
+                )
+    elif profile_id is not None:
+        issues.append(
+            Issue(
+                "run.profile-unexpected",
+                "non-profile route must not carry a profile id",
+                "/route/profile_id",
+            )
+        )
+
+    route = validate_route(
+        catalog,
+        activity=run["activity"],
+        rigor=run["rigor"],
+        method_ids=run["methods"],
+        allow_preview=route_policy["allow_preview"],
+        challenge_required=route_policy["challenge_required"],
+        include_catalog_issues=False,
+    )
+    for issue in route["issues"]:
+        issues.append(Issue("run.route-invalid", issue["message"], issue["path"]))
 
 
 def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
@@ -208,7 +330,7 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
     registry = SchemaRegistry(root / "schemas")
     issues: list[Issue] = []
     run_path = run_dir / "run.json"
-    run = _load_object(run_path, "run.manifest-invalid", issues)
+    run, _ = _load_object(run_path, "run.manifest-invalid", issues)
     if run is None:
         return _verdict("unknown", [], [], None, [], issues)
     run_schema_issues = registry.validate(run, "run")
@@ -217,6 +339,14 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
     selected = [str(item) for item in run.get("methods", [])]
     if run_schema_issues:
         return _verdict(run_id, selected, [], None, [], issues)
+    if run_id != run_dir.name:
+        issues.append(
+            Issue(
+                "run.directory-id-mismatch",
+                "run_id must exactly match the run directory name",
+                "/run_id",
+            )
+        )
 
     for index, evidence in enumerate(run.get("evidence", [])):
         if not isinstance(evidence, Mapping) or not evidence.get("locator"):
@@ -252,27 +382,35 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
         catalog = Catalog()
     for issue in catalog.issues:
         issues.append(Issue("run.catalog-invalid", issue.message, issue.path))
-    route = validate_route(
-        catalog,
-        activity=run["activity"],
-        rigor=run["rigor"],
-        method_ids=selected,
-        allow_preview=True,
-        challenge_required=False,
-        include_catalog_issues=False,
-    )
-    for issue in route["issues"]:
-        issues.append(Issue("run.route-invalid", issue["message"], issue["path"]))
+    _validate_manifest_route(run, catalog, issues)
 
     result_dir = run_dir / "method-results"
-    result_paths = sorted(result_dir.glob("*.json")) if result_dir.is_dir() else []
+    if result_dir.is_symlink() or (result_dir.exists() and not result_dir.is_dir()):
+        issues.append(
+            Issue(
+                "run.result-directory-invalid",
+                "method-results must be a real directory",
+                "method-results",
+            )
+        )
+        result_paths: list[Path] = []
+    elif result_dir.is_dir():
+        try:
+            result_paths = sorted(path for path in result_dir.iterdir() if path.suffix == ".json")
+        except OSError as exc:
+            issues.append(Issue("run.result-directory-invalid", str(exc), "method-results"))
+            result_paths = []
+    else:
+        result_paths = []
     results: list[dict[str, Any]] = []
+    claimed_results: list[dict[str, Any]] = []
     ledger: list[dict[str, str]] = []
+    claimed_ledger: list[dict[str, str]] = []
     finding_ids: list[str] = []
     observed_methods: list[str] = []
     host = run.get("host", {})
     for path in result_paths:
-        result = _load_object(path, "run.result-invalid", issues)
+        result, result_digest = _load_object(path, "run.result-invalid", issues)
         if result is None:
             continue
         schema_issues = registry.validate(result, "method-result")
@@ -304,13 +442,27 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
                     path.as_posix(),
                 )
             )
+        semantic_issues = validate_pass_semantics(result, method, run["rigor"]) if method else []
+        issues.extend(_prefixed(semantic_issues, path.relative_to(run_dir).as_posix()))
         finding_ids.extend(str(finding["id"]) for finding in result.get("findings", []))
-        results.append(result)
+        claimed_results.append(result)
+        effective_result = dict(result)
+        if result["status"] == "PASS" and semantic_issues:
+            effective_result["status"] = "INCOMPLETE"
+        results.append(effective_result)
+        assert result_digest is not None
         ledger.append(
             {
                 "method_id": method_id,
+                "status": effective_result["status"],
+                "result_digest": result_digest,
+            }
+        )
+        claimed_ledger.append(
+            {
+                "method_id": method_id,
                 "status": result["status"],
-                "result_digest": file_digest(path),
+                "result_digest": result_digest,
             }
         )
 
@@ -385,17 +537,22 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
 
     order = {method_id: index for index, method_id in enumerate(selected)}
     ledger.sort(key=lambda entry: order.get(entry["method_id"], len(order)))
+    claimed_ledger.sort(key=lambda entry: order.get(entry["method_id"], len(order)))
     aggregate = (
         aggregate_results(results) if results else {"status": "INCOMPLETE", "side_conditions": []}
+    )
+    claimed_aggregate = (
+        aggregate_results(claimed_results)
+        if claimed_results
+        else {"status": "INCOMPLETE", "side_conditions": []}
     )
     report_path = run_dir / "report.json"
     report_digest: str | None = None
     report = None
-    if not report_path.is_file():
+    if not report_path.exists() and not report_path.is_symlink():
         issues.append(Issue("run.report-missing", "report.json is missing", "report.json"))
     else:
-        report = _load_object(report_path, "run.report-invalid", issues)
-        report_digest = file_digest(report_path)
+        report, report_digest = _load_object(report_path, "run.report-invalid", issues)
     if report is not None:
         report_schema_issues = registry.validate(report, "report")
         issues.extend(_prefixed(report_schema_issues, "report.json"))
@@ -403,9 +560,15 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
             if report["run_id"] != run_id:
                 issues.append(Issue("run.report-run-id", "report run_id does not match", "/run_id"))
             if report["status"] != aggregate["status"]:
+                mismatch_code = (
+                    "run.report-status-unsupported-pass"
+                    if report["status"] == claimed_aggregate["status"]
+                    and claimed_aggregate["status"] != aggregate["status"]
+                    else "run.report-status"
+                )
                 issues.append(
                     Issue(
-                        "run.report-status",
+                        mismatch_code,
                         "report status is not deterministically derived",
                         "/status",
                     )
@@ -419,12 +582,20 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
                     )
                 )
             expected_ledger = {entry["method_id"]: entry for entry in ledger}
+            claimed_expected_ledger = {entry["method_id"]: entry for entry in claimed_ledger}
             report_ledger = {entry["method_id"]: entry for entry in report["method_ledger"]}
             if report_ledger != expected_ledger or len(report["method_ledger"]) != len(ledger):
+                mismatch_code = (
+                    "run.report-ledger-unsupported-pass"
+                    if report_ledger == claimed_expected_ledger
+                    and len(report["method_ledger"]) == len(claimed_ledger)
+                    and claimed_expected_ledger != expected_ledger
+                    else "run.report-ledger"
+                )
                 issues.append(
                     Issue(
-                        "run.report-ledger",
-                        "report ledger does not match checked result bytes",
+                        mismatch_code,
+                        "report ledger does not match checked result bytes and canonical statuses",
                         "/method_ledger",
                     )
                 )
@@ -465,7 +636,7 @@ def _verdict(
         "schema_version": "0.1.0",
         "run_id": run_id,
         "valid": not issues,
-        "status": valid_status if not issues else _invalid_status(issues),
+        "status": valid_status if not issues else _invalid_status(issues, valid_status),
         "side_conditions": side_conditions,
         "selected_methods": selected,
         "checked_methods": checked,
