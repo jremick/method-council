@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/provider-status.schema.json",
+  "title": "Provider capability status",
+  "type": "object",
+  "required": ["schema_version", "adapter", "state", "checked_at", "checks", "external_call_performed"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "adapter": { "type": "string", "minLength": 1 },
+    "state": { "enum": ["verified", "preview", "unverified", "unavailable", "degraded"] },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status", "detail"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "enum": ["pass", "fail", "unknown", "skipped"] },
+          "detail": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "external_call_performed": { "type": "boolean" },
+    "model_observed": { "type": ["string", "null"] },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

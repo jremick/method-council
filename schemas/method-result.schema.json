@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/method-result.schema.json",
+  "title": "Method result",
+  "type": "object",
+  "required": [
+    "schema_version", "run_id", "method_id", "method_version", "rigor", "status",
+    "side_conditions", "completed_steps", "findings", "alternatives", "confidence",
+    "change_conditions", "errors"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "run_id": { "type": "string" },
+    "method_id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "method_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "rigor": { "enum": ["rapid", "standard", "intensive"] },
+    "status": { "$ref": "#/$defs/status" },
+    "side_conditions": {
+      "type": "array", "uniqueItems": true,
+      "items": { "enum": ["DEGRADED", "CORRELATED", "SKIPPED"] }
+    },
+    "completed_steps": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "alternatives": { "type": "array", "items": { "type": "string" } },
+    "method_artifact": { "type": "object" },
+    "confidence": {
+      "type": "object",
+      "required": ["band", "basis"],
+      "properties": {
+        "band": { "enum": ["low", "moderate", "high", "not-assessed"] },
+        "basis": { "type": "string", "minLength": 8 }
+      },
+      "additionalProperties": false
+    },
+    "change_conditions": { "type": "array", "items": { "type": "string" } },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "retryable": { "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "status": { "enum": ["PASS", "FAIL", "ERROR", "INCOMPLETE"] },
+    "finding": {
+      "type": "object",
+      "required": ["id", "type", "statement", "evidence_refs", "method_step"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$" },
+        "type": { "enum": ["fact", "inference", "assumption", "unknown"] },
+        "statement": { "type": "string", "minLength": 3 },
+        "evidence_refs": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "method_step": { "type": "string" },
+        "counterevidence_refs": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

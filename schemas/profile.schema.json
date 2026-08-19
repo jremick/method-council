@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/profile.schema.json",
+  "title": "Activity profile",
+  "type": "object",
+  "required": ["schema_version", "id", "version", "title", "activity", "rigor", "methods", "challenge_required", "status"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "title": { "type": "string", "minLength": 3 },
+    "activity": { "enum": ["analyse", "investigate", "decide", "forecast", "architect", "review"] },
+    "rigor": { "enum": ["rapid", "standard", "intensive"] },
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" }
+    },
+    "challenge_required": { "type": "boolean" },
+    "status": { "enum": ["draft", "preview", "validated", "retired"] },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

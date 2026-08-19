@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/release-manifest.schema.json",
+  "title": "Release evidence manifest",
+  "type": "object",
+  "required": ["schema_version", "candidate", "generated_at", "artifacts", "required_gates"],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "candidate": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "digest", "gate"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "gate": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_gates": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+    "claimed_release_eligible": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

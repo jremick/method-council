@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/method.schema.json",
+  "title": "Method definition",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "title",
+    "summary",
+    "status",
+    "provenance",
+    "activities",
+    "applicability",
+    "rigor",
+    "procedure",
+    "result_schema",
+    "evidence_rules",
+    "complements",
+    "conflicts",
+    "failure_modes"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "title": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 20 },
+    "status": { "enum": ["draft", "preview", "validated", "retired"] },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "activities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/activity" }
+    },
+    "applicability": { "$ref": "#/$defs/applicability" },
+    "rigor": {
+      "type": "object",
+      "required": ["rapid", "standard", "intensive"],
+      "properties": {
+        "rapid": { "$ref": "#/$defs/rigor_variant" },
+        "standard": { "$ref": "#/$defs/rigor_variant" },
+        "intensive": { "$ref": "#/$defs/rigor_variant" }
+      },
+      "additionalProperties": false
+    },
+    "procedure": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/procedure_step" }
+    },
+    "result_schema": { "type": "string", "pattern": "^[a-zA-Z0-9._/-]+\\.json$" },
+    "evidence_rules": {
+      "type": "object",
+      "required": ["minimum_references", "allow_unreferenced_assumptions"],
+      "properties": {
+        "minimum_references": { "type": "integer", "minimum": 0 },
+        "allow_unreferenced_assumptions": { "type": "boolean" },
+        "required_source_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "complements": { "$ref": "#/$defs/method_id_list" },
+    "conflicts": { "$ref": "#/$defs/method_id_list" },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 8 }
+    },
+    "fixtures": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-zA-Z0-9._/-]+$" }
+    }
+  },
+  "$defs": {
+    "activity": {
+      "enum": ["analyse", "investigate", "decide", "forecast", "architect", "review"]
+    },
+    "method_id_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "title", "publisher", "url", "accessed", "supports"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9._-]+$" },
+        "title": { "type": "string", "minLength": 3 },
+        "publisher": { "type": "string", "minLength": 2 },
+        "url": { "type": "string", "format": "uri" },
+        "accessed": { "type": "string", "format": "date" },
+        "supports": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["class", "sources", "adaptation", "claim_limits"],
+      "properties": {
+        "class": {
+          "enum": [
+            "authoritative-specification",
+            "established-primary-method",
+            "reputable-synthesis",
+            "project-adaptation",
+            "experimental"
+          ]
+        },
+        "sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/source" } },
+        "adaptation": { "type": "string", "minLength": 20 },
+        "claim_limits": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "applicability": {
+      "type": "object",
+      "required": ["use_when", "avoid_when", "prerequisites"],
+      "properties": {
+        "use_when": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "avoid_when": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "prerequisites": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "rigor_variant": {
+      "type": "object",
+      "required": ["enabled", "steps", "minimum_evidence_refs"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "steps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+        },
+        "minimum_evidence_refs": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "procedure_step": {
+      "type": "object",
+      "required": ["id", "title", "instruction", "required"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "title": { "type": "string", "minLength": 3 },
+        "instruction": { "type": "string", "minLength": 15 },
+        "required": { "type": "boolean" },
+        "artifact_fields": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
