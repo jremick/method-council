@@ -10,9 +10,10 @@
 - **Value hypothesis:** a small set of source-backed method passes, surrounded
   by deterministic contracts, produces a more inspectable and useful decision
   artifact than persona roleplay or unstructured model debate.
-- **Measurable outcome for this phase:** a private local repository with frozen
-  contracts, source-backed method foundations, a deterministic core, a Codex
-  skill foundation, negative fixtures, and a coherent design system.
+- **Measurable outcome for Waves 2 and 3:** a private local repository with
+  content-bound run execution and verification, a checked-in Codex skill,
+  recorded subscription-backed acceptance tasks, disabled preview adapter
+  contracts, original public imagery, and honest compatibility boundaries.
 - **Source of truth:** repository schemas, method records, tests, and evidence
   artifacts—not planning prose or model claims.
 
@@ -34,9 +35,11 @@ Required before the next phase:
 
 - No hosted service, dashboard, user accounts, or remote telemetry.
 - No public release or GitHub settings mutation.
-- No claim that a method, provider, UX, or release is independently validated.
-- No generated bitmap hero in this phase.
-- No provider adapter beyond foundation contracts and the Codex-first surface.
+- No claim that a method, non-Codex provider, UX, or release is independently
+  validated.
+- No live external-provider execution; Claude and Gemini remain disabled
+  compiler-input previews.
+- No OpenCode adapter in these waves.
 
 ## Stop conditions
 
@@ -46,6 +49,25 @@ schema redesign after lane work starts, or copying non-original source/assets.
 
 ## Revert path
 
-This phase is local and version controlled. Revert individual commits or delete
-the unpushed local repository after review. No external system rollback is
-required because external writes are out of scope.
+These waves are local and version controlled. Revert individual commits or
+delete the unpushed local repository after review. No external system rollback
+is required because external writes remain out of scope.
+
+## Wave 2 and 3 outcome
+
+- `prepare` creates a content-bound run manifest without retaining the raw
+  question and refuses unsafe or ambiguous targets.
+- `verify-run` re-reads evidence and method artifacts, validates exact route
+  coverage and host execution metadata, recomputes the ledger and status, and
+  rejects forged or mismatched reports.
+- The canonical Codex skill is projected into `.agents/skills/` by a
+  deterministic, content-bound sync helper.
+- Four real ChatGPT-authenticated Codex runs are recorded. One is `PASS`; three
+  are honestly `INCOMPLETE`, retaining missing evidence and degraded states.
+- Claude Code and Gemini CLI adapter contracts are present but launch and
+  collection stay disabled and functionally unverified.
+- Original vector diagrams, social preview, and generated analysis-workbench
+  imagery are committed with provenance.
+
+These outcomes advance the local candidate. They do not authorise a GitHub
+remote, visibility change, release, provider call, or public-readiness claim.

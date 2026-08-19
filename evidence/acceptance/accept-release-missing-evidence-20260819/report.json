@@ -1,0 +1,94 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED",
+    "SKIPPED"
+  ],
+  "judgment": "Do not approve the fictional CLI for public alpha today. The available local evidence is positive but does not establish the public release critical path, and the standard-rigor evidence requirement is unmet.",
+  "decision_boundary": "Choose approve, conditional approve, or do-not-approve for public alpha today using only the bound case evidence; this report does not authorize a repository, release, external write, or other side effect.",
+  "next_action": "Keep the project private and collect successful clean-clone installation, exact-candidate CI, authenticated live-host smoke-test, and remote visibility/security-settings read-back evidence; also obtain an accountable policy decision on whether independent review is a pre-alpha gate and, if it is, a non-blocking independent review.",
+  "key_judgments": [
+    {
+      "statement": "The local tests, documentation, hygiene scan, and in-checkout build do not establish reproducible installation, candidate-commit automation, authenticated operation, independent assurance, or safe public configuration.",
+      "finding_refs": [
+        "evidence-quality-003",
+        "devils-advocacy-positive-evidence-limit"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The limitations follow directly from the case, but the case is the only evidence source and its underlying records were not supplied."
+    },
+    {
+      "statement": "Public alpha should not be approved today because multiple operational and governance conditions remain missing or unknown.",
+      "finding_refs": [
+        "evidence-quality-005",
+        "systems-trade-study-no-approval-today",
+        "devils-advocacy-conditional-label-limit"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "All checked methods retain non-approval for today, but their shared host and single evidence item make the agreement correlated rather than independent corroboration."
+    },
+    {
+      "statement": "The evidence does not prove that independent review is always a pre-alpha hard gate; that timing depends on release policy, threat and exposure models, and accountable risk tolerance.",
+      "finding_refs": [
+        "devils-advocacy-hard-gate-assumption",
+        "devils-advocacy-independent-review-discriminator"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The case supplies no policy or threat model that resolves the timing of independent review."
+    }
+  ],
+  "strongest_alternative": "Issue a governance-level conditional approval that does not permit publication until the four directly operational checks pass, while allowing independent review to be a time-bounded post-alpha activity only if an accountable authority explicitly accepts that residual risk. For the bounded question of release today, this alternative still blocks publication today.",
+  "assumptions": [
+    "Public alpha today means publication could occur today, so unmet pre-publication conditions cannot count as permission to release.",
+    "The fixture accurately reports its local successes and evidence gaps even though underlying records are unavailable.",
+    "Clean installation, candidate CI, authenticated operation, and safe remote configuration are release-critical for the stated public-alpha boundary."
+  ],
+  "unknowns": [
+    "Whether a clean clone installs and executes successfully through the documented path.",
+    "Whether required CI passes on the exact candidate commit.",
+    "Whether the authenticated live-host critical path completes safely.",
+    "Whether remote visibility and material repository security settings match the intended posture.",
+    "Whether independent review is a mandatory pre-alpha gate under the applicable release policy and threat model.",
+    "The accountable decision authority's final choice and accepted residual risk."
+  ],
+  "dissent": [
+    "The challenge disputes the stronger claim that all five gaps are necessarily equal pre-release hard gates, especially independent review, but it does not dispute withholding public release today while the directly operational checks are missing."
+  ],
+  "checkpoint": {
+    "trigger": "Reassess after the minimum operational evidence is collected and the accountable authority resolves the timing of independent review.",
+    "indicators": [
+      "Clean-clone installation and basic execution succeed.",
+      "Required CI passes on the exact candidate commit.",
+      "An authenticated live-host critical-path smoke test succeeds without unauthorized side effects.",
+      "Remote visibility and material repository security settings are read back and match the intended posture.",
+      "Release policy, threat model, exposure model, and accountable risk decision establish whether independent review is required before alpha.",
+      "If pre-alpha review is required, independent security and correctness review reports no unresolved release-blocking finding."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "evidence-quality",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:585ffba0bd054ead5d26b9f4b03bea390a043de994371b74020d92cd9dea470f"
+    },
+    {
+      "method_id": "systems-trade-study",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:3875a5ea4ffb129e654c4a276b0bb5f4fd7f4ddedd034919a7a6741db50dc31f"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:e38d928b69a890c37e52f7f32503640affa87f9c4f6d8dea58fef011a56eda42"
+    }
+  ],
+  "limitations": [
+    "Only the public acceptance fixture was available; no underlying logs, artifacts, reviews, policy, threat model, or settings read-back were supplied.",
+    "All method passes used the same Codex host and non-null correlation group, so agreement is correlated and not independent corroboration.",
+    "The evidence-quality and systems-trade-study standard procedures require more evidence references than the single bound case item; incomplete coverage is retained.",
+    "The systems trade study skipped recording an accountable final decision because the decision authority and accepted risk were not supplied.",
+    "Schema validation and run verification establish contract and content binding only; they do not prove factual accuracy, method fidelity, provider independence, security, usability, or public readiness."
+  ]
+}

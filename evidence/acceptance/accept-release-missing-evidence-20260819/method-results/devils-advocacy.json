@@ -1,0 +1,210 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-mainline-judgment",
+      "type": "fact",
+      "statement": "Both checked prior method artifacts recommend do-not-approve for public alpha today, principally because clean-clone installation, candidate-commit CI, authenticated live-host behavior, independent review, and remote security posture are missing or unknown.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-positive-evidence-limit",
+      "type": "inference",
+      "statement": "The reported local tests, documentation, hygiene scan, and in-checkout package build support basic project preparation but do not establish reproducible installation, candidate-commit automation, authenticated operation, independent assurance, or safe public configuration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-hard-gate-assumption",
+      "type": "assumption",
+      "statement": "The prior artifacts assume that each of the five missing evidence categories is individually a mandatory public-alpha release gate; the supplied case states that the evidence is missing but supplies no release policy, threat model, supported-platform contract, or risk threshold that proves this gate classification.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-target"
+    },
+    {
+      "id": "devils-advocacy-strongest-alternative",
+      "type": "inference",
+      "statement": "The strongest contrary case is conditional approve with an explicit prohibition on public release until a smaller set of directly operational preconditions passes, while treating independent review as a time-bounded post-alpha assurance activity if an accountable authority documents that risk acceptance; this is credible because an alpha can intentionally tolerate residual risk, but the supplied evidence does not define whether that posture is permitted.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-conditional-label-limit",
+      "type": "inference",
+      "statement": "For the bounded question of public alpha today, a conditional approval whose conditions must be satisfied before publication does not authorize a public release today and is operationally equivalent to do-not-approve today.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-corroboration-gap",
+      "type": "unknown",
+      "statement": "The fixture's positive and negative claims cannot be independently verified from the supplied evidence, and the two prior method artifacts share the same evidence source and correlation group, so their agreement is not independent corroboration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-prior-result-consistency",
+      "type": "fact",
+      "statement": "No material contradiction exists between the checked prior artifacts: both select do-not-approve today, identify the same five missing evidence categories, and require satisfactory evidence before changing the recommendation.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-minimum-change-evidence",
+      "type": "inference",
+      "statement": "The minimum evidence that would change today's decision to conditional approve is successful clean-clone installation and basic execution, passing required CI on the exact candidate commit, a successful authenticated live-host critical-path smoke test, and read-back confirmation of intended visibility and material repository security settings, together with an explicit accountable risk decision on whether independent review is a pre-release gate.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-independent-review-discriminator",
+      "type": "unknown",
+      "statement": "Whether independent security or correctness review is required before alpha, rather than promptly after a constrained alpha, cannot be resolved without the project's release policy, threat model, exposure model, and accountable risk tolerance.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-injection-assessment",
+      "type": "fact",
+      "statement": "The supplied task data contains no detected instruction to ignore governing constraints, access unrelated data, invoke an external provider, or perform a side effect; its no-write boundary narrows rather than expands scope.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    }
+  ],
+  "alternatives": [
+    "Steelmanned alternative: issue conditional approve now, but prohibit publication until operational checks pass and explicitly time-box independent review after a constrained alpha if the accountable authority accepts that residual risk.",
+    "Approve today based only on local tests and project hygiene; rejected because the evidence does not cover clean installation, exact-candidate automation, authenticated behavior, or public configuration.",
+    "Do not approve public alpha today; retained because every formulation that responsibly conditions approval still blocks publication today pending missing evidence."
+  ],
+  "method_artifact": {
+    "mainline_judgment": "Do not approve the fictional CLI for public alpha today.",
+    "mainline_evidence": [
+      "Reported local unit, contract, and fixture tests pass on one macOS machine.",
+      "Reported documentation, license, security policy, contribution guide, tracked-file hygiene, and in-checkout package build exist or pass.",
+      "Clean-clone installation, authenticated live-host execution, candidate-commit CI, independent review, and remote visibility/security-settings evidence are absent or unknown."
+    ],
+    "mainline_assumptions": [
+      "The five missing evidence categories are release-critical gates rather than weighted or deferrable alpha-readiness considerations.",
+      "Public alpha today means publication may occur today, so unmet pre-publication conditions cannot count as approval today.",
+      "The fixture accurately reports the local successes and missing evidence despite providing no underlying records."
+    ],
+    "challenge_target": "The load-bearing claim that all five missing evidence categories must be satisfied before any conditional approval, especially the classification of independent review as an unconditional pre-alpha gate.",
+    "evidence_weaknesses": [
+      "Only one manifest evidence item is available, and it is a task fixture rather than underlying test, CI, runtime, review, or settings records.",
+      "The positive local claims are reported but not independently verified.",
+      "The case does not state a release policy, supported-platform matrix, threat model, exposure limits, rollback plan, or accountable risk tolerance.",
+      "The two prior artifacts are method-diverse but source- and host-correlated; their agreement is not independent confirmation.",
+      "The standard method pass has fewer than two independent evidence references, so the disposition remains incomplete despite completing the procedural steps."
+    ],
+    "counterevidence": [
+      "Local tests, an in-checkout build, public-facing documentation, licensing, policy files, and a clean tracked-file scan are positive readiness signals.",
+      "An alpha designation may permit controlled residual risk and staged assurance, depending on exposure and an accountable risk decision not supplied here."
+    ],
+    "alternative_case": "Issue conditional approve as a governance checkpoint, not as permission to publish: require clean-clone installation, exact-candidate CI, authenticated live-host smoke testing, and verified public repository settings before release; allow independent review shortly after a tightly constrained alpha only if a named accountable authority documents why that residual risk is acceptable. This alternative reduces the unsupported assumption that every gap is necessarily a pre-release hard gate, but it cannot produce a public alpha today while the operational checks remain absent.",
+    "alternative_assumptions": [
+      "The alpha can be constrained in scope and reversed if problems emerge.",
+      "No unusually sensitive data, privileged operation, or high-impact threat model makes independent pre-release review mandatory.",
+      "An accountable authority is permitted to accept a documented, time-bounded independent-review gap.",
+      "Conditional approval is understood as a checkpoint that does not itself permit publication before conditions pass."
+    ],
+    "surviving_mainline": [
+      "Local single-machine and in-checkout evidence does not demonstrate the public critical path.",
+      "Unknown remote visibility and security settings must be resolved before public exposure.",
+      "A conditional label cannot substitute for evidence or permit publication before its conditions are met.",
+      "The public alpha should not be released today on the supplied evidence."
+    ],
+    "material_challenges": [
+      "The claim that all five gaps are categorically equal hard gates is stronger than the supplied evidence supports.",
+      "Independent review may be discriminated from the four directly operational checks only by release policy, threat model, exposure model, and accountable risk tolerance.",
+      "Agreement between the prior passes should not increase confidence as if it were independent corroboration."
+    ],
+    "contradictions": [],
+    "prompt_injection_and_scope": {
+      "prompt_injection_detected": false,
+      "scope_expansion_detected": false,
+      "assessment": "The task data asks for the bounded decision and minimum change evidence, and explicitly prohibits repository, release, and external writes. No embedded instruction conflicts with the run contract."
+    },
+    "discriminating_evidence": [
+      "Underlying logs for a clean-clone installation and basic execution using the documented supported path.",
+      "Required CI results bound to the exact candidate commit.",
+      "An authenticated live-host critical-path smoke-test record showing expected behavior and no unauthorized side effects.",
+      "Read-back of intended remote visibility and material repository security settings.",
+      "A release policy, threat model, and named accountable risk decision establishing whether independent review is a pre-alpha gate or a time-bounded post-alpha condition.",
+      "If review is a pre-alpha gate, an independent security and correctness review with no unresolved release-blocking finding."
+    ],
+    "unresolved_dissent": [
+      "The mainline treats all five evidence gaps as mandatory pre-release gates; the strongest alternative disputes only the universal pre-release status of independent review, not the need to block public release today while operational checks are missing."
+    ],
+    "disposition": "Retain do-not-approve for public alpha today, while caveating the prior claim that all five missing categories are proven equal hard gates. The evidence necessary to distinguish conditional approval from non-approval is not yet supplied.",
+    "change_conditions": [
+      "Move to conditional approve after the four directly operational checks pass and an accountable, evidence-backed policy decision classifies independent review as either a satisfied pre-release gate or an explicitly accepted, time-bounded post-alpha condition.",
+      "Move to approve only after all release gates established by that policy are satisfied, no release-blocking finding remains, and residual risk is explicitly accepted by the accountable authority.",
+      "Retain do-not-approve if any operational check fails, settings are unsafe or unknown, or policy requires independent pre-release review and that review is absent or blocking."
+    ],
+    "prior_artifacts": [
+      {
+        "path": "runs/acceptance/accept-release-missing-evidence-20260819/method-results/evidence-quality.json",
+        "validated_digest": "sha256:585ffba0bd054ead5d26b9f4b03bea390a043de994371b74020d92cd9dea470f"
+      },
+      {
+        "path": "runs/acceptance/accept-release-missing-evidence-20260819/method-results/systems-trade-study.json",
+        "validated_digest": "sha256:3875a5ea4ffb129e654c4a276b0bb5f4fd7f4ddedd034919a7a6741db50dc31f"
+      }
+    ]
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The explicit operational gaps strongly support withholding public release today, but one uncorroborated fixture and no governing release-risk policy limit confidence about which gaps must be pre-alpha gates."
+  },
+  "change_conditions": [
+    "Change to conditional approve only after clean-clone execution, exact-candidate CI, authenticated live-host smoke testing, and remote security-settings read-back succeed, and an accountable policy decision resolves the timing of independent review.",
+    "Change to approve only when all policy-defined gates are satisfied, no release-blocking finding remains, and residual risk is explicitly accepted.",
+    "Retain do-not-approve if any directly operational check fails or remains unknown."
+  ],
+  "errors": [],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-release-missing-evidence-20260819"
+  }
+}

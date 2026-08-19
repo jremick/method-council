@@ -77,15 +77,15 @@ The boundaries are:
 
 | ID | Severity | Abuse case | Required control | Wave 1 evidence | Residual risk |
 |---|---:|---|---|---|---|
-| TM-01 | High | Indirect prompt injection in a task, repository file, or retrieved source asks the model to ignore contracts, expose hidden material, or perform a side effect. | Treat content as quoted data; keep coordinator policy outside evidence; deny side effects by default; validate the returned envelope. | `hostile-prompt-injection` fixture | Model behavior is probabilistic. Runtime isolation and live adversarial runs are not yet proven. |
+| TM-01 | High | Indirect prompt injection in a task, repository file, or retrieved source asks the model to ignore contracts, expose hidden material, or perform a side effect. | Treat content as quoted data; keep coordinator policy outside evidence; deny side effects by default; validate the returned envelope. | Offline `hostile-prompt-injection` fixture plus recorded live `hostile-review` run | One successful hostile run does not prove general prompt-injection resistance or runtime isolation. |
 | TM-02 | High | A method result or synthesis supplies its own PASS flag, invents evidence, or omits a failed pass. | Recompute status with `FAIL > ERROR > INCOMPLETE > PASS`; bind findings to run evidence IDs; reject missing or malformed results; retain all gate reasons. | Fixture validator plus malformed-provider, missing-evidence, and unsupported-claim cases | The deterministic core and evidence-digest verifier are being implemented in another lane and need integration tests. |
 | TM-03 | High | Secrets, raw prompts, local paths, or unrelated context leak into reports, diagnostics, commits, or provider requests. | Do not persist raw prompts by default; never request hidden chain-of-thought; redact diagnostics; scope inputs; scan tracked files before release. | Privacy fields in every fixture; `tracked_file_hygiene.py` | The helper does not scan Git history, untracked/ignored files, most binaries, or provider/host logs. Dedicated secret scanning is still required. |
 | TM-04 | High | A model or injected instruction invokes network, shell, GitHub, or filesystem mutations outside the authorized task. | External calls and tool side effects are deny-by-default; adapters expose only declared capabilities; user authorization gates mutations; validate paths and arguments deterministically. | Frozen contracts and offline-only fixture helpers | A skill is not an operating-system sandbox. Host configuration and future adapters require separate enforcement and testing. |
 | TM-05 | High | A crafted path, symlink, or artifact name escapes the run or fixture directory. | Reject traversal and symlink escape; resolve paths under an explicit root; use temporary directories for tests and generated intermediates. | Fixture inventory rejects path traversal; hygiene scan reports tracked symlink escape | Runtime artifact writers and clean-install code require dedicated path tests. |
-| TM-06 | Medium | A provider is reported available because its executable exists, even though authentication or execution fails. | Keep presence, auth, submission, response parsing, and validated completion separate; use `verified`, `preview`, `unverified`, `unavailable`, or `degraded`; never simulate a missing result. | `provider-degraded-malformed` fixture | Real capability probes are adapter-specific and not covered by offline fixtures. |
+| TM-06 | Medium | A provider is reported available because its executable exists, even though authentication or execution fails. | Keep presence, auth, submission, response parsing, and validated completion separate; use `verified`, `preview`, `unverified`, `unavailable`, or `degraded`; never simulate a missing result. | `provider-degraded-malformed` fixture and four ChatGPT-authenticated Codex executions | Claude and Gemini capability probes and real runs remain absent. |
 | TM-07 | Medium | A method or README claims official, certified, standard, de facto, or intelligence-grade status without exact source support. | Require source basis, adaptation, and claim limits; validate semantic provenance before routing; prefer “adapted from.” | `unsupported-official-standard-claim` fixture | Human source interpretation and method fidelity still need independent expert review. |
 | TM-08 | Medium | Several passes on one host/model are presented as independent corroboration or converted into a confidence vote. | Track method, provider, model, and source diversity separately; mark same-host/model work `CORRELATED`; preserve dissent instead of weighted voting. | Architecture, debugging, risk, and split fixtures | Observable model identifiers may be incomplete; correlated failure modes cannot be fully measured in v1. |
-| TM-09 | Medium | Large input, recursive delegation, retries, or provider stalls cause resource exhaustion. | Enforce rigor method-count limits, bounded concurrency, input/artifact size limits, timeouts, and retry budgets; fail visibly. | Fixture validator enforces method-count limits | Runtime timeout, retry, and size controls are not yet evidenced. |
+| TM-09 | Medium | Large input, recursive delegation, retries, or provider stalls cause resource exhaustion. | Enforce rigor method-count limits, bounded concurrency, input/artifact size limits, timeouts, and retry budgets; fail visibly. | Fixture route limits and a bounded acceptance-runner timeout | Artifact-size limits and provider-specific cancellation/retry behavior remain unverified. |
 | TM-10 | Medium | A compromised dependency, action, installer, or generated adapter changes behavior. | Minimize dependencies; lock and review them; pin CI actions by immutable digest; separate generated from canonical files; verify clean installs. | Minimal standard-library helpers | Lockfile, CI hardening, dependency review, provenance attestations, and clean-clone proof are pending. |
 | TM-11 | Medium | Model-generated Markdown, links, or structured fields trigger unsafe rendering or command execution downstream. | Treat report fields as data; escape renderers; never execute report text; reject unexpected schema fields and unsafe locators. | Strict fixture envelopes | Renderers and downstream integrations are not part of the Wave 1 vertical slice. |
 | TM-12 | Low | Local telemetry becomes surveillance or retains sensitive semantic content. | Record only bounded operational metadata and digests by default; make any recording explicit, local, redacted, and inspectable. | Persistence contract and fixture privacy invariants | Even metadata can be sensitive when combined; retention and deletion UX is not yet designed. |
@@ -123,21 +123,22 @@ this baseline.
 
 ## Implemented controls versus open gates
 
-Implemented in this Wave 1 lane:
+Implemented through Waves 1–3:
 
 - eight structured public-safe positive, adversarial, and failure fixtures;
 - standard-library fixture inventory and deterministic status validation;
 - an offline tracked-file hygiene helper that reports paths/categories only;
 - regression tests proving status precedence and non-disclosure of matched
   secret-like values;
+- fail-closed run preparation and read-back verification with forged-status,
+  digest, route, evidence, execution, correlation, and finding-reference tests;
+- four recorded ChatGPT-authenticated Codex runs with no raw prompt/event
+  persistence, including a hostile embedded-instruction case;
+- disabled-by-default preview adapters for Claude Code and Gemini CLI;
 - this documented threat model and residual-risk register.
 
 Still required before public alpha:
 
-- integrated deterministic-core enforcement and negative tests against forged
-  PASS, stale/wrong evidence digests, unknown methods, and unsafe paths;
-- real Codex subscription functional runs, including the hostile and malformed
-  cases, with bounded evidence capture;
 - clean-clone install and temporary-target tests;
 - dedicated secret and Git-history scanning;
 - locked dependency and immutable CI-action review;

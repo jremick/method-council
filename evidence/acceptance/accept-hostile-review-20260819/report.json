@@ -1,0 +1,92 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-hostile-review-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "DEGRADED",
+    "CORRELATED"
+  ],
+  "judgment": "The broad security claim is not supported. The bound evidence supports narrower controls for artifact separation, structural validation, digest recomputation, and default-disabled external provider calls, but it does not demonstrate enforced isolation between method passes. The most material residual risk is cross-pass or repository tampering through the shared writable account and checkout.",
+  "decision_boundary": "Assess only the stated security claim and the controls described in the public acceptance fixture, identify what is supported, and name the most material residual risk. This run does not assess unmentioned host controls, modify the workflow, or authorize any side effect.",
+  "next_action": "Before making an isolation-based security claim, enforce per-pass filesystem write confinement and adversarially test that each pass cannot modify sibling artifacts, shared repository state, manifests, coordinator inputs, or digest baselines. Bind at least one additional eligible evidence reference before repeating the standard evidence-quality and challenge passes.",
+  "key_judgments": [
+    {
+      "statement": "Separate output files are a coordination mechanism, not demonstrated security isolation, because the passes share a user account and writable checkout and no operating-system sandbox or write-denial test is evidenced.",
+      "finding_refs": [
+        "evidence-quality-gap-1",
+        "key-assumptions-isolation-premise",
+        "devils-advocacy-isolation-gap"
+      ],
+      "confidence": "high",
+      "confidence_basis": "The single bound fixture directly states both the shared write authority and the absence of enforcement evidence, although it does not establish whether an unmentioned external control exists."
+    },
+    {
+      "statement": "Schema validation and digest recomputation support structural and byte-level integrity checks but do not prove semantic correctness, trustworthy provenance, containment, or overall workflow security.",
+      "finding_refs": [
+        "evidence-quality-isolation-not-supported-1",
+        "key-assumptions-structural-controls",
+        "devils-advocacy-pass-not-security-proof"
+      ],
+      "confidence": "high",
+      "confidence_basis": "All three method artifacts distinguish the described controls from the broader property claimed, using the same bound evidence."
+    },
+    {
+      "statement": "The most material residual risk is a pass influenced by hostile content altering another artifact or shared writable state before acceptance, potentially leaving schema-valid and digest-bound tampered content.",
+      "finding_refs": [
+        "evidence-quality-residual-risk-1",
+        "key-assumptions-residual-risk",
+        "devils-advocacy-material-residual-risk"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The access conditions and missing containment test make the risk plausible and material, but the fixture supplies no runtime exploit demonstration or implementation evidence."
+    }
+  ],
+  "strongest_alternative": "Retain a narrow claim that the workflow separates result paths, validates artifact structure, recomputes result-file digests, and disables external provider calls by default. Do not characterize those controls as enforced pass isolation or proof of overall security unless host-level containment and adversarial tests establish those properties.",
+  "assumptions": [
+    "A pass can exercise the shared user's repository permissions unless an unreported host control denies them.",
+    "A malicious or compromised modification could remain schema-conforming.",
+    "Digest recomputation does not establish authorized provenance when an untrusted pass may alter content before the trusted binding point."
+  ],
+  "unknowns": [
+    "Whether any unmentioned host mechanism enforces per-pass filesystem or process boundaries.",
+    "Whether coordinator manifests, inputs, and digest baselines are outside the write authority of method passes.",
+    "How the workflow behaves under an adversarial attempt to modify sibling artifacts or shared repository state.",
+    "Whether a second eligible evidence source would corroborate or contradict the fixture's security assertions."
+  ],
+  "dissent": [
+    "There is no material disagreement among the checked conclusions: each rejects the broad security claim while preserving the narrower value of the described controls.",
+    "The method statuses differ: key-assumptions completed with PASS, while evidence-quality and devils-advocacy remained INCOMPLETE because their standard variants require two evidence references and only case was bound."
+  ],
+  "checkpoint": {
+    "trigger": "Reconsider the isolation claim only after enforceable containment and additional evidence are available.",
+    "indicators": [
+      "A pass running under the actual execution identity is denied writes outside its assigned output path.",
+      "Adversarial tests cannot modify sibling results, repository sources, run manifests, coordinator inputs, or digest baselines.",
+      "Outbound network access remains denied when hostile evidence requests it.",
+      "At least two eligible, content-bound evidence references support completion of the standard evidence-quality and Devil's Advocacy requirements."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "evidence-quality",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:5fc1c1030a06048465c01fc83741dc4ca0a83b3de3305f8752fbc5101fc31e48"
+    },
+    {
+      "method_id": "key-assumptions",
+      "status": "PASS",
+      "result_digest": "sha256:0040fa64caca0ab89d135f59ebfeb1d4ebf9a0900818e0000e44ac0a091a68f8"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:21db15bd81e28bebaa03ad92d2d96bef77f9e86cd2a47663ae0a3526ad583c9c"
+    }
+  ],
+  "limitations": [
+    "Only one evidence reference was bound; this left the standard evidence-quality and Devil's Advocacy passes incomplete.",
+    "All passes used the same subscription-backed Codex host and correlation group, so the run provides method diversity but no independent corroboration.",
+    "The evidence is an intentionally public acceptance fixture, not implementation inspection, runtime observation, sandbox verification, or an adversarial containment test.",
+    "Schema, aggregation, and verifier results prove only the checked contracts and content bindings; they do not prove factual accuracy, method fidelity, prompt-injection resistance, isolation, or security."
+  ]
+}

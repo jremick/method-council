@@ -1,0 +1,32 @@
+{
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "completed_at": "2026-08-19T11:07:27.786443Z",
+  "duration_seconds": 307.861,
+  "event_counts": {
+    "item.completed": 36,
+    "item.started": 28,
+    "non_json": 11,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "final_message_digest": "sha256:d28fd82f1901123ea01fe6a8825f104b4c0578f85b9ef304199828f84ee39827",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_observed": null,
+  "model_requested": null,
+  "process_exit_code": 0,
+  "profile": "standard-investigation",
+  "prompt_digest": "sha256:12a01a0fecdeaa7fec3a47d2e766712db879e4b48f050eeb6fd9707479c4eade",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-investigation-duplicates-20260819",
+  "schema_version": "0.1.0",
+  "started_at": "2026-08-19T11:02:19.970643Z",
+  "task": "investigation-duplicates",
+  "task_digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+  "timed_out": false,
+  "verification_digest": "sha256:06927063a94ce28b8523051b75ebb8e0db642c2fab0110ca59f6dfac77148e88",
+  "verification_status": "INCOMPLETE",
+  "verification_valid": true
+}

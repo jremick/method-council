@@ -61,6 +61,37 @@ Raw prompts and full context are not persisted by default. An explicit local
 recording mode may store bounded inputs and artifacts after redaction. Hidden
 chain-of-thought is never requested or stored.
 
+## Host execution
+
+Every run records the adapter, provider state, requested and observed model,
+whether another provider was called, and a correlation group. Requested and
+observed model identifiers remain `null` when the runner cannot independently
+observe them. Multi-method runs on one Codex host require a non-null correlation
+group, and every grouped result must carry `CORRELATED`.
+
+Authentication evidence, process timing, and raw-stream persistence state are
+recorded separately from method conclusions. A version response or login state
+does not by itself prove successful submission, valid collection, or method
+quality.
+
+## Run verification
+
+`verify-run` treats `run.json`, every method result, and `report.json` as
+untrusted input. It:
+
+1. revalidates the catalog and route;
+2. re-reads repository-relative evidence and recomputes its digest;
+3. requires exact, unique selected-method coverage;
+4. validates method version, rigor, execution, findings, and evidence bindings;
+5. recomputes each result digest, the ordered ledger, primary status, and side
+   conditions;
+6. checks that every report finding reference resolves exactly once; and
+7. emits a schema-valid verdict with the recomputed report digest.
+
+Bundle validity and the primary outcome are separate. A well-formed,
+content-bound `FAIL`, `ERROR`, or `INCOMPLETE` run is valid evidence. A claimed
+`PASS` that cannot be reproduced is invalid.
+
 ## Release eligibility
 
 Release eligibility is derived from content-bound evidence reports. Caller- or

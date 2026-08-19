@@ -1,0 +1,192 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "method_id": "systems-trade-study",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED",
+    "SKIPPED"
+  ],
+  "completed_steps": [
+    "frame",
+    "alternatives",
+    "criteria",
+    "define-measures",
+    "evaluate",
+    "sensitivity",
+    "recommend"
+  ],
+  "findings": [
+    {
+      "id": "systems-trade-study-local-evidence",
+      "type": "fact",
+      "statement": "The available evidence reports passing local unit, contract, and fixture tests on one macOS machine, successful package build in the maintainer's existing checkout, required public-facing policy and guide files, and no tracked-file hygiene findings.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-release-evidence-gaps",
+      "type": "fact",
+      "statement": "No clean-clone installation, authenticated live host run, candidate-commit CI run, independent security or correctness review, or confirmation of remote visibility and repository security settings is available.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-no-approval-today",
+      "type": "inference",
+      "statement": "Do not approve the public alpha today because both approve and conditional approve would expose the public to a candidate whose clean installation, live-host behavior, candidate-commit CI state, independent review, and remote security posture remain unverified.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "recommend"
+    },
+    {
+      "id": "systems-trade-study-standard-evidence-shortfall",
+      "type": "unknown",
+      "statement": "Independent corroboration is unavailable: the run contains one evidence reference, below the method's standard-rigor minimum of two, so the comparison cannot be completed at standard rigor.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-accountable-decision-unrecorded",
+      "type": "unknown",
+      "statement": "The accountable decision authority's final choice, rationale, and accepted risk were not supplied and therefore are not recorded as the method's recommendation.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "record-decision"
+    }
+  ],
+  "alternatives": [
+    "Approve public alpha today",
+    "Conditionally approve public alpha today",
+    "Do not approve public alpha today"
+  ],
+  "method_artifact": {
+    "decision": "Whether the fictional local analysis CLI should be approved for public alpha today.",
+    "owner": "Accountable release decision authority; identity not supplied.",
+    "boundary": "Assessment is limited to the evidence in case; no repository, release, provider, network, or external write is in scope.",
+    "constraints": [
+      "Issue exactly one of approve, conditional approve, or do-not-approve for today.",
+      "Do not treat missing release evidence as successful evidence.",
+      "Keep the method recommendation separate from the accountable final decision."
+    ],
+    "exclusions": [],
+    "criteria": [
+      {
+        "id": "installability",
+        "rationale": "A public alpha must be installable outside the maintainer's existing checkout."
+      },
+      {
+        "id": "candidate-verification",
+        "rationale": "The candidate commit requires repeatable automated verification."
+      },
+      {
+        "id": "live-host-behavior",
+        "rationale": "A CLI release needs evidence that its authenticated host path works."
+      },
+      {
+        "id": "independent-risk-review",
+        "rationale": "Independent security or correctness review reduces correlated maintainer blind spots."
+      },
+      {
+        "id": "remote-security-posture",
+        "rationale": "Public visibility and repository security settings affect release exposure."
+      }
+    ],
+    "measures": [
+      {
+        "criterion": "installability",
+        "unit": "verified or unknown",
+        "direction": "verified preferred",
+        "source": "case",
+        "threshold": "clean-clone installation succeeds"
+      },
+      {
+        "criterion": "candidate-verification",
+        "unit": "verified or unknown",
+        "direction": "verified preferred",
+        "source": "case",
+        "threshold": "required CI passes on the candidate commit"
+      },
+      {
+        "criterion": "live-host-behavior",
+        "unit": "verified or unknown",
+        "direction": "verified preferred",
+        "source": "case",
+        "threshold": "authenticated live host run completes successfully"
+      },
+      {
+        "criterion": "independent-risk-review",
+        "unit": "review completed or absent",
+        "direction": "completed preferred",
+        "source": "case",
+        "threshold": "independent security or correctness review reports no release-blocking finding"
+      },
+      {
+        "criterion": "remote-security-posture",
+        "unit": "confirmed or unknown",
+        "direction": "confirmed preferred",
+        "source": "case",
+        "threshold": "intended visibility and material repository security settings are confirmed"
+      }
+    ],
+    "selection_rule": "Do not approve while any release-critical measure is unknown. Do not average unknown or failed release gates into a weighted score.",
+    "evaluation_matrix": [
+      {
+        "alternative": "Approve public alpha today",
+        "result": "Rejected: all five release-critical measures are unknown or absent."
+      },
+      {
+        "alternative": "Conditionally approve public alpha today",
+        "result": "Rejected for today: conditions would defer rather than evidence safe public release, so this option does not satisfy the decision date."
+      },
+      {
+        "alternative": "Do not approve public alpha today",
+        "result": "Preferred: preserves the private boundary until release-critical evidence exists."
+      }
+    ],
+    "assumptions": [],
+    "unknowns": [
+      "Clean-clone installation outcome",
+      "Authenticated live host outcome",
+      "Candidate-commit CI outcome",
+      "Independent review outcome",
+      "Remote visibility and repository security settings",
+      "Identity and final decision of the accountable authority"
+    ],
+    "sensitivity_results": [
+      "Changing weights cannot reverse the recommendation because the unresolved items are treated as release gates, not weighted preferences.",
+      "The recommendation changes only when the minimum release-gate evidence in change_conditions is supplied and is satisfactory."
+    ],
+    "recommendation": "Do not approve public alpha today.",
+    "rationale": "Local tests, documentation, hygiene, and an in-checkout build are positive but do not establish clean installation, candidate CI, authenticated runtime behavior, independent risk review, or remote security posture.",
+    "final_decision": null,
+    "decision_rationale": null
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The non-approval recommendation is robust to weighting because the case explicitly identifies multiple release-critical unknowns, but only one correlated evidence source is available and no independent result corroborates it."
+  },
+  "change_conditions": [
+    "Change to conditional approve only if a clean-clone installation succeeds, required CI passes on the candidate commit, an authenticated live host run succeeds, intended remote visibility and material repository security settings are confirmed, and an independent security or correctness review reports no release-blocking finding.",
+    "Change to approve only if those same minimum checks are completed with no unresolved release-blocking conditions and the accountable decision authority explicitly accepts any documented residual risk."
+  ],
+  "errors": [],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-release-missing-evidence-20260819"
+  }
+}

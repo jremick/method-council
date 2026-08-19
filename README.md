@@ -10,10 +10,13 @@
   A provider-neutral methodology protocol with a Codex-subscription-first path.
 </p>
 
-> **Private build — not yet public alpha.** The contracts and first implementation
-> are being assembled locally. Installation, the `$method-council` invocation,
-> provider compatibility, and release eligibility have not yet been validated as
-> an end-to-end user journey.
+> **Pre-public candidate — still local and private.** The Codex path has completed
+> four public-safe, subscription-backed acceptance runs and the recorded bundles
+> pass content-bound verification. This is not a public-alpha or general quality
+> claim. Claude and Gemini remain disabled preview adapters, and no GitHub remote
+> or release exists.
+
+![A contemporary analysis workbench with separate tracing-paper method passes aligned at one revision datum](assets/generated/analysis-bench-hero.png)
 
 ## What this is
 
@@ -45,15 +48,24 @@ providers can be added later as separately tested adapters.
 - **Keep hard gates in code.** Deterministic validation owns route limits,
   schemas, evidence binding, status precedence, and release eligibility.
 
-## Intended Codex journey
+## Run it in Codex
 
-The planned first interaction is deliberately small:
+The repo includes a checked-in project skill at
+`.agents/skills/method-council`. After installing the locked development
+environment, open Codex from the repository and ask it to use the skill:
 
-```text
-$method-council <activity> --rigor <rapid|standard|intensive> "question"
+```bash
+uv sync --frozen --all-groups
+uv run method-council validate
+uv run python scripts/sync_codex_skill.py check
 ```
 
-This is a product preview, not a verified command. The intended sequence is:
+```text
+Use $method-council to assess whether we should adopt this architecture.
+Use standard rigor, keep unknowns explicit, and do not make external calls.
+```
+
+The verified workflow is:
 
 1. Scope the question, decision owner, constraints, and evidence boundary.
 2. Propose a complementary set of methods for the activity and rigor level.
@@ -63,10 +75,13 @@ This is a product preview, not a verified command. The intended sequence is:
 6. Challenge the emerging answer, synthesize without voting, and stop at a
    human checkpoint.
 
-Codex subscription use should not require a separate provider API key. External
-provider calls, persistence of raw prompts, and tool side effects are intended
-to remain off by default. See the [Codex workflow preview](docs/CODEX_WORKFLOW.md)
-and [architecture](docs/ARCHITECTURE.md).
+The recorded acceptance runs used the existing ChatGPT-authenticated Codex CLI
+without a separate provider API key. External provider calls, raw prompt/event
+stream persistence, and task-external side effects were disabled. The runner
+could not independently observe a model identifier, so the evidence records it
+as unknown. See the [Codex workflow](docs/CODEX_WORKFLOW.md),
+[acceptance evidence](docs/ACCEPTANCE.md), and
+[architecture](docs/ARCHITECTURE.md).
 
 ## Report contract
 
@@ -91,23 +106,26 @@ Read the [report anatomy](docs/REPORT_ANATOMY.md) and
 
 ## Current status
 
-This repository is at **Stage 0 — Private Build**. The target for the next gate
-is a pre-public candidate that a new reader can inspect without confusion or
-private-state leakage.
+This repository remains at **Stage 0 — Private Build** because the local
+implementation has not been attached to or read back from a GitHub remote. The
+source is now a local pre-public candidate awaiting the remaining gates before
+any visibility change.
 
 Current foundations include:
 
 - host-neutral schemas and architecture decisions;
 - initial source-backed method records;
-- a deterministic Python core under active development;
-- a Codex skill surface under active development;
+- a deterministic Python core with fail-closed route, evidence, aggregation,
+  run, and release checks;
+- a canonical Codex skill plus a content-bound repo-local projection;
+- four recorded Codex subscription acceptance bundles covering architecture,
+  investigation, missing release evidence, and hostile embedded instructions;
+- disabled-by-default Claude and Gemini preview adapter contracts;
 - Apache-2.0 licensing and clean-room notices;
-- original code-native diagrams and visual system.
+- original code-native diagrams, social preview, and generated workbench hero.
 
 Not yet established:
 
-- a tested clean-clone install and first-run journey;
-- real Codex task-run evidence;
 - independent method-fidelity, security, and usability review;
 - validated compatibility with any non-Codex provider;
 - public-alpha release eligibility;
@@ -117,27 +135,33 @@ No remote repository or public release is implied by this local source tree.
 
 ## Local development
 
-The repository targets Python 3.12 and `uv`. These are the canonical development
-checks; their presence here does not claim that the current integration passes
-all of them yet.
+The repository targets Python 3.12 and `uv`. These are the canonical local
+development checks:
 
 ```bash
-uv sync --all-groups
+uv sync --frozen --all-groups
 uv run method-council validate
-uv run pytest
+uv run python scripts/sync_codex_skill.py check
+uv run pytest -q
 uv run ruff check .
 uv run ruff format --check .
 ```
 
-A user-facing installation path will be documented only after it succeeds from
-a clean checkout without relying on maintainer-local state.
+To inspect a recorded run, execute:
+
+```bash
+uv run method-council verify-run \
+  evidence/acceptance/accept-architecture-storage-20260819
+```
 
 ## Documentation
 
 - [Delivery brief](docs/DELIVERY_BRIEF.md) — value, risk tier, gates, and non-goals
 - [Architecture](docs/ARCHITECTURE.md) — components, data flow, and trust boundaries
 - [Canonical contracts](docs/CONTRACTS.md) — status, rigor, findings, and evidence
-- [Codex workflow preview](docs/CODEX_WORKFLOW.md) — intended subscription-first journey
+- [Codex workflow](docs/CODEX_WORKFLOW.md) — validated local subscription path
+- [Acceptance evidence](docs/ACCEPTANCE.md) — four real task outcomes and limits
+- [Compatibility](docs/COMPATIBILITY.md) — verified and preview adapter boundaries
 - [Report anatomy](docs/REPORT_ANATOMY.md) — human-facing report structure
 - [Design system](docs/DESIGN_SYSTEM.md) — visual language and asset rules
 - [Source register](docs/SOURCES.md) — method provenance and claim boundaries
@@ -145,8 +169,9 @@ a clean checkout without relying on maintainer-local state.
 - [GitHub settings plan](docs/GITHUB_SETTINGS.md) — pre-public and public-alpha posture
 - [Architecture decisions](docs/decisions/) — accepted design choices
 
-All linked documents are part of the local foundation. Their existence and link
-validity do not establish a clean-clone user journey or public readiness.
+All linked documents are part of the local candidate. Their existence and link
+validity do not establish method fidelity, decision quality, non-Codex
+compatibility, or public readiness.
 
 ## Contributing and support
 

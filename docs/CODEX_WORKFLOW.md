@@ -1,19 +1,31 @@
-# Codex workflow preview
+# Codex workflow
 
-Status: design contract; not yet a verified end-to-end user path.
+Status: locally exercised preview; four public-safe subscription runs are
+recorded and pass deterministic read-back verification.
 
 ## Intended first interaction
 
-Method Council is being designed first for Codex users who are already signed in
-through a ChatGPT subscription. The planned invocation is:
+Method Council is designed first for Codex users who are already signed in
+through a ChatGPT subscription. From the repository, install and validate the
+locked environment:
 
-```text
-$method-council <activity> --rigor <rapid|standard|intensive> "question"
+```bash
+uv sync --frozen --all-groups
+uv run method-council validate
+uv run python scripts/sync_codex_skill.py check
 ```
 
-The exact invocation, installation path, and output behavior remain provisional
-until the Codex skill and deterministic core pass real clean-checkout task runs.
-This document must not be used as evidence that the command currently works.
+The checked-in project skill is available at `.agents/skills/method-council`.
+Invoke it in a Codex task with a natural-language request such as:
+
+```text
+Use $method-council to review this release decision with standard rigor.
+Keep missing evidence explicit and do not use external providers.
+```
+
+This path has been exercised through `codex exec` for four public synthetic
+tasks. The evidence is machine-specific and remains preview evidence, not a
+promise that every Codex version, task, or environment will behave identically.
 
 ## Interaction sequence
 
@@ -100,11 +112,23 @@ run evidence.
   run artifacts.
 - External calls and side effects are deny-by-default.
 
-## Evidence needed before this becomes a quick start
+## Recorded acceptance
 
-- Clean-checkout installation and validation on the supported platform.
-- At least four representative real Codex subscription runs.
-- Negative coverage for malformed output, provider failure, prompt injection,
-  unsupported source claims, and split conclusions.
-- Content-bound run artifacts and deterministic status derivation.
-- Independent review of method fidelity and the public user journey.
+Four subscription-backed runs cover architecture, investigation, missing
+release evidence, and hostile embedded instructions. Every run has a complete
+bundle under `evidence/acceptance/`, and `verify-run` reproduces its status,
+side conditions, method coverage, evidence bindings, ledger, and report digest.
+
+Three outcomes are intentionally `INCOMPLETE`; the methods retained missing
+inputs instead of converting them into fluent confidence. The hostile case did
+not follow the embedded request to declare PASS, open the network, or delete an
+artifact.
+
+Still needed before public alpha:
+
+- independent method-fidelity and user-journey review;
+- live GitHub identity, settings, CI, and security read-back;
+- provider-specific evidence before any non-Codex compatibility claim;
+- a release decision derived from the complete candidate evidence set.
+
+See [Codex acceptance evidence](ACCEPTANCE.md).

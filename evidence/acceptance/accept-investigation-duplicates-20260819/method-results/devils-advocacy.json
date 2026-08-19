@@ -1,0 +1,185 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-mainline-judgment",
+      "type": "inference",
+      "statement": "The prevailing judgment is that repeated execution of the index append path is the leading explanation and that append-attempt instrumentation should be the first diagnostic change, because the affected run produced two near-simultaneous append-success messages while retaining one final summary.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-unsupported-assumption",
+      "type": "assumption",
+      "statement": "The mainline implicitly assumes that each append-success message denotes a distinct physical append to index.jsonl; the supplied evidence gives neither raw index lines nor byte offsets, so duplicated or misleading logging remains unexcluded.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-counterevidence",
+      "type": "fact",
+      "statement": "Direct lookup returns one record, the artifact directory contains one final summary, and no corrupted or partial JSON line has been observed; these observations counter stronger claims that concurrent writes necessarily produced two persisted index records or damaged serialization.",
+      "evidence_refs": [
+        "case"
+      ],
+      "counterevidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-contradiction",
+      "type": "inference",
+      "statement": "There is an unresolved tension between duplicate list presentation and the single-record direct lookup: the observations are compatible with duplicate persisted index lines filtered by lookup, but also with one stored record duplicated during a list-side cache merge.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-strongest-alternative",
+      "type": "inference",
+      "statement": "The strongest contrary case is that list --latest duplicates one underlying record while merging cached and current index data, and the two append-success messages are duplicated logging or otherwise do not correspond to two physical lines; this explains the duplicate presentation together with the single-record lookup and single final artifact.",
+      "evidence_refs": [
+        "case"
+      ],
+      "counterevidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-alternative-weakness",
+      "type": "inference",
+      "statement": "The cache-merge alternative is weaker than the mainline because cache merging is merely unknown, whereas two successful append messages directly point toward repeated write-path activity unless their semantics are misleading.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-discriminating-evidence",
+      "type": "inference",
+      "statement": "The first diagnostic should capture, without changing behavior, the raw index byte range before and after each append attempt together with a logical-run ID, invocation ID, worker or process ID, caller attempt identity, lock state, and summary digest; comparing those offsets with list cache and index input counts will discriminate two physical appends from duplicated logging or read-side merging.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-disposition",
+      "type": "inference",
+      "statement": "The prevailing judgment is retained with a caveat: instrument the append boundary first, but do not treat repeated append execution as established until physical index offsets or raw lines confirm it, and preserve cache merging plus logging semantics as live alternatives.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    }
+  ],
+  "alternatives": [
+    "The list command duplicates one stored record while merging cached and current index data.",
+    "Two append-success messages are emitted for one physical append because logging occurs at more than one layer or is duplicated.",
+    "Two workers invoke the append helper for the same logical run.",
+    "A caller retries after a successful append.",
+    "Platform-dependent advisory locking permits duplicate complete appends without producing partial JSON."
+  ],
+  "method_artifact": {
+    "evidence_manifest": {
+      "id": "case",
+      "kind": "repository",
+      "digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+      "locator": "evals/acceptance/investigation-duplicates.md",
+      "limitations": []
+    },
+    "mainline_judgment": "Repeated append-path execution leads, and append-boundary instrumentation is the next diagnostic.",
+    "mainline_evidence": [
+      "Two successful append messages occurred within 12 milliseconds for one affected run.",
+      "Duplicate list entries share the run ID and summary digest while one final summary exists."
+    ],
+    "mainline_assumptions": [
+      "Each success message corresponds to a distinct physical index append.",
+      "The list display reflects persisted index multiplicity rather than a read-side merge.",
+      "A shared logical run can reach the append boundary more than once through worker multiplicity or retry."
+    ],
+    "challenge_target": "Challenge the load-bearing inference that two append-success messages establish duplicate physical index writes and therefore make write-path instrumentation alone sufficient.",
+    "evidence_weaknesses": [
+      "No raw index lines or byte offsets are supplied.",
+      "Append-success logging semantics are not supplied.",
+      "List cache merge behavior is unknown.",
+      "All observations share one correlated evidence origin."
+    ],
+    "counterevidence": [
+      "Direct lookup returns one record.",
+      "Only one final summary exists.",
+      "No corrupted or partial JSON line has been observed."
+    ],
+    "alternative_case": "A list-side merge duplicates one underlying record, while duplicated or layered success logging creates the appearance of two writes. This account fits the one-record lookup and single final artifact and remains possible because cache behavior, raw index contents, and logging semantics are unavailable.",
+    "alternative_assumptions": [
+      "The list command has a cache or secondary input capable of merging the same run twice.",
+      "The two success messages need not map one-to-one to persisted lines.",
+      "Direct lookup and list --latest may use different read paths or deduplication behavior."
+    ],
+    "surviving_mainline": [
+      "The append path remains the best first observation point because the strongest positive clue is two near-simultaneous success messages.",
+      "Worker multiplicity and caller retry remain jointly leading write-path mechanisms."
+    ],
+    "material_challenges": [
+      "Duplicate physical index lines are not yet demonstrated.",
+      "A read-side merge cannot be excluded by the current evidence.",
+      "Locking is not established as causal because complete duplicate appends could be serialized successfully."
+    ],
+    "disposition": "Retain the append-first diagnostic, caveated to capture physical write evidence and enough read-side counts to avoid prematurely excluding cache merging or misleading logs.",
+    "change_conditions": [
+      "Two distinct post-append byte ranges or raw lines for one run strengthen repeated physical append execution.",
+      "One physical index line with duplicate list inputs or outputs elevates the cache-merge alternative.",
+      "One physical append accompanied by two success messages elevates duplicated or layered logging.",
+      "Distinct worker identities favor duplicate worker invocation; one caller with multiple attempt ordinals favors retry.",
+      "A platform correlation with absent or failed lock acquisition strengthens locking as an enabling condition."
+    ]
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The append-first diagnostic survives the challenge, but raw persistence, logging semantics, and cache inputs are unavailable and all claims share one correlated evidence source."
+  },
+  "change_conditions": [
+    "If telemetry proves two physical index lines, prioritize distinguishing worker multiplicity from caller retry.",
+    "If telemetry proves one index line and duplicated list inputs or outputs, prioritize the cache-merge path.",
+    "If one append produces two success messages, investigate logging semantics before attributing duplicate invocation.",
+    "If duplicate appends correlate with absent or failed lock acquisition, elevate the locking path."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Standard rigor specifies at least two evidence references, but the run permits and binds exactly one evidence reference.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-investigation-duplicates-20260819"
+  }
+}

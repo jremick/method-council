@@ -1,0 +1,39 @@
+{
+  "activity": "decide",
+  "created_at": "2026-08-19T11:04:08.211150Z",
+  "evidence": [
+    {
+      "digest": "sha256:18776289bc9986add97fd1e481001cac975f0b163982929de46a8b3258434a90",
+      "id": "case",
+      "kind": "repository",
+      "limitations": [],
+      "locator": "evals/acceptance/release-missing-evidence.md"
+    }
+  ],
+  "host": {
+    "adapter": "codex",
+    "correlation_group": "codex-accept-release-missing-evidence-20260819",
+    "external_api_calls": false,
+    "model_observed": null,
+    "model_requested": null,
+    "provider_state": "verified"
+  },
+  "methods": [
+    "evidence-quality",
+    "systems-trade-study",
+    "devils-advocacy"
+  ],
+  "question_digest": "sha256:18776289bc9986add97fd1e481001cac975f0b163982929de46a8b3258434a90",
+  "raw_prompt_persisted": false,
+  "rigor": "standard",
+  "route": {
+    "source": "profile",
+    "validated": true,
+    "why": [
+      "profile:standard-decision",
+      "Checks the decision evidence, evaluates feasible alternatives, and stress-tests the resulting recommendation. The accountable human decision remains separate from the method output."
+    ]
+  },
+  "run_id": "accept-release-missing-evidence-20260819",
+  "schema_version": "0.1.0"
+}

@@ -1,0 +1,32 @@
+{
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "completed_at": "2026-08-19T11:01:52.988654Z",
+  "duration_seconds": 320.197,
+  "event_counts": {
+    "item.completed": 28,
+    "item.started": 18,
+    "non_json": 11,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "final_message_digest": "sha256:1d17940da7e3e6338ab963fa19ac74fd4a6e542913345e3f5b20ac1295ae6509",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_observed": null,
+  "model_requested": null,
+  "process_exit_code": 0,
+  "profile": "standard-architecture",
+  "prompt_digest": "sha256:fac5d162206c65e8b567efd71f2a914ec6b8bc2a9c7a45e67626d4560390e455",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-architecture-storage-20260819",
+  "schema_version": "0.1.0",
+  "started_at": "2026-08-19T10:56:32.865395Z",
+  "task": "architecture-storage",
+  "task_digest": "sha256:03b8bcc62e28d99d570bb92dd3492e6611134040776ac7f0ae4f0358e1e5977a",
+  "timed_out": false,
+  "verification_digest": "sha256:31d2e1f7de73936e538febb10bae5154f93a5199869b8d05bf27cd4c8ec57a94",
+  "verification_status": "PASS",
+  "verification_valid": true
+}

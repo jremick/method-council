@@ -1,0 +1,23 @@
+{
+  "checked_methods": [
+    "devils-advocacy",
+    "failure-modes",
+    "key-assumptions",
+    "systems-trade-study"
+  ],
+  "issues": [],
+  "report_digest": "sha256:b7e388874244bc2826be630c0310a8aafdf35be141689121f83cd01eb8f45029",
+  "run_id": "accept-architecture-storage-20260819",
+  "schema_version": "0.1.0",
+  "selected_methods": [
+    "key-assumptions",
+    "systems-trade-study",
+    "failure-modes",
+    "devils-advocacy"
+  ],
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "status": "PASS",
+  "valid": true
+}

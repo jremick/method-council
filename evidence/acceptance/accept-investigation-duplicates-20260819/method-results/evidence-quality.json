@@ -1,0 +1,191 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "method_id": "evidence-quality",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "inventory",
+    "assess-critical",
+    "test-independence",
+    "expose-gaps",
+    "calibrate"
+  ],
+  "findings": [
+    {
+      "id": "evidence-quality-inventory-1",
+      "type": "fact",
+      "statement": "The evidence corpus contains one repository fixture describing observed behavior and explicit unknowns; its manifest reports no handling limitations, but it provides no dates, raw index lines, code, cache state, platform details, or lock configuration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "inventory"
+    },
+    {
+      "id": "evidence-quality-critical-append-1",
+      "type": "fact",
+      "statement": "For an affected run, the fixture reports duplicate list entries with the same run ID and summary digest, one final summary artifact, and two successful append messages within 12 milliseconds.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-leading-hypothesis-1",
+      "type": "inference",
+      "statement": "The leading hypothesis is duplicate index appends for one logical run, caused either by more than one helper invocation or by caller retry; it best fits the two append messages, identical duplicate entries, and single final artifact, but the supplied evidence does not distinguish the two mechanisms.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-alternative-locking-1",
+      "type": "inference",
+      "statement": "A concurrency or advisory-locking defect remains plausible because the issue appeared after concurrent acceptance runs were enabled and lock coverage is unknown, although identical complete entries and the absence of partial JSON do not by themselves prove a locking failure.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-alternative-cache-1",
+      "type": "inference",
+      "statement": "A list-side cache merge remains plausible because cache behavior is unknown, but the reported pair of successful append messages makes an index-write-path explanation better supported by the current evidence.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-independence-1",
+      "type": "fact",
+      "statement": "All observations and unknowns come from the same fixture, so they are one evidence origin and cannot be counted as independent corroboration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-independence"
+    },
+    {
+      "id": "evidence-quality-gap-1",
+      "type": "unknown",
+      "statement": "It is unknown whether the append helper is invoked once per worker or retried by a caller, preventing attribution of the duplicate append to worker multiplicity versus retry behavior.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-gap-2",
+      "type": "unknown",
+      "statement": "It is unknown whether advisory locking is enabled on every supported platform, preventing exclusion of a platform-specific concurrency path.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-gap-3",
+      "type": "unknown",
+      "statement": "It is unknown whether list output merges cached and indexed records, preventing exclusion of a read-side duplication path.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-diagnostic-1",
+      "type": "inference",
+      "statement": "The first discriminating change should instrument append-helper entry and append completion with one invocation identifier plus run ID, worker identity, caller attempt or retry identity, platform, lock-enabled state, and index offset; this can separate multiple invocations or retries from one helper execution and establish whether duplicate physical appends occurred before investigating cache merge behavior.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    }
+  ],
+  "alternatives": [
+    "Capture the raw index lines and byte offsets for an affected run to confirm physical duplication without yet attributing its cause.",
+    "Temporarily trace list-command cache and index inputs to test whether read-side merging creates the duplicate presentation.",
+    "Record advisory-lock acquisition, release, and platform support around each append to test a platform-specific locking path."
+  ],
+  "method_artifact": {
+    "evidence_inventory": [
+      {
+        "evidence_id": "case",
+        "source_type": "repository acceptance fixture",
+        "date": null,
+        "access_path": "evals/acceptance/investigation-duplicates.md"
+      }
+    ],
+    "access_limits": [
+      "Only the fixture content and supplied manifest metadata were available.",
+      "No implementation, raw index, cache, platform, lock, or retry telemetry was supplied.",
+      "The standard profile calls for at least two evidence references, but this run binds one."
+    ],
+    "critical_evidence": [
+      "case: duplicate entries share run ID and summary digest",
+      "case: one final summary artifact exists",
+      "case: two successful append messages occurred within 12 milliseconds",
+      "case: concurrency preceded the defect"
+    ],
+    "quality_observations": [
+      "The fixture is directly relevant and internally coherent for hypothesis ordering.",
+      "The fixture summarizes observations rather than exposing raw records or implementation evidence.",
+      "Currency cannot be assessed because no observation date is supplied.",
+      "Credibility cannot be independently corroborated from the single evidence origin."
+    ],
+    "correlation_groups": [
+      {
+        "group": "single-fixture-origin",
+        "evidence_ids": [
+          "case"
+        ],
+        "effect": "All claims share one origin and provide no independent corroboration."
+      }
+    ],
+    "gaps": [
+      "Append-helper invocation count and caller retry identity",
+      "Platform-specific advisory-lock state",
+      "List-command cache merge behavior",
+      "Raw index lines and byte offsets",
+      "Observation date and reproduction frequency"
+    ],
+    "contradictions": [],
+    "affected_judgments": [
+      "Whether duplicate appends originate in worker multiplicity or retry",
+      "Whether advisory locking contributes",
+      "Whether duplication is persisted or presentation-only",
+      "How broadly the behavior generalizes across platforms"
+    ],
+    "confidence_basis": "Moderate confidence supports instrumenting the append path first because two near-simultaneous successful append messages are the strongest discriminating observation. Confidence in the underlying cause remains limited by a single summarized evidence origin, missing raw telemetry, and failure to meet the standard profile's two-reference minimum."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The observations consistently prioritize append-path instrumentation, but one summarized source cannot establish the mechanism or independently exclude locking and cache alternatives."
+  },
+  "change_conditions": [
+    "If invocation-level telemetry shows one helper invocation and one physical append, prioritize tracing list cache and merge inputs.",
+    "If telemetry shows multiple invocation identifiers or retry attempts for the same run, investigate caller and worker invocation control next.",
+    "If duplicate physical appends correlate with absent or failed lock acquisition on a supported platform, prioritize the locking path.",
+    "If raw index inspection shows only one line for the run while list output duplicates it, elevate the read-side cache hypothesis."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Standard rigor requires at least two evidence references, but the run binds exactly one permitted evidence reference.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-investigation-duplicates-20260819"
+  }
+}
