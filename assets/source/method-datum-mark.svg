@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+  <title id="title">Method Council datum mark</title>
+  <desc id="desc">Three separate method paths pass through square frames, converge at a shared datum, and remain open for revision.</desc>
+  <metadata>
+    Original Method Council asset. Canonical editable source, version 0.1.0.
+    Palette: Ink #11131A, Steel #2C4258, Clay #A9563D.
+  </metadata>
+  <rect width="240" height="240" rx="20" fill="#F7F8F6"/>
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M48 28V72M120 28V72M192 28V72" stroke="#2C4258" stroke-width="8"/>
+    <rect x="30" y="72" width="36" height="42" stroke="#11131A" stroke-width="6"/>
+    <rect x="102" y="72" width="36" height="42" stroke="#11131A" stroke-width="6"/>
+    <rect x="174" y="72" width="36" height="42" stroke="#11131A" stroke-width="6"/>
+    <path d="M48 114L120 166M120 114V166M192 114L120 166" stroke="#2C4258" stroke-width="8"/>
+    <path d="M150 176V206H90V146H122" stroke="#A9563D" stroke-width="8"/>
+    <path d="M108 166H132M120 154V178" stroke="#11131A" stroke-width="6"/>
+    <path d="M54 218H186" stroke="#11131A" stroke-width="6"/>
+  </g>
+</svg>

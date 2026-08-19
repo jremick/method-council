@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 760" role="img" aria-labelledby="title desc">
+  <title id="title">Traceable report anatomy</title>
+  <desc id="desc">A contract diagram divides a Method Council report into result, key judgments and evidence, alternatives and dissent, assumptions and unknowns, indicators, and a validation ledger.</desc>
+  <metadata>
+    Original Method Council asset. Canonical editable source, version 0.1.0.
+    Contract diagram, not a product screenshot.
+  </metadata>
+  <defs>
+    <style>
+      .serif { font-family: "Source Serif 4", Georgia, serif; fill: #11131A; }
+      .body { font-family: Sora, Inter, system-ui, sans-serif; fill: #11131A; }
+      .meta { font-family: "JetBrains Mono", ui-monospace, monospace; fill: #536070; letter-spacing: 1px; }
+      .h1 { font-size: 29px; font-weight: 650; }
+      .h2 { font-size: 18px; font-weight: 650; }
+      .small { font-size: 13px; }
+      .tiny { font-size: 11px; }
+    </style>
+  </defs>
+  <rect width="1120" height="760" fill="#F7F8F6"/>
+  <text x="54" y="42" class="meta small">METHOD COUNCIL / REPORT ANATOMY</text>
+  <text x="1066" y="42" text-anchor="end" class="meta small">CONTRACT DIAGRAM · NOT A SCREENSHOT</text>
+  <path d="M54 62H1066" stroke="#11131A" stroke-opacity="0.16"/>
+
+  <rect x="54" y="88" width="700" height="618" fill="#FFFFFF" stroke="#11131A" stroke-opacity="0.24"/>
+  <path d="M704 88H754V138" fill="none" stroke="#A9563D" stroke-width="8"/>
+  <text x="82" y="126" class="meta small">DECISION ARTIFACT / PRIMARY STATUS</text>
+  <text x="82" y="170" class="serif h1">Traceable report</text>
+  <text x="82" y="200" class="body small">Result first. Evidence and analytical seams remain inspectable.</text>
+
+  <g transform="translate(82 232)">
+    <text x="0" y="0" class="meta tiny">01 / RESULT + CHECKPOINT</text>
+    <text x="0" y="32" class="body h2">Answer, next action, and human decision</text>
+    <path d="M0 51H644" stroke="#11131A" stroke-opacity="0.16"/>
+  </g>
+  <g transform="translate(82 314)">
+    <text x="0" y="0" class="meta tiny">02 / KEY JUDGMENTS + EVIDENCE</text>
+    <text x="0" y="32" class="body h2">Typed findings linked to bound evidence IDs</text>
+    <text x="0" y="57" class="body small">FACT · INFERENCE · ASSUMPTION · UNKNOWN</text>
+    <path d="M0 76H644" stroke="#11131A" stroke-opacity="0.16"/>
+  </g>
+  <g transform="translate(82 417)">
+    <text x="0" y="0" class="meta tiny">03 / ALTERNATIVES + DISSENT</text>
+    <text x="0" y="32" class="body h2">Competing conclusions and counterevidence</text>
+    <path d="M0 51H644" stroke="#11131A" stroke-opacity="0.16"/>
+  </g>
+  <g transform="translate(82 499)">
+    <text x="0" y="0" class="meta tiny">04 / ASSUMPTIONS + UNKNOWNS</text>
+    <text x="0" y="32" class="body h2">Unverified dependencies and collection gaps</text>
+    <path d="M0 51H644" stroke="#11131A" stroke-opacity="0.16"/>
+  </g>
+  <g transform="translate(82 581)">
+    <text x="0" y="0" class="meta tiny">05 / INDICATORS + CONTROLS</text>
+    <text x="0" y="32" class="body h2">Signposts, thresholds, review date, or kill criteria</text>
+    <path d="M0 51H644" stroke="#11131A" stroke-opacity="0.16"/>
+  </g>
+  <text x="82" y="674" class="meta tiny">NO HIDDEN CHAIN-OF-THOUGHT · NO WEIGHTED VOTE</text>
+
+  <rect x="790" y="88" width="276" height="618" fill="#E8EDF0" stroke="#2C4258"/>
+  <text x="818" y="126" class="meta small">06 / RUN LEDGER</text>
+  <text x="818" y="170" class="serif h1">Trace</text>
+  <path d="M818 194H1038" stroke="#2C4258" stroke-opacity="0.38"/>
+  <g class="body small">
+    <text x="818" y="232">Method ID + version</text>
+    <text x="818" y="270">Host + provider state</text>
+    <text x="818" y="308">Observable model ID</text>
+    <text x="818" y="346">Correlation conditions</text>
+    <text x="818" y="384">Artifact digests</text>
+    <text x="818" y="422">Validation reasons</text>
+    <text x="818" y="460">Timestamps</text>
+    <text x="818" y="498">Skipped checks</text>
+    <text x="818" y="536">Claim limitations</text>
+  </g>
+  <path d="M818 565H1038" stroke="#2C4258" stroke-opacity="0.38"/>
+  <text x="818" y="598" class="meta tiny">STATUS PRECEDENCE</text>
+  <text x="818" y="628" class="body h2">FAIL &gt; ERROR &gt;</text>
+  <text x="818" y="653" class="body h2">INCOMPLETE &gt; PASS</text>
+  <text x="818" y="682" class="body tiny">Side conditions never upgrade status.</text>
+</svg>
