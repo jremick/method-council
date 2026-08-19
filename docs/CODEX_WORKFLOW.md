@@ -27,7 +27,10 @@ The current runner executes `codex exec` inside a fresh tracked-file snapshot of
 an exact commit, rejects tracked source mutation, copies only expected run
 artifacts, and independently re-verifies them against a second pristine
 snapshot. This is still an unsigned local recorder, not an external attestation
-or an operating-system containment proof.
+or an operating-system containment proof. The runner performs best-effort
+process-table observation and termination of observed descendants before
+copy-out. That mechanism is explicitly unverified and not race-free; treat the
+acceptance executor as experimental.
 
 ## Interaction sequence
 
@@ -109,7 +112,9 @@ run evidence.
 
 - Raw prompts and full context are not persisted by default.
 - Hidden chain-of-thought is never requested or stored.
-- Local recording, if later implemented, must be explicit and bounded.
+- No general-purpose run recording mode exists. The acceptance harness
+  explicitly persists only allowlisted run artifacts and bounded unsigned host
+  metadata.
 - Secrets, unrelated repository data, and personal paths must be excluded from
   run artifacts.
 - External calls and side effects are deny-by-default.

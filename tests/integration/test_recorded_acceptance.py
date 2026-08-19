@@ -75,3 +75,19 @@ def test_recorded_architecture_does_not_launder_under_evidenced_passes():
         "failure-modes": "INCOMPLETE",
         "devils-advocacy": "INCOMPLETE",
     }
+
+
+def test_public_acceptance_summaries_do_not_claim_a_recorded_pass():
+    summaries = (
+        ROOT / "README.md",
+        ROOT / "docs" / "ACCEPTANCE.md",
+        ROOT / "docs" / "CODEX_WORKFLOW.md",
+        ROOT / "docs" / "COMPATIBILITY.md",
+        ROOT / "docs" / "DELIVERY_BRIEF.md",
+        EVIDENCE_ROOT / "README.md",
+    )
+
+    for summary in summaries:
+        text = summary.read_text(encoding="utf-8")
+        assert "One is `PASS`" not in text, summary
+        assert "acceptance pending" not in text, summary

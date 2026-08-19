@@ -53,4 +53,11 @@ operating-system containment or network-denial attestation, independent
 corroboration, general prompt-injection resistance, method fidelity, factual
 accuracy, usability, or public-release readiness.
 
+The current runner samples and terminates observed descendants, blocks copy-out
+on observer failure or observed survivors, and records that cleanup as
+`best-effort-unverified`. Process-table sampling is not race-free containment.
+The four recorded bundles predate that field and remain valid historical
+evidence only because they never claim process-lifetime containment. A new run
+must include the explicit cleanup record, but still cannot upgrade this claim.
+
 See the [acceptance evidence index](../evidence/acceptance/README.md).

@@ -86,7 +86,7 @@ The boundaries are:
 | TM-06 | Medium | A provider is reported available because its executable exists, even though authentication or execution fails. | Keep presence, auth, submission, response parsing, and validated completion separate; use `verified`, `preview`, `unverified`, `unavailable`, or `degraded`; never simulate a missing result. | `provider-degraded-malformed` fixture and four ChatGPT-authenticated Codex executions | Claude and Gemini capability probes and real runs remain absent. |
 | TM-07 | Medium | A method or README claims official, certified, standard, de facto, or intelligence-grade status without exact source support. | Require source basis, adaptation, and claim limits; validate semantic provenance before routing; prefer “adapted from.” | `unsupported-official-standard-claim` fixture | Human source interpretation and method fidelity still need independent expert review. |
 | TM-08 | Medium | Several passes on one host/model are presented as independent corroboration or converted into a confidence vote. | Track method, provider, model, and source diversity separately; mark same-host/model work `CORRELATED`; preserve dissent instead of weighted voting. | Architecture, debugging, risk, and split fixtures | Observable model identifiers may be incomplete; correlated failure modes cannot be fully measured in v1. |
-| TM-09 | Medium | Large input, recursive delegation, retries, or provider stalls cause resource exhaustion. | Enforce rigor method-count limits, bounded concurrency, input/artifact size limits, timeouts, and retry budgets; fail visibly. | Route-count limits; bounded structured-document parsing; acceptance-runner timeouts; four bounded Codex executions | Provider-specific cancellation/retry behavior and aggregate resource limits under sustained use remain unverified. |
+| TM-09 | Medium | Large input, recursive delegation, retries, provider stalls, or detached descendants cause resource exhaustion. | Enforce rigor method-count limits, bounded concurrency, input/artifact size limits, timeouts, retry budgets, process-group termination, and best-effort descendant observation; fail visibly. | Route-count limits; bounded nofollow document parsing; acceptance-runner timeouts; detached-writer regression; four bounded Codex executions | Process-table sampling cannot prove race-free process cleanup or containment. Provider-specific cancellation/retry behavior and aggregate resource limits under sustained use remain unverified. |
 | TM-10 | Medium | A compromised dependency, action, installer, or generated adapter changes behavior. | Minimize dependencies; lock and audit them; pin CI actions by immutable digest; separate generated from canonical files; verify clean installs. | `uv.lock`; dependency audit reported no known vulnerabilities in the exported locked environment; CI actions use immutable commit pins and least-privilege permissions; a clean clone synced and passed the local validation suite | The local audit is time-bound, hosted CI has not run, dependency-review and code-scanning settings are not configured, and no release provenance attestation exists. |
 | TM-11 | Medium | Model-generated Markdown, links, or structured fields trigger unsafe rendering or command execution downstream. | Treat report fields as data; escape renderers; never execute report text; reject unexpected schema fields and unsafe locators. | Strict fixture, result, report, and run-verdict envelopes | The project has no rich report renderer yet; future HTML, terminal, or connected-system renderers will require context-specific escaping tests. |
 | TM-12 | Low | Local telemetry becomes surveillance or retains sensitive semantic content. | Record only bounded operational metadata and digests by default; make any recording explicit, local, redacted, and inspectable. | Persistence contract and fixture privacy invariants | Even metadata can be sensitive when combined; retention and deletion UX is not yet designed. |
@@ -118,9 +118,11 @@ inference, assumption, or unknown; evidence references; alternatives;
 confidence basis; change conditions; and errors. A concise rationale is an
 auditable result field, not a request for private internal reasoning.
 
-Any future recording mode must be explicit, local-first, bounded, redacted,
-and separately tested. Its design and retention policy are not authorized by
-this baseline.
+No general-purpose recording mode is implemented or authorized. The acceptance
+harness is the narrow exception: it explicitly persists allowlisted run
+artifacts, bounded execution metadata, and digests without raw prompts or raw
+event streams. Any broader recording mode must be explicit, local-first,
+bounded, redacted, and separately tested.
 
 ## Implemented controls versus open gates
 
@@ -135,6 +137,9 @@ Implemented through Waves 1–3:
   digest, route, evidence, execution, correlation, and finding-reference tests;
 - four recorded ChatGPT-authenticated Codex runs with no raw prompt/event
   persistence, including a hostile embedded-instruction case;
+- best-effort descendant observation that blocks new-run copy-out on observer
+  failure or observed survivors, explicitly labelled unverified rather than
+  containment;
 - disabled-by-default preview adapters for Claude Code and Gemini CLI;
 - a clean-clone environment sync and local validation run;
 - locked Python dependencies with a no-known-vulnerability audit result at the

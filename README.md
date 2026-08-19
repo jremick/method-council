@@ -80,8 +80,10 @@ a separate provider API key. It executes from a tracked-file snapshot of an
 exact source commit, rejects tracked-source mutation, and copies out only
 allowlisted artifacts. Four hardened bundles are recorded. They prove the
 bounded local path and internal consistency of those executions, not method
-quality, general security, or cryptographic execution authenticity. See the
-[Codex workflow](docs/CODEX_WORKFLOW.md),
+quality, general security, race-free process cleanup, operating-system
+containment, or cryptographic execution authenticity. New runs record
+best-effort descendant observation, but the runner remains experimental. See
+the [Codex workflow](docs/CODEX_WORKFLOW.md),
 [acceptance evidence](docs/ACCEPTANCE.md), and
 [architecture](docs/ARCHITECTURE.md).
 

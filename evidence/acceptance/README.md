@@ -39,6 +39,8 @@ history. The current bundles are still same-host, correlated, and
 `unsigned-local-recorder` evidence. They do not prove factual accuracy, general
 prompt-injection resistance, method fidelity, network denial, operating-system
 containment, security, usability, provider independence, or release readiness.
+They also predate the runner's explicit `best-effort-unverified` descendant
+cleanup record and make no process-lifetime containment claim.
 
 Recompute a bundle from the repository root:
 

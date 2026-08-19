@@ -58,11 +58,12 @@ permission to publish.
 Target Python 3.12 and use `uv`.
 
 ```bash
-uv sync --all-groups
-uv run method-council validate
-uv run pytest
-uv run ruff check .
-uv run ruff format --check .
+uv sync --frozen --all-groups
+uv run --frozen method-council validate
+uv run --frozen python scripts/sync_codex_skill.py check
+uv run --frozen pytest -q
+uv run --frozen ruff check .
+uv run --frozen ruff format --check .
 ```
 
 Keep dependencies minimal. The parent/integration owner controls schema,
