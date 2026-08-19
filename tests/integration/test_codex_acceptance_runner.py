@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -47,3 +48,16 @@ def test_runner_prompt_requires_native_subagents_and_deterministic_verification(
     assert "method-council verify-run" in prompt
     assert "Do not use the network" in prompt
     assert "hidden chain-of-thought" in prompt
+
+
+def test_codex_login_probe_accepts_status_written_to_stderr(monkeypatch):
+    module = _runner_module()
+    responses = iter(
+        [
+            subprocess.CompletedProcess([], 0, "codex-cli 0.147.0\n", ""),
+            subprocess.CompletedProcess([], 0, "", "Logged in using ChatGPT\n"),
+        ]
+    )
+    monkeypatch.setattr(module.subprocess, "run", lambda *args, **kwargs: next(responses))
+
+    assert module._codex_state() == ("codex-cli 0.147.0", "chatgpt")  # noqa: SLF001

@@ -71,13 +71,16 @@ def _codex_state() -> tuple[str, str]:
         text=True,
         timeout=15,
     ).stdout.strip()
-    login = subprocess.run(
+    login_result = subprocess.run(
         ["codex", "login", "status"],
         check=True,
         capture_output=True,
         text=True,
         timeout=15,
-    ).stdout.strip()
+    )
+    login = "\n".join(
+        part.strip() for part in (login_result.stdout, login_result.stderr) if part.strip()
+    )
     if login != "Logged in using ChatGPT":
         raise RuntimeError("Codex is not observably signed in using ChatGPT")
     return version, "chatgpt"
