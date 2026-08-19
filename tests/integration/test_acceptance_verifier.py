@@ -256,6 +256,21 @@ def test_unestablished_descendant_cleanup_invalidates_acceptance(tmp_path):
     )
 
 
+def test_current_runner_source_requires_explicit_unverified_cleanup_record(tmp_path):
+    bundle = _build_valid_bundle(tmp_path)
+    host_path = bundle / "host-execution.json"
+    host = json.loads(host_path.read_text(encoding="utf-8"))
+    del host["descendant_cleanup"]
+    _write(host_path, host)
+
+    verdict = verify_acceptance(bundle, root=ROOT)
+
+    assert verdict["valid"] is False
+    assert any(
+        issue["code"] == "acceptance.descendant-cleanup-missing" for issue in verdict["issues"]
+    )
+
+
 @pytest.mark.parametrize(
     ("artifact", "issue_code"),
     [
