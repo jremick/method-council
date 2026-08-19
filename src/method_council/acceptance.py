@@ -39,6 +39,7 @@ TASKS: Final[dict[str, tuple[str, str]]] = {
 _RUN_ID = re.compile(r"^[a-z0-9](?:[a-z0-9-]{6,62}[a-z0-9])$")
 _IDENTIFIER = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 _REQUIRED_EVENT_ORDER = ("thread.started", "turn.started", "turn.completed")
+_DESCENDANT_CLEANUP_REQUIRED_SINCE = "e31fbc672106a0f426c11ab1eb9b4256e5659c9f"
 
 
 def task_spec(task_id: str) -> tuple[str, str]:
@@ -143,6 +144,22 @@ def git_source_identity(root: Path, revision: str = "HEAD") -> dict[str, Any]:
         "source_manifest_digest": canonical_json_digest(entries),
         "entries": entries,
     }
+
+
+def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
+    result = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", ancestor, descendant],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise ValueError("could not establish source-version cleanup policy")
 
 
 def _safe_archive_member(member: tarfile.TarInfo) -> bool:
@@ -491,6 +508,7 @@ def verify_acceptance(
     model_ledger: list[dict[str, str]] = []
     independent_verdict: dict[str, Any] | None = None
     if host is not None and not registry.validate(host, "host-execution"):
+        descendant_cleanup_required = False
         run_id = str(host["run_id"])
         try:
             validate_run_id(run_id)
@@ -541,6 +559,20 @@ def verify_acceptance(
                 )
             )
         if source_identity is not None:
+            try:
+                descendant_cleanup_required = _git_is_ancestor(
+                    root,
+                    _DESCENDANT_CLEANUP_REQUIRED_SINCE,
+                    source_identity["source_commit"],
+                )
+            except (OSError, subprocess.SubprocessError, ValueError) as exc:
+                issues.append(
+                    Issue(
+                        "acceptance.cleanup-policy-unavailable",
+                        str(exc),
+                        "/source_commit",
+                    )
+                )
             for field in ("source_commit", "source_tree", "source_manifest_digest"):
                 if host[field] != source_identity[field]:
                     issues.append(
@@ -786,38 +818,48 @@ def verify_acceptance(
                         f"/{field}",
                     )
                 )
-        cleanup = host["descendant_cleanup"]
-        cleanup_requirements = {
-            "mechanism": "process-group-plus-polled-ps-ancestry",
-            "observer_state": "verified",
-            "survivor_count": 0,
-            "quiescent": True,
-        }
-        for field, expected in cleanup_requirements.items():
-            if cleanup[field] != expected:
+        cleanup = host.get("descendant_cleanup")
+        if descendant_cleanup_required and cleanup is None:
+            issues.append(
+                Issue(
+                    "acceptance.descendant-cleanup-missing",
+                    "this runner version requires explicit best-effort descendant cleanup evidence",
+                    "/descendant_cleanup",
+                )
+            )
+        if cleanup is not None:
+            cleanup_requirements = {
+                "mechanism": "process-group-plus-polled-ps-ancestry",
+                "assurance": "best-effort-unverified",
+                "observer_state": "completed",
+                "observed_survivor_count": 0,
+                "copy_out_allowed": True,
+            }
+            for field, expected in cleanup_requirements.items():
+                if cleanup[field] != expected:
+                    issues.append(
+                        Issue(
+                            f"acceptance.descendant-cleanup-{field.replace('_', '-')}",
+                            f"descendant cleanup {field} must equal {expected!r}",
+                            f"/descendant_cleanup/{field}",
+                        )
+                    )
+            if cleanup["poll_count"] < 1:
                 issues.append(
                     Issue(
-                        f"acceptance.descendant-cleanup-{field.replace('_', '-')}",
-                        f"descendant cleanup {field} must equal {expected!r}",
-                        f"/descendant_cleanup/{field}",
+                        "acceptance.descendant-cleanup-unobserved",
+                        "descendant cleanup requires at least one process-table sample",
+                        "/descendant_cleanup/poll_count",
                     )
                 )
-        if cleanup["poll_count"] < 1:
-            issues.append(
-                Issue(
-                    "acceptance.descendant-cleanup-unobserved",
-                    "descendant cleanup requires at least one successful process-table sample",
-                    "/descendant_cleanup/poll_count",
+            if cleanup["terminated_count"] > cleanup["observed_count"]:
+                issues.append(
+                    Issue(
+                        "acceptance.descendant-cleanup-counts",
+                        "terminated descendants cannot exceed observed descendants",
+                        "/descendant_cleanup/terminated_count",
+                    )
                 )
-            )
-        if cleanup["terminated_count"] > cleanup["observed_count"]:
-            issues.append(
-                Issue(
-                    "acceptance.descendant-cleanup-counts",
-                    "terminated descendants cannot exceed observed descendants",
-                    "/descendant_cleanup/terminated_count",
-                )
-            )
         if host["uv_sync"]["exit_code"] != 0:
             issues.append(
                 Issue(

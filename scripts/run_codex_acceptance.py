@@ -39,8 +39,8 @@ _EVENT_STREAM_MAX_BYTES: Final = 16 * 1024 * 1024
 _DESCENDANT_POLL_SECONDS: Final = 0.02
 _DESCENDANT_CLEANUP_SECONDS: Final = 3.0
 _DESCENDANT_LIMITATION: Final = (
-    "Observed PID ancestry is best-effort host evidence; it cannot prove absence of an "
-    "unobserved daemon that escaped between process-table samples."
+    "Best-effort sampled PID ancestry cannot prove absence of an unobserved daemon that "
+    "escaped between process-table samples; process-lifetime containment remains unverified."
 )
 _ENV_ALLOWLIST: Final = {
     "HOME",
@@ -217,8 +217,8 @@ class _DescendantTracker:
             self._observe()
             self._stop.wait(_DESCENDANT_POLL_SECONDS)
 
-    def terminate_and_confirm(self) -> dict[str, object]:
-        """Kill observed descendants and fail closed on observer error or survivors."""
+    def terminate_and_observe(self) -> dict[str, object]:
+        """Kill observed descendants without claiming race-free containment."""
 
         terminated: set[int] = set()
         stable_empty_polls = 0
@@ -261,15 +261,17 @@ class _DescendantTracker:
             for process_id, identity in observed.items()
             if process_id in final_table and final_table[process_id][1] == identity
         ]
-        observer_state = "verified" if not errors and not self._thread.is_alive() else "error"
+        observer_state = "completed" if not errors and not self._thread.is_alive() else "error"
+        copy_out_allowed = observer_state == "completed" and not survivors
         return {
             "mechanism": "process-group-plus-polled-ps-ancestry",
+            "assurance": "best-effort-unverified",
             "observer_state": observer_state,
             "poll_count": poll_count,
             "observed_count": len(observed),
             "terminated_count": len(terminated),
-            "survivor_count": len(survivors),
-            "quiescent": observer_state == "verified" and not survivors,
+            "observed_survivor_count": len(survivors),
+            "copy_out_allowed": copy_out_allowed,
             "limitation": _DESCENDANT_LIMITATION,
         }
 
@@ -330,7 +332,7 @@ def _run_codex(
             process.wait(timeout=5)
         except subprocess.TimeoutExpired:
             _kill_process_group(process.pid)
-        descendant_cleanup = descendant_tracker.terminate_and_confirm()
+        descendant_cleanup = descendant_tracker.terminate_and_observe()
         reader.join(timeout=5)
         process.stdout.close()
     if reader.is_alive():
@@ -440,12 +442,13 @@ def main(argv: list[str] | None = None) -> int:
         event_stream_truncated = False
         descendant_cleanup: dict[str, object] = {
             "mechanism": "process-group-plus-polled-ps-ancestry",
+            "assurance": "best-effort-unverified",
             "observer_state": "not-run",
             "poll_count": 0,
             "observed_count": 0,
             "terminated_count": 0,
-            "survivor_count": 0,
-            "quiescent": False,
+            "observed_survivor_count": 0,
+            "copy_out_allowed": False,
             "limitation": _DESCENDANT_LIMITATION,
         }
         final_message_digest: str | None = None
@@ -479,7 +482,7 @@ def main(argv: list[str] | None = None) -> int:
         host_run = temporary_root / "host-output" / args.run_id
         host_run.parent.mkdir(parents=True)
         model_ledger: list[dict[str, str]] = []
-        if not source_mutations and descendant_cleanup["quiescent"] is True:
+        if not source_mutations and descendant_cleanup["copy_out_allowed"] is True:
             model_ledger, copy_issues = copy_expected_artifacts(
                 execution_root / run_path,
                 host_run,
@@ -500,7 +503,7 @@ def main(argv: list[str] | None = None) -> int:
                     "message": (
                         "tracked source mutation rejected model artifacts"
                         if source_mutations
-                        else "descendant cleanup was not observably quiescent"
+                        else "descendant cleanup did not establish an observed survivor-free state"
                     ),
                     "path": ("/source_mutations" if source_mutations else "/descendant_cleanup"),
                 }

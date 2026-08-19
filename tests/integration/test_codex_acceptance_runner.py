@@ -173,8 +173,9 @@ def test_codex_descendant_cleanup_kills_detached_background_writer(tmp_path):
     assert exit_code == 0
     assert timed_out is False
     assert truncated is False
-    assert cleanup["observer_state"] == "verified"
+    assert cleanup["assurance"] == "best-effort-unverified"
+    assert cleanup["observer_state"] == "completed"
     assert cleanup["observed_count"] >= 1
-    assert cleanup["survivor_count"] == 0
-    assert cleanup["quiescent"] is True
+    assert cleanup["observed_survivor_count"] == 0
+    assert cleanup["copy_out_allowed"] is True
     assert not marker.exists()

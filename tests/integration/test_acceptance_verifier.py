@@ -163,12 +163,13 @@ def _build_valid_bundle(tmp_path: Path) -> Path:
         "event_stream_truncated": False,
         "descendant_cleanup": {
             "mechanism": "process-group-plus-polled-ps-ancestry",
-            "observer_state": "verified",
+            "assurance": "best-effort-unverified",
+            "observer_state": "completed",
             "poll_count": 3,
             "observed_count": 0,
             "terminated_count": 0,
-            "survivor_count": 0,
-            "quiescent": True,
+            "observed_survivor_count": 0,
+            "copy_out_allowed": True,
             "limitation": "Synthetic structural fixture; not execution authenticity.",
         },
         "final_message_digest": content_digest("complete"),
@@ -238,7 +239,11 @@ def test_unestablished_descendant_cleanup_invalidates_acceptance(tmp_path):
     host_path = bundle / "host-execution.json"
     host = json.loads(host_path.read_text(encoding="utf-8"))
     host["descendant_cleanup"].update(
-        {"observer_state": "error", "survivor_count": 1, "quiescent": False}
+        {
+            "observer_state": "error",
+            "observed_survivor_count": 1,
+            "copy_out_allowed": False,
+        }
     )
     _write(host_path, host)
 

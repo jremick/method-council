@@ -35,7 +35,6 @@
     "event_sequence",
     "non_json_line_count",
     "event_stream_truncated",
-    "descendant_cleanup",
     "final_message_digest",
     "verification_digest",
     "verification_valid",
@@ -158,22 +157,24 @@
       "type": "object",
       "required": [
         "mechanism",
+        "assurance",
         "observer_state",
         "poll_count",
         "observed_count",
         "terminated_count",
-        "survivor_count",
-        "quiescent",
+        "observed_survivor_count",
+        "copy_out_allowed",
         "limitation"
       ],
       "properties": {
         "mechanism": { "const": "process-group-plus-polled-ps-ancestry" },
-        "observer_state": { "enum": ["verified", "error", "not-run"] },
+        "assurance": { "const": "best-effort-unverified" },
+        "observer_state": { "enum": ["completed", "error", "not-run"] },
         "poll_count": { "type": "integer", "minimum": 0 },
         "observed_count": { "type": "integer", "minimum": 0 },
         "terminated_count": { "type": "integer", "minimum": 0 },
-        "survivor_count": { "type": "integer", "minimum": 0 },
-        "quiescent": { "type": "boolean" },
+        "observed_survivor_count": { "type": "integer", "minimum": 0 },
+        "copy_out_allowed": { "type": "boolean" },
         "limitation": { "type": "string", "minLength": 1 }
       },
       "additionalProperties": false
