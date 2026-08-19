@@ -94,6 +94,13 @@ content-bound `FAIL`, `ERROR`, or `INCOMPLETE` run is valid evidence. A claimed
 
 ## Release eligibility
 
-Release eligibility is derived from content-bound evidence reports. Caller- or
-model-supplied pass flags are untrusted. Eligibility does not authorise a tag,
-release, remote push, settings change, or visibility change.
+`verify-release` separately reports content consistency and release eligibility.
+Content-bound files can establish that bytes and caller-declared check statuses
+agree, but cannot establish who produced them or whether a named gate actually
+ran. Until a gate has a registered deterministic verifier bound to the exact
+candidate commit and expected raw format, an otherwise-PASS gate is
+`INCOMPLETE` and `release_eligible` remains false.
+
+Caller- or model-supplied pass flags are untrusted. Eligibility, if a later
+verifier can derive it, still does not authorise a tag, release, remote push,
+settings change, or visibility change.

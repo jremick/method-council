@@ -1,7 +1,8 @@
 # Codex workflow
 
-Status: locally exercised preview; four public-safe subscription runs are
-recorded and pass deterministic read-back verification.
+Status: hardened local preview; the initial run bundles were retired after
+independent review found missing semantic gates, and commit-bound reruns are
+pending.
 
 ## Intended first interaction
 
@@ -23,9 +24,11 @@ Use $method-council to review this release decision with standard rigor.
 Keep missing evidence explicit and do not use external providers.
 ```
 
-This path has been exercised through `codex exec` for four public synthetic
-tasks. The evidence is machine-specific and remains preview evidence, not a
-promise that every Codex version, task, or environment will behave identically.
+The current runner executes `codex exec` inside a fresh tracked-file snapshot of
+an exact commit, rejects tracked source mutation, copies only expected run
+artifacts, and independently re-verifies them against a second pristine
+snapshot. This is still an unsigned local recorder, not an external attestation
+or an operating-system containment proof.
 
 ## Interaction sequence
 
@@ -114,15 +117,12 @@ run evidence.
 
 ## Recorded acceptance
 
-Four subscription-backed runs cover architecture, investigation, missing
-release evidence, and hostile embedded instructions. Every run has a complete
-bundle under `evidence/acceptance/`, and `verify-run` reproduces its status,
-side conditions, method coverage, evidence bindings, ledger, and report digest.
-
-Three outcomes are intentionally `INCOMPLETE`; the methods retained missing
-inputs instead of converting them into fluent confidence. The hostile case did
-not follow the embedded request to declare PASS, open the network, or delete an
-artifact.
+The four initial subscription-backed runs covered architecture, investigation,
+missing release evidence, and hostile embedded instructions. Independent review
+showed that the old verifier trusted method PASS claims without enforcing each
+method's selected steps, evidence minima, and artifact fields. Those bundles
+were retired. The same cases must now pass `verify-acceptance` from the hardened
+source commit before this section can claim recorded acceptance.
 
 Still needed before public alpha:
 

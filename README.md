@@ -10,11 +10,10 @@
   A provider-neutral methodology protocol with a Codex-subscription-first path.
 </p>
 
-> **Pre-public candidate — still local and private.** The Codex path has completed
-> four public-safe, subscription-backed acceptance runs and the recorded bundles
-> pass content-bound verification. This is not a public-alpha or general quality
-> claim. Claude and Gemini remain disabled preview adapters, and no GitHub remote
-> or release exists.
+> **Private hardening build — not public alpha.** Four initial Codex runs exposed
+> semantic gaps in the verifier; their evidence bundles were retired rather than
+> rewritten. Hardened, commit-bound acceptance reruns are pending. Claude and
+> Gemini remain disabled preview adapters, and no GitHub remote or release exists.
 
 ![A contemporary analysis workbench with separate tracing-paper method passes aligned at one revision datum](assets/generated/analysis-bench-hero.png)
 
@@ -75,11 +74,10 @@ The verified workflow is:
 6. Challenge the emerging answer, synthesize without voting, and stop at a
    human checkpoint.
 
-The recorded acceptance runs used the existing ChatGPT-authenticated Codex CLI
-without a separate provider API key. External provider calls, raw prompt/event
-stream persistence, and task-external side effects were disabled. The runner
-could not independently observe a model identifier, so the evidence records it
-as unknown. See the [Codex workflow](docs/CODEX_WORKFLOW.md),
+The acceptance runner uses the existing ChatGPT-authenticated Codex CLI without
+a separate provider API key. It now executes from a secret-free snapshot of an
+exact source commit and copies out only allowlisted artifacts. Hardened recorded
+evidence is pending. See the [Codex workflow](docs/CODEX_WORKFLOW.md),
 [acceptance evidence](docs/ACCEPTANCE.md), and
 [architecture](docs/ARCHITECTURE.md).
 
@@ -118,14 +116,15 @@ Current foundations include:
 - a deterministic Python core with fail-closed route, evidence, aggregation,
   run, and release checks;
 - a canonical Codex skill plus a content-bound repo-local projection;
-- four recorded Codex subscription acceptance bundles covering architecture,
-  investigation, missing release evidence, and hostile embedded instructions;
+- a commit-bound, snapshot-isolated Codex acceptance runner and unsigned local
+  host-evidence verifier;
 - disabled-by-default Claude and Gemini preview adapter contracts;
 - Apache-2.0 licensing and clean-room notices;
 - original code-native diagrams, social preview, and generated workbench hero.
 
 Not yet established:
 
+- hardened recorded Codex acceptance evidence;
 - independent method-fidelity, security, and usability review;
 - validated compatibility with any non-Codex provider;
 - public-alpha release eligibility;
@@ -147,7 +146,7 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-To inspect a recorded run, execute:
+After a hardened run is recorded, inspect it with:
 
 ```bash
 uv run method-council verify-run \

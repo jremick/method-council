@@ -5,7 +5,7 @@ Compatibility is reported per host path. An adapter file or executable on
 
 | Host | Surface | Current evidence | External calls by default | Status |
 | --- | --- | --- | --- | --- |
-| Codex | Repo-local skill, CLI core, native subagents | Four ChatGPT-authenticated public-safe runs; content-bound bundles; model ID unobserved | No additional provider calls | Locally exercised preview |
+| Codex | Repo-local skill, CLI core, native subagents | Initial live runs completed, but their bundles were retired after verifier hardening; commit-bound reruns pending | No additional provider calls | Hardened preview, acceptance pending |
 | Claude Code | Disabled adapter compiler input | Contract and official-source review only; no install, auth, or task run | Disabled | Unverified preview |
 | Gemini CLI | Disabled adapter compiler input | Contract and official-source review only; no install, auth, or task run | Disabled | Unverified preview |
 | OpenCode | None | No adapter or functional evidence | Not applicable | Planned, unsupported |

@@ -312,7 +312,8 @@ def build_parser() -> argparse.ArgumentParser:
     acceptance_parser.set_defaults(handler=_verify_acceptance_command)
 
     release_parser = subparsers.add_parser(
-        "verify-release", help="derive release eligibility from content-bound gate reports"
+        "verify-release",
+        help="check content consistency and fail closed on unattested release gates",
     )
     release_parser.add_argument("manifest", help="release manifest JSON or YAML")
     release_parser.add_argument("--root", help="repository and release artifact root")

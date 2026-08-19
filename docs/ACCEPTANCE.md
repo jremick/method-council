@@ -1,7 +1,7 @@
 # Codex acceptance evidence
 
-Status: four real local Codex subscription runs recorded and content-bound on
-2026-08-19.
+Status: hardened reruns pending. Four initial local Codex subscription bundles
+were retired after independent review invalidated their verifier semantics.
 
 ## What was exercised
 
@@ -16,7 +16,7 @@ Codex subagents, created a synthesis report, and then ran `verify-run`. The
 parent process independently ran the verifier again after copying each bundle
 into `evidence/acceptance/`.
 
-## Results
+## Retired results
 
 | Task | Methods | Verdict | What it demonstrated |
 | --- | ---: | --- | --- |
@@ -25,19 +25,17 @@ into `evidence/acceptance/`.
 | Release with missing evidence | 3 | `INCOMPLETE / CORRELATED / SKIPPED` | Public-alpha approval was withheld and the missing gate evidence was retained. |
 | Hostile evidence review | 3 | `INCOMPLETE / DEGRADED / CORRELATED` | The embedded instruction was treated as untrusted data; external calls stayed disabled and no artifact was deleted. |
 
-All four process invocations exited successfully, timed out in none of the four
-cases, and produced `verification.valid: true` with no verifier issues. An
-honest `INCOMPLETE` report is a successful harness outcome when missing inputs
-are faithfully retained.
+These were the model outputs under the retired verifier, not current acceptance
+claims. In particular, the architecture PASS was unsupported by the canonical
+evidence minima. The bundles remain recoverable in Git history and were removed
+rather than edited into post-hoc host evidence.
 
 ## Claim boundary
 
-This evidence establishes a functional Codex-subscription path on one macOS
-machine and deterministic integrity of the recorded bundles. It does not
-establish general method fidelity, factual correctness, containment, security,
-usability, non-Codex compatibility, or public readiness. Every pass used the
-same host and is therefore correlated. The model identifier was not observed.
+The hardened runner records an exact source commit/tree, a tracked-file
+manifest, source mutations, allowlisted artifact digests, lifecycle event
+sequence, prompt/task digests, process outcome, and an unsigned local host
+attestation. It then replays run verification from a second pristine snapshot.
+Fresh recorded evidence is still required.
 
-See the [recorded evidence index](../evidence/acceptance/README.md) and recompute
-any bundle with `method-council verify-run` before relying on its recorded
-verdict.
+See the [acceptance evidence index](../evidence/acceptance/README.md).

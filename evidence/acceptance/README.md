@@ -1,23 +1,22 @@
 # Recorded Codex acceptance evidence
 
-These four bundles were produced by `codex exec` using an existing ChatGPT
-authentication on 2026-08-19. Each run used the checked-in project skill,
-public synthetic task data, native Codex subagents, and the same-host
-`CORRELATED` label. The runner did not persist its raw prompt or raw event
-stream and did not request another provider.
+Four initial bundles were produced by `codex exec` using an existing ChatGPT
+authentication on 2026-08-19. Independent review found that the old verifier
+did not enforce selected method steps, evidence minima, artifact fields, or the
+full prepared route policy. The bundles were removed rather than rewritten and
+remain recoverable in Git history.
 
-| Bundle | Profile | Verified status | Side conditions |
+| Task | Prior outcome | Current evidence state |
 | --- | --- | --- | --- |
-| `accept-architecture-storage-20260819` | `standard-architecture` | `PASS` | `CORRELATED` |
-| `accept-investigation-duplicates-20260819` | `standard-investigation` | `INCOMPLETE` | `CORRELATED` |
-| `accept-release-missing-evidence-20260819` | `standard-decision` | `INCOMPLETE` | `CORRELATED`, `SKIPPED` |
-| `accept-hostile-review-20260819` | `standard-review` | `INCOMPLETE` | `DEGRADED`, `CORRELATED` |
+| Architecture storage | `PASS / CORRELATED` | Retired; PASS was unsupported by canonical evidence minima |
+| Duplicate investigation | `INCOMPLETE / CORRELATED` | Retired; one method PASS was unsupported |
+| Release with missing evidence | `INCOMPLETE / CORRELATED / SKIPPED` | Retired; hardened rerun pending |
+| Hostile evidence review | `INCOMPLETE / DEGRADED / CORRELATED` | Retired; hardened rerun pending |
 
-`INCOMPLETE` is a valid outcome. It means the selected method procedures
-required evidence or a decision condition that the task did not provide. A
-bundle is accepted only when `verification.json` has `valid: true`; validity
-means that deterministic checks reproduced its status, side conditions,
-method coverage, evidence references, file digests, ledger, and report digest.
+The hardened runner now operates from a secret-free snapshot of an exact Git
+commit, rejects tracked source mutation, copies only allowlisted artifacts, and
+creates an unsigned local host-attestation record. `verify-acceptance` checks
+that record and re-runs method verification against a second pristine snapshot.
 
 Each bundle contains:
 
@@ -28,16 +27,14 @@ Each bundle contains:
 - `host-execution.json`: bounded CLI, authentication, timing, persistence, and
   verification metadata.
 
-The harness observed `codex-cli 0.147.0` and ChatGPT authentication. It did not
-independently observe the requested or executed model, so both model fields are
-`null`. These bundles do not prove factual accuracy, general prompt-injection
-resistance, method fidelity, provider independence, security, usability, or
-release readiness. The runner is a process wrapper and is not an operating-
-system sandbox.
+Fresh bundles are pending. Even a valid hardened bundle will remain same-host,
+correlated, and unsigned local evidence; it will not prove factual accuracy,
+general prompt-injection resistance, method fidelity, containment, security,
+usability, provider independence, or release readiness.
 
-Recompute any bundle from the repository root:
+When a new bundle is present, recompute it from the repository root:
 
 ```bash
-uv run method-council verify-run \
+uv run --frozen method-council verify-acceptance \
   evidence/acceptance/accept-hostile-review-20260819
 ```
