@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://method-council.dev/schemas/run-verdict.schema.json",
+  "title": "Deterministic run verdict",
+  "type": "object",
+  "required": [
+    "schema_version", "run_id", "valid", "status", "side_conditions",
+    "selected_methods", "checked_methods", "report_digest", "issues"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "run_id": { "type": "string" },
+    "valid": { "type": "boolean" },
+    "status": { "enum": ["PASS", "FAIL", "ERROR", "INCOMPLETE"] },
+    "side_conditions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["DEGRADED", "CORRELATED", "SKIPPED"] }
+    },
+    "selected_methods": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "checked_methods": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "report_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "path"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

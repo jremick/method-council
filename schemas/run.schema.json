@@ -46,13 +46,20 @@
     },
     "host": {
       "type": "object",
-      "required": ["adapter", "provider_state", "external_api_calls"],
+      "required": [
+        "adapter", "provider_state", "model_requested", "model_observed",
+        "external_api_calls", "correlation_group"
+      ],
       "properties": {
         "adapter": { "type": "string", "minLength": 1 },
         "provider_state": { "enum": ["verified", "preview", "unverified", "unavailable", "degraded"] },
         "model_requested": { "type": ["string", "null"] },
         "model_observed": { "type": ["string", "null"] },
-        "external_api_calls": { "type": "boolean" }
+        "external_api_calls": { "type": "boolean" },
+        "correlation_group": {
+          "type": ["string", "null"],
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$"
+        }
       },
       "additionalProperties": false
     }
