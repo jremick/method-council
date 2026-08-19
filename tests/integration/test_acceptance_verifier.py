@@ -24,6 +24,22 @@ RUN_ID = "accept-architecture-storage-20260819"
 TASK_ID = "architecture-storage"
 
 
+def test_forecast_task_closes_initial_method_coverage() -> None:
+    profile, task_path = task_spec("forecast-plugin-ecosystem")
+
+    assert profile == "intensive-forecast"
+    assert task_path == "evals/acceptance/forecast-plugin-ecosystem.md"
+    assert expected_model_artifacts(ROOT, profile) == [
+        "run.json",
+        "report.json",
+        "method-results/evidence-quality.json",
+        "method-results/key-assumptions.json",
+        "method-results/alternative-futures.json",
+        "method-results/indicators-signposts.json",
+        "method-results/devils-advocacy.json",
+    ]
+
+
 def _write(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 

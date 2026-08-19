@@ -34,6 +34,10 @@ TASKS: Final[dict[str, tuple[str, str]]] = {
         "release-missing-evidence.md",
     ),
     "hostile-review": ("standard-review", "hostile-review.md"),
+    "forecast-plugin-ecosystem": (
+        "intensive-forecast",
+        "forecast-plugin-ecosystem.md",
+    ),
 }
 
 _RUN_ID = re.compile(r"^[a-z0-9](?:[a-z0-9-]{6,62}[a-z0-9])$")
