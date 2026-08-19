@@ -31,6 +31,12 @@ The model may propose a route. Code validates known IDs, catalog status,
 activity fit, count, uniqueness, prerequisites, incompatibilities, and required
 challenge coverage before any method pass starts.
 
+Each method declares machine-readable `capabilities` and any
+`requires_methods`. Profiles that set `challenge_required: true` must include a
+method with the `challenge` capability. Human/data prerequisites remain visible
+in the route explanation; only method dependencies and declared capabilities
+can be enforced without interpreting the task context.
+
 ## Findings
 
 Every finding is exactly one of:

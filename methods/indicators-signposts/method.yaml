@@ -35,6 +35,8 @@ provenance:
     - Monitoring quality depends on indicator observability and the collection process.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
 activities: [analyse, investigate, decide, forecast, architect, review]
+capabilities: [monitoring]
+requires_methods: []
 applicability:
   use_when:
     - A hypothesis, scenario, assumption, or risk should be revisited as new evidence arrives.

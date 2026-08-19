@@ -168,7 +168,12 @@ def validate_catalog_semantics(root: Path, catalog: Catalog) -> list[Issue]:
 
         complements = set(method["complements"])
         conflicts = set(method["conflicts"])
-        for relation, references in (("complement", complements), ("conflict", conflicts)):
+        required_methods = set(method["requires_methods"])
+        for relation, references in (
+            ("complement", complements),
+            ("conflict", conflicts),
+            ("required-method", required_methods),
+        ):
             for reference in sorted(references - known_methods):
                 issues.append(
                     Issue(
@@ -177,11 +182,12 @@ def validate_catalog_semantics(root: Path, catalog: Catalog) -> list[Issue]:
                         str(path),
                     )
                 )
-        if identifier in complements or identifier in conflicts:
+        if identifier in complements or identifier in conflicts or identifier in required_methods:
             issues.append(
                 Issue(
                     "method.self-reference",
-                    "a method cannot complement or conflict with itself",
+                    "a method cannot reference itself through complements, conflicts, "
+                    "or requires_methods",
                     str(path),
                 )
             )
@@ -226,6 +232,7 @@ def validate_catalog_semantics(root: Path, catalog: Catalog) -> list[Issue]:
             rigor=profile["rigor"],
             method_ids=profile["methods"],
             allow_preview=allow_preview,
+            challenge_required=profile["challenge_required"],
             include_catalog_issues=False,
         )
         for route_issue in route["issues"]:

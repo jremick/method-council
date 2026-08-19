@@ -44,7 +44,7 @@ that can change the conclusion; method count is not a quality measure.
 Run the deterministic route check before delegating any pass:
 
 ```text
-method-council route --activity <activity> --rigor <rigor> --method <id> ...
+method-council route --activity <activity> --rigor <rigor> --method <id> ... [--require-challenge]
 ```
 
 The checker owns known IDs, activity fit, catalog state, count, uniqueness,

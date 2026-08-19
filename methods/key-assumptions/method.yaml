@@ -33,6 +33,8 @@ provenance:
     - The method exposes assumptions; it cannot prove that every hidden assumption was found.
     - Use does not imply CIA training, endorsement, certification, or intelligence-grade analysis.
 activities: [analyse, investigate, decide, forecast, architect, review]
+capabilities: [assumption-testing, challenge]
+requires_methods: []
 applicability:
   use_when:
     - A conclusion depends on premises that may be implicit, inherited, or stale.

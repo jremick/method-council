@@ -35,6 +35,8 @@ provenance:
     - Weighted scoring is optional and cannot make subjective criteria objectively true.
     - The recommendation does not replace the accountable decision authority.
 activities: [decide, architect, review]
+capabilities: [decision-analysis]
+requires_methods: []
 applicability:
   use_when:
     - Two or more feasible system alternatives must be compared transparently.

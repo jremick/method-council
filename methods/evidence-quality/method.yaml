@@ -18,7 +18,7 @@ provenance:
         - Quality of Information Check purpose and public procedure
         - Reviewing source accuracy, corroboration, ambiguity, and information gaps
       notes: Public 2009 primer; Method Council does not reproduce its wording or examples.
-    - id: odni-icd-203-2025
+    - id: odni-icd-203-2022
       title: "Intelligence Community Directive 203: Analytic Standards"
       publisher: Office of the Director of National Intelligence
       url: https://www.odni.gov/files/documents/ICD/ICD-203.pdf
@@ -35,6 +35,8 @@ provenance:
     - It does not verify a source merely because a citation, URL, or document is present.
     - It does not confer compliance with ICD 203 or endorsement by CIA, ODNI, or the US Government.
 activities: [analyse, investigate, decide, forecast, review]
+capabilities: [evidence-assessment]
+requires_methods: []
 applicability:
   use_when:
     - Important judgments depend on documents, observations, datasets, or testimony.

@@ -32,11 +32,13 @@ def _method(identifier: str, **overrides):
             "claim_limits": ["This fixture makes no external method-quality claim."],
         },
         "activities": ["analyse"],
+        "capabilities": ["challenge"],
         "applicability": {
             "use_when": ["A deterministic fixture is required."],
             "avoid_when": ["Real method fidelity is being evaluated."],
             "prerequisites": [],
         },
+        "requires_methods": [],
         "rigor": {
             level: {"enabled": True, "steps": ["inspect"], "minimum_evidence_refs": 1}
             for level in ("rapid", "standard", "intensive")
@@ -119,3 +121,23 @@ def test_structurally_invalid_record_is_not_loaded(tmp_path):
 
     assert "method-a" not in catalog.methods
     assert any(issue.code == "schema.invalid" for issue in catalog.issues)
+
+
+def test_profile_requires_a_challenge_capability(tmp_path):
+    method = _method("method-a", capabilities=["evidence-assessment"])
+    _write_catalog(tmp_path, [method], ["method-a"])
+
+    catalog = load_catalog(tmp_path, SchemaRegistry(REPO_ROOT / "schemas"))
+
+    assert any(issue.code == "profile.route.challenge-missing" for issue in catalog.issues)
+
+
+def test_unknown_and_self_required_method_are_rejected(tmp_path):
+    method = _method("method-a", requires_methods=["method-a", "missing-method"])
+    _write_catalog(tmp_path, [method], ["method-a"])
+
+    catalog = load_catalog(tmp_path, SchemaRegistry(REPO_ROOT / "schemas"))
+    codes = {issue.code for issue in catalog.issues}
+
+    assert "method.unknown-required-method" in codes
+    assert "method.self-reference" in codes

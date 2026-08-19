@@ -2,7 +2,15 @@ from method_council.catalog import Catalog
 from method_council.routing import validate_route
 
 
-def _method(*, status="validated", activities=None, disabled=(), conflicts=()):
+def _method(
+    *,
+    status="validated",
+    activities=None,
+    disabled=(),
+    conflicts=(),
+    capabilities=("challenge",),
+    requires_methods=(),
+):
     rigor = {
         level: {"enabled": level not in disabled, "steps": [], "minimum_evidence_refs": 0}
         for level in ("rapid", "standard", "intensive")
@@ -12,6 +20,8 @@ def _method(*, status="validated", activities=None, disabled=(), conflicts=()):
         "activities": activities or ["analyse"],
         "rigor": rigor,
         "conflicts": list(conflicts),
+        "capabilities": list(capabilities),
+        "requires_methods": list(requires_methods),
     }
 
 
@@ -73,3 +83,33 @@ def test_unknown_duplicate_conflict_and_count_are_rejected():
         "route.unknown-method",
         "route.conflict",
     } <= codes
+
+
+def test_required_method_and_challenge_capability_are_enforced():
+    catalog = Catalog(
+        methods={
+            "method-a": _method(
+                capabilities=("evidence-assessment",), requires_methods=("method-b",)
+            ),
+            "method-b": _method(capabilities=("evidence-assessment",)),
+        }
+    )
+
+    missing_dependency = validate_route(
+        catalog,
+        activity="analyse",
+        rigor="rapid",
+        method_ids=["method-a"],
+    )
+    missing_challenge = validate_route(
+        catalog,
+        activity="analyse",
+        rigor="rapid",
+        method_ids=["method-a", "method-b"],
+        challenge_required=True,
+    )
+
+    assert any(
+        issue["code"] == "route.missing-required-method" for issue in missing_dependency["issues"]
+    )
+    assert any(issue["code"] == "route.challenge-missing" for issue in missing_challenge["issues"])

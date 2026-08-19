@@ -27,6 +27,8 @@ provenance:
     - A two-axis matrix may omit important interactions and should not be forced onto unsuitable problems.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
 activities: [analyse, decide, forecast, architect, review]
+capabilities: [scenario-generation]
+requires_methods: []
 applicability:
   use_when:
     - Complexity and uncertainty make a single-outcome forecast unreliable.

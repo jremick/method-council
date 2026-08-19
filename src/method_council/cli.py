@@ -43,6 +43,7 @@ def _route_command(args: argparse.Namespace) -> int:
         rigor=args.rigor,
         method_ids=args.method,
         allow_preview=args.allow_preview,
+        challenge_required=args.require_challenge,
     )
     _emit(result)
     return 0 if result["valid"] else 1
@@ -184,6 +185,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-preview",
         action="store_true",
         help="allow preview methods; never allows draft/retired",
+    )
+    route_parser.add_argument(
+        "--require-challenge",
+        action="store_true",
+        help="require at least one selected method with the challenge capability",
     )
     route_parser.set_defaults(handler=_route_command)
 

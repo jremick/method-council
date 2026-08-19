@@ -28,6 +28,8 @@ provenance:
     - Completeness of the hypothesis set and evidence corpus still requires human review.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
 activities: [analyse, investigate, forecast, review]
+capabilities: [hypothesis-comparison]
+requires_methods: []
 applicability:
   use_when:
     - Several plausible explanations compete for a shared body of evidence.

@@ -22,6 +22,7 @@ def validate_route(
     rigor: str,
     method_ids: Sequence[str],
     allow_preview: bool = False,
+    challenge_required: bool = False,
     include_catalog_issues: bool = True,
 ) -> dict[str, Any]:
     issues: list[Issue] = []
@@ -93,6 +94,27 @@ def validate_route(
                     f"/methods/{index}",
                 )
             )
+        missing_required = sorted(set(method["requires_methods"]) - selected)
+        for required in missing_required:
+            issues.append(
+                Issue(
+                    "route.missing-required-method",
+                    f"method {identifier!r} requires selected method {required!r}",
+                    f"/methods/{index}",
+                )
+            )
+
+    if challenge_required and not any(
+        "challenge" in catalog.methods[identifier]["capabilities"]
+        for identifier in selected & set(catalog.methods)
+    ):
+        issues.append(
+            Issue(
+                "route.challenge-missing",
+                "the route requires a method with the challenge capability",
+                "/methods",
+            )
+        )
 
     conflict_pairs: set[tuple[str, str]] = set()
     for identifier in selected & set(catalog.methods):
@@ -113,6 +135,7 @@ def validate_route(
         "rigor": rigor,
         "methods": list(method_ids),
         "allow_preview": allow_preview,
+        "challenge_required": challenge_required,
         "preview_methods": preview_methods,
         "issues": [issue.as_dict() for issue in issues],
     }

@@ -35,6 +35,8 @@ provenance:
     - Same-context model passes may broaden method coverage but are not independent corroboration.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
 activities: [analyse, investigate, decide, forecast, architect, review]
+capabilities: [challenge]
+requires_methods: []
 applicability:
   use_when:
     - A strongly held view, consensus, or load-bearing assumption deserves deliberate challenge.

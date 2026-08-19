@@ -37,6 +37,8 @@ provenance:
     - It must not replace domain-expert safety, reliability, software assurance, or regulatory review.
     - Source terminology and scoring practices vary; no proprietary scoring table is reproduced.
 activities: [analyse, architect, review]
+capabilities: [failure-analysis]
+requires_methods: []
 applicability:
   use_when:
     - A sufficiently defined architecture, component, interface, or process needs bottom-up failure review.

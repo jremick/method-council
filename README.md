@@ -145,8 +145,8 @@ a clean checkout without relying on maintainer-local state.
 - [GitHub settings plan](docs/GITHUB_SETTINGS.md) — pre-public and public-alpha posture
 - [Architecture decisions](docs/decisions/) — accepted design choices
 
-Some linked documents are being produced in parallel and may not yet exist in a
-partial checkout. The pre-public link check must pass before publication.
+All linked documents are part of the local foundation. Their existence and link
+validity do not establish a clean-clone user journey or public readiness.
 
 ## Contributing and support
 
