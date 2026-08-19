@@ -1,6 +1,10 @@
 import importlib.util
 import json
+import os
 import subprocess
+import sys
+import tempfile
+import time
 from pathlib import Path
 
 from method_council.acceptance import (
@@ -136,3 +140,33 @@ def test_copy_rejects_oversized_expected_artifact(tmp_path):
 
     assert ledger == []
     assert [issue.code for issue in issues] == ["acceptance.artifact-copy"]
+
+
+def test_codex_process_group_shutdown_kills_surviving_background_writer(tmp_path):
+    module = _runner_module()
+    marker = tmp_path / "background-survived"
+    background = (
+        "import time; from pathlib import Path; "
+        f"time.sleep(0.4); Path({str(marker)!r}).write_text('survived')"
+    )
+    launcher = (
+        "import subprocess, sys; "
+        f"subprocess.Popen([sys.executable, '-c', {background!r}]); "
+        'print(\'{"type":"thread.started"}\', flush=True)'
+    )
+
+    with tempfile.TemporaryFile(mode="w+b") as stream:
+        exit_code, timed_out, truncated = module._run_codex(  # noqa: SLF001
+            [sys.executable, "-c", launcher],
+            cwd=tmp_path,
+            environment=dict(os.environ),
+            prompt="",
+            timeout=5,
+            stream=stream,
+        )
+    time.sleep(0.6)
+
+    assert exit_code == 0
+    assert timed_out is False
+    assert truncated is False
+    assert not marker.exists()
