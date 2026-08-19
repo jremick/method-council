@@ -83,6 +83,19 @@ def validate_pass_semantics(
                     f"/findings/{index}/method_step",
                 )
             )
+        if (
+            finding.get("type") == "assumption"
+            and not method["evidence_rules"]["allow_unreferenced_assumptions"]
+            and not finding.get("evidence_refs")
+            and not finding.get("counterevidence_refs")
+        ):
+            issues.append(
+                Issue(
+                    "result.pass-assumption-evidence-required",
+                    "method policy does not permit reference-free assumptions in a PASS result",
+                    f"/findings/{index}/evidence_refs",
+                )
+            )
 
     distinct_evidence = {
         str(reference)

@@ -20,22 +20,32 @@ def _root(tmp_path: Path) -> Path:
     return tmp_path
 
 
-def _prepare(root: Path, *, question: str = "A private question") -> tuple[Path, dict]:
-    evidence = root / "case.md"
-    evidence.write_text("Bound evidence.\n", encoding="utf-8")
+def _prepare(
+    root: Path,
+    *,
+    question: str = "A private question",
+    profile_id: str = "rapid-analysis",
+    evidence_count: int = 1,
+) -> tuple[Path, dict]:
+    evidence_specs: list[str] = []
+    for index in range(evidence_count):
+        evidence_id = "case" if index == 0 else f"case-{index + 1}"
+        evidence_path = root / f"{evidence_id}.md"
+        evidence_path.write_text(f"Bound evidence {index + 1}.\n", encoding="utf-8")
+        evidence_specs.append(f"{evidence_id}={evidence_path.name}")
     run_dir = root / "runs" / "run-12345678"
     result = prepare_run(
         root=root,
         run_dir=run_dir,
         question=question,
         catalog=load_catalog(root),
-        profile_id="rapid-analysis",
+        profile_id=profile_id,
         activity=None,
         rigor=None,
         method_ids=[],
         allow_preview=True,
         require_challenge=False,
-        evidence_specs=["case=case.md"],
+        evidence_specs=evidence_specs,
         evidence_kind="repository",
         adapter="codex",
         provider_state="verified",
@@ -56,6 +66,8 @@ def _method_result(run: dict, method: dict, finding_id: str, status: str = "PASS
         for step_id in selected_steps
         for field in procedure[step_id].get("artifact_fields", [])
     }
+    minimum_references = max(1, method["rigor"][run["rigor"]]["minimum_evidence_refs"])
+    evidence_refs = [entry["id"] for entry in run["evidence"][:minimum_references]]
     return {
         "schema_version": "0.1.0",
         "run_id": run["run_id"],
@@ -70,7 +82,7 @@ def _method_result(run: dict, method: dict, finding_id: str, status: str = "PASS
                 "id": finding_id,
                 "type": "fact",
                 "statement": "The public fixture contains bound evidence.",
-                "evidence_refs": ["case"],
+                "evidence_refs": evidence_refs,
                 "method_step": selected_steps[0],
                 "counterevidence_refs": [],
             }
@@ -93,7 +105,7 @@ def _write_bundle(
     run_dir: Path,
     run: dict,
     *,
-    statuses: tuple[str, str] = ("PASS", "PASS"),
+    statuses: tuple[str, ...] = ("PASS", "PASS"),
 ) -> list[Path]:
     paths: list[Path] = []
     results = []
@@ -435,6 +447,98 @@ def test_verify_run_downgrades_unsupported_pass_semantics(
     assert any(issue["code"] == issue_code for issue in verdict["issues"])
     assert any(issue["code"] == "run.report-status-unsupported-pass" for issue in verdict["issues"])
     assert any(issue["code"] == "run.report-ledger-unsupported-pass" for issue in verdict["issues"])
+
+
+def test_pass_rejects_assumption_disallowed_by_method_evidence_policy(tmp_path: Path):
+    root = _root(tmp_path)
+    run_dir, run = _prepare(
+        root,
+        profile_id="standard-review",
+        evidence_count=2,
+    )
+    paths = _write_bundle(run_dir, run, statuses=("PASS", "PASS", "PASS"))
+    assert verify_run(run_dir, root=root)["valid"]
+
+    result_path = next(path for path in paths if path.stem == "evidence-quality")
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    result["findings"].append(
+        {
+            "id": "unreferenced-assumption",
+            "type": "assumption",
+            "statement": "This premise has no bound supporting or counterevidence reference.",
+            "evidence_refs": [],
+            "method_step": result["completed_steps"][0],
+            "counterevidence_refs": [],
+        }
+    )
+    result_path.write_text(json.dumps(result), encoding="utf-8")
+    _rewrite_report_ledger(run_dir, paths)
+
+    verdict = verify_run(run_dir, root=root)
+
+    assert not verdict["valid"]
+    assert verdict["status"] == "INCOMPLETE"
+    assert any(
+        issue["code"] == "result.pass-assumption-evidence-required" for issue in verdict["issues"]
+    )
+
+
+def test_pass_allows_unreferenced_assumption_when_method_policy_permits_it(tmp_path: Path):
+    root = _root(tmp_path)
+    run_dir, run = _prepare(
+        root,
+        profile_id="standard-review",
+        evidence_count=2,
+    )
+    paths = _write_bundle(run_dir, run, statuses=("PASS", "PASS", "PASS"))
+    result_path = next(path for path in paths if path.stem == "key-assumptions")
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    result["findings"].append(
+        {
+            "id": "explicit-unreferenced-assumption",
+            "type": "assumption",
+            "statement": "This explicitly labelled premise is not represented as evidence-backed.",
+            "evidence_refs": [],
+            "method_step": result["completed_steps"][0],
+            "counterevidence_refs": [],
+        }
+    )
+    result_path.write_text(json.dumps(result), encoding="utf-8")
+    _rewrite_report_ledger(run_dir, paths)
+
+    verdict = verify_run(run_dir, root=root)
+
+    assert verdict["valid"]
+    assert verdict["status"] == "PASS"
+
+
+def test_unreferenced_assumption_does_not_invalidate_honest_incomplete(tmp_path: Path):
+    root = _root(tmp_path)
+    run_dir, run = _prepare(
+        root,
+        profile_id="standard-review",
+        evidence_count=2,
+    )
+    paths = _write_bundle(run_dir, run, statuses=("INCOMPLETE", "PASS", "PASS"))
+    result_path = next(path for path in paths if path.stem == "evidence-quality")
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    result["findings"].append(
+        {
+            "id": "known-incomplete-assumption",
+            "type": "assumption",
+            "statement": "This premise remains explicitly unresolved in an incomplete result.",
+            "evidence_refs": [],
+            "method_step": result["completed_steps"][0],
+            "counterevidence_refs": [],
+        }
+    )
+    result_path.write_text(json.dumps(result), encoding="utf-8")
+    _rewrite_report_ledger(run_dir, paths)
+
+    verdict = verify_run(run_dir, root=root)
+
+    assert verdict["valid"]
+    assert verdict["status"] == "INCOMPLETE"
 
 
 @pytest.mark.parametrize(
