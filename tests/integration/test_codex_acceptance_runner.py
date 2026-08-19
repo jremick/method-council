@@ -42,6 +42,7 @@ def test_dry_run_is_bounded_and_does_not_call_or_create(capsys):
     assert len(payload["source_tree"]) in {40, 64}
     assert payload["raw_prompt_persisted"] is False
     assert "--ephemeral" in payload["command"]
+    assert "--skip-git-repo-check" in payload["command"]
     assert "--ignore-user-config" in payload["command"]
     assert payload["sync_command"] == ["uv", "sync", "--frozen", "--all-groups"]
     assert not (ROOT / payload["run_path"]).exists()

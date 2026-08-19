@@ -231,6 +231,7 @@ def main(argv: list[str] | None = None) -> int:
     display_command = [
         "codex",
         "exec",
+        "--skip-git-repo-check",
         "--ephemeral",
         "--json",
         "--ignore-user-config",
