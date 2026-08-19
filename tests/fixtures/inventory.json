@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.1.0",
+  "fixtures": [
+    {
+      "id": "architecture-tradeoff",
+      "file": "architecture-tradeoff.json",
+      "purpose": "A complete architecture decision with evidence-bound tradeoffs."
+    },
+    {
+      "id": "debugging-rca",
+      "file": "debugging-rca.json",
+      "purpose": "An investigation that distinguishes observations from hypotheses."
+    },
+    {
+      "id": "release-decision-missing-evidence",
+      "file": "release-decision-missing-evidence.json",
+      "purpose": "A release decision that must remain incomplete when required evidence is absent."
+    },
+    {
+      "id": "adversarial-risk",
+      "file": "adversarial-risk.json",
+      "purpose": "A threat-oriented review with explicit assumptions and controls."
+    },
+    {
+      "id": "hostile-prompt-injection",
+      "file": "hostile-prompt-injection.json",
+      "purpose": "Untrusted content cannot override coordinator or persistence policy."
+    },
+    {
+      "id": "provider-degraded-malformed",
+      "file": "provider-degraded-malformed.json",
+      "purpose": "A degraded provider and malformed method envelope cannot be simulated as success."
+    },
+    {
+      "id": "split-conclusion",
+      "file": "split-conclusion.json",
+      "purpose": "Valid opposing conclusions remain visible rather than becoming false consensus."
+    },
+    {
+      "id": "unsupported-official-standard-claim",
+      "file": "unsupported-official-standard-claim.json",
+      "purpose": "An unsupported claim of official-standard status fails closed."
+    }
+  ]
+}

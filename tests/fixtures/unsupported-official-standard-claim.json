@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1.0",
+  "id": "unsupported-official-standard-claim",
+  "title": "Unsupported official-standard claim fails provenance validation",
+  "category": "failure",
+  "public_safe": true,
+  "input": {
+    "activity": "analyse",
+    "rigor": "rapid",
+    "question": "Validate a proposed method record that calls this project adaptation an official intelligence-community standard without exact source support.",
+    "route": {
+      "source": "user-explicit",
+      "methods": ["evidence-quality"]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "schema", "status": "PASS", "reason_code": "METHOD_SCHEMA_VALID" },
+      { "gate": "claims", "status": "FAIL", "reason_code": "UNSUPPORTED_OFFICIAL_CLAIM" },
+      { "gate": "route", "status": "INCOMPLETE", "reason_code": "INVALID_METHOD_NOT_ROUTABLE" }
+    ],
+    "side_conditions": ["SKIPPED"],
+    "scenario_data": {
+      "candidate_claim": "This project adaptation is an official intelligence-community standard.",
+      "source_supports_exact_claim": false,
+      "allowed_replacement": "adapted from the cited method for this project's bounded workflow"
+    }
+  },
+  "expected": {
+    "primary_status": "FAIL",
+    "side_conditions": ["SKIPPED"],
+    "route_allowed": false,
+    "synthesis_mode": "halt",
+    "reason_codes": ["UNSUPPORTED_OFFICIAL_CLAIM", "INVALID_METHOD_NOT_ROUTABLE"],
+    "must_preserve": [
+      "the exact unsupported claim category",
+      "the distinction between the source method and project adaptation",
+      "the failed claim gate despite structural schema validity"
+    ],
+    "must_not_claim": [
+      "schema validity proves provenance",
+      "the project is officially endorsed or certified",
+      "the invalid method can participate in a route"
+    ]
+  }
+}

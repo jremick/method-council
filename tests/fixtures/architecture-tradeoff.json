@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "id": "architecture-tradeoff",
+  "title": "Architecture tradeoff with complete bounded evidence",
+  "category": "representative",
+  "public_safe": true,
+  "input": {
+    "activity": "architect",
+    "rigor": "standard",
+    "question": "Should a small open-source command-line tool store local run history in YAML files or SQLite?",
+    "route": {
+      "source": "profile",
+      "profile_id": "standard-architecture",
+      "methods": [
+        "key-assumptions",
+        "systems-trade-study",
+        "failure-modes",
+        "devils-advocacy"
+      ]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "method-results", "status": "PASS", "reason_code": "METHOD_RESULTS_VALID" },
+      { "gate": "evidence", "status": "PASS", "reason_code": "EVIDENCE_BOUND" },
+      { "gate": "challenge", "status": "PASS", "reason_code": "CHALLENGE_COMPLETE" }
+    ],
+    "side_conditions": ["CORRELATED"],
+    "scenario_data": {
+      "same_host_for_all_passes": true,
+      "evidence_refs": ["repo-size-observation", "concurrency-requirement", "migration-cost-note"],
+      "alternatives": ["YAML files", "SQLite"]
+    }
+  },
+  "expected": {
+    "primary_status": "PASS",
+    "side_conditions": ["CORRELATED"],
+    "route_allowed": true,
+    "synthesis_mode": "judgment",
+    "reason_codes": ["ROUTE_VALID", "EVIDENCE_BOUND", "CHALLENGE_COMPLETE"],
+    "must_preserve": [
+      "decision criteria and their evidence references",
+      "the strongest alternative and conditions that favor it",
+      "same-host correlation as a side condition"
+    ],
+    "must_not_claim": [
+      "same-model passes are independent corroboration",
+      "a structurally valid report proves the architecture choice is correct"
+    ]
+  }
+}

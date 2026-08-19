@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "id": "split-conclusion",
+  "title": "Evidence-bound methods retain a split conclusion",
+  "category": "representative",
+  "public_safe": true,
+  "input": {
+    "activity": "decide",
+    "rigor": "standard",
+    "question": "Choose between two reversible implementation paths when each is favored by a different valid operational assumption.",
+    "route": {
+      "source": "profile",
+      "profile_id": "standard-decision",
+      "methods": [
+        "evidence-quality",
+        "systems-trade-study",
+        "devils-advocacy"
+      ]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "method-results", "status": "PASS", "reason_code": "METHOD_RESULTS_VALID" },
+      { "gate": "evidence", "status": "PASS", "reason_code": "EVIDENCE_BOUND" },
+      { "gate": "dissent", "status": "PASS", "reason_code": "DISSENT_PRESERVED" }
+    ],
+    "side_conditions": ["CORRELATED"],
+    "scenario_data": {
+      "valid_conclusions": ["prefer path A if update frequency stays low", "prefer path B if concurrent writes are required"],
+      "discriminating_unknown": "expected concurrent write volume",
+      "forced_consensus_allowed": false
+    }
+  },
+  "expected": {
+    "primary_status": "PASS",
+    "side_conditions": ["CORRELATED"],
+    "route_allowed": true,
+    "synthesis_mode": "preserve-split",
+    "reason_codes": ["METHOD_RESULTS_VALID", "EVIDENCE_BOUND", "DISSENT_PRESERVED"],
+    "must_preserve": [
+      "both evidence-bound conclusions",
+      "the assumption under which each conclusion holds",
+      "the discriminating evidence needed to resolve the split"
+    ],
+    "must_not_claim": [
+      "method count is a vote",
+      "a weighted consensus exists",
+      "dissent is an execution failure"
+    ]
+  }
+}

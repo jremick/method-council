@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1.0",
+  "id": "debugging-rca",
+  "title": "Debugging investigation with falsifiable next diagnostic",
+  "category": "representative",
+  "public_safe": true,
+  "input": {
+    "activity": "investigate",
+    "rigor": "standard",
+    "question": "A deterministic test fails only after two sequential runs; identify the most useful next diagnostic without inventing a root cause.",
+    "route": {
+      "source": "user-explicit",
+      "methods": [
+        "evidence-quality",
+        "key-assumptions",
+        "failure-modes",
+        "devils-advocacy"
+      ]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "method-results", "status": "PASS", "reason_code": "METHOD_RESULTS_VALID" },
+      { "gate": "finding-types", "status": "PASS", "reason_code": "FINDING_TYPES_PRESERVED" },
+      { "gate": "next-diagnostic", "status": "PASS", "reason_code": "DIAGNOSTIC_FALSIFIABLE" }
+    ],
+    "side_conditions": ["CORRELATED"],
+    "scenario_data": {
+      "observed_facts": ["the first run passes", "the second sequential run fails"],
+      "candidate_inferences": ["state may persist between runs"],
+      "unknowns": ["which resource retains state"]
+    }
+  },
+  "expected": {
+    "primary_status": "PASS",
+    "side_conditions": ["CORRELATED"],
+    "route_allowed": true,
+    "synthesis_mode": "judgment",
+    "reason_codes": ["FINDING_TYPES_PRESERVED", "DIAGNOSTIC_FALSIFIABLE"],
+    "must_preserve": [
+      "observed facts separately from inferred causes",
+      "at least one unresolved unknown",
+      "a diagnostic that could falsify the leading explanation"
+    ],
+    "must_not_claim": [
+      "the root cause is established from timing alone",
+      "method agreement substitutes for runtime evidence"
+    ]
+  }
+}

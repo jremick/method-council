@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "id": "adversarial-risk",
+  "title": "Adversarial review of untrusted repository content",
+  "category": "adversarial",
+  "public_safe": true,
+  "input": {
+    "activity": "review",
+    "rigor": "standard",
+    "question": "Assess the risks of allowing a model to read third-party repository files while preparing a local analysis report.",
+    "route": {
+      "source": "user-explicit",
+      "methods": [
+        "evidence-quality",
+        "key-assumptions",
+        "failure-modes",
+        "devils-advocacy"
+      ]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "threat-model", "status": "PASS", "reason_code": "TRUST_BOUNDARIES_EXPLICIT" },
+      { "gate": "assumptions", "status": "PASS", "reason_code": "ASSUMPTIONS_LABELLED" },
+      { "gate": "controls", "status": "PASS", "reason_code": "CONTROLS_MAPPED" }
+    ],
+    "side_conditions": ["CORRELATED"],
+    "scenario_data": {
+      "untrusted_sources": ["repository instructions", "retrieved content", "model-generated tool arguments"],
+      "protected_assets": ["local files", "credentials", "report integrity"],
+      "control_classes": ["deny-by-default side effects", "path scoping", "schema validation"]
+    }
+  },
+  "expected": {
+    "primary_status": "PASS",
+    "side_conditions": ["CORRELATED"],
+    "route_allowed": true,
+    "synthesis_mode": "judgment",
+    "reason_codes": ["TRUST_BOUNDARIES_EXPLICIT", "ASSUMPTIONS_LABELLED", "CONTROLS_MAPPED"],
+    "must_preserve": [
+      "assets, threat actors, and trust boundaries as distinct concepts",
+      "assumptions separately from observed controls",
+      "residual risk after mitigations"
+    ],
+    "must_not_claim": [
+      "prompt injection can be completely prevented",
+      "schema validation makes untrusted content safe",
+      "the review is a penetration test"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "id": "release-decision-missing-evidence",
+  "title": "Release decision with a missing clean-install result",
+  "category": "failure",
+  "public_safe": true,
+  "input": {
+    "activity": "decide",
+    "rigor": "standard",
+    "question": "Is this candidate eligible for public alpha when unit tests pass but the clean-clone install check was not run?",
+    "route": {
+      "source": "profile",
+      "profile_id": "standard-decision",
+      "methods": [
+        "evidence-quality",
+        "systems-trade-study",
+        "devils-advocacy"
+      ]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "unit-tests", "status": "PASS", "reason_code": "UNIT_TESTS_PASS" },
+      { "gate": "clean-clone-install", "status": "INCOMPLETE", "reason_code": "REQUIRED_EVIDENCE_MISSING" },
+      { "gate": "release-evidence", "status": "INCOMPLETE", "reason_code": "RELEASE_GATE_INCOMPLETE" }
+    ],
+    "side_conditions": ["SKIPPED"],
+    "scenario_data": {
+      "missing_artifact": "clean-clone installation transcript",
+      "reversible_next_step": "run the documented install in a temporary clean checkout",
+      "kill_criterion": "do not publish while the default install path is unverified"
+    }
+  },
+  "expected": {
+    "primary_status": "INCOMPLETE",
+    "side_conditions": ["SKIPPED"],
+    "route_allowed": true,
+    "synthesis_mode": "judgment-with-limitations",
+    "reason_codes": ["REQUIRED_EVIDENCE_MISSING", "RELEASE_GATE_INCOMPLETE"],
+    "must_preserve": [
+      "the missing clean-clone evidence",
+      "the publication stop condition",
+      "the reversible next verification step"
+    ],
+    "must_not_claim": [
+      "unit tests prove public readiness",
+      "release eligibility is PASS",
+      "eligibility authorizes publication"
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "0.1.0",
+  "id": "provider-degraded-malformed",
+  "title": "Degraded provider emits a malformed method envelope",
+  "category": "failure",
+  "public_safe": true,
+  "input": {
+    "activity": "analyse",
+    "rigor": "rapid",
+    "question": "Analyze a bounded operational question using the configured local host when an optional provider is degraded.",
+    "route": {
+      "source": "profile",
+      "profile_id": "rapid-analysis",
+      "methods": ["evidence-quality", "key-assumptions"]
+    },
+    "privacy": {
+      "raw_prompt_persisted": false,
+      "hidden_chain_of_thought_requested": false,
+      "external_calls_allowed": false
+    },
+    "gate_statuses": [
+      { "gate": "route", "status": "PASS", "reason_code": "ROUTE_VALID" },
+      { "gate": "provider-capability", "status": "INCOMPLETE", "reason_code": "PROVIDER_DEGRADED" },
+      { "gate": "method-envelope", "status": "ERROR", "reason_code": "METHOD_RESULT_MALFORMED" },
+      { "gate": "synthesis", "status": "ERROR", "reason_code": "VALID_RESULT_REQUIRED" }
+    ],
+    "side_conditions": ["DEGRADED"],
+    "scenario_data": {
+      "provider_state": "degraded",
+      "external_call_performed": false,
+      "method_envelope_parseable": false,
+      "simulated_replacement_allowed": false
+    }
+  },
+  "expected": {
+    "primary_status": "ERROR",
+    "side_conditions": ["DEGRADED"],
+    "route_allowed": true,
+    "synthesis_mode": "halt",
+    "reason_codes": ["PROVIDER_DEGRADED", "METHOD_RESULT_MALFORMED", "VALID_RESULT_REQUIRED"],
+    "must_preserve": [
+      "the degraded provider side condition",
+      "the malformed-envelope parsing error",
+      "the absence of a valid method result"
+    ],
+    "must_not_claim": [
+      "a provider binary proves availability",
+      "a simulated result counts as a completed method pass",
+      "partial prose can be aggregated as PASS"
+    ]
+  }
+}
