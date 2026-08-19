@@ -5,6 +5,8 @@ import shutil
 from collections import Counter
 from pathlib import Path
 
+import pytest
+
 from method_council.acceptance import (
     build_acceptance_prompt,
     expected_model_artifacts,
@@ -159,6 +161,16 @@ def _build_valid_bundle(tmp_path: Path) -> Path:
         "event_sequence": sequence,
         "non_json_line_count": 0,
         "event_stream_truncated": False,
+        "descendant_cleanup": {
+            "mechanism": "process-group-plus-polled-ps-ancestry",
+            "observer_state": "verified",
+            "poll_count": 3,
+            "observed_count": 0,
+            "terminated_count": 0,
+            "survivor_count": 0,
+            "quiescent": True,
+            "limitation": "Synthetic structural fixture; not execution authenticity.",
+        },
         "final_message_digest": content_digest("complete"),
         "verification_digest": file_digest(bundle / "verification.json"),
         "verification_valid": True,
@@ -219,3 +231,43 @@ def test_recorded_tracked_source_mutation_invalidates_acceptance(tmp_path):
 
     assert verdict["valid"] is False
     assert any(issue["code"] == "acceptance.source-mutations" for issue in verdict["issues"])
+
+
+def test_unestablished_descendant_cleanup_invalidates_acceptance(tmp_path):
+    bundle = _build_valid_bundle(tmp_path)
+    host_path = bundle / "host-execution.json"
+    host = json.loads(host_path.read_text(encoding="utf-8"))
+    host["descendant_cleanup"].update(
+        {"observer_state": "error", "survivor_count": 1, "quiescent": False}
+    )
+    _write(host_path, host)
+
+    verdict = verify_acceptance(bundle, root=ROOT)
+
+    assert verdict["valid"] is False
+    assert any(
+        issue["code"] == "acceptance.descendant-cleanup-observer-state"
+        for issue in verdict["issues"]
+    )
+
+
+@pytest.mark.parametrize(
+    ("artifact", "issue_code"),
+    [
+        ("host-execution.json", "acceptance.host-invalid"),
+        ("verification.json", "acceptance.verification-invalid"),
+        ("acceptance-verdict.json", "acceptance.verdict-invalid"),
+    ],
+)
+def test_top_level_acceptance_symlink_is_rejected_without_reading_device(
+    tmp_path, artifact, issue_code
+):
+    bundle = _build_valid_bundle(tmp_path)
+    target = bundle / artifact
+    target.unlink()
+    target.symlink_to("/dev/zero")
+
+    verdict = verify_acceptance(bundle, root=ROOT)
+
+    assert verdict["valid"] is False
+    assert any(issue["code"] == issue_code for issue in verdict["issues"])

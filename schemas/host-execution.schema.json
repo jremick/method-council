@@ -35,6 +35,7 @@
     "event_sequence",
     "non_json_line_count",
     "event_stream_truncated",
+    "descendant_cleanup",
     "final_message_digest",
     "verification_digest",
     "verification_valid",
@@ -153,6 +154,30 @@
     },
     "non_json_line_count": { "type": "integer", "minimum": 0 },
     "event_stream_truncated": { "const": false },
+    "descendant_cleanup": {
+      "type": "object",
+      "required": [
+        "mechanism",
+        "observer_state",
+        "poll_count",
+        "observed_count",
+        "terminated_count",
+        "survivor_count",
+        "quiescent",
+        "limitation"
+      ],
+      "properties": {
+        "mechanism": { "const": "process-group-plus-polled-ps-ancestry" },
+        "observer_state": { "enum": ["verified", "error", "not-run"] },
+        "poll_count": { "type": "integer", "minimum": 0 },
+        "observed_count": { "type": "integer", "minimum": 0 },
+        "terminated_count": { "type": "integer", "minimum": 0 },
+        "survivor_count": { "type": "integer", "minimum": 0 },
+        "quiescent": { "type": "boolean" },
+        "limitation": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
     "final_message_digest": {
       "type": ["string", "null"],
       "pattern": "^sha256:[a-f0-9]{64}$"

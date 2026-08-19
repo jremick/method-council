@@ -36,6 +36,12 @@ from method_council.run import verify_run
 
 _SYNC_COMMAND: Final = ["uv", "sync", "--frozen", "--all-groups"]
 _EVENT_STREAM_MAX_BYTES: Final = 16 * 1024 * 1024
+_DESCENDANT_POLL_SECONDS: Final = 0.02
+_DESCENDANT_CLEANUP_SECONDS: Final = 3.0
+_DESCENDANT_LIMITATION: Final = (
+    "Observed PID ancestry is best-effort host evidence; it cannot prove absence of an "
+    "unobserved daemon that escaped between process-table samples."
+)
 _ENV_ALLOWLIST: Final = {
     "HOME",
     "LANG",
@@ -136,6 +142,138 @@ def _kill_process_group(process_id: int) -> None:
         os.killpg(process_id, signal.SIGKILL)
 
 
+def _process_table() -> dict[int, tuple[int, str]]:
+    """Return PID, parent PID, and start identity from the host process table."""
+
+    result = subprocess.run(
+        ["/bin/ps", "-axo", "pid=,ppid=,lstart="],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    table: dict[int, tuple[int, str]] = {}
+    for line in result.stdout.splitlines():
+        fields = line.split()
+        if len(fields) < 7:
+            continue
+        try:
+            process_id = int(fields[0])
+            parent_id = int(fields[1])
+        except ValueError:
+            continue
+        table[process_id] = (parent_id, " ".join(fields[2:7]))
+    return table
+
+
+class _DescendantTracker:
+    """Poll and terminate observed descendants, including new-session children."""
+
+    def __init__(self, root_process_id: int):
+        self.root_process_id = root_process_id
+        self.tracked: dict[int, str] = {}
+        self.errors: list[str] = []
+        self.poll_count = 0
+        self._lock = threading.Lock()
+        self._stop = threading.Event()
+        self._thread = threading.Thread(
+            target=self._monitor,
+            name="codex-descendant-tracker",
+            daemon=True,
+        )
+
+    def start(self) -> None:
+        self._thread.start()
+
+    def _observe(self) -> dict[int, tuple[int, str]]:
+        try:
+            table = _process_table()
+        except (OSError, subprocess.SubprocessError) as exc:
+            with self._lock:
+                self.errors.append(type(exc).__name__)
+            return {}
+        with self._lock:
+            self.poll_count += 1
+            active_parents = {self.root_process_id}
+            active_parents.update(
+                process_id
+                for process_id, identity in self.tracked.items()
+                if process_id in table and table[process_id][1] == identity
+            )
+            changed = True
+            while changed:
+                changed = False
+                for process_id, (parent_id, identity) in table.items():
+                    if process_id == self.root_process_id or process_id in self.tracked:
+                        continue
+                    if parent_id in active_parents:
+                        self.tracked[process_id] = identity
+                        active_parents.add(process_id)
+                        changed = True
+        return table
+
+    def _monitor(self) -> None:
+        while not self._stop.is_set():
+            self._observe()
+            self._stop.wait(_DESCENDANT_POLL_SECONDS)
+
+    def terminate_and_confirm(self) -> dict[str, object]:
+        """Kill observed descendants and fail closed on observer error or survivors."""
+
+        terminated: set[int] = set()
+        stable_empty_polls = 0
+        deadline = time.monotonic() + _DESCENDANT_CLEANUP_SECONDS
+        while time.monotonic() < deadline:
+            table = self._observe()
+            with self._lock:
+                observed = dict(self.tracked)
+            alive = {
+                process_id: identity
+                for process_id, identity in observed.items()
+                if process_id in table and table[process_id][1] == identity
+            }
+            for process_id in alive:
+                try:
+                    os.kill(process_id, signal.SIGKILL)
+                    terminated.add(process_id)
+                except ProcessLookupError:
+                    pass
+                except PermissionError as exc:
+                    with self._lock:
+                        self.errors.append(type(exc).__name__)
+            if alive:
+                stable_empty_polls = 0
+            else:
+                stable_empty_polls += 1
+                if stable_empty_polls >= 3:
+                    break
+            time.sleep(_DESCENDANT_POLL_SECONDS)
+
+        self._stop.set()
+        self._thread.join(timeout=1)
+        final_table = self._observe()
+        with self._lock:
+            observed = dict(self.tracked)
+            errors = sorted(set(self.errors))
+            poll_count = self.poll_count
+        survivors = [
+            process_id
+            for process_id, identity in observed.items()
+            if process_id in final_table and final_table[process_id][1] == identity
+        ]
+        observer_state = "verified" if not errors and not self._thread.is_alive() else "error"
+        return {
+            "mechanism": "process-group-plus-polled-ps-ancestry",
+            "observer_state": observer_state,
+            "poll_count": poll_count,
+            "observed_count": len(observed),
+            "terminated_count": len(terminated),
+            "survivor_count": len(survivors),
+            "quiescent": observer_state == "verified" and not survivors,
+            "limitation": _DESCENDANT_LIMITATION,
+        }
+
+
 def _run_codex(
     command: list[str],
     *,
@@ -144,7 +282,7 @@ def _run_codex(
     prompt: str,
     timeout: int,
     stream: BinaryIO,
-) -> tuple[int, bool, bool]:
+) -> tuple[int, bool, bool, dict[str, object]]:
     """Run Codex in its own process group while bounding and draining output."""
 
     process = subprocess.Popen(
@@ -157,6 +295,8 @@ def _run_codex(
         start_new_session=True,
     )
     assert process.stdin is not None and process.stdout is not None
+    descendant_tracker = _DescendantTracker(process.pid)
+    descendant_tracker.start()
     state = {"written": 0, "truncated": False}
 
     def drain() -> None:
@@ -190,12 +330,13 @@ def _run_codex(
             process.wait(timeout=5)
         except subprocess.TimeoutExpired:
             _kill_process_group(process.pid)
+        descendant_cleanup = descendant_tracker.terminate_and_confirm()
         reader.join(timeout=5)
         process.stdout.close()
     if reader.is_alive():
         raise RuntimeError("Codex event drain did not terminate after process-group shutdown")
     stream.flush()
-    return exit_code, timed_out, bool(state["truncated"])
+    return exit_code, timed_out, bool(state["truncated"]), descendant_cleanup
 
 
 def _sanitized_environment() -> dict[str, str]:
@@ -297,10 +438,25 @@ def main(argv: list[str] | None = None) -> int:
         event_sequence: list[str] = []
         non_json_line_count = 0
         event_stream_truncated = False
+        descendant_cleanup: dict[str, object] = {
+            "mechanism": "process-group-plus-polled-ps-ancestry",
+            "observer_state": "not-run",
+            "poll_count": 0,
+            "observed_count": 0,
+            "terminated_count": 0,
+            "survivor_count": 0,
+            "quiescent": False,
+            "limitation": _DESCENDANT_LIMITATION,
+        }
         final_message_digest: str | None = None
         if sync_exit_code == 0:
             with tempfile.TemporaryFile(mode="w+b") as stream:
-                exit_code, timed_out, event_stream_truncated = _run_codex(
+                (
+                    exit_code,
+                    timed_out,
+                    event_stream_truncated,
+                    descendant_cleanup,
+                ) = _run_codex(
                     command,
                     cwd=execution_root,
                     environment=environment,
@@ -323,7 +479,7 @@ def main(argv: list[str] | None = None) -> int:
         host_run = temporary_root / "host-output" / args.run_id
         host_run.parent.mkdir(parents=True)
         model_ledger: list[dict[str, str]] = []
-        if not source_mutations:
+        if not source_mutations and descendant_cleanup["quiescent"] is True:
             model_ledger, copy_issues = copy_expected_artifacts(
                 execution_root / run_path,
                 host_run,
@@ -336,9 +492,17 @@ def main(argv: list[str] | None = None) -> int:
             host_run.mkdir(parents=True)
             execution_issues.append(
                 {
-                    "code": "acceptance.source-mutation",
-                    "message": "tracked source mutation rejected model artifacts",
-                    "path": "/source_mutations",
+                    "code": (
+                        "acceptance.source-mutation"
+                        if source_mutations
+                        else "acceptance.descendant-cleanup"
+                    ),
+                    "message": (
+                        "tracked source mutation rejected model artifacts"
+                        if source_mutations
+                        else "descendant cleanup was not observably quiescent"
+                    ),
+                    "path": ("/source_mutations" if source_mutations else "/descendant_cleanup"),
                 }
             )
 
@@ -387,6 +551,7 @@ def main(argv: list[str] | None = None) -> int:
             "event_sequence": event_sequence,
             "non_json_line_count": non_json_line_count,
             "event_stream_truncated": event_stream_truncated,
+            "descendant_cleanup": descendant_cleanup,
             "final_message_digest": final_message_digest,
             "verification_digest": file_digest(verification_path),
             "verification_valid": bool(run_verdict["valid"]),

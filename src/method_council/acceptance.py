@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import json
 import os
 import re
 import shutil
@@ -342,16 +343,53 @@ def copy_expected_artifacts(
     return ledger, issues
 
 
-def _load_object(path: Path, code: str, issues: list[Issue]) -> dict[str, Any] | None:
+def _read_regular_document(path: Path) -> bytes:
+    """Read a bounded regular document without following a final symlink."""
+
     try:
-        document = load_document(path)
-    except DocumentError as exc:
+        if path.is_symlink():
+            raise DocumentError(f"structured document is a symlink: {path}")
+        flags = os.O_RDONLY | os.O_NONBLOCK | getattr(os, "O_NOFOLLOW", 0)
+        descriptor = os.open(path, flags)
+    except (OSError, DocumentError) as exc:
+        if isinstance(exc, DocumentError):
+            raise
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+
+    try:
+        metadata = os.fstat(descriptor)
+        if not stat.S_ISREG(metadata.st_mode):
+            raise DocumentError(f"structured document is not a regular file: {path}")
+        if metadata.st_size > MAX_DOCUMENT_BYTES:
+            raise DocumentError(
+                f"structured document exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}"
+            )
+        with os.fdopen(descriptor, "rb") as handle:
+            descriptor = -1
+            data = handle.read(MAX_DOCUMENT_BYTES + 1)
+    except OSError as exc:
+        raise DocumentError(f"could not read {path}: {exc}") from exc
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+    if len(data) > MAX_DOCUMENT_BYTES:
+        raise DocumentError(f"structured document exceeds {MAX_DOCUMENT_BYTES} byte limit: {path}")
+    return data
+
+
+def _load_object(
+    path: Path, code: str, issues: list[Issue]
+) -> tuple[dict[str, Any] | None, str | None]:
+    try:
+        raw = _read_regular_document(path)
+        document = json.loads(raw)
+    except (DocumentError, json.JSONDecodeError, UnicodeError) as exc:
         issues.append(Issue(code, str(exc), path.name))
-        return None
+        return None, None
     if not isinstance(document, dict):
         issues.append(Issue(code, "document must be an object", path.name))
-        return None
-    return document
+        return None, None
+    return document, content_digest(raw)
 
 
 def _prefixed(issues: Sequence[Issue], prefix: str) -> list[Issue]:
@@ -372,13 +410,19 @@ def _parse_time(value: Any, field: str, issues: list[Issue]) -> datetime | None:
     return parsed
 
 
-def _artifact_ledger(bundle_dir: Path, paths: Sequence[str]) -> list[dict[str, str]]:
-    return [
-        {"path": relative, "digest": file_digest(bundle_dir / _safe_relative_path(relative))}
-        for relative in paths
-        if (bundle_dir / _safe_relative_path(relative)).is_file()
-        and not (bundle_dir / _safe_relative_path(relative)).is_symlink()
-    ]
+def _artifact_ledger(
+    bundle_dir: Path, paths: Sequence[str], issues: list[Issue]
+) -> list[dict[str, str]]:
+    ledger: list[dict[str, str]] = []
+    for relative in paths:
+        path = bundle_dir / _safe_relative_path(relative)
+        try:
+            raw = _read_regular_document(path)
+        except DocumentError as exc:
+            issues.append(Issue("acceptance.artifact-invalid", str(exc), relative))
+            continue
+        ledger.append({"path": relative, "digest": content_digest(raw)})
+    return ledger
 
 
 def _derive_verdict(
@@ -431,21 +475,13 @@ def verify_acceptance(
         )
 
     host_path = bundle_dir / "host-execution.json"
-    host = _load_object(host_path, "acceptance.host-invalid", issues)
-    host_digest = (
-        file_digest(host_path) if host_path.is_file() and not host_path.is_symlink() else None
-    )
+    host, host_digest = _load_object(host_path, "acceptance.host-invalid", issues)
     if host is not None:
         issues.extend(_prefixed(registry.validate(host, "host-execution"), "host-execution.json"))
 
     verification_path = bundle_dir / "verification.json"
-    recorded_run_verdict = _load_object(
+    recorded_run_verdict, verification_digest = _load_object(
         verification_path, "acceptance.verification-invalid", issues
-    )
-    verification_digest = (
-        file_digest(verification_path)
-        if verification_path.is_file() and not verification_path.is_symlink()
-        else None
     )
     if recorded_run_verdict is not None:
         issues.extend(
@@ -554,7 +590,7 @@ def verify_acceptance(
                             )
                         )
 
-                    model_ledger = _artifact_ledger(bundle_dir, expected_paths)
+                    model_ledger = _artifact_ledger(bundle_dir, expected_paths, issues)
                     if model_ledger != host["model_artifact_ledger"]:
                         issues.append(
                             Issue(
@@ -592,7 +628,7 @@ def verify_acceptance(
                             )
                         )
 
-                    run = _load_object(bundle_dir / "run.json", "acceptance.run-invalid", issues)
+                    run, _ = _load_object(bundle_dir / "run.json", "acceptance.run-invalid", issues)
                     if run is not None:
                         if run.get("run_id") != run_id:
                             issues.append(
@@ -750,6 +786,38 @@ def verify_acceptance(
                         f"/{field}",
                     )
                 )
+        cleanup = host["descendant_cleanup"]
+        cleanup_requirements = {
+            "mechanism": "process-group-plus-polled-ps-ancestry",
+            "observer_state": "verified",
+            "survivor_count": 0,
+            "quiescent": True,
+        }
+        for field, expected in cleanup_requirements.items():
+            if cleanup[field] != expected:
+                issues.append(
+                    Issue(
+                        f"acceptance.descendant-cleanup-{field.replace('_', '-')}",
+                        f"descendant cleanup {field} must equal {expected!r}",
+                        f"/descendant_cleanup/{field}",
+                    )
+                )
+        if cleanup["poll_count"] < 1:
+            issues.append(
+                Issue(
+                    "acceptance.descendant-cleanup-unobserved",
+                    "descendant cleanup requires at least one successful process-table sample",
+                    "/descendant_cleanup/poll_count",
+                )
+            )
+        if cleanup["terminated_count"] > cleanup["observed_count"]:
+            issues.append(
+                Issue(
+                    "acceptance.descendant-cleanup-counts",
+                    "terminated descendants cannot exceed observed descendants",
+                    "/descendant_cleanup/terminated_count",
+                )
+            )
         if host["uv_sync"]["exit_code"] != 0:
             issues.append(
                 Issue(
@@ -770,7 +838,7 @@ def verify_acceptance(
     )
     if require_recorded_verdict:
         recorded_path = bundle_dir / "acceptance-verdict.json"
-        recorded = _load_object(recorded_path, "acceptance.verdict-invalid", issues)
+        recorded, _ = _load_object(recorded_path, "acceptance.verdict-invalid", issues)
         if recorded is not None:
             verdict_schema_issues = registry.validate(recorded, "acceptance-verdict")
             issues.extend(_prefixed(verdict_schema_issues, "acceptance-verdict.json"))
