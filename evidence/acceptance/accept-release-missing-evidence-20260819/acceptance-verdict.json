@@ -1,0 +1,41 @@
+{
+  "acceptance_id": "accept-release-missing-evidence-20260819",
+  "attestation": "unsigned-local-recorder",
+  "host_execution_digest": "sha256:1c9df52da7bcb341b635f5d698e7df0fa397e830bdb5ca50a0414531f194a379",
+  "issues": [],
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:4a69a58747d942adcf138cd1d428570b183039e3bddebc3d0dfa18283b2aeeaf",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:b6c1e199610d2c07e51be2787a08a378fbde419a669c3cc1e94aad54367dc55d",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:b1eabee6c6215dec1e8c141874d8a755a1e71483a05f3ac20170b11b4c8036d7",
+      "path": "method-results/evidence-quality.json"
+    },
+    {
+      "digest": "sha256:49df9e3cfdfb8f57609d5ccacfa8ee0f10e0db8b9772276571bc915d73a0cbda",
+      "path": "method-results/systems-trade-study.json"
+    },
+    {
+      "digest": "sha256:16e617b649f907085a76e7a68f897f5a1a7c72bb0a33311845759f4a89c6a769",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "profile": "standard-decision",
+  "prompt_digest": "sha256:e4efad47c796d7a571ab5f0bd865d34f35ad70d1fdf85f76de67417ffcfe60cc",
+  "run_side_conditions": [
+    "CORRELATED"
+  ],
+  "run_status": "INCOMPLETE",
+  "run_verification_digest": "sha256:3b09802833b863d0d93708a3ed9bc2e8c230afc62b8e3eb7c63d6ee47915208e",
+  "schema_version": "0.1.0",
+  "source_commit": "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+  "source_tree": "03af9cb01c76f454b7182e428b7de0d760051b50",
+  "task": "release-missing-evidence",
+  "task_digest": "sha256:18776289bc9986add97fd1e481001cac975f0b163982929de46a8b3258434a90",
+  "valid": true
+}

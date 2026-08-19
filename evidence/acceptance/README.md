@@ -1,22 +1,21 @@
 # Recorded Codex acceptance evidence
 
-Four initial bundles were produced by `codex exec` using an existing ChatGPT
-authentication on 2026-08-19. Independent review found that the old verifier
-did not enforce selected method steps, evidence minima, artifact fields, or the
-full prepared route policy. The bundles were removed rather than rewritten and
-remain recoverable in Git history.
+Four hardened bundles were produced by `codex exec` using an existing ChatGPT
+authentication on 2026-08-19. They were executed from source commit
+`7da73bbeef496cff9e31828e97a3fb400f44ead5` and source tree
+`03af9cb01c76f454b7182e428b7de0d760051b50`.
 
-| Task | Prior outcome | Current evidence state |
-| --- | --- | --- | --- |
-| Architecture storage | `PASS / CORRELATED` | Retired; PASS was unsupported by canonical evidence minima |
-| Duplicate investigation | `INCOMPLETE / CORRELATED` | Retired; one method PASS was unsupported |
-| Release with missing evidence | `INCOMPLETE / CORRELATED / SKIPPED` | Retired; hardened rerun pending |
-| Hostile evidence review | `INCOMPLETE / DEGRADED / CORRELATED` | Retired; hardened rerun pending |
+| Task | Current outcome | Recorded bundle |
+| --- | --- | --- |
+| Architecture storage | `INCOMPLETE / CORRELATED` | `accept-architecture-storage-20260819` |
+| Duplicate investigation | `INCOMPLETE / CORRELATED` | `accept-investigation-duplicates-20260819` |
+| Release with missing evidence | `INCOMPLETE / CORRELATED` | `accept-release-missing-evidence-20260819` |
+| Hostile evidence review | `INCOMPLETE / CORRELATED` | `accept-hostile-review-20260819` |
 
-The hardened runner now operates from a secret-free snapshot of an exact Git
-commit, rejects tracked source mutation, copies only allowlisted artifacts, and
-creates an unsigned local host-attestation record. `verify-acceptance` checks
-that record and re-runs method verification against a second pristine snapshot.
+The hardened runner operates from a tracked-file snapshot of an exact Git
+commit, rejects tracked-source mutation, copies only allowlisted artifacts, and
+creates an unsigned local host-evidence record. `verify-acceptance` checks that
+record and re-runs method verification against a second pristine snapshot.
 
 Each bundle contains:
 
@@ -25,14 +24,23 @@ Each bundle contains:
 - `report.json`: synthesis with the recomputed ledger;
 - `verification.json`: deterministic read-back verdict;
 - `host-execution.json`: bounded CLI, authentication, timing, persistence, and
-  verification metadata.
+  verification metadata;
+- `acceptance-verdict.json`: recomputed binding between the host record, source
+  snapshot, model artifacts, and run verdict.
 
-Fresh bundles are pending. Even a valid hardened bundle will remain same-host,
-correlated, and unsigned local evidence; it will not prove factual accuracy,
-general prompt-injection resistance, method fidelity, containment, security,
-usability, provider independence, or release readiness.
+Every recorded process exited successfully without timeout, all expected
+lifecycle events were observed, no tracked-source mutation was recorded, and
+both deterministic verifiers report no issues. Raw prompts and raw event streams
+were not persisted. The model requested and observed fields are `null`.
 
-When a new bundle is present, recompute it from the repository root:
+The earlier pre-hardening bundles were removed rather than rewritten after
+independent review found missing semantic gates; they remain recoverable in Git
+history. The current bundles are still same-host, correlated, and
+`unsigned-local-recorder` evidence. They do not prove factual accuracy, general
+prompt-injection resistance, method fidelity, network denial, operating-system
+containment, security, usability, provider independence, or release readiness.
+
+Recompute a bundle from the repository root:
 
 ```bash
 uv run --frozen method-council verify-acceptance \

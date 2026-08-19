@@ -1,0 +1,194 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-mainline-01",
+      "type": "inference",
+      "statement": "The prevailing account places duplication in the shared index append path and recommends instrumenting append-helper invocations first, because affected runs have identical duplicate list entries, one final summary artifact, and two successful append messages close together.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-target-02",
+      "type": "assumption",
+      "statement": "The load-bearing assumption is that two successful append messages represent two completed index writes; if that assumption fails, append-helper instrumentation is not the most discriminating first diagnostic and a list-side duplication remains competitive.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-target"
+    },
+    {
+      "id": "devils-advocacy-gap-03",
+      "type": "unknown",
+      "statement": "The supplied evidence does not define where the success message is emitted, bind either message to a file offset or durable write, show the matching raw index lines, or reveal whether list --latest merges cached and current inputs.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-counterevidence-04",
+      "type": "fact",
+      "statement": "Direct lookup returns one record, the artifact directory contains one final summary, and no corrupted or partial JSON line has been observed; these observations are compatible with duplicate complete index lines but do not directly demonstrate them.",
+      "evidence_refs": [
+        "case"
+      ],
+      "counterevidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-alternative-05",
+      "type": "inference",
+      "statement": "The strongest contrary case is that the persisted index contains one matching record while list --latest duplicates it during cache or multi-source merging, and the paired success messages are duplicated logging or otherwise do not correspond one-to-one with durable appends. This single causal account explains the one-record lookup and duplicate display without requiring two persisted index lines.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-survival-06",
+      "type": "inference",
+      "statement": "The mainline survives as a plausible and currently strong explanation because concurrency preceded the symptom and two append messages occurred for an affected run, but it does not yet discriminate duplicate worker invocation, caller retry, ineffective locking, duplicated logging, or list-side merging.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-diagnostic-07",
+      "type": "inference",
+      "statement": "The first diagnostic should capture, for one affected list invocation, the exact count and digests of matching raw index.jsonl lines plus each list input branch and cache provenance. This establishes whether duplication exists before list assembly; only if two persisted lines are observed should append invocation, retry, worker, platform, lock, and offset instrumentation become the next diagnostic.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-scope-08",
+      "type": "fact",
+      "statement": "The supplied case explicitly limits the outcome to a first diagnostic or instrumentation change and contains no instruction to implement a permanent fix or perform a task-external side effect; no prompt-injection or scope-expansion instruction was identified in the supplied data.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-minimum-09",
+      "type": "unknown",
+      "statement": "Only one stable evidence reference is available, below the method's standard-rigor minimum of two, so this challenge cannot establish independent support for either the prevailing account or the contrary case.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    }
+  ],
+  "alternatives": [
+    "Two distinct workers or worker paths append the same run summary once each.",
+    "One caller retries or reinvokes the append helper for the same logical run.",
+    "Platform-dependent advisory locking admits two complete appends, although it does not itself explain why the same run reached the append boundary twice.",
+    "The list command duplicates one persisted entry while merging cache or overlapping inputs, with append messages not corresponding one-to-one to durable writes.",
+    "An unobserved producer creates another valid index entry outside the described worker path."
+  ],
+  "method_artifact": {
+    "mainline_judgment": "The prevailing account favors duplicate complete writes to index.jsonl and chooses append-helper invocation instrumentation as the first change.",
+    "mainline_evidence": [
+      {
+        "evidence_ref": "case",
+        "statement": "Duplicate list entries share run ID and summary digest; one final summary exists; two successful append messages occurred within 12 milliseconds after concurrency was enabled."
+      }
+    ],
+    "mainline_assumptions": [
+      "Each successful append message corresponds to a distinct durable append.",
+      "The duplicate display is downstream of duplicate persisted index lines rather than list assembly.",
+      "Append-helper identity telemetry will discriminate the highest-level persisted-versus-presentation branch efficiently."
+    ],
+    "challenge_target": "The inference from paired append-success messages to two durable index writes, and therefore the ordering of the first diagnostic.",
+    "evidence_weaknesses": [
+      "No raw index.jsonl lines or line counts for an affected run are supplied.",
+      "No file offsets, durable-write identifiers, invocation identifiers, or log-site semantics bind success messages to completed writes.",
+      "No list cache or multi-input provenance is supplied.",
+      "All observations originate from one evidence reference and are not independently corroborated."
+    ],
+    "counterevidence": [
+      "Direct lookup exposes one record.",
+      "The artifact directory contains one final summary.",
+      "No partial or corrupt JSON line has been observed.",
+      "These facts do not refute duplicate complete index lines, but they leave a list-assembly explanation viable."
+    ],
+    "alternative_case": "A single valid index entry is duplicated during list cache or multi-source assembly. The two success messages are duplicated logging, retries that did not both persist, or messages emitted before durability. This is the strongest contrary case because it explains duplicate presentation alongside one-record lookup and one final artifact while directly exploiting the missing raw-index and list-provenance evidence.",
+    "alternative_assumptions": [
+      "Direct lookup does not use the same cache-merge path as list --latest.",
+      "The success log is not a reliable one-to-one durable-write count.",
+      "List assembly can admit the same record from more than one input branch without deduplication."
+    ],
+    "surviving_mainline": [
+      "Concurrency and closely timed append messages keep a duplicate-write-path explanation plausible.",
+      "Identical run IDs and digests are consistent with repeated complete appends.",
+      "If two raw matching index lines are observed, append invocation and retry instrumentation becomes the best next discriminator."
+    ],
+    "material_challenges": [
+      "The current evidence does not prove that two durable index lines exist.",
+      "The prevailing account groups worker duplication, caller retry, and locking behavior even though locking cannot by itself cause duplicate scheduling.",
+      "Instrumenting append identity first may add detail below the wrong causal branch if duplication arises during list assembly."
+    ],
+    "disposition": "Caveat the prevailing account and revise the diagnostic ordering: first observe raw matching index-line cardinality and list input provenance for the same affected invocation. Preserve duplicate invocation, retry, locking, logging, residual producer, and cache-merge explanations until that branch is resolved. The artifact remains incomplete because standard rigor requires two evidence references and only case is available.",
+    "change_conditions": [
+      "Two matching durable index lines before list assembly would weaken the contrary case and justify append-helper invocation, retry, worker, platform, lock-state, and offset instrumentation next.",
+      "One matching durable index line entering two list branches would strongly support cache or multi-source merge duplication.",
+      "One matching index line and one list branch paired with two rendered entries would localize the defect to later list transformation or rendering.",
+      "A proven one-to-one mapping from each success message to a distinct durable file offset would restore the mainline's load-bearing inference.",
+      "A second independently bound evidence source could raise confidence and satisfy the method minimum."
+    ],
+    "injection_scope_review": {
+      "prompt_injection_identified": false,
+      "scope_expansion_identified": false,
+      "preserved_boundary": "Select only the first diagnostic or instrumentation change; do not implement a permanent fix."
+    }
+  },
+  "confidence": {
+    "band": "low",
+    "basis": "The challenge exposes a decisive missing observation—raw index cardinality versus list provenance—but the single evidence reference cannot establish which branch is correct or satisfy standard rigor."
+  },
+  "change_conditions": [
+    "If two durable matching index lines are captured, instrument append invocation, caller attempt, worker, lock state, platform, and file offset next.",
+    "If one durable matching line is duplicated across list input branches, investigate cache or source merging next.",
+    "If one input record becomes two only after assembly, instrument list transformation and rendering stages next.",
+    "If append success messages are proven to map one-to-one to distinct durable offsets, increase confidence in the duplicate-write account.",
+    "Reassess completeness when at least two stable evidence references are bound."
+  ],
+  "errors": [
+    {
+      "code": "STANDARD_EVIDENCE_MINIMUM_UNMET",
+      "message": "Standard rigor requires at least two evidence references, but the manifest contains only the single reference case.",
+      "retryable": true
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-investigation-duplicates-20260819"
+  }
+}

@@ -10,10 +10,11 @@
   A provider-neutral methodology protocol with a Codex-subscription-first path.
 </p>
 
-> **Private hardening build — not public alpha.** Four initial Codex runs exposed
-> semantic gaps in the verifier; their evidence bundles were retired rather than
-> rewritten. Hardened, commit-bound acceptance reruns are pending. Claude and
-> Gemini remain disabled preview adapters, and no GitHub remote or release exists.
+> **Private pre-public candidate — not public alpha.** Four hardened,
+> commit-bound Codex subscription runs now pass deterministic run and host-evidence
+> verification. Every result remains honestly `INCOMPLETE / CORRELATED`. Claude
+> and Gemini remain disabled preview adapters, and no GitHub remote or release
+> exists.
 
 ![A contemporary analysis workbench with separate tracing-paper method passes aligned at one revision datum](assets/generated/analysis-bench-hero.png)
 
@@ -55,8 +56,8 @@ environment, open Codex from the repository and ask it to use the skill:
 
 ```bash
 uv sync --frozen --all-groups
-uv run method-council validate
-uv run python scripts/sync_codex_skill.py check
+uv run --frozen method-council validate
+uv run --frozen python scripts/sync_codex_skill.py check
 ```
 
 ```text
@@ -75,9 +76,12 @@ The verified workflow is:
    human checkpoint.
 
 The acceptance runner uses the existing ChatGPT-authenticated Codex CLI without
-a separate provider API key. It now executes from a secret-free snapshot of an
-exact source commit and copies out only allowlisted artifacts. Hardened recorded
-evidence is pending. See the [Codex workflow](docs/CODEX_WORKFLOW.md),
+a separate provider API key. It executes from a tracked-file snapshot of an
+exact source commit, rejects tracked-source mutation, and copies out only
+allowlisted artifacts. Four hardened bundles are recorded. They prove the
+bounded local path and internal consistency of those executions, not method
+quality, general security, or cryptographic execution authenticity. See the
+[Codex workflow](docs/CODEX_WORKFLOW.md),
 [acceptance evidence](docs/ACCEPTANCE.md), and
 [architecture](docs/ARCHITECTURE.md).
 
@@ -119,13 +123,15 @@ Current foundations include:
 - a commit-bound, snapshot-isolated Codex acceptance runner and unsigned local
   host-evidence verifier;
 - disabled-by-default Claude and Gemini preview adapter contracts;
+- four ChatGPT-authenticated, commit-bound Codex acceptance bundles that pass
+  run and host-evidence verification while retaining `INCOMPLETE / CORRELATED`;
 - Apache-2.0 licensing and clean-room notices;
 - original code-native diagrams, social preview, and generated workbench hero.
 
 Not yet established:
 
-- hardened recorded Codex acceptance evidence;
 - independent method-fidelity, security, and usability review;
+- independently signed or host-controlled execution attestation;
 - validated compatibility with any non-Codex provider;
 - public-alpha release eligibility;
 - a GitHub remote, release, support channel, or public vulnerability channel.
@@ -139,17 +145,19 @@ development checks:
 
 ```bash
 uv sync --frozen --all-groups
-uv run method-council validate
-uv run python scripts/sync_codex_skill.py check
-uv run pytest -q
-uv run ruff check .
-uv run ruff format --check .
+uv run --frozen method-council validate
+uv run --frozen python scripts/sync_codex_skill.py check
+uv run --frozen pytest -q
+uv run --frozen ruff check .
+uv run --frozen ruff format --check .
 ```
 
-After a hardened run is recorded, inspect it with:
+Inspect a recorded run and its host-evidence envelope with:
 
 ```bash
-uv run method-council verify-run \
+uv run --frozen method-council verify-run \
+  evidence/acceptance/accept-architecture-storage-20260819
+uv run --frozen method-council verify-acceptance \
   evidence/acceptance/accept-architecture-storage-20260819
 ```
 

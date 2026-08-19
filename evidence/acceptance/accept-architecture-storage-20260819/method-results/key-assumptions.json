@@ -1,0 +1,151 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-architecture-storage-20260819",
+  "method_id": "key-assumptions",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "PASS",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "state-judgment",
+    "enumerate",
+    "classify",
+    "challenge",
+    "bound-impact",
+    "define-signposts"
+  ],
+  "findings": [
+    {
+      "id": "key-assumptions-judgment",
+      "type": "inference",
+      "statement": "For alpha, use an append-only JSONL metadata index with immutable per-run JSON artifacts, a process lock around each single-record append, and readers that reject or ignore an invalid trailing record; keep raw prompts and secrets outside both the index and artifacts.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "state-judgment"
+    },
+    {
+      "id": "key-assumptions-scale",
+      "type": "assumption",
+      "statement": "Alpha history remains small enough that scanning JSONL for exact run-ID lookup and the latest 100 runs has acceptable latency.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "classify"
+    },
+    {
+      "id": "key-assumptions-concurrency",
+      "type": "assumption",
+      "statement": "All CLI writers on macOS and Linux can honor the same advisory lock and append one complete metadata record while holding it; without that discipline, nearly simultaneous completions can corrupt or interleave the log.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "challenge"
+    },
+    {
+      "id": "key-assumptions-recovery",
+      "type": "assumption",
+      "statement": "A torn final JSONL record can be detected and ignored or repaired from the immutable run artifact, and losing that final index entry temporarily is acceptable during alpha.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "challenge"
+    },
+    {
+      "id": "key-assumptions-evolution",
+      "type": "inference",
+      "statement": "Versioned self-describing JSONL records fit expected alpha schema change and user inspection/export better than requiring immediate relational migrations, while SQLite would provide stronger transactional concurrency and indexed queries.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "classify"
+    },
+    {
+      "id": "key-assumptions-migration-trigger",
+      "type": "inference",
+      "statement": "Migrate the metadata index to SQLite when a representative history benchmark first shows either p95 exact lookup or latest-100 listing above 100 ms, or when lock contention causes any failed or materially delayed append; import JSONL transactionally and retain JSON export.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "define-signposts"
+    },
+    {
+      "id": "key-assumptions-threshold-uncalibrated",
+      "type": "unknown",
+      "statement": "The 100 ms latency threshold is an alpha operating assumption, not a measured user requirement; representative benchmarks and contention tests have not been provided.",
+      "evidence_refs": [],
+      "method_step": "define-signposts"
+    },
+    {
+      "id": "key-assumptions-failure-impact",
+      "type": "inference",
+      "statement": "If lock discipline, torn-write recovery, or bounded scan latency cannot be demonstrated, the recommendation changes to SQLite immediately because transactions, uniqueness constraints, and indexes directly address those failures.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    }
+  ],
+  "alternatives": [
+    "Use SQLite from alpha with a runs table keyed by run ID, a descending completion-time index, transactional writes, explicit schema migrations, and JSON export; this is preferred if concurrency or recovery assumptions fail."
+  ],
+  "method_artifact": {
+    "judgment": "Start with lock-protected append-only JSONL metadata plus immutable per-run JSON artifacts; migrate the index to SQLite on the stated latency or contention trigger.",
+    "scope": "Local macOS/Linux Python 3.12 CLI run metadata only; no implementation and no raw prompt or secret storage.",
+    "assumptions": [
+      "Alpha history remains small enough for acceptable scan latency.",
+      "All writers honor one cross-process advisory lock.",
+      "A torn final record is detectable and recoverable from immutable run artifacts."
+    ],
+    "assumption_classes": {
+      "load_bearing": [
+        "bounded scan latency",
+        "universal writer lock discipline",
+        "recoverable torn final record"
+      ],
+      "contextual": [
+        "alpha schema evolution",
+        "local user inspection and export"
+      ]
+    },
+    "evidence_links": [
+      "case"
+    ],
+    "challenges": [
+      "Lock discipline may fail or differ across target platforms.",
+      "A crash may split artifact publication from ledger append.",
+      "History growth may make scans too slow."
+    ],
+    "counterevidence": [
+      "SQLite provides transactions, uniqueness constraints, and indexes that directly address the challenged JSONL assumptions."
+    ],
+    "failure_impacts": [
+      "If lock discipline, torn-write recovery, or bounded scan latency cannot be demonstrated, choose SQLite immediately."
+    ],
+    "change_conditions": [
+      "Strengthen the JSONL choice if crash recovery, duplicate handling, and simultaneous-writer tests pass on macOS and Linux.",
+      "Adopt SQLite if representative lookup or latest-100 latency exceeds 100 ms, or any append is corrupt, lost, duplicated, or materially delayed by contention."
+    ],
+    "revised_judgment": "Choose SQLite at alpha if any load-bearing JSONL assumption fails validation."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The recommendation is grounded in the supplied constraints, but no run-count forecast, latency benchmark, crash test, or lock-contention measurement was supplied."
+  },
+  "change_conditions": [
+    "Strengthen the JSONL choice if crash recovery, duplicate run-ID handling, and simultaneous-writer tests pass on macOS and Linux.",
+    "Weaken it if history growth makes p95 exact lookup or latest-100 listing exceed 100 ms on representative hardware.",
+    "Invalidate it on any observed corrupt, lost, duplicate, or materially lock-delayed append; adopt SQLite with transactional import and JSON export."
+  ],
+  "errors": [],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-architecture-storage-20260819"
+  }
+}

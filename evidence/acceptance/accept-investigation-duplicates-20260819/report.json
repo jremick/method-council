@@ -1,0 +1,91 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "judgment": "A duplicate complete index append is the leading causal family, but the current evidence does not prove that two durable index lines exist. The first diagnostic should therefore observe raw matching index-line cardinality and list input/cache provenance for the same affected list invocation before instrumenting lower-level append identity.",
+  "decision_boundary": "Select the first diagnostic or instrumentation change for the duplicate list symptom; do not select or implement a permanent fix.",
+  "next_action": "For one affected list --latest invocation, record the exact count and digests of matching raw index.jsonl lines and the provenance of every list input and cache branch. If two durable matching lines are present, next add append-helper invocation, caller-attempt, worker, platform, lock-state, and file-offset telemetry.",
+  "key_judgments": [
+    {
+      "statement": "The paired successful append messages, identical run ID and digest, and single final artifact make repeated complete index appends the leading causal family, while leaving duplicate invocation, retry, and locking mechanisms unresolved.",
+      "finding_refs": [
+        "competing-hypotheses-observed-index-duplication",
+        "competing-hypotheses-leading-shared-index-write",
+        "devils-advocacy-survival-06"
+      ],
+      "confidence": "low",
+      "confidence_basis": "All observations come from one bound fixture and no invocation identity, raw index lines, or durable-write identifiers are available."
+    },
+    {
+      "statement": "The first diagnostic should distinguish persisted duplication from list-side duplication by capturing raw matching index-line cardinality together with list input and cache provenance.",
+      "finding_refs": [
+        "devils-advocacy-gap-03",
+        "devils-advocacy-diagnostic-07"
+      ],
+      "confidence": "low",
+      "confidence_basis": "This diagnostic tests the highest-level unresolved branch, but the single evidence source prevents establishing which branch is correct."
+    },
+    {
+      "statement": "A caller retry, two worker paths, ineffective platform locking, duplicated logging, and list cache merging all remain live alternatives rather than independently rejected explanations.",
+      "finding_refs": [
+        "competing-hypotheses-retry-remains-live",
+        "competing-hypotheses-cache-merge-weaker",
+        "evidence-quality-gaps-05"
+      ],
+      "confidence": "low",
+      "confidence_basis": "The fixture explicitly leaves invocation count, retry behavior, cross-platform locking, and list cache merging unknown."
+    }
+  ],
+  "strongest_alternative": "Only one durable index entry exists and list --latest duplicates it while merging cache or multiple input branches; the two success messages are duplicated logging or do not map one-to-one to durable writes.",
+  "assumptions": [
+    "Raw index-line cardinality and list input provenance can be captured for the same affected invocation without changing the behavior under diagnosis.",
+    "Direct lookup and list --latest may traverse different assembly or cache paths.",
+    "The current append-success message is not yet proven to identify a distinct durable file write."
+  ],
+  "unknowns": [
+    "Whether the append helper is invoked once per worker or retried by a caller.",
+    "Whether advisory file locking is enabled and effective on every supported platform.",
+    "Whether list --latest merges cached and current inputs.",
+    "Whether the two successful append messages correspond to two distinct durable index lines.",
+    "Worker, invocation, caller-attempt, platform, lock-state, and append-offset identities for the affected events."
+  ],
+  "dissent": [
+    "The evidence-quality and competing-hypotheses passes preferred append-helper invocation instrumentation first because two close successful append messages weaken a purely list-side explanation.",
+    "The devil's-advocacy pass challenged the unproven mapping from success messages to durable writes and recommended resolving raw index cardinality versus list provenance before instrumenting lower-level append causes."
+  ],
+  "checkpoint": {
+    "trigger": "A captured affected invocation establishes raw matching index-line cardinality and list input/cache provenance.",
+    "indicators": [
+      "Two durable matching index lines before list assembly: proceed to append invocation, retry, worker, platform, lock-state, and offset telemetry.",
+      "One durable matching line entering two list branches: investigate cache or multi-source merging.",
+      "One input record becoming two after assembly: instrument list transformation or rendering.",
+      "A one-to-one mapping from each append-success message to a distinct durable offset: increase confidence in the duplicate-write account."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "evidence-quality",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:a6020b89dfbb67a2b86093e8e08f6496de75bd51bb906db4b06ff5dae190db1c"
+    },
+    {
+      "method_id": "competing-hypotheses",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:0ce85df811971da0f03a1e1c4c864be74e574bc6b662533c25711efc93929726"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:e51c3fbbefc0d2e09166630cc195eff7604ac687e47522d0a4a316275c58bdda"
+    }
+  ],
+  "limitations": [
+    "The evidence manifest contains one stable reference, below every selected method's standard-rigor minimum; all three method results are therefore INCOMPLETE.",
+    "All passes used the same Codex host and correlation group, so method diversity is not independent corroboration.",
+    "The fixture supplies summarized observations rather than raw index lines, structured logs, implementation, platform lock telemetry, or cache provenance.",
+    "Schema and run verification establish contract integrity and evidence binding, not factual accuracy, method fidelity, independence, or root cause."
+  ]
+}

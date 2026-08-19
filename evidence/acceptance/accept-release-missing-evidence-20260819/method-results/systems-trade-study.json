@@ -1,0 +1,145 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "method_id": "systems-trade-study",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "frame",
+    "alternatives",
+    "criteria",
+    "define-measures",
+    "evaluate",
+    "sensitivity",
+    "recommend",
+    "record-decision"
+  ],
+  "findings": [
+    {
+      "id": "systems-trade-study-local-readiness",
+      "type": "fact",
+      "statement": "The case reports passing local tests, required community and security documents, a clean tracked-file hygiene scan, and a successful package build in the maintainer's existing macOS checkout.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-release-gaps",
+      "type": "fact",
+      "statement": "The case lacks clean-clone installation, authenticated live-host execution, candidate-commit CI, independent security or correctness review, and known remote visibility and repository security settings.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-recommendation",
+      "type": "inference",
+      "statement": "Do not approve public alpha today: approve and conditional approve depend on release-path and remote-control evidence that is currently unknown, while retaining the local build for further verification is feasible.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "recommend"
+    },
+    {
+      "id": "systems-trade-study-evidence-minimum",
+      "type": "unknown",
+      "statement": "Only one evidence reference is bound, below the two-reference minimum for a standard systems trade study, so the comparison cannot be treated as a completed standard pass.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "record-decision"
+    }
+  ],
+  "alternatives": [
+    "Approve public alpha today",
+    "Conditionally approve public alpha today",
+    "Do not approve public alpha today"
+  ],
+  "method_artifact": {
+    "decision": "Whether to approve the fictional local analysis CLI for public alpha today.",
+    "owner": "Accountable public-alpha decision authority",
+    "constraints": [
+      "Use only the bound case evidence",
+      "Do not create a repository, release, or external write",
+      "Do not treat unknown release-path or remote-security state as satisfied"
+    ],
+    "boundary": "Today-only public-alpha approval judgment; implementation and publication are out of scope.",
+    "alternatives": [
+      "Approve today",
+      "Conditionally approve today",
+      "Do not approve today"
+    ],
+    "exclusions": [],
+    "criteria": [
+      "Local functional and packaging evidence",
+      "Reproducible installation from a clean clone",
+      "Candidate-commit CI evidence",
+      "Authenticated live-host behavior",
+      "Independent correctness and security review",
+      "Known safe remote visibility and repository security settings"
+    ],
+    "criterion_rationale": "Public alpha exposes users to installation, execution, supply-chain, and repository-control risks that existing-checkout evidence alone does not cover.",
+    "measures": [
+      "Each criterion is pass, fail, or unknown from the bound case",
+      "Unknown release-path or remote-control criteria cannot support approval",
+      "No numeric weighting is used"
+    ],
+    "selection_rule": "Recommend approval only when release-path execution and remote security controls are evidenced; otherwise prefer the least externally exposing feasible alternative.",
+    "evaluation_matrix": {
+      "approve": "Unsupported: local checks pass, but all release-path and remote-control criteria are unknown.",
+      "conditional_approve": "Not supportable today: conditions would defer evidence that is material to the act of public release.",
+      "do_not_approve": "Supported as the robust current choice because it preserves the working local state without external exposure."
+    },
+    "assumptions": [
+      "The case accurately reports its local checks.",
+      "A public alpha would make the CLI available to external users."
+    ],
+    "unknowns": [
+      "Clean-clone install outcome",
+      "Authenticated live-host outcome",
+      "Candidate-commit CI outcome",
+      "Independent review outcome",
+      "Remote visibility and security-settings state"
+    ],
+    "sensitivity_results": "The recommendation is robust while any release-path execution or remote-security control remains unknown. Positive local test or build repetition alone does not reverse it.",
+    "recommendation": "Do not approve public alpha today.",
+    "rationale": "The available evidence establishes useful local readiness but not reproducible installation, candidate automation, live integration, independent review, or safe publication controls.",
+    "change_conditions": [
+      "Evidence from a clean clone shows successful install, tests, and package build on the candidate commit.",
+      "CI passes on the exact candidate commit.",
+      "An authenticated live-host smoke run completes without material failure.",
+      "At least one independent correctness or security review reports no unresolved release-blocking issue.",
+      "Remote visibility and repository security settings are read back and meet the release policy."
+    ],
+    "final_decision": "No accountable publication action was taken; the method recommends do not approve today.",
+    "decision_rationale": "The method recommendation is advisory and remains separate from the accountable authority's final choice."
+  },
+  "confidence": {
+    "band": "low",
+    "basis": "The judgment is directionally robust, but the standard method's minimum evidence-reference requirement is unmet and all release-path evidence is missing."
+  },
+  "change_conditions": [
+    "Provide a second independently bound evidence source and evidence of clean-clone install and build, candidate-commit CI, authenticated live-host execution, independent review without unresolved blockers, and acceptable remote visibility and security settings."
+  ],
+  "errors": [
+    {
+      "code": "insufficient_evidence_refs",
+      "message": "Standard systems-trade-study requires at least two evidence references; only case is bound.",
+      "retryable": true
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-release-missing-evidence-20260819"
+  }
+}

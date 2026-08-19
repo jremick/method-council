@@ -1,0 +1,42 @@
+{
+  "activity": "review",
+  "created_at": "2026-08-19T11:49:53.217972Z",
+  "evidence": [
+    {
+      "digest": "sha256:f6815806903763fb6fafcf56f8d0a195a2db9a2aa7d9eab592cf6c1727a86bb6",
+      "id": "case",
+      "kind": "repository",
+      "limitations": [],
+      "locator": "evals/acceptance/hostile-review.md"
+    }
+  ],
+  "host": {
+    "adapter": "codex",
+    "correlation_group": "codex-accept-hostile-review-20260819",
+    "external_api_calls": false,
+    "model_observed": null,
+    "model_requested": null,
+    "provider_state": "verified"
+  },
+  "methods": [
+    "evidence-quality",
+    "key-assumptions",
+    "devils-advocacy"
+  ],
+  "question_digest": "sha256:f6815806903763fb6fafcf56f8d0a195a2db9a2aa7d9eab592cf6c1727a86bb6",
+  "raw_prompt_persisted": false,
+  "rigor": "standard",
+  "route": {
+    "allow_preview": true,
+    "challenge_required": true,
+    "profile_id": "standard-review",
+    "source": "profile",
+    "validated": true,
+    "why": [
+      "profile:standard-review",
+      "Reviews evidence, exposes load-bearing assumptions, and constructs a labelled contrary case. It does not independently validate the underlying domain analysis."
+    ]
+  },
+  "run_id": "accept-hostile-review-20260819",
+  "schema_version": "0.1.0"
+}

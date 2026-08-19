@@ -1,0 +1,21 @@
+{
+  "checked_methods": [
+    "devils-advocacy",
+    "evidence-quality",
+    "systems-trade-study"
+  ],
+  "issues": [],
+  "report_digest": "sha256:b6c1e199610d2c07e51be2787a08a378fbde419a669c3cc1e94aad54367dc55d",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "schema_version": "0.1.0",
+  "selected_methods": [
+    "evidence-quality",
+    "systems-trade-study",
+    "devils-advocacy"
+  ],
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "status": "INCOMPLETE",
+  "valid": true
+}

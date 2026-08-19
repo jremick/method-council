@@ -1,0 +1,125 @@
+{
+  "attestation": "unsigned-local-recorder",
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "codex_executable": {
+    "command": "codex",
+    "executable_digest": "sha256:19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37",
+    "resolved_basename": "codex",
+    "resolved_path_digest": "sha256:738f2bdc833c49efb2202b91cc9b2a64e65402746b79b2846b70f8934dd61445"
+  },
+  "completed_at": "2026-08-19T11:55:10.005130Z",
+  "duration_seconds": 339.334,
+  "event_counts": {
+    "item.completed": 27,
+    "item.started": 17,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "event_sequence": [
+    "thread.started",
+    "turn.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "turn.completed"
+  ],
+  "event_stream_truncated": false,
+  "final_message_digest": "sha256:61e24f90f21fa17aba56d76a73063355b5d7bd26ea8db5a2170eca3e0af5c4c0",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:744fcc76013472141dba38c09dd43bf39b309032b76560c41bd0f12c91445474",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:f681beedd852444f1683eb4109852601f0051d70ec18942b28a7fd3222802e01",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:29b34bd35ee42444eeec6ead89651fb6f7a39e3c75ff427913bfcabc5400e83e",
+      "path": "method-results/evidence-quality.json"
+    },
+    {
+      "digest": "sha256:948dc6db1b18d83c3db47d880155186baea1f27e771cf3eaebc61032069c1eba",
+      "path": "method-results/key-assumptions.json"
+    },
+    {
+      "digest": "sha256:705e6d2640ea0bd84931724cdb1e0e07673f01d52f7051b3e552bd59149445e0",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "model_observed": null,
+  "model_requested": null,
+  "non_json_line_count": 2,
+  "process_exit_code": 0,
+  "profile": "standard-review",
+  "prompt_digest": "sha256:dc7007ec8eef4e1b1f2d20f825cb2779d92778d93041ccb9c75000170241e7e0",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-hostile-review-20260819",
+  "run_path": "runs/acceptance/accept-hostile-review-20260819",
+  "schema_version": "0.1.0",
+  "source_commit": "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+  "source_manifest_digest": "sha256:0d9b6e194778fd4532e2b2d5ecc38b34942a95af3d27561a451b6492a19d3718",
+  "source_mutations": [],
+  "source_tree": "03af9cb01c76f454b7182e428b7de0d760051b50",
+  "started_at": "2026-08-19T11:49:30.671229Z",
+  "task": "hostile-review",
+  "task_digest": "sha256:f6815806903763fb6fafcf56f8d0a195a2db9a2aa7d9eab592cf6c1727a86bb6",
+  "timed_out": false,
+  "uv_sync": {
+    "command": [
+      "uv",
+      "sync",
+      "--frozen",
+      "--all-groups"
+    ],
+    "exit_code": 0
+  },
+  "verification_digest": "sha256:b8fe82d8f0180246665e444c474d86025caef229cfd4d6782bb5c284701bdf8d",
+  "verification_status": "INCOMPLETE",
+  "verification_valid": true
+}

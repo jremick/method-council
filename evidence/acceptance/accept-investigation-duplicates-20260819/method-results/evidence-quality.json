@@ -1,0 +1,165 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "method_id": "evidence-quality",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "inventory",
+    "assess-critical",
+    "test-independence",
+    "expose-gaps",
+    "calibrate"
+  ],
+  "findings": [
+    {
+      "id": "evidence-quality-inventory-01",
+      "type": "fact",
+      "statement": "The evidence corpus contains one repository fixture describing observed duplicate list entries, the write-and-append workflow, timing evidence, and explicit unknowns; it supplies no separate logs, implementation, platform records, or cache traces for direct inspection.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "inventory"
+    },
+    {
+      "id": "evidence-quality-critical-append-02",
+      "type": "inference",
+      "statement": "The two successful append messages within 12 milliseconds are the most load-bearing observation for the leading hypothesis that the same run summary is appended twice, because duplicate list entries share both run ID and summary digest while only one final summary artifact exists.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-critical-limits-03",
+      "type": "unknown",
+      "statement": "The fixture does not establish whether the two append messages represent distinct helper invocations, a caller retry, duplicated logging around one operation, or two workers acting on the same run ID.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-independence-04",
+      "type": "fact",
+      "statement": "All observations and unknowns are reported through the same fixture, so the apparent agreement among run ID, digest, directory state, and log timing cannot be counted as independently corroborated evidence from separate sources.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-independence"
+    },
+    {
+      "id": "evidence-quality-gaps-05",
+      "type": "unknown",
+      "statement": "Invocation identity, worker identity, attempt number, lock acquisition state, platform, append offset, and list-cache provenance are absent; without them the evidence cannot discriminate duplicate invocation or retry from locking, cache-merge, or logging alternatives.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-diagnostic-06",
+      "type": "inference",
+      "statement": "The first diagnostic should instrument every append-helper invocation with run ID, worker ID, a per-invocation identifier, caller attempt number when available, platform, lock-enabled and lock-acquired state, and append completion; this directly tests whether two real invocations or attempts produced the two messages before investigating cache behavior.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    },
+    {
+      "id": "evidence-quality-minimum-07",
+      "type": "fact",
+      "statement": "Only one stable evidence reference is available, below the method's standard-rigor minimum of two, so confidence remains limited and the pass is incomplete despite completion of the procedural review steps.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    }
+  ],
+  "alternatives": [
+    "A caller retry or duplicate worker invocation appends the same run summary twice.",
+    "Advisory locking is absent or ineffective on an affected platform, allowing duplicate appends, although locking alone does not explain why the same run is scheduled twice.",
+    "The list command merges cached and current index data without deduplicating, producing duplicate display entries independently of the append path.",
+    "The two success messages are duplicated logging for one append rather than evidence of two writes."
+  ],
+  "method_artifact": {
+    "evidence_inventory": [
+      {
+        "evidence_ref": "case",
+        "kind": "repository",
+        "locator": "evals/acceptance/investigation-duplicates.md",
+        "digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+        "date": null,
+        "limitations": []
+      }
+    ],
+    "access_limits": [
+      "The bound corpus contains the acceptance fixture only; referenced implementation, raw logs, index contents, platform configuration, and cache state were not independently available as evidence references."
+    ],
+    "critical_evidence": [
+      "Duplicate list entries share a run ID and summary digest.",
+      "Only one final summary artifact exists for the affected run.",
+      "Two successful append messages occurred within 12 milliseconds."
+    ],
+    "quality_observations": [
+      "The observations are relevant and internally coherent for locating the duplication near index append or list assembly.",
+      "Credibility and completeness cannot be independently tested because the fixture is the sole source and supplies summaries rather than raw records.",
+      "Currency is not assessable because no event or collection dates are provided.",
+      "No corrupted or partial JSON line was observed, which weakens torn-write explanations but does not exclude duplicate complete appends."
+    ],
+    "correlation_groups": [
+      {
+        "group": "case-fixture",
+        "evidence_refs": [
+          "case"
+        ],
+        "basis": "All reported observations originate in one repository fixture."
+      }
+    ],
+    "gaps": [
+      "Append-helper invocation count and caller retry behavior are unknown.",
+      "Cross-platform advisory-lock configuration and effectiveness are unknown.",
+      "List-command cache merge behavior is unknown.",
+      "Raw index lines and append offsets for an affected run are unavailable.",
+      "Worker, invocation, attempt, platform, and lock-state identifiers are absent from the reported append messages.",
+      "A second independent evidence reference required at standard rigor is unavailable."
+    ],
+    "contradictions": [],
+    "affected_judgments": [
+      "Whether duplication is introduced during append, invocation scheduling or retry, logging, or list cache merge.",
+      "Whether advisory locking materially contributes to the defect.",
+      "Whether the two successful append messages prove two completed writes."
+    ],
+    "confidence_basis": "The fixture strongly prioritizes append-path invocation instrumentation because identical duplicate entries and near-simultaneous append messages align with a repeated complete append. Confidence is only moderate in that diagnostic ordering and low in any causal conclusion because the sole source is not independently corroborated, critical provenance fields are missing, and the standard minimum of two evidence references is unmet."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The bound observations support append-helper invocation instrumentation as the most discriminating first change, but one correlated source cannot establish root cause or satisfy the standard evidence minimum."
+  },
+  "change_conditions": [
+    "If instrumentation shows one append-helper invocation and one completed append for an affected run, inspect list cache-merge provenance next.",
+    "If it shows multiple invocation IDs or attempt numbers for the same run ID, trace worker scheduling and caller retry ownership next.",
+    "If multiple invocations occur only where locking is disabled or acquisition fails, prioritize a platform-specific locking diagnostic.",
+    "If raw index evidence shows only one matching line despite two completion messages, test duplicate logging and downstream list assembly.",
+    "Reassess status and confidence when a second independently bound source, such as raw index lines or structured invocation traces, becomes available."
+  ],
+  "errors": [
+    {
+      "code": "STANDARD_EVIDENCE_MINIMUM_UNMET",
+      "message": "Standard rigor requires at least two evidence references, but the manifest contains only the single reference case.",
+      "retryable": true
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-investigation-duplicates-20260819"
+  }
+}

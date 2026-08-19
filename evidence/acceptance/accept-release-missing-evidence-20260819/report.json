@@ -1,0 +1,95 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "judgment": "Do not approve the fictional CLI for public alpha today. The bound case supports limited local readiness but leaves release-path execution, candidate CI, authenticated live-host behavior, independent review, and remote security controls unevidenced.",
+  "decision_boundary": "Choose approve, conditional approve, or do not approve for public alpha today; no repository creation, release, publication, or external write is authorised.",
+  "next_action": "Keep publication blocked and bind evidence for a clean-clone install and build, CI on the exact candidate, an authenticated live-host smoke run, independent security or correctness review, and verified remote visibility and repository security settings; also provide a second independent evidence reference before rerunning the standard council.",
+  "key_judgments": [
+    {
+      "statement": "The available evidence establishes useful existing-checkout readiness but does not establish public-release readiness.",
+      "finding_refs": [
+        "systems-trade-study-local-readiness",
+        "systems-trade-study-release-gaps"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The fixture states both the positive local checks and the missing release checks, but no underlying records are separately bound."
+    },
+    {
+      "statement": "Public alpha should not be approved today because multiple load-bearing release checks remain unknown.",
+      "finding_refs": [
+        "evidence-quality-do-not-approve-today",
+        "systems-trade-study-recommendation",
+        "devils-advocacy-mainline-survives"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "All checked methods converge on withholding publication, while their shared single-source evidence and same-host execution prevent high confidence or independent corroboration."
+    },
+    {
+      "statement": "The standard run is incomplete because every selected method requires at least two evidence references and only case is bound.",
+      "finding_refs": [
+        "evidence-quality-standard-minimum-unmet",
+        "systems-trade-study-evidence-minimum",
+        "devils-advocacy-standard-minimum-unmet"
+      ],
+      "confidence": "high",
+      "confidence_basis": "Each checked result records the same deterministic evidence-reference shortfall without manufacturing another source."
+    }
+  ],
+  "strongest_alternative": "Allow preparatory release work behind a demonstrated, enforceable no-publication gate, while withholding actual conditional approval until the missing checks pass. The current evidence does not establish such a gate.",
+  "assumptions": [
+    "The case accurately reports the listed local checks.",
+    "A public alpha would expose external users to installation, execution, supply-chain, and repository-control risks.",
+    "Unknown release-path and remote-control states cannot be treated as satisfied."
+  ],
+  "unknowns": [
+    "Whether the exact candidate installs and builds from a clean clone.",
+    "Whether CI passes on the exact candidate commit.",
+    "Whether an authenticated live-host smoke run succeeds.",
+    "Whether independent security or correctness review finds release blockers.",
+    "Whether remote visibility and repository security settings are release-appropriate.",
+    "Whether an enforceable no-publication gate exists."
+  ],
+  "dissent": [
+    "Devil's Advocacy identifies gated preparatory authorization as a credible alternative to a blanket stop, but it does not support public alpha or conditional publication approval today.",
+    "No checked result disagrees with the do-not-approve judgment; this convergence is correlated and is not independent corroboration."
+  ],
+  "checkpoint": {
+    "trigger": "Re-run the standard decision after the exact candidate has independently bound evidence for every missing release check and any publication gate.",
+    "indicators": [
+      "Clean-clone install, tests, and package build succeed for the exact candidate.",
+      "Candidate-commit CI passes.",
+      "Authenticated live-host smoke execution completes without material failure.",
+      "Independent security or correctness review reports no unresolved release blocker.",
+      "Remote visibility and repository security settings are read back as release-appropriate.",
+      "At least two evidence references, including an independent source, are bound to the rerun."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "evidence-quality",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:b1eabee6c6215dec1e8c141874d8a755a1e71483a05f3ac20170b11b4c8036d7"
+    },
+    {
+      "method_id": "systems-trade-study",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:49df9e3cfdfb8f57609d5ccacfa8ee0f10e0db8b9772276571bc915d73a0cbda"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:16e617b649f907085a76e7a68f897f5a1a7c72bb0a33311845759f4a89c6a769"
+    }
+  ],
+  "limitations": [
+    "Only one repository evidence reference is bound, below the standard-rigor minimum for every selected method.",
+    "All method passes used the same Codex host and correlation group; their agreement is correlated, not independent corroboration.",
+    "Model requested and model observed are null because this runner does not independently observe a model identifier.",
+    "External API calls were false; no live provider, CI, remote settings, independent review, or clean-clone evidence was obtained.",
+    "Schema and run verification establish contract and digest consistency only, not factual accuracy, method fidelity, independence, usability, or public readiness."
+  ]
+}

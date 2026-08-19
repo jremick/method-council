@@ -104,3 +104,17 @@ candidate commit and expected raw format, an otherwise-PASS gate is
 Caller- or model-supplied pass flags are untrusted. Eligibility, if a later
 verifier can derive it, still does not authorise a tag, release, remote push,
 settings change, or visibility change.
+
+## Acceptance evidence
+
+`verify-acceptance` binds a recorded run to an immutable source commit and tree,
+the expected public task/profile, a tracked-file manifest, the allowlisted model
+artifacts and their digests, source-mutation state, bounded lifecycle events,
+process outcome, and the independently recomputed run verdict. It rejects
+missing or swapped artifacts, symlinked paths, source mutations, malformed or
+truncated lifecycle evidence, nonzero exits, timeouts, and disagreement between
+stored and recomputed verdicts.
+
+The current `unsigned-local-recorder` attestation establishes internal
+consistency only. It is not a cryptographic signature, an independent provider
+receipt, or proof of filesystem or network containment.

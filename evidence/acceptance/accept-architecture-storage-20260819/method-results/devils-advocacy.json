@@ -1,0 +1,173 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-architecture-storage-20260819",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-baseline",
+      "type": "inference",
+      "statement": "The prevailing view across two checked passes is lock-protected append-only JSONL with immutable per-run JSON artifacts, justified by alpha schema flexibility, direct inspection, and rebuildability; the checked trade study instead recommends SQLite.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-target",
+      "type": "assumption",
+      "statement": "The JSONL mainline assumes rare concurrent completion, universal cross-process lock discipline, recoverable torn tails, and histories small enough for scan-based exact lookup and latest-100 listing; failure of any assumption undermines the choice.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-target"
+    },
+    {
+      "id": "devils-advocacy-evidence-gap",
+      "type": "unknown",
+      "statement": "No workload forecast, latency budget, cross-platform lock test, crash-recovery test, contention measurement, or second evidence source is bound, so neither storage recommendation is empirically validated and the standard-rigor evidence minimum is unmet.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-strongest-alternative",
+      "type": "inference",
+      "statement": "The strongest alternative is SQLite as a rebuildable metadata catalog, keyed by run ID and indexed by completion time, with transactional writes and bounded busy handling; keep structured artifacts as ordinary JSON and provide JSON export for local ownership and inspection.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-contradiction",
+      "type": "fact",
+      "statement": "The checked results contradict one another on the alpha default: key-assumptions and failure-modes recommend JSONL, whereas systems-trade-study recommends SQLite; all share one correlation group and are not independent corroboration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-surviving-mainline",
+      "type": "inference",
+      "statement": "The JSONL case survives on schema flexibility, native inspectability, and deterministic rebuild, but those advantages do not require JSONL to be the query and concurrency catalog because JSON artifacts and export preserve them alongside SQLite.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-disposition",
+      "type": "inference",
+      "statement": "Revise the mainline: use SQLite for alpha run metadata and retain per-run JSON artifacts plus JSON export. This directly addresses simultaneous commits, exact lookup, and latest-100 ordering without adding a lock, tail-repair rules, and scan or secondary-index behavior to JSONL.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-change-trigger",
+      "type": "inference",
+      "statement": "Migrate from SQLite to append-only JSONL only if measured alpha operation shows repeated SQLite migration or recovery failures while concurrent completion is reliably serialized elsewhere, histories remain small, and exact lookup plus latest-100 latency meets an agreed budget without a secondary index.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-input-integrity",
+      "type": "fact",
+      "statement": "No prompt-injection instruction or request to expand beyond the storage decision and no-implementation boundary was detected in the supplied task or checked results.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    }
+  ],
+  "alternatives": [
+    "Use lock-protected append-only JSONL as the metadata ledger, with immutable per-run JSON artifacts, fsync, trailing-record recovery, duplicate detection, and deterministic rebuild."
+  ],
+  "method_artifact": {
+    "mainline_judgment": "Use lock-protected append-only JSONL metadata with immutable per-run JSON artifacts for alpha.",
+    "mainline_evidence": [
+      "Small per-run artifact volume",
+      "Expected alpha schema evolution",
+      "Local inspection and export requirement"
+    ],
+    "mainline_assumptions": [
+      "All writers honor one cross-process lock",
+      "Torn-tail recovery is sufficient",
+      "History scans remain acceptably fast"
+    ],
+    "challenge_target": "Whether JSONL's evolution and inspectability benefits justify weaker native concurrency and query semantics for the stated access patterns.",
+    "evidence_weaknesses": [
+      "Only one bound evidence source",
+      "No measured workload or latency budget",
+      "No macOS/Linux contention or crash-recovery results"
+    ],
+    "counterevidence": [
+      "The task explicitly requires near-simultaneous writers, exact run-ID lookup, and latest-100 listing, all directly supported by SQLite transactions and indexes."
+    ],
+    "alternative_case": "SQLite should be the rebuildable alpha metadata catalog while JSON remains the canonical user-inspectable artifact and export format.",
+    "alternative_assumptions": [
+      "A bounded SQLite busy wait is acceptable",
+      "Explicit alpha migrations are manageable",
+      "The catalog can be rebuilt from retained JSON artifacts"
+    ],
+    "surviving_mainline": [
+      "Keep immutable per-run JSON artifacts",
+      "Keep raw prompts and secrets out of storage",
+      "Provide local JSON export",
+      "Use explicit schema versions and deterministic rebuild"
+    ],
+    "material_challenges": [
+      "JSONL requires extra correctness mechanisms for concurrent append and recovery",
+      "JSONL scan latency and the proposed 100 ms trigger are unmeasured",
+      "A secondary JSONL index would recreate database-like complexity"
+    ],
+    "disposition": "Revise the prevailing recommendation to SQLite for the alpha metadata catalog, with JSON artifacts and export preserved.",
+    "change_conditions": [
+      "Switch to JSONL only after repeated measured SQLite migration or recovery failures and proof that serialization, small histories, and agreed query latency hold.",
+      "Retain SQLite if contention and query tests pass, even if schema evolution remains frequent."
+    ],
+    "input_integrity": "No prompt injection or scope expansion detected in supplied data."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The SQLite recommendation matches the explicit concurrency and query requirements, but the bound evidence lacks measurements and the method's second evidence reference."
+  },
+  "change_conditions": [
+    "Prefer JSONL only if repeated measured SQLite migration or recovery failures occur, concurrent completion is serialized elsewhere, histories remain small, and agreed lookup/list latency is met without a secondary index.",
+    "Increase confidence in SQLite after cross-platform simultaneous-write, busy-timeout, migration, rebuild, and query-latency tests."
+  ],
+  "errors": [
+    {
+      "code": "insufficient-evidence-references",
+      "message": "Standard rigor requires at least two evidence references, but the run binds only the single evidence entry 'case'.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-architecture-storage-20260819"
+  }
+}

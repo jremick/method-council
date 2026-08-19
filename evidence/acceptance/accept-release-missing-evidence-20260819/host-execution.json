@@ -1,0 +1,123 @@
+{
+  "attestation": "unsigned-local-recorder",
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "codex_executable": {
+    "command": "codex",
+    "executable_digest": "sha256:19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37",
+    "resolved_basename": "codex",
+    "resolved_path_digest": "sha256:738f2bdc833c49efb2202b91cc9b2a64e65402746b79b2846b70f8934dd61445"
+  },
+  "completed_at": "2026-08-19T11:54:52.750974Z",
+  "duration_seconds": 327.565,
+  "event_counts": {
+    "item.completed": 26,
+    "item.started": 16,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "event_sequence": [
+    "thread.started",
+    "turn.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "turn.completed"
+  ],
+  "event_stream_truncated": false,
+  "final_message_digest": "sha256:48044d01971ea01ab5590bf6e6d7830dfdd355abea50164a5fd6fa1b86db4962",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:4a69a58747d942adcf138cd1d428570b183039e3bddebc3d0dfa18283b2aeeaf",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:b6c1e199610d2c07e51be2787a08a378fbde419a669c3cc1e94aad54367dc55d",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:b1eabee6c6215dec1e8c141874d8a755a1e71483a05f3ac20170b11b4c8036d7",
+      "path": "method-results/evidence-quality.json"
+    },
+    {
+      "digest": "sha256:49df9e3cfdfb8f57609d5ccacfa8ee0f10e0db8b9772276571bc915d73a0cbda",
+      "path": "method-results/systems-trade-study.json"
+    },
+    {
+      "digest": "sha256:16e617b649f907085a76e7a68f897f5a1a7c72bb0a33311845759f4a89c6a769",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "model_observed": null,
+  "model_requested": null,
+  "non_json_line_count": 0,
+  "process_exit_code": 0,
+  "profile": "standard-decision",
+  "prompt_digest": "sha256:e4efad47c796d7a571ab5f0bd865d34f35ad70d1fdf85f76de67417ffcfe60cc",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-release-missing-evidence-20260819",
+  "run_path": "runs/acceptance/accept-release-missing-evidence-20260819",
+  "schema_version": "0.1.0",
+  "source_commit": "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+  "source_manifest_digest": "sha256:0d9b6e194778fd4532e2b2d5ecc38b34942a95af3d27561a451b6492a19d3718",
+  "source_mutations": [],
+  "source_tree": "03af9cb01c76f454b7182e428b7de0d760051b50",
+  "started_at": "2026-08-19T11:49:25.186095Z",
+  "task": "release-missing-evidence",
+  "task_digest": "sha256:18776289bc9986add97fd1e481001cac975f0b163982929de46a8b3258434a90",
+  "timed_out": false,
+  "uv_sync": {
+    "command": [
+      "uv",
+      "sync",
+      "--frozen",
+      "--all-groups"
+    ],
+    "exit_code": 0
+  },
+  "verification_digest": "sha256:3b09802833b863d0d93708a3ed9bc2e8c230afc62b8e3eb7c63d6ee47915208e",
+  "verification_status": "INCOMPLETE",
+  "verification_valid": true
+}

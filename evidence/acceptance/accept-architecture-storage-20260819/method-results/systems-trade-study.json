@@ -1,0 +1,168 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-architecture-storage-20260819",
+  "method_id": "systems-trade-study",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "frame",
+    "alternatives",
+    "criteria",
+    "define-measures",
+    "evaluate",
+    "sensitivity",
+    "recommend"
+  ],
+  "findings": [
+    {
+      "id": "systems-trade-study-constraint-fit",
+      "type": "fact",
+      "statement": "The alpha must provide exact run-ID lookup, latest-100 listing, near-simultaneous process completion, local inspection or export, and schema evolution without storing raw prompts or secrets.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "frame"
+    },
+    {
+      "id": "systems-trade-study-sqlite-advantage",
+      "type": "inference",
+      "statement": "SQLite is the stronger alpha metadata store because indexed lookup, ordered listing, and transactional concurrent writes directly match the required access and completion patterns.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-jsonl-tradeoff",
+      "type": "inference",
+      "statement": "Append-only JSONL is easier to inspect and tolerant of heterogeneous alpha records, but it needs an additional locking and recovery design for concurrent writers and progressively scans more history for latest-run queries unless an index is added.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "evaluate"
+    },
+    {
+      "id": "systems-trade-study-evidence-gap",
+      "type": "unknown",
+      "statement": "No second evidence source supplies measured workload, filesystem, contention, corruption-recovery, or migration data, so the standard-rigor evidence minimum and empirical sensitivity assessment are unmet.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "sensitivity"
+    },
+    {
+      "id": "systems-trade-study-decision-authority",
+      "type": "unknown",
+      "statement": "The accountable decision owner and final accepted choice are not identified in the bound evidence.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "record-decision"
+    }
+  ],
+  "alternatives": [
+    "Append-only JSONL metadata log",
+    "SQLite metadata database"
+  ],
+  "method_artifact": {
+    "decision": "Choose the alpha persistence architecture for local Method Council run metadata.",
+    "owner": "Unknown; the decision authority is not named in the bound evidence.",
+    "boundary": "Local metadata persistence for a Python 3.12 CLI on macOS and Linux; implementation and remote services are out of scope.",
+    "constraints": [
+      "Exact lookup by run ID",
+      "List the latest 100 runs",
+      "Handle nearly simultaneous completion by two CLI processes",
+      "Do not store raw prompts or secrets",
+      "Allow local inspection or export without a server",
+      "Accommodate alpha schema evolution"
+    ],
+    "criteria": [
+      "Correct concurrent writes",
+      "Lookup and latest-list performance",
+      "Schema-evolution cost",
+      "User portability and inspectability",
+      "Operational simplicity and recovery"
+    ],
+    "criterion_rationale": "The criteria trace directly to the required access patterns, local-first boundary, concurrency observation, and expected alpha evolution.",
+    "measures": [
+      "Concurrency: whether two writers can commit complete metadata records without interleaving or loss",
+      "Lookup: direct indexed/keyed access versus history scan",
+      "Latest list: ordered indexed query versus scan and parse",
+      "Evolution: explicit migrations versus per-record version tolerance",
+      "Portability: built-in inspection/export path without a server"
+    ],
+    "selection_rule": "Prefer the feasible option that satisfies concurrency and required queries with the fewest additional correctness mechanisms; treat inspectability as satisfied by a documented local export rather than requiring the primary store to be plain text.",
+    "evaluation_matrix": {
+      "Append-only JSONL metadata log": {
+        "concurrency": "Weak without a cross-process lock, single-writer coordinator, and partial-record recovery rule",
+        "lookup": "Requires scanning or a separate index unless run directories provide the authoritative key path",
+        "latest_100": "Requires parsing and ordering increasing history or maintaining another index",
+        "schema_evolution": "Strong for heterogeneous versioned records",
+        "inspect_export": "Strong native text inspection",
+        "recovery": "Simple tail truncation only if corruption is confined to an incomplete final record"
+      },
+      "SQLite metadata database": {
+        "concurrency": "Strong via transactions and bounded busy handling for two local writers",
+        "lookup": "Strong with a primary key on run_id",
+        "latest_100": "Strong with a completion-time index and descending LIMIT query",
+        "schema_evolution": "Moderate; requires versioned migrations and compatibility discipline",
+        "inspect_export": "Adequate through local SQLite tooling and a CLI JSON export",
+        "recovery": "Strong transactional atomicity, with backup and rebuild procedures still required"
+      }
+    },
+    "assumptions": [
+      "Run metadata is substantially smaller than the referenced per-run artifact volume.",
+      "A short bounded wait or retry on SQLite lock contention is acceptable for two finishing processes.",
+      "Structured artifacts can remain ordinary local JSON files while SQLite catalogs non-sensitive metadata and paths."
+    ],
+    "unknowns": [
+      "Expected total run count and retention period",
+      "Measured concurrent-write frequency and acceptable completion latency",
+      "Required crash-recovery and backup guarantees",
+      "Accountable decision owner"
+    ],
+    "sensitivity_results": [
+      "SQLite remains preferred as run count grows because its indexed access advantage increases.",
+      "JSONL becomes more attractive only if concurrent completion is removed or externally serialized and the workload remains limited to append, full export, and small histories.",
+      "Frequent incompatible schema changes increase SQLite migration cost but do not outweigh the stated concurrency and query requirements without evidence of actual migration failures."
+    ],
+    "recommendation": "Use SQLite as a rebuildable local metadata catalog, with one row per run keyed by run_id, an index supporting latest-100 ordering, transactional writes with a bounded busy timeout, explicit schema-version migrations, and no raw prompts or secrets. Keep the 4–8 structured run artifacts as user-readable JSON files and provide CLI JSON export so SQLite does not become a data-access boundary.",
+    "rationale": "This hybrid boundary gives the required metadata operations transactional and indexed semantics while preserving local ownership and direct artifact inspection.",
+    "change_conditions": [
+      "Migrate the metadata catalog to append-only JSONL if measured alpha operation shows repeated SQLite migration or recovery failures while histories remain small, concurrent finishes are reliably serialized elsewhere, and required lookup/latest-list latency is still met without a secondary index."
+    ],
+    "final_decision": "Not recorded; this artifact is a method recommendation only.",
+    "decision_rationale": "Pending the accountable decision authority."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The recommendation fits every stated requirement, but only one bound evidence source is available and no workload or contention measurements were supplied."
+  },
+  "change_conditions": [
+    "Migrate to append-only JSONL if measured alpha operation shows repeated SQLite migration or recovery failures, concurrent finishes are serialized elsewhere, histories remain small, and lookup/latest-list targets are still met without a secondary index."
+  ],
+  "errors": [
+    {
+      "code": "insufficient-evidence-references",
+      "message": "Standard rigor requires at least two evidence references, but the run binds only the single evidence entry 'case'.",
+      "retryable": false
+    },
+    {
+      "code": "decision-not-recorded",
+      "message": "The bound evidence does not identify a decision owner or accountable final decision.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-architecture-storage-20260819"
+  }
+}

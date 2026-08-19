@@ -1,0 +1,136 @@
+{
+  "attestation": "unsigned-local-recorder",
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "codex_executable": {
+    "command": "codex",
+    "executable_digest": "sha256:19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37",
+    "resolved_basename": "codex",
+    "resolved_path_digest": "sha256:738f2bdc833c49efb2202b91cc9b2a64e65402746b79b2846b70f8934dd61445"
+  },
+  "completed_at": "2026-08-19T11:55:18.138972Z",
+  "duration_seconds": 344.794,
+  "event_counts": {
+    "item.completed": 30,
+    "item.started": 21,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "event_sequence": [
+    "thread.started",
+    "turn.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "turn.completed"
+  ],
+  "event_stream_truncated": false,
+  "final_message_digest": "sha256:02ce65e602d45384448d4eeedbf16ba46f11e54dd053e9872f85b7e2d03feb1f",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:2bfe8f614207e07c55ada5c2a3ca15481388325d95c548a855f8e5473d3f47e6",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:29212d1986cdd07905543e7e1c5f8f0e64d8d15dd301c9fac319d37ce875d26b",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:9e13c1254bc628809561cee1e1f4a5448b06e419dee5980178f5e5192dc2d2d5",
+      "path": "method-results/key-assumptions.json"
+    },
+    {
+      "digest": "sha256:d7db11447d2bd0f966c87a0f85ba4d130f99d5db03c4873245e4b12e79392c9c",
+      "path": "method-results/systems-trade-study.json"
+    },
+    {
+      "digest": "sha256:5b6109c6db308734cd9fe6946eceb5a6dc909e43e7a320e1134ccea48f3ac98f",
+      "path": "method-results/failure-modes.json"
+    },
+    {
+      "digest": "sha256:735d84d3f45fa03d93cece6db6db196c154f840ede0ac88068fa56598ddb49bc",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "model_observed": null,
+  "model_requested": null,
+  "non_json_line_count": 0,
+  "process_exit_code": 0,
+  "profile": "standard-architecture",
+  "prompt_digest": "sha256:fb7d0506dcefec339ed9a897fa425e2eca1cae026d234f9243e837740335d7cd",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-architecture-storage-20260819",
+  "run_path": "runs/acceptance/accept-architecture-storage-20260819",
+  "schema_version": "0.1.0",
+  "source_commit": "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+  "source_manifest_digest": "sha256:0d9b6e194778fd4532e2b2d5ecc38b34942a95af3d27561a451b6492a19d3718",
+  "source_mutations": [],
+  "source_tree": "03af9cb01c76f454b7182e428b7de0d760051b50",
+  "started_at": "2026-08-19T11:49:33.344393Z",
+  "task": "architecture-storage",
+  "task_digest": "sha256:03b8bcc62e28d99d570bb92dd3492e6611134040776ac7f0ae4f0358e1e5977a",
+  "timed_out": false,
+  "uv_sync": {
+    "command": [
+      "uv",
+      "sync",
+      "--frozen",
+      "--all-groups"
+    ],
+    "exit_code": 0
+  },
+  "verification_digest": "sha256:dc34ec48fed92dfc2b41e66eeb4cd89e460aaf6703046a74f824cdf5f492831d",
+  "verification_status": "INCOMPLETE",
+  "verification_valid": true
+}

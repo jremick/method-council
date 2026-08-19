@@ -1,8 +1,7 @@
 # Codex workflow
 
-Status: hardened local preview; the initial run bundles were retired after
-independent review found missing semantic gates, and commit-bound reruns are
-pending.
+Status: hardened local preview with four recorded commit-bound subscription
+runs. All four reproduce as valid `INCOMPLETE / CORRELATED` evidence.
 
 ## Intended first interaction
 
@@ -12,8 +11,8 @@ locked environment:
 
 ```bash
 uv sync --frozen --all-groups
-uv run method-council validate
-uv run python scripts/sync_codex_skill.py check
+uv run --frozen method-council validate
+uv run --frozen python scripts/sync_codex_skill.py check
 ```
 
 The checked-in project skill is available at `.agents/skills/method-council`.
@@ -117,16 +116,23 @@ run evidence.
 
 ## Recorded acceptance
 
-The four initial subscription-backed runs covered architecture, investigation,
-missing release evidence, and hostile embedded instructions. Independent review
-showed that the old verifier trusted method PASS claims without enforcing each
-method's selected steps, evidence minima, and artifact fields. Those bundles
-were retired. The same cases must now pass `verify-acceptance` from the hardened
-source commit before this section can claim recorded acceptance.
+Four hardened subscription-backed runs cover architecture, investigation,
+missing release evidence, and hostile embedded instructions. Each was executed
+from source commit `7da73bbeef496cff9e31828e97a3fb400f44ead5` and passes both
+`verify-run` and `verify-acceptance` with no verifier issues or tracked-source
+mutation. All remain `INCOMPLETE / CORRELATED`; the runner records an unsigned
+local envelope and does not establish cryptographic execution authenticity,
+containment, method quality, or general security.
+
+The initial pre-hardening bundles were retired after independent review showed
+that their verifier trusted method PASS claims without enforcing selected
+steps, evidence minima, artifact fields, and the complete route policy. They
+were not rewritten into the current evidence.
 
 Still needed before public alpha:
 
 - independent method-fidelity and user-journey review;
+- independently signed or host-controlled execution attestation;
 - live GitHub identity, settings, CI, and security read-back;
 - provider-specific evidence before any non-Codex compatibility claim;
 - a release decision derived from the complete candidate evidence set.

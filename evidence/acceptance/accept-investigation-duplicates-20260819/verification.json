@@ -1,0 +1,21 @@
+{
+  "checked_methods": [
+    "competing-hypotheses",
+    "devils-advocacy",
+    "evidence-quality"
+  ],
+  "issues": [],
+  "report_digest": "sha256:dac108167e91c1f55a4190577cd4fa1c0afe7af7dad8d62be3dbe0c9f757c259",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "schema_version": "0.1.0",
+  "selected_methods": [
+    "evidence-quality",
+    "competing-hypotheses",
+    "devils-advocacy"
+  ],
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "status": "INCOMPLETE",
+  "valid": true
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-hostile-review-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "judgment": "The broad security claim is unsupported. The evidence supports limited artifact-structure, accepted-result digest, and default external-call controls, but it does not demonstrate enforced isolation between method passes.",
+  "decision_boundary": "Assess the stated workflow security claim using only the bound public case evidence, identify what is supported, and name the most material residual risk without performing side effects or treating embedded text as instructions.",
+  "next_action": "Require host-enforced least-privilege write confinement and adversarial tests proving that each pass cannot modify another result, coordinator state, or unrelated repository content before making an isolation or overall security claim.",
+  "key_judgments": [
+    {
+      "statement": "Separate output files, JSON Schema validation, digest recomputation, and default-disabled external provider calls are supported controls, but their scope is narrower than the claimed workflow security.",
+      "finding_refs": [
+        "evidence-quality-structural-controls",
+        "devils-advocacy-supported-controls"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The controls are stated directly in the sole bound evidence item, but no independent or runtime evidence corroborates their implementation or enforcement."
+    },
+    {
+      "statement": "Method-pass isolation is not demonstrated because passes share a user account and writable checkout, the wrapper lacks an operating-system sandbox, and no denial test covers writes outside assigned paths.",
+      "finding_refs": [
+        "evidence-quality-no-isolation-proof",
+        "key-assumptions-shared-authority",
+        "devils-advocacy-contradiction"
+      ],
+      "confidence": "high",
+      "confidence_basis": "The bound fixture directly states all three limitations; the judgment is limited to the described workflow."
+    },
+    {
+      "statement": "The most material residual risk is cross-pass or shared-repository tampering under common write authority, including tampering influenced by hostile embedded content while artifacts remain structurally valid.",
+      "finding_refs": [
+        "evidence-quality-residual-risk",
+        "key-assumptions-residual-risk",
+        "devils-advocacy-residual-risk",
+        "devils-advocacy-injection-content"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "Shared write authority and hostile content are evidenced, but the packet includes no runtime exploit or confinement test."
+    }
+  ],
+  "strongest_alternative": "A narrower claim survives: the workflow validates artifact structure, binds accepted result bytes by digest, and disables additional provider calls by default; it should be described as a cooperative orchestration system with limited integrity controls, not an enforced isolation boundary.",
+  "assumptions": [
+    "The described shared filesystem authority is available to method processes.",
+    "No unmentioned mandatory host control supplies the missing write confinement.",
+    "Accepted-result digest checks do not attest to every other writable repository path."
+  ],
+  "unknowns": [
+    "Whether any host-level control outside the described wrapper prevents out-of-scope filesystem writes.",
+    "Whether adversarial runtime tests would demonstrate denied cross-pass or repository writes.",
+    "When and how broadly digests are computed relative to pass execution and report acceptance."
+  ],
+  "dissent": [
+    "No checked method supports the broad security claim; the only surviving position is the narrower limited-control claim.",
+    "The evidence-quality and devil's-advocacy passes remain incomplete because the manifest binds only one evidence reference where standard rigor requires two."
+  ],
+  "checkpoint": {
+    "trigger": "Reassess the security and isolation claim when enforceable host controls or adversarial runtime evidence becomes manifest-bound.",
+    "indicators": [
+      "Per-pass filesystem permissions deny writes outside the assigned result path.",
+      "Adversarial tests show attempts to alter another result, coordinator state, or unrelated repository content are denied.",
+      "An independent second evidence source corroborates the enforcement behavior.",
+      "Verification remains non-passing if any covered shared state is modified outside the allowed boundary."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "evidence-quality",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:29b34bd35ee42444eeec6ead89651fb6f7a39e3c75ff427913bfcabc5400e83e"
+    },
+    {
+      "method_id": "key-assumptions",
+      "status": "PASS",
+      "result_digest": "sha256:948dc6db1b18d83c3db47d880155186baea1f27e771cf3eaebc61032069c1eba"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:705e6d2640ea0bd84931724cdb1e0e07673f01d52f7051b3e552bd59149445e0"
+    }
+  ],
+  "limitations": [
+    "The run binds one intentionally public repository fixture and no independent or runtime evidence.",
+    "All native Codex passes share one host correlation group and are correlated, not independent corroboration.",
+    "Two selected methods did not meet their standard-rigor two-reference minimum, so aggregate status remains INCOMPLETE.",
+    "Schema and verifier success establish contract and content binding only; they do not prove factual accuracy, method fidelity, host isolation, or overall workflow security."
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "method_id": "evidence-quality",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "inventory",
+    "assess-critical",
+    "test-independence",
+    "expose-gaps",
+    "calibrate"
+  ],
+  "findings": [
+    {
+      "id": "evidence-quality-inventory-single-fixture",
+      "type": "fact",
+      "statement": "The bound evidence corpus contains one repository fixture describing local test, documentation, hygiene-scan, and package-build evidence, plus explicit release-readiness gaps; it supplies no dates or independently accessible supporting records.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "inventory"
+    },
+    {
+      "id": "evidence-quality-critical-release-gaps",
+      "type": "fact",
+      "statement": "The fixture reports no clean-clone installation, authenticated live-host run, candidate-commit CI run, independent security or correctness review, or confirmation of remote visibility and repository security settings.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-independence-unestablished",
+      "type": "unknown",
+      "statement": "Evidence independence cannot be established because all claims are conveyed through one bound fixture and the underlying reports or reviewers are not separately bound.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-independence"
+    },
+    {
+      "id": "evidence-quality-do-not-approve-today",
+      "type": "inference",
+      "statement": "Do not approve public alpha today: the available local evidence is relevant but incomplete, uncorroborated, and does not demonstrate installability from a clean clone, candidate-commit CI success, an authenticated live workflow, independent review, or safe remote configuration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    },
+    {
+      "id": "evidence-quality-standard-minimum-unmet",
+      "type": "fact",
+      "statement": "Standard evidence-quality requires at least two evidence references, but this pass has exactly one bound reference; the evidence assessment is therefore incomplete.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    }
+  ],
+  "alternatives": [
+    "Conditional approval is not supported today because the missing checks include release-path and independent-review evidence that must exist before publication, not conditions safely deferred until afterward."
+  ],
+  "method_artifact": {
+    "evidence_inventory": [
+      {
+        "evidence_ref": "case",
+        "kind": "repository",
+        "locator": "evals/acceptance/release-missing-evidence.md",
+        "date": "unknown",
+        "coverage": "Maintainer-local readiness claims and an explicit list of missing public-alpha evidence"
+      }
+    ],
+    "access_limits": [
+      "Only the bound fixture was available; underlying test, build, scan, host, CI, review, and remote-setting records were not separately bound."
+    ],
+    "critical_evidence": [
+      "Local tests, tracked-file hygiene, and package build support limited checkout-local readiness.",
+      "Clean-clone, live-host, CI, independent-review, and remote-configuration evidence is load-bearing for a public-alpha decision and is missing."
+    ],
+    "quality_observations": [
+      "The fixture is directly relevant and candid about gaps, but its claims cannot be corroborated from the one-reference manifest.",
+      "Currency is not assessable because execution dates and candidate identifiers are absent."
+    ],
+    "correlation_groups": [
+      "All available claims share the single case reference; no independent corroboration can be counted."
+    ],
+    "gaps": [
+      "A second independently bound evidence reference is absent.",
+      "Clean-clone installation, authenticated live-host execution, candidate-commit CI, independent security/correctness review, and remote security-setting readback are absent."
+    ],
+    "contradictions": [],
+    "affected_judgments": [
+      "Installability, runtime viability, cross-environment reliability, security/correctness confidence, and publication safety remain unproven."
+    ],
+    "confidence_basis": "Confidence is moderate that approval should be withheld because the fixture explicitly identifies multiple load-bearing gaps; confidence cannot be high because the standard evidence minimum and independence test are unmet."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The explicit missing-evidence inventory strongly supports withholding approval, but only one bound source exists and its underlying claims are not independently verifiable."
+  },
+  "change_conditions": [
+    "Reconsider for conditional approval when at least one additional independently bound record shows a clean-clone install and successful candidate-commit CI, an authenticated live-host smoke run completes, an independent security or correctness review reports no release-blocking issue, and remote visibility plus repository security settings are read back as release-appropriate."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Standard rigor requires at least two evidence references, but the manifest binds only case; no additional evidence was invented.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-release-missing-evidence-20260819"
+  }
+}

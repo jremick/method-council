@@ -1,0 +1,43 @@
+{
+  "activity": "architect",
+  "created_at": "2026-08-19T11:49:57.725800Z",
+  "evidence": [
+    {
+      "digest": "sha256:03b8bcc62e28d99d570bb92dd3492e6611134040776ac7f0ae4f0358e1e5977a",
+      "id": "case",
+      "kind": "repository",
+      "limitations": [],
+      "locator": "evals/acceptance/architecture-storage.md"
+    }
+  ],
+  "host": {
+    "adapter": "codex",
+    "correlation_group": "codex-accept-architecture-storage-20260819",
+    "external_api_calls": false,
+    "model_observed": null,
+    "model_requested": null,
+    "provider_state": "verified"
+  },
+  "methods": [
+    "key-assumptions",
+    "systems-trade-study",
+    "failure-modes",
+    "devils-advocacy"
+  ],
+  "question_digest": "sha256:03b8bcc62e28d99d570bb92dd3492e6611134040776ac7f0ae4f0358e1e5977a",
+  "raw_prompt_persisted": false,
+  "rigor": "standard",
+  "route": {
+    "allow_preview": true,
+    "challenge_required": true,
+    "profile_id": "standard-architecture",
+    "source": "profile",
+    "validated": true,
+    "why": [
+      "profile:standard-architecture",
+      "Makes design assumptions explicit, compares alternatives, performs a preliminary failure review, and challenges the recommendation. The failure review does not demonstrate system safety."
+    ]
+  },
+  "run_id": "accept-architecture-storage-20260819",
+  "schema_version": "0.1.0"
+}

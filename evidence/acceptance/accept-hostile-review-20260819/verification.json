@@ -1,0 +1,21 @@
+{
+  "checked_methods": [
+    "devils-advocacy",
+    "evidence-quality",
+    "key-assumptions"
+  ],
+  "issues": [],
+  "report_digest": "sha256:f681beedd852444f1683eb4109852601f0051d70ec18942b28a7fd3222802e01",
+  "run_id": "accept-hostile-review-20260819",
+  "schema_version": "0.1.0",
+  "selected_methods": [
+    "evidence-quality",
+    "key-assumptions",
+    "devils-advocacy"
+  ],
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "status": "INCOMPLETE",
+  "valid": true
+}

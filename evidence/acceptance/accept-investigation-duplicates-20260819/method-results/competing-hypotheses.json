@@ -1,0 +1,201 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-investigation-duplicates-20260819",
+  "method_id": "competing-hypotheses",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "frame",
+    "enumerate-hypotheses",
+    "inventory-evidence",
+    "matrix",
+    "discriminate",
+    "test-missing",
+    "report"
+  ],
+  "findings": [
+    {
+      "id": "competing-hypotheses-observed-index-duplication",
+      "type": "fact",
+      "statement": "For an affected run, the list symptom coincides with two successful append messages within 12 milliseconds, while direct lookup and the artifact directory each expose only one final summary and the duplicate entries share a run ID and digest.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "inventory-evidence"
+    },
+    {
+      "id": "competing-hypotheses-leading-shared-index-write",
+      "type": "inference",
+      "statement": "The leading explanation is that the same run is appended twice to index.jsonl through two worker or caller invocations; this best distinguishes the duplicated listing from the single canonical summary artifact.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "discriminate"
+    },
+    {
+      "id": "competing-hypotheses-retry-remains-live",
+      "type": "unknown",
+      "statement": "A caller retry or repeated append-helper invocation remains a live alternative because the evidence does not identify the worker, call site, invocation identity, or retry attempt associated with either append message.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-missing"
+    },
+    {
+      "id": "competing-hypotheses-cache-merge-weaker",
+      "type": "inference",
+      "statement": "A list-side cache merge is weaker than a duplicated index write because it does not by itself explain the two successful append messages, but it remains plausible until list input provenance is observed.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "discriminate"
+    },
+    {
+      "id": "competing-hypotheses-first-diagnostic",
+      "type": "inference",
+      "statement": "The first change should instrument every append-helper entry and completion with run ID, worker ID, stable invocation ID, caller or call-site label, retry attempt, and whether that run ID already exists in index.jsonl immediately before the append; this discriminates independent worker calls, caller retry, and a list-only merge without committing to a permanent fix.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "report"
+    },
+    {
+      "id": "competing-hypotheses-evidence-minimum-gap",
+      "type": "unknown",
+      "statement": "Only one stable evidence reference is available, below the standard-rigor minimum of three references, so source independence and several causal distinctions cannot be established in this pass.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "report"
+    }
+  ],
+  "alternatives": [
+    "A caller retries one append after an ambiguous or duplicated completion path, producing two valid lines for the same run.",
+    "The list command merges an index result with a stale or overlapping cache entry, independently of the duplicate append messages.",
+    "Platform-dependent advisory locking or shared-directory behavior permits concurrent workers associated with the same run to append independently.",
+    "A residual, unobserved producer writes an additional valid index line outside the currently described worker path."
+  ],
+  "method_artifact": {
+    "question": "Why does list --latest occasionally show the same run twice when direct lookup and the artifact directory show one final summary?",
+    "scope": "Concurrent acceptance runs and the interval from temporary summary creation through index append and list rendering; the decision is limited to the first diagnostic or instrumentation change.",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "statement": "Two workers or worker paths for the same run each invoke the append helper once."
+      },
+      {
+        "id": "H2",
+        "statement": "One logical append is retried or otherwise invoked twice by its caller."
+      },
+      {
+        "id": "H3",
+        "statement": "A platform-dependent locking or concurrency defect allows duplicate valid index appends for the same run."
+      },
+      {
+        "id": "H4",
+        "statement": "The list command duplicates a single indexed run while merging cache or overlapping inputs."
+      },
+      {
+        "id": "H5",
+        "statement": "Another unobserved producer or mechanism creates the duplicate entry."
+      }
+    ],
+    "evidence": [
+      {
+        "id": "E1",
+        "evidence_ref": "case",
+        "statement": "The defect appeared after concurrent acceptance runs were enabled."
+      },
+      {
+        "id": "E2",
+        "evidence_ref": "case",
+        "statement": "Workers rename temporary summaries into a shared directory and then append to index.jsonl."
+      },
+      {
+        "id": "E3",
+        "evidence_ref": "case",
+        "statement": "Duplicate list entries share the same run ID and summary digest."
+      },
+      {
+        "id": "E4",
+        "evidence_ref": "case",
+        "statement": "Only one final summary exists in the artifact directory."
+      },
+      {
+        "id": "E5",
+        "evidence_ref": "case",
+        "statement": "Two successful append messages occur within 12 milliseconds for an affected run."
+      },
+      {
+        "id": "E6",
+        "evidence_ref": "case",
+        "statement": "No corrupted or partial JSON line has been observed."
+      }
+    ],
+    "dependencies": [
+      "E1 through E6 are all observations reported by the single case fixture and therefore are not independent source references.",
+      "E3 and E4 both derive from the persisted identity and artifact state and should not be counted as separate independent confirmation of causality.",
+      "E5 depends on the current meaning and placement of the successful-append log message."
+    ],
+    "matrix": [
+      {"evidence_id": "E1", "H1": "consistent: concurrency creates an opportunity for two worker paths", "H2": "consistent: concurrent execution may expose retry paths", "H3": "consistent: concurrency is required to expose a locking race", "H4": "neutral: concurrency could also affect cache population", "H5": "neutral: residual explanations remain possible"},
+      {"evidence_id": "E2", "H1": "consistent: each worker reaches a shared append stage", "H2": "consistent: the shared append stage may be called again", "H3": "consistent: the index is a shared write boundary", "H4": "neutral: this does not describe list cache behavior", "H5": "neutral: it does not exclude another producer"},
+      {"evidence_id": "E3", "H1": "consistent: repeated appends of one run yield identical identity and digest", "H2": "consistent: a retry would repeat identical content", "H3": "consistent: a concurrency defect can admit identical valid appends", "H4": "consistent: a merge can duplicate an identical record", "H5": "unknown: depends on the residual producer"},
+      {"evidence_id": "E4", "H1": "consistent: atomic rename can converge on one final artifact while index appends repeat", "H2": "consistent: retrying only the append leaves one artifact", "H3": "consistent: the defect can be isolated to the index write", "H4": "consistent: a list-only defect leaves artifact state unchanged", "H5": "unknown: depends on the residual mechanism"},
+      {"evidence_id": "E5", "H1": "consistent: two invocations can emit two success messages", "H2": "consistent: a fast retry can emit two success messages", "H3": "consistent: concurrent admitted appends can both report success", "H4": "inconsistent: a list-only merge does not explain two append successes", "H5": "unknown: another writer could emit the messages"},
+      {"evidence_id": "E6", "H1": "consistent: two complete appends need not corrupt either line", "H2": "consistent: a retry can write two valid lines", "H3": "consistent: append serialization may preserve line integrity without enforcing uniqueness", "H4": "neutral: list merging does not require malformed JSON", "H5": "neutral: residual mechanisms may also preserve valid JSON"}
+    ],
+    "diagnostic_evidence": [
+      "E5 weakens H4 relative to H1, H2, and H3 because a list-only merge does not explain two append-success events.",
+      "Invocation identity, worker identity, call site, and retry attempt for both E5 events would distinguish H1 from H2.",
+      "A pre-append observation of an existing run ID would show whether the second valid index write was admitted before list rendering."
+    ],
+    "weak_hypotheses": [
+      "H4 is weaker because it fails to explain E5 without an additional append-path event.",
+      "H5 remains deliberately residual and has no specific supporting observation."
+    ],
+    "missing_expected_evidence": [
+      {"hypothesis_id": "H1", "expected": "The two append messages carry different worker or invocation identities.", "state": "unavailable"},
+      {"hypothesis_id": "H2", "expected": "The messages share a logical invocation or caller identity but have different attempt numbers.", "state": "unavailable"},
+      {"hypothesis_id": "H3", "expected": "Platform and lock-state telemetry correlate affected events with an unlocked or ineffective critical section.", "state": "unavailable"},
+      {"hypothesis_id": "H4", "expected": "List provenance shows one indexed record expanded through two cache or input branches.", "state": "unavailable"},
+      {"hypothesis_id": "H5", "expected": "Trace data identifies a writer outside the described worker append path.", "state": "unavailable"}
+    ],
+    "assessment": "H1 is the leading explanation at the current boundary: duplicate valid appends for the same run fit the paired success messages, identical identity and digest, and single final artifact. H2 and H3 remain close, causally distinct alternatives because current logs do not expose invocation, retry, caller, platform, or lock identity. No tally is treated as a probability.",
+    "limitations": [
+      "The single manifest reference does not meet the method's standard-rigor minimum of three evidence references.",
+      "The fixture reports observations but supplies no raw index lines, append implementation, lock telemetry, worker identifiers, or list-cache provenance.",
+      "The method is a preview adaptation and does not establish formal ACH fidelity or hypothesis completeness."
+    ]
+  },
+  "confidence": {
+    "band": "low",
+    "basis": "The paired append messages are diagnostic against a purely list-side explanation, but one evidence source and missing invocation telemetry prevent discrimination among the leading write-path hypotheses."
+  },
+  "change_conditions": [
+    "Different worker or invocation IDs on the two append events would strengthen H1.",
+    "A shared logical invocation with distinct attempt numbers would strengthen H2.",
+    "A second append occurring while the run ID is already present, correlated with absent or ineffective locking on one platform, would strengthen H3.",
+    "Exactly one instrumented append paired with two list input-provenance branches would elevate H4.",
+    "Identification of an append producer outside the described path would replace the residual H5 with a specific hypothesis."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Standard rigor requires at least three evidence references, but the supplied manifest contains exactly one stable reference.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-investigation-duplicates-20260819"
+  }
+}

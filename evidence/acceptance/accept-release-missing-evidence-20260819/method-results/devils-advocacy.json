@@ -1,0 +1,158 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-release-missing-evidence-20260819",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-mainline-judgment",
+      "type": "inference",
+      "statement": "The prevailing judgment is do not approve public alpha today because checkout-local success does not establish the release path, live-host behavior, independent review, or remote security controls.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-load-bearing-assumption",
+      "type": "assumption",
+      "statement": "The mainline assumes each listed missing check must be completed before any conditional approval can be issued, rather than made an enforceable pre-publication condition.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-target"
+    },
+    {
+      "id": "devils-advocacy-evidence-gap",
+      "type": "unknown",
+      "statement": "The single bound fixture provides no underlying reports, candidate identifier, execution dates, independent corroboration, or proof that a conditional release gate can be enforced.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-strongest-alternative",
+      "type": "inference",
+      "statement": "The strongest contrary case is conditional approval with an enforceable no-publication gate: the positive local tests, build, hygiene scan, and governance documents justify preparing release mechanics while publication remains blocked until all missing checks pass.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-mainline-survives",
+      "type": "inference",
+      "statement": "The contrary case does not support public alpha today: no evidence establishes an enforceable gate, and the fixture explicitly leaves reproducible installation, candidate CI, authenticated execution, independent review, and remote security state unknown.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-results-consistent",
+      "type": "fact",
+      "statement": "The checked evidence-quality and systems-trade-study results both recommend do not approve today and both report the same one-reference shortfall; no contradiction between their conclusions is present.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-disposition",
+      "type": "inference",
+      "statement": "Retain the do-not-approve judgment for public alpha today; the challenge narrows the alternative to preparatory work behind a verified gate, not publication approval.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-standard-minimum-unmet",
+      "type": "fact",
+      "statement": "Standard Devil's Advocacy requires at least two evidence references, but exactly one is bound, so this challenge pass cannot claim complete standard-rigor evidence coverage.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    }
+  ],
+  "alternatives": [
+    "Conditionally approve preparation today under an enforceable no-publication gate that releases only after every missing check passes; this is the strongest alternative, but the gate and checks are not evidenced."
+  ],
+  "method_artifact": {
+    "mainline_judgment": "Do not approve public alpha today.",
+    "mainline_evidence": [
+      "Positive evidence is limited to one existing macOS checkout.",
+      "Five release-relevant evidence categories are explicitly missing."
+    ],
+    "mainline_assumptions": [
+      "Unknown release-path and security-control states cannot be treated as satisfied.",
+      "Conditional approval today would be unsafe unless its publication gate is enforceable."
+    ],
+    "challenge_target": "The inference that missing pre-release evidence rules out even a conditional approval today.",
+    "evidence_weaknesses": [
+      "All claims originate in one bound fixture without underlying records or dates.",
+      "No evidence establishes whether a release gate exists or is enforceable."
+    ],
+    "counterevidence": [
+      "Local tests, package build, hygiene scan, and governance documents indicate meaningful preparatory readiness."
+    ],
+    "alternative_case": "Permit release preparation under a hard no-publication gate, converting the missing evidence into explicit preconditions without exposing users today.",
+    "alternative_assumptions": [
+      "The gate is technically and procedurally enforceable.",
+      "No publication can occur until every release-relevant check is evidenced."
+    ],
+    "surviving_mainline": [
+      "Public alpha today remains unsupported because release-path execution, independent review, and remote controls are unknown.",
+      "Local success in an existing checkout cannot substitute for clean-clone or candidate-commit evidence."
+    ],
+    "material_challenges": [
+      "The mainline should distinguish safe preparatory authorization from actual publication approval."
+    ],
+    "disposition": "Retain do not approve public alpha today; preparatory work behind a verified gate is the only credible alternative.",
+    "change_conditions": [
+      "A second independently bound record corroborates the candidate and its checks.",
+      "Clean-clone install and build, exact-candidate CI, authenticated live-host smoke execution, and independent security or correctness review complete without release blockers.",
+      "Remote visibility and repository security settings are read back as release-appropriate.",
+      "For conditional approval, an enforceable no-publication gate is demonstrated."
+    ],
+    "contradictions": [],
+    "discriminating_evidence": "Observed success for the exact candidate across the missing checks, plus proof of an enforceable publication gate, would discriminate conditional approval from do not approve."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The explicit gaps make withholding publication robust, but the single evidence reference prevents complete standard-rigor challenge coverage."
+  },
+  "change_conditions": [
+    "Change to conditional approval when a second independent evidence reference is bound, all missing release checks pass for the exact candidate, remote controls are verified, and a no-publication gate is enforceable; change to approval when those conditions are satisfied without unresolved blockers."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Standard Devil's Advocacy requires at least two evidence references, but only case is bound; no evidence was invented.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-release-missing-evidence-20260819"
+  }
+}

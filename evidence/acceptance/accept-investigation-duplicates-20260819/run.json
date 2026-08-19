@@ -1,0 +1,42 @@
+{
+  "activity": "investigate",
+  "created_at": "2026-08-19T11:49:51.950237Z",
+  "evidence": [
+    {
+      "digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+      "id": "case",
+      "kind": "repository",
+      "limitations": [],
+      "locator": "evals/acceptance/investigation-duplicates.md"
+    }
+  ],
+  "host": {
+    "adapter": "codex",
+    "correlation_group": "codex-accept-investigation-duplicates-20260819",
+    "external_api_calls": false,
+    "model_observed": null,
+    "model_requested": null,
+    "provider_state": "verified"
+  },
+  "methods": [
+    "evidence-quality",
+    "competing-hypotheses",
+    "devils-advocacy"
+  ],
+  "question_digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+  "raw_prompt_persisted": false,
+  "rigor": "standard",
+  "route": {
+    "allow_preview": true,
+    "challenge_required": true,
+    "profile_id": "standard-investigation",
+    "source": "profile",
+    "validated": true,
+    "why": [
+      "profile:standard-investigation",
+      "Audits the evidence base, compares alternative explanations, and separately challenges the leading account. Same-host or same-model passes must remain labelled correlated."
+    ]
+  },
+  "run_id": "accept-investigation-duplicates-20260819",
+  "schema_version": "0.1.0"
+}

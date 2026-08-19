@@ -1,0 +1,106 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-architecture-storage-20260819",
+  "method_id": "failure-modes",
+  "method_version": "0.1.0",
+  "rigor": "standard",
+  "status": "INCOMPLETE",
+  "side_conditions": ["CORRELATED"],
+  "completed_steps": [
+    "bound-system",
+    "decompose",
+    "identify-modes",
+    "trace-effects",
+    "controls",
+    "actions",
+    "limitations"
+  ],
+  "findings": [
+    {
+      "id": "failure-modes-boundary",
+      "type": "fact",
+      "statement": "The bounded alpha system is a Python 3.12 macOS/Linux CLI storing run metadata and 4–8 JSON artifacts per run, under 1 MB total, with exact run-ID lookup, latest-100 listing, local inspection/export, concurrent process completion, and exclusion of raw prompts and secrets.",
+      "evidence_refs": ["case"],
+      "method_step": "bound-system"
+    },
+    {
+      "id": "failure-modes-jsonl-concurrency",
+      "type": "inference",
+      "statement": "Append-only JSONL can lose, interleave, duplicate, or expose a partial index record when two processes finish together unless one explicit cross-process lock covers append and durability; a crash between artifact publication and index append can also leave an unindexed but recoverable run.",
+      "evidence_refs": ["case"],
+      "method_step": "trace-effects"
+    },
+    {
+      "id": "failure-modes-jsonl-query",
+      "type": "inference",
+      "statement": "JSONL keeps alpha records transparent and tolerant of additive schema change, but exact lookup and latest-100 listing require a bounded scan or a derived index whose corruption and rebuild behavior become additional failure paths.",
+      "evidence_refs": ["case"],
+      "method_step": "identify-modes"
+    },
+    {
+      "id": "failure-modes-sqlite",
+      "type": "inference",
+      "statement": "SQLite better contains simultaneous metadata commits and directly supports indexed run-ID lookup and ordered latest-100 queries, but database migration defects, lock contention, and loss of direct text inspection are its principal alpha failure modes.",
+      "evidence_refs": ["case"],
+      "method_step": "trace-effects"
+    },
+    {
+      "id": "failure-modes-recommendation",
+      "type": "inference",
+      "statement": "Recommend append-only JSONL as the alpha metadata ledger, with immutable per-run JSON artifacts as canonical data, an exclusive cross-process append lock, one complete record per run, fsync before success, startup validation, and deterministic rebuild from run directories; this minimizes migration coupling while schemas are changing.",
+      "evidence_refs": ["case"],
+      "method_step": "controls"
+    },
+    {
+      "id": "failure-modes-migration-trigger",
+      "type": "inference",
+      "statement": "Migrate the metadata index to SQLite when measured history scans no longer meet an explicit CLI latency budget or requirements add indexed filtering, mutable metadata, or sustained concurrent writers that cannot be safely served by the single-writer JSONL lock; define the latency budget before release.",
+      "evidence_refs": ["case"],
+      "method_step": "actions"
+    },
+    {
+      "id": "failure-modes-evidence-gap",
+      "type": "unknown",
+      "statement": "Only one evidence source is bound, below the method's standard-rigor minimum of two references; filesystem locking and crash-durability behavior therefore remain unverified across the target platforms.",
+      "evidence_refs": ["case"],
+      "method_step": "limitations"
+    }
+  ],
+  "alternatives": [
+    "Use SQLite from alpha for transactional multi-process metadata writes and indexed queries, while exporting JSON for user inspection; accept explicit database migrations and recovery tooling."
+  ],
+  "method_artifact": {
+    "system_boundary": "Local metadata persistence and discovery for completed Method Council runs; no server, prompt, secret, or provider-state storage beyond allowed run metadata.",
+    "operating_states": ["commit completed run", "lookup by run ID", "list latest 100", "inspect or export", "restart after interruption"],
+    "exclusions": ["artifact content redesign", "remote synchronization", "implementation", "safety or reliability certification"],
+    "elements": ["immutable run directory", "JSON artifacts", "append-only JSONL metadata ledger", "cross-process lock", "reader and rebuild path"],
+    "functions": ["publish a complete run", "discover runs", "order recent runs", "recover metadata index", "export user-owned data"],
+    "interfaces": ["CLI to filesystem", "writer to lock and ledger", "ledger record to run directory", "reader to ledger and artifacts"],
+    "failure_modes": ["interleaved or partial append", "duplicate run ID", "artifact-ledger commit split", "malformed or incompatible record", "stale latest-run ordering", "lock orphaning or contention", "accidental sensitive-field persistence"],
+    "effects": ["run absent or duplicated in listings", "lookup resolves ambiguously", "reader rejects later records", "completion stalls", "privacy boundary is violated"],
+    "propagation_paths": ["writer interruption -> incomplete ledger tail -> listing failure", "artifact publish without ledger append -> orphaned run -> missing lookup", "schema drift -> reader incompatibility -> inaccessible history"],
+    "detections": ["validate each record before append", "detect and quarantine an incomplete final line", "reject duplicate run IDs", "compare ledger entries with run directories during repair"],
+    "controls": ["exclusive cross-process lock", "single-line append followed by fsync", "immutable atomic run-directory publication", "versioned records with tolerant readers", "allowlisted metadata fields excluding prompts and secrets", "deterministic ledger rebuild"],
+    "actions": ["Specify lock timeout and failure behavior", "Define atomic publication order and crash-recovery tests", "Set and benchmark the migration latency threshold", "Test concurrent completion on macOS and Linux", "Require human review of the metadata allowlist"],
+    "limitations": ["Preliminary preview method", "One bound evidence source", "No platform experiment or independent domain review", "No exhaustive filesystem or SQLite failure analysis"],
+    "unknowns": ["Expected run count", "acceptable lookup/list latency", "filesystem types in use", "required durability after power loss"]
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The recommendation follows the bounded small-data and schema-evolution constraints, but concurrency and durability controls lack a second source and platform verification."
+  },
+  "change_conditions": [
+    "Prefer SQLite immediately if alpha requires indexed filters, updates, or multiple sustained writers rather than rare near-simultaneous completion.",
+    "Revise the JSONL design if cross-platform tests cannot prove exclusive append and deterministic crash recovery.",
+    "Reassess the migration trigger after run-count and latency measurements establish an explicit service budget."
+  ],
+  "errors": [],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-architecture-storage-20260819"
+  }
+}

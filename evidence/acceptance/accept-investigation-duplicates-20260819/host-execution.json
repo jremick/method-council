@@ -1,0 +1,123 @@
+{
+  "attestation": "unsigned-local-recorder",
+  "authentication_observed": "chatgpt",
+  "codex_cli_version": "codex-cli 0.147.0",
+  "codex_executable": {
+    "command": "codex",
+    "executable_digest": "sha256:19c4f144c5226a9f17c58e6f0fa854843b0f77a6eb420f40e2745a12f10f5d37",
+    "resolved_basename": "codex",
+    "resolved_path_digest": "sha256:738f2bdc833c49efb2202b91cc9b2a64e65402746b79b2846b70f8934dd61445"
+  },
+  "completed_at": "2026-08-19T11:55:57.463602Z",
+  "duration_seconds": 399.269,
+  "event_counts": {
+    "item.completed": 25,
+    "item.started": 17,
+    "thread.started": 1,
+    "turn.completed": 1,
+    "turn.started": 1
+  },
+  "event_sequence": [
+    "thread.started",
+    "turn.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.started",
+    "item.completed",
+    "item.completed",
+    "turn.completed"
+  ],
+  "event_stream_truncated": false,
+  "final_message_digest": "sha256:8f8d7c5552ea3f0172267e7a99b4ee750badd5bafc2f8da9212ab50bf7dee817",
+  "kind": "codex-subscription-acceptance-evidence",
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:eaa561a90a5130af5c5704a3c61ace6a6d58fd8658a21391bc2684a05b40650e",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:dac108167e91c1f55a4190577cd4fa1c0afe7af7dad8d62be3dbe0c9f757c259",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:a6020b89dfbb67a2b86093e8e08f6496de75bd51bb906db4b06ff5dae190db1c",
+      "path": "method-results/evidence-quality.json"
+    },
+    {
+      "digest": "sha256:0ce85df811971da0f03a1e1c4c864be74e574bc6b662533c25711efc93929726",
+      "path": "method-results/competing-hypotheses.json"
+    },
+    {
+      "digest": "sha256:e51c3fbbefc0d2e09166630cc195eff7604ac687e47522d0a4a316275c58bdda",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "model_observed": null,
+  "model_requested": null,
+  "non_json_line_count": 2,
+  "process_exit_code": 0,
+  "profile": "standard-investigation",
+  "prompt_digest": "sha256:cbb79562bd75aa8b29650eb17f6b5e203746ecb7392a38485c6e1aec6f799edc",
+  "raw_event_stream_persisted": false,
+  "raw_prompt_persisted": false,
+  "run_id": "accept-investigation-duplicates-20260819",
+  "run_path": "runs/acceptance/accept-investigation-duplicates-20260819",
+  "schema_version": "0.1.0",
+  "source_commit": "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+  "source_manifest_digest": "sha256:0d9b6e194778fd4532e2b2d5ecc38b34942a95af3d27561a451b6492a19d3718",
+  "source_mutations": [],
+  "source_tree": "03af9cb01c76f454b7182e428b7de0d760051b50",
+  "started_at": "2026-08-19T11:49:18.194437Z",
+  "task": "investigation-duplicates",
+  "task_digest": "sha256:d15c51f0b1b610efd065debf933ad1c61152853eaec132185a768906983957a5",
+  "timed_out": false,
+  "uv_sync": {
+    "command": [
+      "uv",
+      "sync",
+      "--frozen",
+      "--all-groups"
+    ],
+    "exit_code": 0
+  },
+  "verification_digest": "sha256:93a2e5ffa4f51eb7dd1e9ec51411803029b23d2598e3f2f7a5ec0198fdbcbdb9",
+  "verification_status": "INCOMPLETE",
+  "verification_valid": true
+}

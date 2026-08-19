@@ -1,0 +1,97 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-architecture-storage-20260819",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "judgment": "Use SQLite as the alpha metadata catalog, with one row per run keyed by run ID, an index for latest-100 ordering, transactional writes with bounded busy handling, explicit schema migrations, and no raw prompts or secrets. Keep the structured run artifacts as ordinary local JSON and provide JSON export.",
+  "decision_boundary": "Choose the initial local storage architecture for Method Council run metadata on macOS and Linux with Python 3.12, and identify the trigger for migrating to append-only JSONL; implementation, remote services, and storage of raw prompts or secrets are out of scope.",
+  "next_action": "Before implementation approval, name the accountable decision owner and run cross-platform simultaneous-write, migration, recovery, rebuild, and query-latency tests; retain INCOMPLETE until the missing evidence requirement is satisfied.",
+  "key_judgments": [
+    {
+      "statement": "SQLite more directly satisfies simultaneous commits, exact run-ID lookup, and latest-100 ordering than JSONL without adding a lock, tail-repair rules, and scan or secondary-index behavior.",
+      "finding_refs": [
+        "systems-trade-study-sqlite-advantage",
+        "devils-advocacy-disposition"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The conclusion traces to the stated access and concurrency requirements, but there are no workload, contention, or recovery measurements."
+    },
+    {
+      "statement": "Local ownership and schema flexibility do not require the metadata catalog itself to be JSONL because immutable JSON artifacts and JSON export preserve inspectability and rebuildability.",
+      "finding_refs": [
+        "systems-trade-study-jsonl-tradeoff",
+        "devils-advocacy-surviving-mainline"
+      ],
+      "confidence": "moderate",
+      "confidence_basis": "The architectural separation is supported by the checked trade study and challenge, but has not been implemented or usability-tested."
+    },
+    {
+      "statement": "The run does not establish independent corroboration or empirical validation: all passes are correlated and three methods are incomplete because only one evidence entry is bound.",
+      "finding_refs": [
+        "systems-trade-study-evidence-gap",
+        "failure-modes-evidence-gap",
+        "devils-advocacy-evidence-gap"
+      ],
+      "confidence": "high",
+      "confidence_basis": "This follows directly from the validated artifacts, shared execution metadata, and deterministic aggregate."
+    }
+  ],
+  "strongest_alternative": "Use lock-protected append-only JSONL as a rebuildable metadata ledger with immutable per-run JSON artifacts, one complete record per run, fsync before success, trailing-record recovery, duplicate detection, and deterministic rebuild. This reduces relational migration coupling but adds cross-process locking, recovery, and scan/index complexity.",
+  "assumptions": [
+    "A short bounded SQLite busy wait is acceptable when two CLI processes finish nearly simultaneously.",
+    "Explicit alpha schema migrations can be made recoverable and tested on macOS and Linux.",
+    "The SQLite catalog can be rebuilt from retained non-sensitive JSON artifacts.",
+    "JSON export is sufficient for user inspection of catalog metadata without a server."
+  ],
+  "unknowns": [
+    "Expected total run count and retention period.",
+    "Acceptable exact-lookup, latest-100, and completion latency budgets.",
+    "Measured SQLite contention, migration, crash-recovery, and rebuild behavior on target platforms.",
+    "Required durability after power loss and filesystem types in use.",
+    "The accountable decision owner and final accepted choice."
+  ],
+  "dissent": [
+    "The key-assumptions and failure-modes passes recommend lock-protected JSONL for alpha because it is transparent, tolerant of heterogeneous records, and minimizes relational migration coupling.",
+    "The systems trade study and Devil's Advocacy pass recommend SQLite because the stated concurrency and query requirements outweigh unmeasured JSONL simplicity; this is correlated methodological disagreement, not independent corroboration."
+  ],
+  "checkpoint": {
+    "trigger": "Migrate from SQLite to append-only JSONL only if measured alpha operation shows repeated SQLite migration or recovery failures while concurrent completion is reliably serialized elsewhere, histories remain small, and exact lookup plus latest-100 latency meets an agreed budget without a secondary index.",
+    "indicators": [
+      "Repeated reproducible SQLite migration or recovery failures on supported platforms.",
+      "Verified external serialization of all concurrent completion writes.",
+      "Measured history size remains within the agreed small-history bound.",
+      "Representative JSONL exact-lookup and latest-100 benchmarks meet the agreed latency budget without a secondary index."
+    ]
+  },
+  "method_ledger": [
+    {
+      "method_id": "key-assumptions",
+      "status": "PASS",
+      "result_digest": "sha256:9e13c1254bc628809561cee1e1f4a5448b06e419dee5980178f5e5192dc2d2d5"
+    },
+    {
+      "method_id": "systems-trade-study",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:d7db11447d2bd0f966c87a0f85ba4d130f99d5db03c4873245e4b12e79392c9c"
+    },
+    {
+      "method_id": "failure-modes",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:5b6109c6db308734cd9fe6946eceb5a6dc909e43e7a320e1134ccea48f3ac98f"
+    },
+    {
+      "method_id": "devils-advocacy",
+      "status": "INCOMPLETE",
+      "result_digest": "sha256:735d84d3f45fa03d93cece6db6db196c154f840ede0ac88068fa56598ddb49bc"
+    }
+  ],
+  "limitations": [
+    "Only the public case fixture is bound as evidence; the trade-study, failure-modes, and challenge methods require two evidence references at standard rigor and therefore remain INCOMPLETE.",
+    "All method passes used the same Codex host and correlation group, so they are CORRELATED and do not constitute independent corroboration.",
+    "No network or external provider was used, and no workload benchmark, platform contention test, crash-recovery test, migration test, or independent method-fidelity review was performed.",
+    "The failure-modes method is a preliminary preview and does not demonstrate safety, reliability, or compliance.",
+    "Schema and run verification establish contract and content binding only; they do not prove factual accuracy, usability, or decision quality."
+  ]
+}
