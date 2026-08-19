@@ -77,7 +77,10 @@ def test_codex_login_probe_accepts_status_written_to_stderr(monkeypatch):
     )
     monkeypatch.setattr(module.subprocess, "run", lambda *args, **kwargs: next(responses))
 
-    assert module._codex_state() == ("codex-cli 0.147.0", "chatgpt")  # noqa: SLF001
+    assert module._codex_state(Path("/test/codex")) == (  # noqa: SLF001
+        "codex-cli 0.147.0",
+        "chatgpt",
+    )
 
 
 def test_tracked_mutation_is_detected_in_fresh_commit_snapshot(tmp_path):
