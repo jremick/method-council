@@ -14,6 +14,7 @@ import yaml
 from method_council.documents import MAX_DOCUMENT_BYTES, DocumentError
 from method_council.evidence import content_digest
 from method_council.issues import Issue
+from method_council.release_checks import verify_registered_gate
 from method_council.schema import SchemaRegistry
 from method_council.status import PRIMARY_STATUSES, aggregate_status
 
@@ -337,17 +338,31 @@ def verify_release_manifest(
         )
         gate_artifact_content_statuses[gate].append(status)
         if status == "PASS":
-            gate_artifact_statuses[gate].append("INCOMPLETE")
-            issues.append(
-                Issue(
-                    "release.gate-unattested",
-                    (
-                        f"gate {gate!r} is content-consistent but no registered deterministic "
-                        "verifier attests its producer, candidate commit, and raw evidence format"
-                    ),
-                    f"/artifacts/{index}",
-                )
+            registered_status, registered_issues = verify_registered_gate(
+                report,
+                expected_gate=gate,
+                root=root,
+                read_document=_load_regular_document,
             )
+            if registered_status is None:
+                gate_artifact_statuses[gate].append("INCOMPLETE")
+                issues.append(
+                    Issue(
+                        "release.gate-unattested",
+                        (
+                            f"gate {gate!r} is content-consistent but no registered deterministic "
+                            "verifier attests its producer, candidate commit, "
+                            "and raw evidence format"
+                        ),
+                        f"/artifacts/{index}",
+                    )
+                )
+            else:
+                gate_artifact_statuses[gate].append(registered_status)
+                issues.extend(
+                    Issue(issue.code, issue.message, f"{artifact['path']}:{issue.path}")
+                    for issue in registered_issues
+                )
         else:
             gate_artifact_statuses[gate].append(status)
         issues.extend(

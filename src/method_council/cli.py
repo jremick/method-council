@@ -393,7 +393,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     release_parser = subparsers.add_parser(
         "verify-release",
-        help="check content consistency and fail closed on unattested release gates",
+        help="recompute registered release gates and fail closed on unattested reports",
     )
     release_parser.add_argument("manifest", help="release manifest JSON or YAML")
     release_parser.add_argument("--root", help="repository and release artifact root")

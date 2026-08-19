@@ -97,13 +97,19 @@ content-bound `FAIL`, `ERROR`, or `INCOMPLETE` run is valid evidence. A claimed
 `verify-release` separately reports content consistency and release eligibility.
 Content-bound files can establish that bytes and caller-declared check statuses
 agree, but cannot establish who produced them or whether a named gate actually
-ran. Until a gate has a registered deterministic verifier bound to the exact
-candidate commit and expected raw format, an otherwise-PASS gate is
-`INCOMPLETE` and `release_eligible` remains false.
+ran. The `local-alpha` gate is registered to a fixed producer, exact check set,
+raw observation format, and repository HEAD. Its verifier re-runs the checks
+before deriving PASS. Every other otherwise-PASS gate remains `INCOMPLETE` and
+`release_eligible` remains false until it receives an equivalent verifier.
 
 Caller- or model-supplied pass flags are untrusted. Eligibility, if a later
 verifier can derive it, still does not authorise a tag, release, remote push,
 settings change, or visibility change.
+
+The local-alpha record is an unsigned local execution record. It is not a
+GitHub-hosted receipt, cryptographic provenance, or evidence that live
+repository settings match source. Hosted CI and GitHub configuration therefore
+remain separate release readbacks.
 
 ## Acceptance evidence
 

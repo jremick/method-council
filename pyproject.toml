@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "method-council"
-version = "0.1.0a0"
+version = "0.1.0a1"
 description = "Structured methods, separate analysis passes, and one traceable report."
 readme = "README.md"
 requires-python = ">=3.12"

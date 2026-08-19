@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private vulnerability report
+    url: https://github.com/jremick/method-council/security/advisories/new
+    about: Report suspected vulnerabilities privately instead of opening an issue.
+  - name: Support boundaries
+    url: https://github.com/jremick/method-council/blob/main/SUPPORT.md
+    about: Check supported requests and current alpha limitations.

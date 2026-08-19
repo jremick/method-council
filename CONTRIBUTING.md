@@ -1,9 +1,8 @@
 # Contributing
 
-Method Council is currently a local private build. There is no public repository,
-issue tracker, or contribution channel, and outside submissions are not yet being
-accepted. This file records the contribution contract that should be activated
-and verified before public alpha.
+Method Council is a public alpha. Small, scoped pull requests are welcome, but
+interfaces and contribution expectations may change before beta. Open an issue
+before substantial method, schema, adapter, or architecture work.
 
 ## Contribution principles
 
@@ -48,9 +47,7 @@ uv run --frozen ruff check .
 uv run --frozen ruff format --check .
 ```
 
-These are the canonical checks for the repository. Public contribution guidance
-must not describe them as a passing clean-checkout path until release evidence
-confirms that result.
+These are the canonical checks for the repository and are also run by CI.
 
 ## Change expectations
 
@@ -61,6 +58,6 @@ confirms that result.
 - Keep generated output linked to its canonical input and generator version.
 - Explain any skipped validation and the practical risk in the pull request.
 
-When a public remote exists, contribution mechanics, issue templates, review
-expectations, and maintainer response boundaries will be added only for channels
-that are actually enabled and monitored.
+Submit changes from a branch or fork through a pull request. Describe the
+behavior changed, tests run, documentation impact, and any security, privacy, or
+claim-boundary consequences. Maintainer response times are not guaranteed.

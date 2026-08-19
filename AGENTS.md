@@ -48,10 +48,9 @@ the cited source supports that exact claim.
 
 ## Delivery boundary
 
-The repository is a private local build until an explicit later approval.
-Do not create a remote, push, publish a release, or change GitHub visibility or
-settings without that approval. Public-alpha eligibility is evidence, not
-permission to publish.
+The repository is public alpha. Do not push, publish a release, or change
+GitHub visibility, security, or repository settings without explicit maintainer
+approval. Release eligibility is evidence, not permission to publish.
 
 ## Development
 

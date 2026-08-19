@@ -2,7 +2,7 @@
 
 Version: 0.1.0
 
-Status: pre-public foundation
+Status: public-alpha foundation
 
 ## Design thesis
 

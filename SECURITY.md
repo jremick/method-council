@@ -1,20 +1,17 @@
 # Security policy
 
-## Current reporting status
+## Reporting a vulnerability
 
-Method Council is a pre-public local build. No GitHub remote or public release
-exists, so **no public vulnerability reporting channel is active** and no support
-response time is promised.
-
-Before public alpha, the maintainer intends to enable GitHub private vulnerability
-reporting and verify the setting through a live readback. This file will then link
-to the repository's private reporting form. Suspected vulnerabilities should not
-be posted in public issues, discussions, logs, or example artifacts.
+Use [GitHub private vulnerability reporting](https://github.com/jremick/method-council/security/advisories/new).
+Do not post suspected vulnerabilities in public issues, discussions, logs, or
+example artifacts. No response or remediation time is guaranteed during alpha.
 
 ## Supported versions
 
-There are no supported public versions yet. A supported-version table will be
-added when the first public release or prerelease is created.
+| Version | Security fixes |
+| --- | --- |
+| `0.1.x` alpha | Best effort |
+| Earlier snapshots | Not supported |
 
 ## Security boundaries
 
@@ -32,7 +29,7 @@ provider calls, tool side effects, and raw-prompt persistence are deny-by-defaul
 
 ## Useful report contents
 
-Once private reporting is active, a useful report should include:
+A useful report should include:
 
 - affected version, commit, or component;
 - observed behavior and security impact;

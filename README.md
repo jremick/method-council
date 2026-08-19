@@ -10,11 +10,19 @@
   A provider-neutral methodology protocol with a Codex-subscription-first path.
 </p>
 
-> **Private pre-public candidate — not public alpha.** Five hardened,
-> commit-bound Codex subscription runs now pass deterministic run and host-evidence
-> verification. Every result remains honestly `INCOMPLETE / CORRELATED`. Claude
-> and Gemini remain disabled preview adapters, and no GitHub remote or release
-> exists.
+<p align="center">
+  <a href="https://github.com/jremick/method-council/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/jremick/method-council/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
+  <img alt="Python 3.12 or newer" src="https://img.shields.io/badge/python-%3E%3D3.12-3776AB.svg">
+  <img alt="Status: alpha" src="https://img.shields.io/badge/status-alpha-C58B2A.svg">
+</p>
+
+> **Public alpha.** Method Council is ready for inspection and experimental
+> use, not production reliance. Interfaces, schemas, methods, profiles, and CLI
+> commands may change. Five commit-bound Codex subscription runs pass the
+> deterministic run and host-evidence verifiers, but every overall result
+> remains honestly `INCOMPLETE / CORRELATED`. Method usefulness is not yet
+> independently validated. Claude and Gemini adapters remain disabled previews.
 
 ![A contemporary analysis workbench with separate tracing-paper method passes aligned at one revision datum](assets/generated/analysis-bench-hero.png)
 
@@ -50,15 +58,20 @@ providers can be added later as separately tested adapters.
 
 ## Run it in Codex
 
-The repo includes a checked-in project skill at
-`.agents/skills/method-council`. After installing the locked development
-environment, open Codex from the repository and ask it to use the skill:
+Prerequisites: Python 3.12, [`uv`](https://docs.astral.sh/uv/), Git, and a
+ChatGPT-authenticated Codex CLI for the subscription-backed path.
 
 ```bash
+git clone https://github.com/jremick/method-council.git
+cd method-council
 uv sync --frozen --all-groups
 uv run --frozen method-council validate
 uv run --frozen python scripts/sync_codex_skill.py check
 ```
+
+The repo includes a checked-in project skill at
+`.agents/skills/method-council`. After installing the locked development
+environment, open Codex from the repository and ask it to use the skill:
 
 ```text
 Use $method-council to assess whether we should adopt this architecture.
@@ -110,10 +123,10 @@ Read the [report anatomy](docs/REPORT_ANATOMY.md) and
 
 ## Current status
 
-This repository remains at **Stage 0 — Private Build** because the local
-implementation has not been attached to or read back from a GitHub remote. The
-source is now a local pre-public candidate awaiting the remaining gates before
-any visibility change.
+This repository is at **Stage 2 — Public Alpha**. The Codex-first path and
+deterministic core are inspectable and exercised, while compatibility,
+method-usefulness, attestation, and support expectations remain deliberately
+narrow.
 
 Current foundations include:
 
@@ -137,10 +150,8 @@ Not yet established:
 - independent method-fidelity, security, and usability review;
 - independently signed or host-controlled execution attestation;
 - validated compatibility with any non-Codex provider;
-- public-alpha release eligibility;
-- a GitHub remote, release, support channel, or public vulnerability channel.
-
-No remote repository or public release is implied by this local source tree.
+- package-registry publication or a stable compatibility commitment;
+- beta-level usage confidence or a support response-time guarantee.
 
 ## Local development
 
@@ -166,6 +177,17 @@ uv run --frozen method-council verify-acceptance \
   evidence/acceptance/accept-architecture-storage-20260819
 ```
 
+Maintainers can build ignored, candidate-bound alpha release evidence after
+committing a clean candidate. `verify-release` independently reruns the exact
+registered local checks; recorded PASS fields alone remain insufficient.
+
+```bash
+uv run --frozen python scripts/build_release_evidence.py \
+  runs/release/v0.1.0-alpha.1
+uv run --frozen method-council verify-release \
+  runs/release/v0.1.0-alpha.1/manifest.json
+```
+
 ## Documentation
 
 - [Delivery brief](docs/DELIVERY_BRIEF.md) — value, risk tier, gates, and non-goals
@@ -174,29 +196,29 @@ uv run --frozen method-council verify-acceptance \
 - [Codex workflow](docs/CODEX_WORKFLOW.md) — validated local subscription path
 - [Acceptance evidence](docs/ACCEPTANCE.md) — five real task outcomes and limits
 - [Method evaluations](evals/METHOD_EVALS.md) — method-level screening and open usefulness gates
+- [Confidence evaluation plan](evals/CONFIDENCE_PLAN.md) — blinded baselines and independent review
 - [Compatibility](docs/COMPATIBILITY.md) — verified and preview adapter boundaries
 - [Report anatomy](docs/REPORT_ANATOMY.md) — human-facing report structure
 - [Design system](docs/DESIGN_SYSTEM.md) — visual language and asset rules
 - [Source register](docs/SOURCES.md) — method provenance and claim boundaries
 - [Threat model](docs/THREAT_MODEL.md) — security assumptions and abuse cases
-- [GitHub settings plan](docs/GITHUB_SETTINGS.md) — pre-public and public-alpha posture
+- [GitHub settings posture](docs/GITHUB_SETTINGS.md) — public-alpha configuration and readback
 - [Architecture decisions](docs/decisions/) — accepted design choices
 
-All linked documents are part of the local candidate. Their existence and link
-validity do not establish method fidelity, decision quality, non-Codex
-compatibility, or public readiness.
+All linked documents are part of the public-alpha source. Their existence and
+link validity do not establish method fidelity, decision quality, or non-Codex
+compatibility.
 
 ## Contributing and support
 
-There is no public issue tracker or monitored support channel while this remains
-a local private build. The contribution policy describes the standards that will
-apply when external contributions are opened; it does not imply that submissions
-are currently accepted. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Use [GitHub Issues](https://github.com/jremick/method-council/issues) for
+reproducible bugs and bounded feature requests. Small, scoped contributions are
+welcome under [CONTRIBUTING.md](CONTRIBUTING.md). There is no support response
+time, compatibility guarantee, or general consulting channel; see
+[SUPPORT.md](SUPPORT.md).
 
-For security, do not publish suspected vulnerabilities in a future public issue.
-The project plans to use GitHub private vulnerability reporting after a remote
-exists and the feature is enabled and read back. There is currently no active
-public reporting channel. See [SECURITY.md](SECURITY.md).
+Do not post suspected vulnerabilities in public issues. Use GitHub private
+vulnerability reporting as described in [SECURITY.md](SECURITY.md).
 
 ## License and attribution
 

@@ -45,5 +45,5 @@
   were legible; no obvious private data or unintended marks were observed.
 - Claim limit: a committed social-preview asset and local visual review are not
   proof that GitHub's custom social preview has been uploaded, applied, or
-  rendered correctly. That setting remains unapplied because no GitHub remote
-  exists.
+  rendered correctly. Upload and rendered-state verification remain separate
+  GitHub settings work.

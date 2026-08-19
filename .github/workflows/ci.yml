@@ -43,3 +43,20 @@ jobs:
 
       - name: Validate canonical catalog
         run: uv run method-council validate
+
+      - name: Check Codex skill projection
+        run: uv run python scripts/sync_codex_skill.py check
+
+      - name: Recompute method screening report
+        run: |
+          uv run python scripts/evaluate_methods.py
+          git diff --exit-code -- evals/methods/screening-report.json
+
+      - name: Validate public fixtures
+        run: uv run python scripts/validate_fixtures.py
+
+      - name: Scan tracked-file hygiene
+        run: uv run python scripts/tracked_file_hygiene.py
+
+      - name: Build source and wheel artifacts
+        run: uv build

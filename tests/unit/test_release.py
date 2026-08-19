@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from method_council import release_checks
 from method_council.documents import MAX_DOCUMENT_BYTES
 from method_council.evidence import file_digest
 from method_council.release import verify_release_manifest
@@ -229,3 +230,50 @@ def test_every_release_input_is_bounded(tmp_path, input_name, issue_code):
     assert not result["release_eligible"]
     issue = next(issue for issue in result["issues"] if issue["code"] == issue_code)
     assert "exceeds" in issue["message"]
+
+
+def test_registered_local_alpha_gate_is_rerun_and_can_be_eligible(tmp_path, monkeypatch):
+    check = release_checks.ReleaseCheck("smoke", ("python", "-c", "raise SystemExit(0)"), 30)
+    monkeypatch.setattr(release_checks, "LOCAL_ALPHA_CHECKS", (check,))
+    monkeypatch.setattr(release_checks, "_git_head", lambda root: "abc123")
+
+    result = release_checks.build_local_alpha_evidence(
+        tmp_path, tmp_path / "runs" / "release" / "candidate"
+    )
+    verdict = _verify(tmp_path / result["manifest"], tmp_path)
+
+    assert result["valid"]
+    assert verdict["valid"]
+    assert verdict["release_eligible"]
+    assert verdict["status"] == "PASS"
+    assert verdict["gate_statuses"] == {"local-alpha": "PASS"}
+    assert verdict["issues"] == []
+
+
+def test_registered_gate_rejects_candidate_drift(tmp_path, monkeypatch):
+    check = release_checks.ReleaseCheck("smoke", ("python", "-c", "raise SystemExit(0)"), 30)
+    monkeypatch.setattr(release_checks, "LOCAL_ALPHA_CHECKS", (check,))
+    monkeypatch.setattr(release_checks, "_git_head", lambda root: "candidate-a")
+    result = release_checks.build_local_alpha_evidence(
+        tmp_path, tmp_path / "runs" / "release" / "candidate"
+    )
+    monkeypatch.setattr(release_checks, "_git_head", lambda root: "candidate-b")
+
+    verdict = _verify(tmp_path / result["manifest"], tmp_path)
+
+    assert not verdict["valid"]
+    assert not verdict["release_eligible"]
+    assert verdict["status"] == "ERROR"
+    assert any(issue["code"] == "release.candidate-mismatch" for issue in verdict["issues"])
+
+
+def test_release_evidence_output_rejects_symlink_components(tmp_path):
+    release_root = tmp_path / "runs" / "release"
+    release_root.mkdir(parents=True)
+    target = tmp_path / "elsewhere"
+    target.mkdir()
+    linked = release_root / "linked"
+    linked.symlink_to(target, target_is_directory=True)
+
+    with pytest.raises(ValueError, match="must not contain symlinks"):
+        release_checks.build_local_alpha_evidence(tmp_path, linked / "candidate")
