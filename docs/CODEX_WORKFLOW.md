@@ -1,7 +1,7 @@
 # Codex workflow
 
-Status: hardened local preview with four recorded commit-bound subscription
-runs. All four reproduce as valid `INCOMPLETE / CORRELATED` evidence.
+Status: hardened local preview with five recorded commit-bound subscription
+runs. All five reproduce as valid `INCOMPLETE / CORRELATED` evidence.
 
 ## Intended first interaction
 
@@ -121,13 +121,19 @@ run evidence.
 
 ## Recorded acceptance
 
-Four hardened subscription-backed runs cover architecture, investigation,
-missing release evidence, and hostile embedded instructions. Each was executed
-from source commit `7da73bbeef496cff9e31828e97a3fb400f44ead5` and passes both
+Five hardened subscription-backed runs cover architecture, investigation,
+missing release evidence, hostile embedded instructions, and provider-plugin
+forecasting. They were executed from the exact commits recorded in each host
+envelope and pass both
 `verify-run` and `verify-acceptance` with no verifier issues or tracked-source
 mutation. All remain `INCOMPLETE / CORRELATED`; the runner records an unsigned
 local envelope and does not establish cryptographic execution authenticity,
 containment, method quality, or general security.
+
+The forecast run adds live production-path coverage for Alternative Futures and
+Indicators/Signposts. The resulting eight-method semantic screen is still
+correlated and does not establish decision-relevant usefulness; see
+[`evals/METHOD_EVALS.md`](../evals/METHOD_EVALS.md).
 
 The initial pre-hardening bundles were retired after independent review showed
 that their verifier trusted method PASS claims without enforcing selected

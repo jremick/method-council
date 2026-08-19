@@ -1,0 +1,275 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "method_id": "evidence-quality",
+  "method_version": "0.1.0",
+  "rigor": "intensive",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "inventory",
+    "assess-critical",
+    "test-independence",
+    "expose-gaps",
+    "calibrate",
+    "plan-refresh"
+  ],
+  "findings": [
+    {
+      "id": "evidence-quality-inventory-single-source",
+      "type": "fact",
+      "statement": "The evidence manifest contains one repository source, the public task case, with no listed handling limitations and no source date beyond the run context.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "inventory"
+    },
+    {
+      "id": "evidence-quality-current-observations",
+      "type": "fact",
+      "statement": "The case reports forty synthetic pilot workflows across six activities, three independently evolving provider CLIs, two documentation requests, no maintained external adapter, and live functional evidence only for the Codex path.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-critical-provider-proof",
+      "type": "inference",
+      "statement": "Authenticated critical-path evidence from at least two provider adapters is load-bearing for distinguishing a future in which the internal boundary stabilizes through real integrations from one in which provider contract churn keeps a public API premature.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-critical-demand-proof",
+      "type": "inference",
+      "statement": "Two requests for custom-adapter documentation are weak evidence of ecosystem demand because the case records no implemented or maintained external adapter and provides no usage, commitment, or support-burden observations.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-interface-readiness",
+      "type": "inference",
+      "statement": "The preview interface's separation of provider lifecycle concerns is relevant evidence of architectural preparation, but it does not by itself establish compatibility, security, usability, or maintainability under third-party implementation.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "assess-critical"
+    },
+    {
+      "id": "evidence-quality-independence-limit",
+      "type": "fact",
+      "statement": "All observations available to this pass are bundled in the same case entry, so none can be counted as independently corroborated evidence even when they describe different providers or activities.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-independence"
+    },
+    {
+      "id": "evidence-quality-intensive-minimum-gap",
+      "type": "fact",
+      "statement": "The intensive method requires at least three evidence references, while this pass received exactly one; the evidence base therefore cannot satisfy the configured intensive evidentiary minimum.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-missing-operational-data",
+      "type": "unknown",
+      "statement": "The case does not provide authenticated run results for Claude or Gemini, observed interface-change frequency, adapter maintenance effort, security findings, contributor conversion, support volume, or compatibility-policy ownership.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "expose-gaps"
+    },
+    {
+      "id": "evidence-quality-future-stable-boundary",
+      "type": "inference",
+      "statement": "A plausible future is that two real provider integrations converge on the existing lifecycle decomposition, making most cross-provider behavior stable; the evidence needed to support it is repeated authenticated critical-path success plus low rates of breaking boundary changes.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    },
+    {
+      "id": "evidence-quality-future-provider-churn",
+      "type": "inference",
+      "statement": "A materially different plausible future is continued authentication and non-interactive CLI churn, forcing provider-specific exceptions and making a frozen public API costly or misleading; the present case supports plausibility but not frequency or severity.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    },
+    {
+      "id": "evidence-quality-future-demand-without-capacity",
+      "type": "inference",
+      "statement": "Another plausible future is rising external adapter demand before the project develops compatibility and support capacity, creating pressure to publish while security review, ownership, and support mechanisms remain immature.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "calibrate"
+    },
+    {
+      "id": "evidence-quality-cross-scenario-implication",
+      "type": "inference",
+      "statement": "Across these futures, preserving structured observations of provider contract changes, authenticated outcomes, interface exceptions, contributor attempts, security issues, and support cost would improve the next checkpoint more than increasing the number of synthetic scenarios alone.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "plan-refresh"
+    },
+    {
+      "id": "evidence-quality-refresh-checkpoint",
+      "type": "assumption",
+      "statement": "A six-month evidence review, with an earlier trigger after the second provider completes an authenticated critical-path run or after any material provider-contract break, is a practical checkpoint within the stated twelve-month strategy window.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "plan-refresh"
+    }
+  ],
+  "alternatives": [
+    "Treat the present case as a baseline only and defer any evidence-quality conclusion until independently sourced operational records exist.",
+    "Run a time-boxed private adapter program to collect comparable evidence without creating a public compatibility promise.",
+    "Publish documentation for an explicitly experimental, unsupported boundary while retaining the right to make breaking changes; this would test demand but would not constitute a frozen supported API."
+  ],
+  "method_artifact": {
+    "evidence_inventory": [
+      {
+        "evidence_ref": "case",
+        "source_type": "repository",
+        "locator": "evals/acceptance/forecast-plugin-ecosystem.md",
+        "digest": "sha256:451553913024c327a9d3918d70a0ba75e4059150fdba0e3f6600d5a1fdaf55a2",
+        "date": "unknown",
+        "access_path": "repository file bound by the run manifest",
+        "handling_limitations": []
+      }
+    ],
+    "access_limits": [
+      "Only the single manifest entry was available to this pass.",
+      "No external calls, provider checks, or other method outputs were permitted.",
+      "The case aggregates observations without underlying logs, measurements, provenance records, or observation dates."
+    ],
+    "critical_evidence": [
+      {
+        "judgment": "Whether real provider integrations stabilize or fragment the adapter boundary",
+        "support": "The case states that only Codex has live functional evidence and that two other launch/collection paths are disabled and unverified.",
+        "quality": "Highly relevant but incomplete and uncorroborated."
+      },
+      {
+        "judgment": "Whether external ecosystem demand justifies a compatibility promise",
+        "support": "The case records two documentation requests but no external implementation or maintenance experience.",
+        "quality": "Relevant but weak as a demand or sustainability signal."
+      },
+      {
+        "judgment": "Whether the internal interface is mature enough to freeze",
+        "support": "The case lists a decomposed preview interface and recent provider CLI contract changes.",
+        "quality": "Suggestive architecture evidence without operational stability measurements."
+      }
+    ],
+    "quality_observations": [
+      "Relevance is high because the source directly describes the decision context.",
+      "Credibility cannot be independently assessed because underlying records and provenance are absent.",
+      "Currency is uncertain because individual observations are not dated.",
+      "Completeness is low for an intensive forecast because key operational, demand, security, ownership, and cost measures are missing.",
+      "The evidence is susceptible to selection and framing error because all observations are presented in one decision fixture."
+    ],
+    "correlation_groups": [
+      {
+        "id": "case-single-origin",
+        "evidence_refs": [
+          "case"
+        ],
+        "assessment": "Single bundled origin; no independent corroboration can be claimed."
+      }
+    ],
+    "gaps": [
+      "Comparable authenticated critical-path outcomes for at least two provider adapters",
+      "A dated change log for authentication, non-interactive execution, cancellation, collection, and error contracts",
+      "Counts and outcomes of external adapter attempts, including abandonment reasons",
+      "Measured maintenance effort and support demand",
+      "Security review findings for third-party adapter execution and credential boundaries",
+      "Named compatibility-policy owner, versioning rules, deprecation window, and support-channel readiness"
+    ],
+    "contradictions": [
+      "No internal contradiction is explicit in the case, but no independent evidence is available to test its observations."
+    ],
+    "affected_judgments": [
+      "Whether interface stability is real or only apparent before additional integrations",
+      "Whether contributor demand is durable enough to justify support obligations",
+      "Whether compatibility and security costs are supportable",
+      "Which plausible future is becoming more consistent with observed conditions"
+    ],
+    "confidence_basis": {
+      "band": "low",
+      "assessment": "The case is directly relevant and supports identifying plausible futures and discriminating evidence needs, but the single composite source, missing dates, absent underlying records, and failure to meet the intensive three-reference minimum prevent stronger confidence. No numerical probability is supported."
+    },
+    "refresh_triggers": [
+      {
+        "indicator": "Authenticated critical-path adapter completion",
+        "discriminates": "Stable-boundary future versus integration-fragmentation future",
+        "owner": "Provider adapter maintainer",
+        "cadence": "Record per run; summarize monthly",
+        "trigger": "Second distinct provider completes probe-through-collection, cancellation, timeout/retry, model observation, and normalized-error checks"
+      },
+      {
+        "indicator": "Provider contract break rate and boundary exceptions",
+        "discriminates": "Convergence versus continued provider churn",
+        "owner": "Adapter integration owner",
+        "cadence": "Record per upstream release; review monthly",
+        "trigger": "Any change requires a public-boundary breaking change or a new provider-specific exception"
+      },
+      {
+        "indicator": "External adapter implementation attempts",
+        "discriminates": "Durable ecosystem demand versus low-intent documentation interest",
+        "owner": "Contributor experience owner",
+        "cadence": "Record per inquiry or prototype; review quarterly",
+        "trigger": "At least one external party completes and maintains a private adapter through two provider releases"
+      },
+      {
+        "indicator": "Compatibility and security operating readiness",
+        "discriminates": "Supportable-public-API future versus demand-without-capacity future",
+        "owner": "Project maintainer accountable for compatibility and security",
+        "cadence": "Review quarterly and after material security findings",
+        "trigger": "A named owner, versioning and deprecation policy, security review, support intake, and remote settings read-back all exist"
+      }
+    ],
+    "review_checkpoint": {
+      "timing": "Six months from the run, or earlier upon a listed trigger",
+      "evidence_required": "Review authenticated provider run records, upstream contract-change records, interface-exception logs, external adapter attempts, security findings, support observations, and policy ownership.",
+      "decision_boundary": "Reassess the evidence base and plausible futures only; this method pass does not make the final product decision."
+    }
+  },
+  "confidence": {
+    "band": "low",
+    "basis": "One directly relevant but composite repository source supports a gap analysis, not an intensive-quality conclusion or independently corroborated forecast."
+  },
+  "change_conditions": [
+    "Raise confidence if at least two additional independent, dated evidence sources substantiate provider integration behavior, ecosystem demand, and operational support readiness.",
+    "Reassess immediately when a second provider completes authenticated critical-path runs or a provider contract change forces a boundary-breaking redesign.",
+    "Reassess the demand outlook if an external contributor maintains a private adapter across two provider releases or if documented interest does not convert into implementation attempts.",
+    "Reassess support feasibility when compatibility ownership, versioning and deprecation policy, security review, support intake, and remote settings read-back become observable."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Intensive evidence-quality requires at least three evidence references, but the manifest provides one.",
+      "retryable": true
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2"
+  }
+}

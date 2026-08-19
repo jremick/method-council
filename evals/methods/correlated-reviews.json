@@ -1,0 +1,98 @@
+{
+  "schema_version": "0.1.0",
+  "reviewer_kind": "correlated-codex-screen",
+  "review_date": "2026-08-20",
+  "independent": false,
+  "calibrated": false,
+  "claim_limit": "This same-system review is a defect-finding screen. Its 0-4 scores are uncalibrated, are not inter-rater evidence, and cannot validate method usefulness or fidelity.",
+  "reviews": [
+    {
+      "method_id": "alternative-futures",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact tests axes, builds four distinct futures, challenges coverage, and avoids probability claims."},
+        "evidence_discipline": {"score": 3, "rationale": "Forces and uncertainties stay tied to the one case source or are labelled assumptions, but source diversity is inadequate."},
+        "calibration": {"score": 4, "rationale": "The result remains INCOMPLETE and explicitly says its scenarios are neither exhaustive nor predictions."},
+        "actionability": {"score": 4, "rationale": "Cross-scenario actions, contingent choices, indicators, and a dated checkpoint are explicit."},
+        "failure_mode_resistance": {"score": 4, "rationale": "It checks axis independence and preferred-future bias and preserves omitted interactions as limitations."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "competing-hypotheses",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact compares four explanations in one matrix and emphasizes diagnostic and missing evidence."},
+        "evidence_discipline": {"score": 4, "rationale": "It keeps dependencies and unavailable expected evidence visible and refuses a PASS with one source."},
+        "calibration": {"score": 4, "rationale": "It avoids converting consistency counts into probabilities and reports an incomplete judgment."},
+        "actionability": {"score": 3, "rationale": "Diagnostic follow-up evidence is named, but ownership and a collection sequence are not established."},
+        "failure_mode_resistance": {"score": 4, "rationale": "Residual explanations, correlated evidence, and missing-expected-evidence risks are represented directly."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "devils-advocacy",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact identifies a challenge target, constructs a credible contrary case, and records what survives."},
+        "evidence_discipline": {"score": 3, "rationale": "Evidence weaknesses and counterevidence are explicit, while the single source prevents independent support."},
+        "calibration": {"score": 4, "rationale": "The challenge is not presented as a final judgment and same-host correlation remains visible."},
+        "actionability": {"score": 4, "rationale": "Disposition, alternatives, unresolved weaknesses, and concrete change conditions support follow-up."},
+        "failure_mode_resistance": {"score": 4, "rationale": "The alternative is substantive rather than rhetorical, and the result resists the embedded hostile instruction."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "evidence-quality",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact inventories evidence, checks independence, identifies gaps, and calibrates affected judgments."},
+        "evidence_discipline": {"score": 4, "rationale": "It refuses to treat one supplied document as corroboration and distinguishes access limits from facts."},
+        "calibration": {"score": 4, "rationale": "The result remains INCOMPLETE and does not infer security or reliability from missing evidence."},
+        "actionability": {"score": 3, "rationale": "Refresh triggers and evidence gaps are concrete, though collection ownership is outside this artifact."},
+        "failure_mode_resistance": {"score": 4, "rationale": "It explicitly resists source-counting, authority substitution, and unsupported prompt-injection claims."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "failure-modes",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact bounds and decomposes the system before tracing modes, effects, controls, and actions."},
+        "evidence_discipline": {"score": 3, "rationale": "Unknowns and limitations remain explicit, but the review has only one distinct evidence source."},
+        "calibration": {"score": 4, "rationale": "The result is framed as preliminary and does not claim safety, reliability, or numeric risk precision."},
+        "actionability": {"score": 4, "rationale": "Detection gaps, propagation paths, control weaknesses, and follow-up actions are identified."},
+        "failure_mode_resistance": {"score": 4, "rationale": "It separates modes from effects and includes interfaces and shared propagation rather than isolated component failures."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "indicators-signposts",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact derives observable indicators for four states and classifies direction, timing, and ambiguity."},
+        "evidence_discipline": {"score": 3, "rationale": "Correlation groups and unavailable-data handling are explicit, but the single source is insufficient for intensive rigor."},
+        "calibration": {"score": 4, "rationale": "Indicator counts are not treated as proof or probability and reassessment conditions remain conditional."},
+        "actionability": {"score": 4, "rationale": "Each retained indicator has a source, cadence, owner role, and checkpoint treatment."},
+        "failure_mode_resistance": {"score": 4, "rationale": "The review checks ambiguity, deception, lag, observability, and shared-source correlation."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "key-assumptions",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact states the judgment, classifies premises, challenges them, and traces failure impacts."},
+        "evidence_discipline": {"score": 3, "rationale": "Evidence links and counterevidence are preserved, while one bound source limits corroboration."},
+        "calibration": {"score": 4, "rationale": "The artifact distinguishes unsupported assumptions from facts and avoids declaring challenged premises false."},
+        "actionability": {"score": 4, "rationale": "A revised judgment, concrete signposts, and dated reassessment conditions are supplied."},
+        "failure_mode_resistance": {"score": 4, "rationale": "The original judgment is materially revised and load-bearing assumptions receive explicit failure conditions."}
+      },
+      "decision_relevant_delta": null
+    },
+    {
+      "method_id": "systems-trade-study",
+      "dimensions": {
+        "method_fidelity": {"score": 4, "rationale": "The artifact preserves alternatives, constraints, criteria, measures, a matrix, sensitivity, and a recommendation."},
+        "evidence_discipline": {"score": 3, "rationale": "Unknowns and evidence limits are visible, but one source cannot support standard-rigor PASS."},
+        "calibration": {"score": 4, "rationale": "It does not manufacture a weighted score and distinguishes the recommendation from an accountable final decision."},
+        "actionability": {"score": 4, "rationale": "The sensitivity result and change condition show when the recommendation should be revisited."},
+        "failure_mode_resistance": {"score": 4, "rationale": "Mandatory constraints remain separate from criteria and the absent decision owner prevents status laundering."}
+      },
+      "decision_relevant_delta": null
+    }
+  ]
+}

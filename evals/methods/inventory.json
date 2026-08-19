@@ -1,0 +1,95 @@
+{
+  "schema_version": "0.1.0",
+  "evaluation_id": "method-usefulness-screen-v0.1",
+  "review_file": "evals/methods/correlated-reviews.json",
+  "claim_boundary": "Recorded artifacts can establish structural conformance and support a correlated semantic screen. They do not establish causal usefulness, independent method fidelity, factual accuracy, or decision quality.",
+  "policy": {
+    "correlated_screening_minimum_dimension_score": 3,
+    "minimum_runs_per_method": 3,
+    "required_sample_types": ["representative", "edge", "adversarial"],
+    "requires_blinded_no_method_baseline": true,
+    "minimum_independent_practitioner_reviews": 1
+  },
+  "methods": [
+    {
+      "method_id": "alternative-futures",
+      "intent": "Construct materially different plausible futures without presenting them as predictions.",
+      "desired_usefulness": "Expose robust and contingent actions plus observable conditions that would change the strategy.",
+      "bundle": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2",
+      "result": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2/method-results/alternative-futures.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-forecast-plugin-ecosystem-20260820-v2"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "competing-hypotheses",
+      "intent": "Compare plausible explanations against the same evidence and emphasize inconsistency and diagnosticity.",
+      "desired_usefulness": "Reduce premature closure and identify the evidence most likely to separate surviving explanations.",
+      "bundle": "evidence/acceptance/accept-investigation-duplicates-20260819",
+      "result": "evidence/acceptance/accept-investigation-duplicates-20260819/method-results/competing-hypotheses.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-investigation-duplicates-20260819"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "devils-advocacy",
+      "intent": "Build the strongest evidence-aware contrary case to a dominant judgment without replacing final decision authority.",
+      "desired_usefulness": "Surface material weaknesses, preserve unresolved dissent, and define what would overturn the mainline judgment.",
+      "bundle": "evidence/acceptance/accept-hostile-review-20260819",
+      "result": "evidence/acceptance/accept-hostile-review-20260819/method-results/devils-advocacy.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-hostile-review-20260819"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "evidence-quality",
+      "intent": "Assess completeness, credibility, independence, currency, and limits before substantive synthesis.",
+      "desired_usefulness": "Prevent source quantity or authority from laundering weak evidence and identify the highest-value evidence gaps.",
+      "bundle": "evidence/acceptance/accept-hostile-review-20260819",
+      "result": "evidence/acceptance/accept-hostile-review-20260819/method-results/evidence-quality.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-hostile-review-20260819"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "failure-modes",
+      "intent": "Trace element-level failure modes, effects, controls, common causes, and accountable follow-up within a bounded system.",
+      "desired_usefulness": "Reveal plausible failure paths and verification needs without presenting a preliminary model review as safety proof.",
+      "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+      "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/failure-modes.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-architecture-storage-20260819"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "indicators-signposts",
+      "intent": "Derive observable, discriminating signs for bounded states and define repeatable review conditions.",
+      "desired_usefulness": "Turn scenarios and assumptions into an owned monitoring plan without converting indicator counts into probabilities.",
+      "bundle": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2",
+      "result": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2/method-results/indicators-signposts.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-forecast-plugin-ecosystem-20260820-v2"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "key-assumptions",
+      "intent": "Make load-bearing premises explicit and test how a judgment changes when they fail.",
+      "desired_usefulness": "Expose hidden premises, distinguish evidence from assumption, and produce concrete failure and reassessment conditions.",
+      "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+      "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/key-assumptions.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-architecture-storage-20260819"],
+      "independent_reviews": []
+    },
+    {
+      "method_id": "systems-trade-study",
+      "intent": "Compare feasible alternatives against explicit criteria, constraints, uncertainty, and sensitivity while preserving decision authority.",
+      "desired_usefulness": "Make trade-offs and reversals inspectable without hiding constraints or manufacturing false numeric precision.",
+      "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+      "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/systems-trade-study.json",
+      "sample_types": ["representative"],
+      "runs": ["accept-architecture-storage-20260819"],
+      "independent_reviews": []
+    }
+  ]
+}

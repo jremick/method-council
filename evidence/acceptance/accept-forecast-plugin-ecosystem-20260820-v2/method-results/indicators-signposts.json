@@ -1,0 +1,474 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "method_id": "indicators-signposts",
+  "method_version": "0.1.0",
+  "rigor": "intensive",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "frame-states",
+    "derive",
+    "classify",
+    "quality-check",
+    "test-ambiguity",
+    "collection",
+    "checkpoint"
+  ],
+  "findings": [
+    {
+      "id": "indicators-signposts-current-baseline",
+      "type": "fact",
+      "statement": "The current baseline has one live-evidenced provider path, two disabled and unverified provider paths, no maintained external adapter, and no public support channel or remote settings read-back.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "frame-states"
+    },
+    {
+      "id": "indicators-signposts-provider-volatility",
+      "type": "fact",
+      "statement": "Three provider CLIs have independently changed authentication and non-interactive execution contracts during the last year, making upstream contract stability an observable concern.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "derive"
+    },
+    {
+      "id": "indicators-signposts-demand-not-yet-demonstrated",
+      "type": "inference",
+      "statement": "Two documentation requests without an implemented or maintained external adapter indicate interest but do not yet demonstrate sustained third-party implementation demand.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "quality-check"
+    },
+    {
+      "id": "indicators-signposts-internal-boundary-learning",
+      "type": "inference",
+      "statement": "The existing internal separation of lifecycle concerns creates a measurable candidate boundary, while the first two additional provider integrations can still reveal whether that separation is sufficient or churn-prone.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "derive"
+    },
+    {
+      "id": "indicators-signposts-security-support-unknown",
+      "type": "unknown",
+      "statement": "The evidence does not establish the compatibility budget, security review capacity, support ownership, or incident-response capacity needed for a public plugin promise.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-ambiguity"
+    },
+    {
+      "id": "indicators-signposts-monitoring-requires-baseline",
+      "type": "assumption",
+      "statement": "A retained indicator should be evaluated against a timestamped baseline and its stated measurement rule; otherwise post-hoc reinterpretation could make the signal appear more diagnostic than it was.",
+      "evidence_refs": [],
+      "method_step": "quality-check"
+    }
+  ],
+  "alternatives": [
+    "State A — readiness converges: within 18 months at least two non-Codex adapters repeatedly complete authenticated critical-path runs, the internal boundary stabilizes, credible external implementation demand appears, and compatibility/security ownership becomes accountable.",
+    "State B — learning remains dominant: additional adapters expose material boundary churn, provider contract volatility persists, demand remains mostly documentary, or support and security ownership remain unstaffed.",
+    "State C — pressure outruns readiness: ecosystem demand or competitor interoperability creates urgency for extensibility, but provider verification, compatibility policy, or support controls remain incomplete, producing pressure for a narrower experimental extension rather than a stable public promise.",
+    "State D — provider integration contracts consolidate elsewhere: provider CLIs or common tooling become sufficiently stable and similar that a smaller, revised adapter boundary becomes feasible, making the present internal interface partly obsolete."
+  ],
+  "method_artifact": {
+    "target_states": [
+      {
+        "id": "state-a-readiness-converges",
+        "description": "Technical verification, boundary stability, demonstrated demand, and accountable compatibility/security operations converge enough to make public support assessable."
+      },
+      {
+        "id": "state-b-learning-remains-dominant",
+        "description": "Integration learning and upstream volatility continue to outweigh the value of freezing the boundary."
+      },
+      {
+        "id": "state-c-pressure-outruns-readiness",
+        "description": "Material external demand arrives before operational and technical readiness, creating pressure for a limited experimental path."
+      },
+      {
+        "id": "state-d-contracts-consolidate",
+        "description": "Provider or ecosystem contracts converge enough that a different, smaller public abstraction becomes plausible."
+      }
+    ],
+    "horizon": {
+      "duration": "18 months from the run checkpoint",
+      "decision_relevance": "The next release and the stated 12-month internal-boundary period should be reassessed when discriminating events occur, with a formal review no later than six months after this run and subsequent six-month reviews through the horizon."
+    },
+    "candidate_indicators": [
+      {
+        "id": "I1",
+        "observable": "A second and then a third provider adapter each completes an authenticated critical-path run covering probe, render, launch, collect, timeout/retry, model observation, cancellation, and error normalization, with dated evidence.",
+        "expected_if_emerging": [
+          "state-a-readiness-converges"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-b-learning-remains-dominant"
+        ]
+      },
+      {
+        "id": "I2",
+        "observable": "Across two consecutive release cycles, implementing or updating provider adapters requires no breaking change to the candidate public adapter contract and all necessary differences remain adapter-local.",
+        "expected_if_emerging": [
+          "state-a-readiness-converges"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-b-learning-remains-dominant"
+        ]
+      },
+      {
+        "id": "I3",
+        "observable": "Provider authentication or non-interactive execution changes force changes to shared adapter contract fields or lifecycle semantics in two or more provider integrations within a six-month window.",
+        "expected_if_emerging": [
+          "state-b-learning-remains-dominant"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-a-readiness-converges",
+          "state-d-contracts-consolidate"
+        ]
+      },
+      {
+        "id": "I4",
+        "observable": "At least one external contributor implements and maintains a non-core adapter against a timestamped draft contract through one project release, with issues and required contract changes recorded.",
+        "expected_if_emerging": [
+          "state-a-readiness-converges",
+          "state-c-pressure-outruns-readiness"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-b-learning-remains-dominant"
+        ]
+      },
+      {
+        "id": "I5",
+        "observable": "Three or more unrelated prospective users provide concrete, non-duplicative integration use cases tied to adapters they intend to build or operate, rather than documentation-only requests.",
+        "expected_if_emerging": [
+          "state-c-pressure-outruns-readiness",
+          "state-a-readiness-converges"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-b-learning-remains-dominant"
+        ]
+      },
+      {
+        "id": "I6",
+        "observable": "Named maintainers approve a versioning/deprecation policy, compatibility test matrix, vulnerability intake path, and support ownership with response expectations and resourcing.",
+        "expected_if_emerging": [
+          "state-a-readiness-converges"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-b-learning-remains-dominant",
+          "state-c-pressure-outruns-readiness"
+        ]
+      },
+      {
+        "id": "I7",
+        "observable": "A security review of the draft extension boundary finds no unresolved high-severity issue and verifies capability restriction, secret handling, cancellation, error normalization, and settings read-back behavior.",
+        "expected_if_emerging": [
+          "state-a-readiness-converges"
+        ],
+        "expected_if_absent_or_receding": [
+          "state-c-pressure-outruns-readiness",
+          "state-b-learning-remains-dominant"
+        ]
+      },
+      {
+        "id": "I8",
+        "observable": "Two or more provider integrations adopt materially similar stable authentication, execution, cancellation, and result-observation contracts, allowing removal rather than addition of shared adapter surface.",
+        "expected_if_emerging": [
+          "state-d-contracts-consolidate"
+        ],
+        "expected_if_absent_or_receding": []
+      }
+    ],
+    "indicator_matrix": [
+      {
+        "indicator_id": "I1",
+        "direction": "supports A; sustained absence supports B",
+        "lead_time": "0–6 months once integration work starts",
+        "persistence": "Must recur in scheduled runs and survive provider updates",
+        "reversibility": "Reversible if later authentication or launch changes break the path"
+      },
+      {
+        "indicator_id": "I2",
+        "direction": "supports A; breaking shared changes support B",
+        "lead_time": "Two release cycles",
+        "persistence": "High if maintained across subsequent releases",
+        "reversibility": "Reversed by a later shared-contract break"
+      },
+      {
+        "indicator_id": "I3",
+        "direction": "supports B; sustained absence weakly supports A or D",
+        "lead_time": "Immediate to six months after upstream changes",
+        "persistence": "Medium; volatility can recur",
+        "reversibility": "Reversible after demonstrated stabilization"
+      },
+      {
+        "indicator_id": "I4",
+        "direction": "supports A or C; discriminated by I1, I2, I6, and I7",
+        "lead_time": "One release cycle or more",
+        "persistence": "Requires continued maintenance through a release",
+        "reversibility": "Reversed by abandonment or contract bypass"
+      },
+      {
+        "indicator_id": "I5",
+        "direction": "supports demand in A or C; does not establish readiness",
+        "lead_time": "Immediate when attributable requests arrive",
+        "persistence": "Low unless intent becomes implementation activity",
+        "reversibility": "Readily reversible if projects do not proceed"
+      },
+      {
+        "indicator_id": "I6",
+        "direction": "supports A; absence supports B or C",
+        "lead_time": "1–6 months of governance work",
+        "persistence": "Requires named ownership and periodic read-back",
+        "reversibility": "Reversed if owners or resources disappear"
+      },
+      {
+        "indicator_id": "I7",
+        "direction": "supports A; unresolved severe issues support B or C",
+        "lead_time": "At completion of bounded security review",
+        "persistence": "Expires when the contract or threat surface materially changes",
+        "reversibility": "Highly reversible after interface or provider changes"
+      },
+      {
+        "indicator_id": "I8",
+        "direction": "supports D; may also lower readiness cost for A",
+        "lead_time": "6–18 months",
+        "persistence": "Must hold across provider releases",
+        "reversibility": "Reversed by renewed divergence"
+      }
+    ],
+    "quality_checks": [
+      {
+        "indicator_id": "I1",
+        "observability": "High when run artifacts are dated and bound to provider/auth state",
+        "specificity": "High for integration feasibility; incomplete for governance readiness",
+        "diagnostic_value": "Separates demonstrated multi-provider operation from single-path confidence",
+        "manipulation_risk": "A narrow happy-path demo could masquerade as critical-path coverage"
+      },
+      {
+        "indicator_id": "I2",
+        "observability": "High through contract diffs and release history",
+        "specificity": "High for boundary stability",
+        "diagnostic_value": "Separates convergence from continued learning",
+        "manipulation_risk": "Freezing implementation work could create artificial stability"
+      },
+      {
+        "indicator_id": "I3",
+        "observability": "Medium; upstream change logs and local diffs may be incomplete",
+        "specificity": "High only when a causal link to shared contract change is recorded",
+        "diagnostic_value": "Distinguishes provider-local churn from abstraction failure",
+        "manipulation_risk": "Reclassifying shared changes as adapter-local can suppress the signal"
+      },
+      {
+        "indicator_id": "I4",
+        "observability": "High if implementation and maintenance are inspectable",
+        "specificity": "Medium because one contributor may not represent a durable ecosystem",
+        "diagnostic_value": "Stronger than expressed interest but does not separate A from C alone",
+        "manipulation_risk": "Core-team assistance or sponsorship could make the adapter appear external"
+      },
+      {
+        "indicator_id": "I5",
+        "observability": "Medium through attributable intake records",
+        "specificity": "Medium for demand and low for readiness",
+        "diagnostic_value": "Distinguishes repeated concrete use cases from duplicate requests",
+        "manipulation_risk": "Related users or copied requests could inflate apparent breadth"
+      },
+      {
+        "indicator_id": "I6",
+        "observability": "High through approved policy and ownership records",
+        "specificity": "High for operational readiness if resourcing is real",
+        "diagnostic_value": "Separates demand pressure from support capability",
+        "manipulation_risk": "Named owners without time or authority create paper readiness"
+      },
+      {
+        "indicator_id": "I7",
+        "observability": "High if review scope, findings, and closure evidence are retained",
+        "specificity": "High for the reviewed revision only",
+        "diagnostic_value": "Separates technically functioning extensions from supportable secure extensions",
+        "manipulation_risk": "Narrow scope or self-review can understate risk"
+      },
+      {
+        "indicator_id": "I8",
+        "observability": "Medium through provider contracts and adapter diffs",
+        "specificity": "Medium because superficial similarity may hide semantic differences",
+        "diagnostic_value": "Distinguishes convergence toward a smaller abstraction from continued provider divergence",
+        "manipulation_risk": "Choosing only comparable features can overstate consolidation"
+      }
+    ],
+    "correlation_groups": [
+      {
+        "id": "technical-integration",
+        "indicator_ids": [
+          "I1",
+          "I2",
+          "I3",
+          "I8"
+        ],
+        "treatment": "Do not count these as independent observations when the same provider release, adapter patch, or test run causes them."
+      },
+      {
+        "id": "external-demand",
+        "indicator_ids": [
+          "I4",
+          "I5"
+        ],
+        "treatment": "Deduplicate contributors, organizations, and underlying use cases; implementation evidence is stronger than stated intent."
+      },
+      {
+        "id": "operational-readiness",
+        "indicator_ids": [
+          "I6",
+          "I7"
+        ],
+        "treatment": "Policy approval and security review may share owners or artifacts but measure different readiness dimensions; preserve both without treating either as sufficient alone."
+      }
+    ],
+    "ambiguities": [
+      {
+        "indicator_id": "I1",
+        "alternative_causes": "Passing runs may reflect narrow fixtures, pinned provider versions, or cached authentication rather than durable operability.",
+        "collection_blind_spot": "Disabled paths yield no negative or positive live evidence.",
+        "lag": "Failures may appear only after provider updates or credential expiry."
+      },
+      {
+        "indicator_id": "I2",
+        "alternative_causes": "Apparent stability may result from low development activity rather than a sound boundary.",
+        "collection_blind_spot": "Unimplemented external adapters may exercise different requirements.",
+        "lag": "Two release cycles intentionally delay interpretation."
+      },
+      {
+        "indicator_id": "I4",
+        "alternative_causes": "A contributor may be motivated by a one-off internal need and not represent ecosystem demand.",
+        "collection_blind_spot": "Private implementations may not be visible.",
+        "lag": "Maintenance failure can be seen only after upstream or project change."
+      },
+      {
+        "indicator_id": "I6",
+        "alternative_causes": "Governance documents may be created for release optics without durable staffing.",
+        "collection_blind_spot": "Actual response capacity is not demonstrated until issues occur.",
+        "lag": "Operational weakness may emerge after publication."
+      },
+      {
+        "indicator_id": "I8",
+        "alternative_causes": "Common CLI conventions may coexist with incompatible authentication or error semantics.",
+        "collection_blind_spot": "Only observed providers are represented.",
+        "lag": "Consolidation must persist across releases before it is meaningful."
+      }
+    ],
+    "deception_risks": [
+      "A provider or contributor could present a demonstration that omits credential refresh, cancellation, retries, or error normalization.",
+      "Demand could be inflated by duplicate requests from related users or by requests that do not progress to implementation.",
+      "Contract churn could be hidden in undocumented adapter-specific shims, making the shared boundary appear more stable than it is.",
+      "A policy document or nominal owner could be presented as operational capacity without allocated time, authority, or response evidence.",
+      "Post-hoc indicator rewording could fit observed events; retain timestamped definitions and log revisions separately."
+    ],
+    "collection_plan": [
+      {
+        "indicator_id": "I1",
+        "source": "Authenticated critical-path run artifacts for each provider adapter",
+        "cadence": "On every provider-adapter release candidate and monthly while integration work is active",
+        "owner": "Provider-adapter maintainer",
+        "unavailable_data_treatment": "Record UNAVAILABLE with the missing provider/auth/run stage; do not treat absence as a pass or as evidence of stability."
+      },
+      {
+        "indicator_id": "I2",
+        "source": "Candidate-contract diffs, adapter change logs, and release history",
+        "cadence": "Every project release",
+        "owner": "Adapter-boundary maintainer",
+        "unavailable_data_treatment": "If fewer than two active release cycles are observable, retain INSUFFICIENT-HORIZON and do not infer stability."
+      },
+      {
+        "indicator_id": "I3",
+        "source": "Provider release notes plus linked local contract and adapter diffs",
+        "cadence": "Monthly and upon any provider CLI update",
+        "owner": "Provider-adapter maintainer",
+        "unavailable_data_treatment": "Record UNKNOWN when upstream change information or causal linkage is missing; do not classify undocumented churn as absent."
+      },
+      {
+        "indicator_id": "I4",
+        "source": "External adapter implementation, issue history, and maintenance activity",
+        "cadence": "Monthly and at each project release",
+        "owner": "Contributor-relations owner",
+        "unavailable_data_treatment": "Record NOT-OBSERVED if no inspectable adapter exists; private or unverifiable claims remain UNKNOWN and do not satisfy the indicator."
+      },
+      {
+        "indicator_id": "I5",
+        "source": "Deduplicated, attributable integration-intake records describing use case and implementation intent",
+        "cadence": "Monthly",
+        "owner": "Product maintainer",
+        "unavailable_data_treatment": "Record UNKNOWN rather than zero if no intake channel exists; documentation requests alone remain interest, not implementation intent."
+      },
+      {
+        "indicator_id": "I6",
+        "source": "Approved compatibility, deprecation, security-intake, and support records with named owners and resource confirmation",
+        "cadence": "At every release checkpoint and quarterly owner read-back",
+        "owner": "Release owner",
+        "unavailable_data_treatment": "Missing policy, owner, authority, or resource confirmation means NOT-READY for this indicator; do not substitute draft text."
+      },
+      {
+        "indicator_id": "I7",
+        "source": "Scoped security review and closure evidence for the exact draft boundary revision",
+        "cadence": "Before any public-boundary proposal and after material interface or threat-surface change",
+        "owner": "Security review owner",
+        "unavailable_data_treatment": "No review or an obsolete review is UNVERIFIED, not evidence of safety."
+      },
+      {
+        "indicator_id": "I8",
+        "source": "Versioned provider contracts, provider release notes, and cross-provider adapter diffs",
+        "cadence": "Quarterly",
+        "owner": "Adapter-boundary maintainer",
+        "unavailable_data_treatment": "If fewer than two independently evolving provider contracts are observable, record INSUFFICIENT-COMPARISON and do not infer convergence."
+      }
+    ],
+    "change_conditions": [
+      "Trigger an immediate reassessment if I1 is satisfied for at least two provider adapters beyond Codex and I2, I6, and I7 are concurrently current; this combination tests technical, boundary, governance, and security readiness without using an indicator count as proof.",
+      "Trigger an immediate reassessment if I3 occurs, because shared-contract churn directly weakens any claim that the boundary is ready to freeze.",
+      "Trigger an immediate reassessment if I4 and I5 show material demand while either I6 or I7 remains unsatisfied; explicitly examine a bounded experimental extension as distinct from a compatibility-guaranteed public API.",
+      "Trigger an architecture reassessment if I8 persists across two provider release cycles, because the appropriate public boundary may have become smaller or materially different.",
+      "Do not infer a state from a raw number of indicators; review causal independence, freshness, contradictory observations, unavailable data, and whether each indicator met its predeclared measurement rule."
+    ],
+    "checkpoint": {
+      "formal_review": "Six months after this run, then every six months through the 18-month horizon, with an earlier review on any change condition.",
+      "review_owner": "Release owner, with read-back from provider-adapter, adapter-boundary, product, contributor-relations, and security owners",
+      "required_inputs": [
+        "Timestamped indicator ledger including negative and unavailable observations",
+        "Correlation-group treatment and causal source notes",
+        "Current provider/authentication state for every claimed run",
+        "Contract and adapter diffs since the prior checkpoint",
+        "Demand records deduplicated by contributor, organization, and use case",
+        "Current compatibility/support ownership and security-review status"
+      ],
+      "review_rule": "Assess which target states are strengthened or weakened and document conflicts and unknowns. The checkpoint informs reassessment only and does not make the final product decision."
+    }
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The indicators are grounded in the supplied current observations and discriminate technical, demand, governance, security, and convergence dimensions, but only one repository evidence item is available and several future signals depend on collection processes that do not yet exist."
+  },
+  "change_conditions": [
+    "Reassess when authenticated critical-path evidence exists for at least two additional providers and boundary stability, compatibility ownership, and current security review evidence are all present.",
+    "Reassess immediately when provider changes force shared-contract churn, when demonstrated demand materially exceeds governance readiness, or when provider contracts converge enough to support a smaller abstraction.",
+    "Conduct a formal checkpoint six months after this run and every six months thereafter through the 18-month horizon, preserving unavailable and conflicting observations."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_DISTINCT_EVIDENCE",
+      "message": "Intensive rigor requires at least two distinct evidence references, but the bound manifest contains only the case evidence entry; the method conclusions are therefore incomplete pending additional bound evidence.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2"
+  }
+}

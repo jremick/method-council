@@ -1,0 +1,49 @@
+{
+  "acceptance_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "attestation": "unsigned-local-recorder",
+  "host_execution_digest": "sha256:bb317005b3ca3d2d0398ca55844f599b3fd37caf565c9662d1c4cecaa6cf99a3",
+  "issues": [],
+  "model_artifact_ledger": [
+    {
+      "digest": "sha256:a5628430731a98b242a681bc2d9d7563288425cff91d8e2e053be76bc9e5b66f",
+      "path": "run.json"
+    },
+    {
+      "digest": "sha256:67df51c2dcfcb22b0ac919510651ff1549acb2644bdf447d8f6162a4ad46ebe6",
+      "path": "report.json"
+    },
+    {
+      "digest": "sha256:26e1f07719643fa04fb795dcb028723d6e9fbdeb2c68e9f5ca159cb7069f5dc6",
+      "path": "method-results/evidence-quality.json"
+    },
+    {
+      "digest": "sha256:007add776ca7ff7d2a06be8ca37f66c33eb3653dfac9c10ec1d4605e062a2488",
+      "path": "method-results/key-assumptions.json"
+    },
+    {
+      "digest": "sha256:09b11ee1c4baabe6c4ae3704a5027d86b1a480ce2c9c89a3a0ca63096120e5fd",
+      "path": "method-results/alternative-futures.json"
+    },
+    {
+      "digest": "sha256:1d668d3c2f0e6f7276a84156ef201d6577c9cccfef285a3665e1dba903ce4fce",
+      "path": "method-results/indicators-signposts.json"
+    },
+    {
+      "digest": "sha256:cab77c7514eaacd5efd303bd5541e4fda5b832f8fce0b4e80dd229ac21985d4d",
+      "path": "method-results/devils-advocacy.json"
+    }
+  ],
+  "profile": "intensive-forecast",
+  "prompt_digest": "sha256:69680c32bc4c6be5c21da838ffb77aacaeb26b0a12d0c3b12cb5ed9a68d523e9",
+  "run_side_conditions": [
+    "CORRELATED"
+  ],
+  "run_status": "INCOMPLETE",
+  "run_verification_digest": "sha256:57fa4b6f04be2838a0f568ebe18d714eebe5792f714c90799024980b1eb8be6e",
+  "schema_version": "0.1.0",
+  "source_commit": "6f9d96f3a22a3f4b3217199d88a0bce17a6911f7",
+  "source_tree": "f9e6ce7f35c45b721264a83e27065bf128a78617",
+  "task": "forecast-plugin-ecosystem",
+  "task_digest": "sha256:451553913024c327a9d3918d70a0ba75e4059150fdba0e3f6600d5a1fdaf55a2",
+  "valid": true
+}

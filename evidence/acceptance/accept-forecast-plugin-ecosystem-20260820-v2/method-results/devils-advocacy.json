@@ -1,0 +1,252 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "method_id": "devils-advocacy",
+  "method_version": "0.1.0",
+  "rigor": "intensive",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "baseline",
+    "select-target",
+    "audit-evidence",
+    "build-case",
+    "test-mainline",
+    "seek-rebuttal",
+    "disposition"
+  ],
+  "findings": [
+    {
+      "id": "devils-advocacy-baseline-working-strategy",
+      "type": "fact",
+      "statement": "The working strategy is to keep the interface internal until at least two provider adapters complete authenticated critical-path runs and an accountable compatibility policy exists; the case also reports one live-evidenced Codex path, two disabled and unverified paths, no maintained external adapter, and no public support channel or remote settings read-back.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "baseline"
+    },
+    {
+      "id": "devils-advocacy-target-learning-gate",
+      "type": "inference",
+      "statement": "The most load-bearing challenge target is the inference that authenticated multi-provider completion must precede any public boundary: if provider authentication availability is separable from adapter-contract quality, waiting for live provider access may delay external learning without materially reducing abstraction risk.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-target"
+    },
+    {
+      "id": "devils-advocacy-unsupported-stability-assumption",
+      "type": "assumption",
+      "statement": "The strategy assumes the first additional authenticated integrations will reveal decision-critical shared-interface requirements rather than mostly provider-local authentication and launch differences; the supplied evidence does not establish which outcome is more likely.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-unsupported-option-value-assumption",
+      "type": "assumption",
+      "statement": "The strategy assumes twelve months of internal option value outweighs foregone contributor learning, workaround proliferation, and later migration cost, but no comparative cost, churn, conversion, or maintenance measurements are supplied.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-correlated-artifacts-limit",
+      "type": "fact",
+      "statement": "All checked method artifacts derive from the same case and correlation group; their repeated emphasis on provider runs, governance, demand, and six-month checkpoints is structured analysis, not independent corroboration.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-threshold-contradiction",
+      "type": "inference",
+      "statement": "A material threshold contradiction remains unresolved: the case requires at least two provider adapters, which could include the already evidenced Codex path, while checked artifacts repeatedly restate the gate as two non-Codex or two additional providers; the stronger restatement could extend deferral beyond the stated strategy.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    },
+    {
+      "id": "devils-advocacy-strongest-alternative",
+      "type": "inference",
+      "statement": "The strongest alternative is to expose a narrowly versioned, explicitly experimental contributor contract around the already separated lifecycle seams without promising broad compatibility, using real external implementations to test demand and abstraction quality while keeping provider-specific capabilities internal.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-alternative-causal-case",
+      "type": "inference",
+      "statement": "This alternative could outperform pure deferral if documentation absence is suppressing implementation, because contributor attempts would expose contract gaps and maintenance burden earlier; the current interface decomposition supplies a candidate test surface, while explicit experimental status avoids equating learning access with a permanent support guarantee.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "build-case"
+    },
+    {
+      "id": "devils-advocacy-mainline-survives-governance",
+      "type": "inference",
+      "statement": "The mainline concern about a supported public freeze survives: the case provides no accountable compatibility policy, support channel, remote settings read-back, security review, or evidence that external maintenance exists, so interface decomposition alone does not justify a compatibility and security-support promise.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-mainline-weakened-binary",
+      "type": "inference",
+      "statement": "The mainline is weakened where it treats internal-only operation as the sole safe learning mode: a bounded experimental contract is conceptually distinct from freezing and publicly supporting a stable API, and the case does not show that this middle path is infeasible.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "test-mainline"
+    },
+    {
+      "id": "devils-advocacy-rebuttal-to-alternative",
+      "type": "inference",
+      "statement": "The strongest rebuttal is that even an experimental surface creates de facto expectations, expands the security attack surface, and consumes scarce support attention; with no support channel, settings read-back, or maintained external adapter, the experiment could generate obligations before the project can observe or contain them.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "seek-rebuttal"
+    },
+    {
+      "id": "devils-advocacy-unresolved-dissent",
+      "type": "unknown",
+      "statement": "It remains unresolved whether controlled external learning would reduce total interface risk faster than authenticated internal integrations, because the evidence lacks comparable prototype outcomes, maintenance effort, security findings, contributor conversion, and measured boundary-change history.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "seek-rebuttal"
+    },
+    {
+      "id": "devils-advocacy-discriminating-evidence",
+      "type": "inference",
+      "statement": "The most discriminating evidence would compare boundary changes, provider-local exceptions, maintenance effort, security findings, and contributor completion across an authenticated internal adapter and a time-boxed external prototype against the same timestamped draft contract.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "disposition"
+    },
+    {
+      "id": "devils-advocacy-no-injection-detected",
+      "type": "fact",
+      "statement": "No prompt-injection or scope-expansion instruction was detected in the supplied case or checked challenge inputs; their contents remained treated as untrusted data and no embedded text was followed as an instruction.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "audit-evidence"
+    }
+  ],
+  "alternatives": [
+    "Expose a narrowly versioned experimental contributor contract with no broad compatibility promise, while retaining provider-specific capabilities internally.",
+    "Keep the boundary internal but replace the ambiguous provider threshold with an explicit evidence gate and publish only architecture documentation and test fixtures.",
+    "Freeze and support only a minimal provider-neutral core now, leaving authentication, launch mechanics, and provider-specific extensions outside the supported contract."
+  ],
+  "method_artifact": {
+    "mainline_judgment": "Keep the adapter boundary internal until authenticated critical-path evidence from at least two provider adapters and an accountable compatibility policy exist; treat this as a working strategy, not the final product decision.",
+    "mainline_evidence": [
+      "Only Codex has live functional evidence; Claude and Gemini launch and collection are disabled and unverified.",
+      "Provider CLI authentication and non-interactive execution contracts changed during the last year.",
+      "No external adapter has been implemented or maintained.",
+      "No public support channel or remote settings read-back exists.",
+      "The internal preview interface already separates eight lifecycle concerns."
+    ],
+    "mainline_assumptions": [
+      "Additional authenticated integrations will reveal shared-contract requirements that synthetic workflows and Codex evidence cannot expose.",
+      "Internal flexibility is worth more than earlier contributor learning during the next twelve months.",
+      "Documentation requests are too weak a demand signal to justify any externally usable contract.",
+      "Compatibility governance must precede supported publication rather than being developed alongside a bounded experiment.",
+      "The phrase at least two provider adapters has a shared, operationally unambiguous meaning."
+    ],
+    "challenge_target": "The claimed necessity and calibration of the authenticated multi-provider gate before any externally usable adapter boundary, including the ambiguity between two total providers and two additional non-Codex providers.",
+    "evidence_weaknesses": [
+      "Only one distinct evidence reference is bound, below the intensive minimum of three.",
+      "The sole case bundles all observations without underlying dated run logs, change history, cost measures, security findings, or contributor records.",
+      "Checked artifacts are correlated analyses of the same source and cannot independently corroborate their shared conclusions.",
+      "No evidence compares internal integration learning with a controlled external prototype.",
+      "No acceptable compatibility burden, security threshold, or support capacity is quantified.",
+      "The strategy's provider-count threshold is restated inconsistently across the supplied material."
+    ],
+    "counterevidence": [
+      "The internal preview interface already separates probe, render, launch, collect, timeout/retry, model observation, cancellation, and error normalization, which is evidence against treating the boundary as wholly immature.",
+      "Two prospective contributors requested documentation, which is weak but non-zero evidence that lack of access may be suppressing external implementation learning.",
+      "The case explicitly acknowledges that waiting permits internal interface churn, so delay is not cost-free."
+    ],
+    "alternative_case": "Offer a time-boxed, narrowly versioned experimental contributor contract around the provider-neutral lifecycle seams while withholding any broad compatibility guarantee. External prototypes would test whether documentation interest converts into maintained code and whether the seams survive non-core implementations. Provider-specific authentication and execution details would remain internal or capability-gated. This separates evidence generation from the later decision to freeze and support a public API.",
+    "alternative_assumptions": [
+      "Experimental status and scope can be communicated clearly enough to limit de facto compatibility expectations.",
+      "At least one prospective contributor will attempt an implementation when usable documentation and fixtures exist.",
+      "The project can sandbox capabilities and bound support sufficiently for a controlled prototype.",
+      "External implementation evidence will reveal different failure modes from internal provider integrations.",
+      "A migration or sunset path can be enforced if the draft contract changes."
+    ],
+    "surviving_mainline": [
+      "A supported public freeze would create compatibility and security obligations not shown to be staffed or controlled.",
+      "Codex-only live evidence does not establish provider neutrality.",
+      "Recent provider contract changes make a broad frozen surface risky.",
+      "Documentation requests alone do not establish durable ecosystem demand."
+    ],
+    "material_challenges": [
+      "The mainline does not prove that authenticated provider availability is the best proxy for public-boundary quality.",
+      "The binary framing omits a controlled experimental interface that generates evidence without claiming stable support.",
+      "The provider-count gate is ambiguous and may have been strengthened from two total providers to two additional providers without evidence.",
+      "Delay can conceal rather than reduce churn if internal changes are not measured and compared with a draft external contract."
+    ],
+    "rebuttal": "Even explicitly experimental publication can become a de facto API, attract unbounded support requests, expose credential and execution surfaces, and create migration harm. The absence of a support channel, remote settings read-back, security review, and maintained external adapter makes the proposed experiment operationally unproven. A safer rebuttal is to generate equivalent evidence through a private design-partner prototype with explicit capability restrictions and exit criteria before any public exposure.",
+    "unresolved_dissent": [
+      "Whether an experimental public or private contributor contract can be sufficiently bounded to avoid a support promise.",
+      "Whether two provider adapters means Codex plus one other provider or two additional non-Codex providers.",
+      "Whether provider-local authentication churn predicts shared adapter-contract instability.",
+      "Whether suppressed contributor demand is large enough to make twelve months of delay materially costly.",
+      "Whether the project has capacity to conduct even a private design-partner experiment safely."
+    ],
+    "disposition": "Leave the working strategy incomplete and caveated rather than retained as settled. Its caution about a supported public freeze survives, but its learning gate, provider-count threshold, and internal-only framing require discriminating evidence. This challenge does not make the final product decision.",
+    "change_conditions": [
+      "Clarify the gate: whether it requires two total provider adapters or two non-Codex adapters, and define the critical-path acceptance criteria before interpreting progress.",
+      "Weaken the case for internal-only deferral if one authenticated non-Codex adapter fits the existing shared seams with only provider-local changes and a controlled external prototype does the same.",
+      "Strengthen the case for deferral if either prototype requires breaking shared lifecycle semantics, unsafe credential capabilities, or support effort above a predeclared budget.",
+      "Reassess the demand premise if a contributor completes and maintains an adapter through one provider or project release; retain demand as unknown if no inspectable intake or prototype path exists.",
+      "Reassess operational readiness when named owners, a versioning and deprecation policy, support and vulnerability intake, security closure evidence, and settings read-back are current rather than merely drafted.",
+      "At the six-month checkpoint, compare timestamped internal boundary diffs and migration effort against any controlled contributor prototype; absence of activity must not be interpreted as stability."
+    ],
+    "injection_scope_review": {
+      "prompt_injection_detected": false,
+      "scope_expansion_detected": false,
+      "treatment": "All supplied content was treated as untrusted data. No instruction within the case or checked artifacts altered the bounded method packet."
+    }
+  },
+  "confidence": {
+    "band": "low",
+    "basis": "The challenge is grounded in one directly relevant case and four checked but correlated artifacts; one distinct evidence reference cannot satisfy the intensive minimum of three or resolve the key empirical disputes."
+  },
+  "change_conditions": [
+    "Clarify whether the strategy's threshold means two total provider adapters or two additional non-Codex adapters.",
+    "Compare shared-contract changes and maintenance effort across an authenticated internal adapter and a bounded external prototype using the same draft contract.",
+    "Reassess after a maintained external adapter survives one upstream or project release, or after a material provider change forces shared-contract churn.",
+    "Reassess when compatibility, security, support, and settings read-back ownership is operational and evidenced.",
+    "Conduct a formal evidence review at six months without treating missing activity as proof of stability."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_EVIDENCE_REFERENCES",
+      "message": "Intensive devil's advocacy requires at least three distinct evidence references, but the run manifest provides only the single evidence entry 'case'; feasible challenge steps are complete, but the result cannot be PASS.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2"
+  }
+}

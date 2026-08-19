@@ -1,0 +1,44 @@
+{
+  "activity": "forecast",
+  "created_at": "2026-08-19T21:11:12.970202Z",
+  "evidence": [
+    {
+      "digest": "sha256:451553913024c327a9d3918d70a0ba75e4059150fdba0e3f6600d5a1fdaf55a2",
+      "id": "case",
+      "kind": "repository",
+      "limitations": [],
+      "locator": "evals/acceptance/forecast-plugin-ecosystem.md"
+    }
+  ],
+  "host": {
+    "adapter": "codex",
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2",
+    "external_api_calls": false,
+    "model_observed": null,
+    "model_requested": null,
+    "provider_state": "verified"
+  },
+  "methods": [
+    "evidence-quality",
+    "key-assumptions",
+    "alternative-futures",
+    "indicators-signposts",
+    "devils-advocacy"
+  ],
+  "question_digest": "sha256:451553913024c327a9d3918d70a0ba75e4059150fdba0e3f6600d5a1fdaf55a2",
+  "raw_prompt_persisted": false,
+  "rigor": "intensive",
+  "route": {
+    "allow_preview": true,
+    "challenge_required": true,
+    "profile_id": "intensive-forecast",
+    "source": "profile",
+    "validated": true,
+    "why": [
+      "profile:intensive-forecast",
+      "Explores uncertainty through assumptions, multiple plausible futures, observable indicators, and a dedicated challenge. It is not a calibrated probabilistic forecasting system."
+    ]
+  },
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "schema_version": "0.1.0"
+}

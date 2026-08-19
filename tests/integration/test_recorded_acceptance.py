@@ -10,21 +10,35 @@ from method_council.run import verify_run
 
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE_ROOT = ROOT / "evidence" / "acceptance"
-SOURCE_COMMIT = "7da73bbeef496cff9e31828e97a3fb400f44ead5"
-SOURCE_TREE = "03af9cb01c76f454b7182e428b7de0d760051b50"
-RUN_IDS = (
-    "accept-architecture-storage-20260819",
-    "accept-investigation-duplicates-20260819",
-    "accept-release-missing-evidence-20260819",
-    "accept-hostile-review-20260819",
-)
+RUN_SOURCES = {
+    "accept-architecture-storage-20260819": (
+        "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+        "03af9cb01c76f454b7182e428b7de0d760051b50",
+    ),
+    "accept-investigation-duplicates-20260819": (
+        "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+        "03af9cb01c76f454b7182e428b7de0d760051b50",
+    ),
+    "accept-release-missing-evidence-20260819": (
+        "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+        "03af9cb01c76f454b7182e428b7de0d760051b50",
+    ),
+    "accept-hostile-review-20260819": (
+        "7da73bbeef496cff9e31828e97a3fb400f44ead5",
+        "03af9cb01c76f454b7182e428b7de0d760051b50",
+    ),
+    "accept-forecast-plugin-ecosystem-20260820-v2": (
+        "6f9d96f3a22a3f4b3217199d88a0bce17a6911f7",
+        "f9e6ce7f35c45b721264a83e27065bf128a78617",
+    ),
+}
 
 
 def _read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-@pytest.mark.parametrize("run_id", RUN_IDS)
+@pytest.mark.parametrize("run_id", RUN_SOURCES)
 def test_recorded_acceptance_recomputes_from_bound_source(run_id: str):
     bundle = EVIDENCE_ROOT / run_id
 
@@ -33,6 +47,7 @@ def test_recorded_acceptance_recomputes_from_bound_source(run_id: str):
     recorded_run_verdict = _read(bundle / "verification.json")
     recorded_acceptance_verdict = _read(bundle / "acceptance-verdict.json")
     host = _read(bundle / "host-execution.json")
+    source_commit, source_tree = RUN_SOURCES[run_id]
 
     assert run_verdict == recorded_run_verdict
     assert acceptance_verdict == recorded_acceptance_verdict
@@ -45,13 +60,13 @@ def test_recorded_acceptance_recomputes_from_bound_source(run_id: str):
     assert acceptance_verdict["run_side_conditions"] == ["CORRELATED"]
     assert acceptance_verdict["issues"] == []
     assert acceptance_verdict["attestation"] == "unsigned-local-recorder"
-    assert acceptance_verdict["source_commit"] == SOURCE_COMMIT
-    assert acceptance_verdict["source_tree"] == SOURCE_TREE
+    assert acceptance_verdict["source_commit"] == source_commit
+    assert acceptance_verdict["source_tree"] == source_tree
 
     assert host["attestation"] == "unsigned-local-recorder"
     assert host["authentication_observed"] == "chatgpt"
-    assert host["source_commit"] == SOURCE_COMMIT
-    assert host["source_tree"] == SOURCE_TREE
+    assert host["source_commit"] == source_commit
+    assert host["source_tree"] == source_tree
     assert host["source_mutations"] == []
     assert host["process_exit_code"] == 0
     assert host["timed_out"] is False
@@ -63,6 +78,13 @@ def test_recorded_acceptance_recomputes_from_bound_source(run_id: str):
     assert host["model_observed"] is None
     assert host["raw_prompt_persisted"] is False
     assert host["raw_event_stream_persisted"] is False
+
+    if run_id == "accept-forecast-plugin-ecosystem-20260820-v2":
+        cleanup = host["descendant_cleanup"]
+        assert cleanup["assurance"] == "best-effort-unverified"
+        assert cleanup["copy_out_allowed"] is True
+        assert cleanup["observer_state"] == "completed"
+        assert cleanup["observed_survivor_count"] == 0
 
 
 def test_recorded_architecture_does_not_launder_under_evidenced_passes():

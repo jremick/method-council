@@ -10,7 +10,7 @@
   A provider-neutral methodology protocol with a Codex-subscription-first path.
 </p>
 
-> **Private pre-public candidate — not public alpha.** Four hardened,
+> **Private pre-public candidate — not public alpha.** Five hardened,
 > commit-bound Codex subscription runs now pass deterministic run and host-evidence
 > verification. Every result remains honestly `INCOMPLETE / CORRELATED`. Claude
 > and Gemini remain disabled preview adapters, and no GitHub remote or release
@@ -78,7 +78,7 @@ The verified workflow is:
 The acceptance runner uses the existing ChatGPT-authenticated Codex CLI without
 a separate provider API key. It executes from a tracked-file snapshot of an
 exact source commit, rejects tracked-source mutation, and copies out only
-allowlisted artifacts. Four hardened bundles are recorded. They prove the
+allowlisted artifacts. Five hardened bundles are recorded. They prove the
 bounded local path and internal consistency of those executions, not method
 quality, general security, race-free process cleanup, operating-system
 containment, or cryptographic execution authenticity. New runs record
@@ -125,8 +125,10 @@ Current foundations include:
 - a commit-bound, snapshot-isolated Codex acceptance runner and unsigned local
   host-evidence verifier;
 - disabled-by-default Claude and Gemini preview adapter contracts;
-- four ChatGPT-authenticated, commit-bound Codex acceptance bundles that pass
+- five ChatGPT-authenticated, commit-bound Codex acceptance bundles that pass
   run and host-evidence verification while retaining `INCOMPLETE / CORRELATED`;
+- a deterministic eight-method specimen-coverage report and correlated semantic
+  screen, with usefulness validation still explicitly `INCOMPLETE`;
 - Apache-2.0 licensing and clean-room notices;
 - original code-native diagrams, social preview, and generated workbench hero.
 
@@ -149,6 +151,7 @@ development checks:
 uv sync --frozen --all-groups
 uv run --frozen method-council validate
 uv run --frozen python scripts/sync_codex_skill.py check
+uv run --frozen python scripts/evaluate_methods.py
 uv run --frozen pytest -q
 uv run --frozen ruff check .
 uv run --frozen ruff format --check .
@@ -169,7 +172,8 @@ uv run --frozen method-council verify-acceptance \
 - [Architecture](docs/ARCHITECTURE.md) — components, data flow, and trust boundaries
 - [Canonical contracts](docs/CONTRACTS.md) — status, rigor, findings, and evidence
 - [Codex workflow](docs/CODEX_WORKFLOW.md) — validated local subscription path
-- [Acceptance evidence](docs/ACCEPTANCE.md) — four real task outcomes and limits
+- [Acceptance evidence](docs/ACCEPTANCE.md) — five real task outcomes and limits
+- [Method evaluations](evals/METHOD_EVALS.md) — method-level screening and open usefulness gates
 - [Compatibility](docs/COMPATIBILITY.md) — verified and preview adapter boundaries
 - [Report anatomy](docs/REPORT_ANATOMY.md) — human-facing report structure
 - [Design system](docs/DESIGN_SYSTEM.md) — visual language and asset rules

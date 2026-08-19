@@ -1,0 +1,273 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "method_id": "key-assumptions",
+  "method_version": "0.1.0",
+  "rigor": "intensive",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "state-judgment",
+    "enumerate",
+    "classify",
+    "challenge",
+    "bound-impact",
+    "define-signposts",
+    "seek-review"
+  ],
+  "findings": [
+    {
+      "id": "key-assumptions-judgment",
+      "type": "assumption",
+      "statement": "Working judgment for testing: over the next 12 months, keeping the adapter boundary internal remains supportable unless authenticated critical-path evidence from at least two provider adapters and an accountable compatibility policy emerge; this pass tests that judgment without making the final product decision.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "state-judgment"
+    },
+    {
+      "id": "key-assumptions-current-evidence",
+      "type": "fact",
+      "statement": "The case reports forty synthetic pilot workflows across six activities, an internally separated preview interface, live functional evidence only for Codex, no maintained external adapter, and no public support channel or remote settings read-back.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "enumerate"
+    },
+    {
+      "id": "key-assumptions-provider-stability",
+      "type": "assumption",
+      "statement": "Load-bearing assumption: provider authentication and non-interactive execution contracts will remain volatile enough that publishing now would convert foreseeable upstream churn into material compatibility work.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "classify",
+      "counterevidence_refs": [
+        "case"
+      ]
+    },
+    {
+      "id": "key-assumptions-learning-value",
+      "type": "assumption",
+      "statement": "Load-bearing assumption: completing authenticated Claude and Gemini critical paths before freezing the API will reveal cross-provider requirements that the current Codex-only evidence and synthetic workflows cannot reliably expose.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "classify",
+      "counterevidence_refs": [
+        "case"
+      ]
+    },
+    {
+      "id": "key-assumptions-demand",
+      "type": "assumption",
+      "statement": "Load-bearing assumption: two documentation requests without an implemented external adapter are too weak a demand signal to justify a 12-month compatibility and security-support promise.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "challenge",
+      "counterevidence_refs": [
+        "case"
+      ]
+    },
+    {
+      "id": "key-assumptions-internal-churn",
+      "type": "assumption",
+      "statement": "Load-bearing assumption: the option value of revising the internal boundary outweighs the cost of another year of undocumented interface churn and contributor delay.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "challenge",
+      "counterevidence_refs": [
+        "case"
+      ]
+    },
+    {
+      "id": "key-assumptions-governance",
+      "type": "assumption",
+      "statement": "Load-bearing assumption: accountable compatibility policy, security triage, support intake, and settings read-back are prerequisites to a credible public support promise rather than features that can safely follow publication.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "challenge",
+      "counterevidence_refs": []
+    },
+    {
+      "id": "key-assumptions-future-learning-validates-wait",
+      "type": "inference",
+      "statement": "Plausible future: the first two non-Codex integrations expose incompatible lifecycle or error semantics, validating delay; implication: revise the internal contract, preserve provider-specific escape hatches, and reassess only after repeated authenticated runs.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    },
+    {
+      "id": "key-assumptions-future-convergence",
+      "type": "inference",
+      "statement": "Plausible future: provider integrations fit the existing probe-to-normalization boundary with little change and external demand becomes concrete; implication: the learning-value and weak-demand assumptions fail, bringing a narrowly versioned public API into scope before 12 months.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    },
+    {
+      "id": "key-assumptions-future-volatility",
+      "type": "inference",
+      "statement": "Plausible future: upstream CLI contracts continue changing while non-Codex paths remain unverified; implication: keep the boundary internal, but stabilize internal contracts and test fixtures so waiting does not become unmanaged churn.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    },
+    {
+      "id": "key-assumptions-future-governance-gap",
+      "type": "inference",
+      "statement": "Plausible future: technical convergence arrives before support and security governance; implication: a public preview or contributor test harness may be plausible, but a supported compatibility promise remains unsupported.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    },
+    {
+      "id": "key-assumptions-review-omissions",
+      "type": "unknown",
+      "statement": "The correlated omitted-assumption review identifies unmeasured maintenance capacity, acceptable breakage budget, contributor conversion, security-review workload, and the cost of migrating early plugins as material unknowns that could reverse the working judgment.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "seek-review"
+    },
+    {
+      "id": "key-assumptions-revised-judgment",
+      "type": "inference",
+      "statement": "The working strategy remains conditionally supportable, not settled: it weakens materially if two authenticated adapters fit the boundary without significant revisions, a named owner can sustain compatibility and security obligations, and contributor demand converts into maintained implementations; it strengthens if provider volatility or cross-provider divergence persists.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "bound-impact"
+    }
+  ],
+  "alternatives": [
+    "Freeze and support a narrow, versioned plugin API before the 12-month window ends if authenticated multi-provider evidence, concrete maintained-adapter demand, and accountable support governance converge.",
+    "Publish only an explicitly experimental contributor interface or test harness with no compatibility promise while retaining the supported adapter boundary internally.",
+    "Keep the boundary internal for 12 months while deliberately stabilizing internal contracts, fixtures, and migration records to reduce the cost of later publication."
+  ],
+  "method_artifact": {
+    "judgment": "Keep the adapter boundary internal for up to 12 months, conditional on evidence checkpoints rather than elapsed time alone.",
+    "scope": "The next release and an 18-month forecast horizon; no final product decision is made.",
+    "assumptions": [
+      "Provider contract volatility makes an immediate public promise costly.",
+      "Two authenticated non-Codex integrations will yield decision-relevant learning.",
+      "Observed external demand is not yet sufficient to justify support obligations.",
+      "Option value from an internal boundary exceeds the cost of delayed contributor access.",
+      "Compatibility and security governance must exist before supported publication."
+    ],
+    "assumption_classes": {
+      "load_bearing": [
+        "Provider contract volatility makes an immediate public promise costly.",
+        "Two authenticated non-Codex integrations will yield decision-relevant learning.",
+        "Observed external demand is not yet sufficient to justify support obligations.",
+        "Option value from an internal boundary exceeds the cost of delayed contributor access.",
+        "Compatibility and security governance must exist before supported publication."
+      ],
+      "contextual": [
+        "Forty synthetic workflows cover six recurring activities.",
+        "The preview interface already separates major adapter lifecycle concerns."
+      ],
+      "uncertainties": [
+        "Maintenance capacity and breakage budget.",
+        "Whether documentation requests convert into maintained adapters.",
+        "The magnitude of cross-provider semantic divergence.",
+        "Migration and security-review costs for early external plugins."
+      ]
+    },
+    "evidence_links": {
+      "case": "All observations, the working strategy, and the decision boundary originate in the sole bound case fixture."
+    },
+    "challenges": [
+      "The current internal separation may already be sufficiently provider-neutral, so waiting for two integrations could be a conservative threshold rather than a necessary learning gate.",
+      "Two prospective contributors may understate demand because the absence of documentation suppresses implementation attempts.",
+      "Keeping the interface private does not itself control churn; without internal compatibility discipline, delay may merely defer migration cost.",
+      "A limited experimental API could separate contributor learning from a full support promise.",
+      "Governance prerequisites need explicit minimum definitions or they can become a permanently moving gate."
+    ],
+    "counterevidence": [
+      "The existing interface already separates eight lifecycle concerns, which is evidence of architectural maturity against the claim that publication is necessarily premature.",
+      "Two contributors independently requested documentation, which counters a claim of zero external demand.",
+      "The case explicitly notes that waiting increases internal churn risk, countering a one-sided option-value argument."
+    ],
+    "failure_impacts": [
+      "If provider contracts stabilize, replace time-based delay with an earlier compatibility-readiness review.",
+      "If authenticated adapters add no material abstractions, treat the multi-provider learning gate as satisfied and evaluate a narrow versioned surface.",
+      "If contributor demand becomes maintained code, elevate ecosystem opportunity cost in the reassessment.",
+      "If internal churn exceeds the expected cost of supporting a small stable core, consider freezing that core while leaving provider-specific capabilities internal.",
+      "If governance can be staffed and bounded, remove operational unreadiness as a blocker; if it cannot, do not translate technical readiness into a support promise."
+    ],
+    "revised_judgment": "Retain the current strategy only as a checkpoint-driven default. Convergence across authenticated adapters, real maintained demand, and owned governance would justify earlier reassessment; continuing volatility, divergent semantics, or absent ownership would support continued internal status.",
+    "change_conditions": [
+      {
+        "indicator": "Authenticated critical-path runs completed for two non-Codex provider adapters, including probe, launch, collection, cancellation, retry/timeout, model observation, and normalized errors.",
+        "interpretation": "Strengthens the evidence base; few contract changes weaken the case for waiting, while material divergent requirements strengthen it.",
+        "owner": "Adapter integration owner",
+        "cadence": "After every provider CLI release and monthly until both paths are verified"
+      },
+      {
+        "indicator": "Count and severity of canonical interface changes required by each provider integration and upstream CLI release.",
+        "interpretation": "Low or declining churn supports freezing a core; repeated breaking change supports retaining the internal boundary.",
+        "owner": "Core maintainer",
+        "cadence": "Per integration change, summarized monthly"
+      },
+      {
+        "indicator": "External contributors who progress from documentation request to a runnable adapter and sustain it through at least one upstream provider change.",
+        "interpretation": "Maintained implementations discriminate ecosystem demand from expressions of interest.",
+        "owner": "Contributor relations owner",
+        "cadence": "Monthly"
+      },
+      {
+        "indicator": "Named compatibility and security owners, documented versioning/deprecation policy, support intake, vulnerability triage, and remote settings read-back.",
+        "interpretation": "Completion weakens the operational-governance objection; missing ownership keeps a supported promise premature even if the API is technically stable.",
+        "owner": "Project lead and security owner",
+        "cadence": "Quarterly and before any public API proposal"
+      },
+      {
+        "indicator": "Measured migration effort across internal adapter revisions and any experimental external adapter.",
+        "interpretation": "Low migration cost supports continued learning; rising repeated migration cost favors stabilizing a narrow core sooner.",
+        "owner": "Core maintainer",
+        "cadence": "Per breaking revision, summarized quarterly"
+      }
+    ],
+    "review_findings": [
+      "A separate but explicitly correlated review within this bounded pass found that maintenance capacity and acceptable support load were unstated.",
+      "It also found that the proposed two-adapter threshold measures technical breadth but not external adoption, security readiness, or migration cost.",
+      "No independent reviewer or additional evidence source was used; these findings are correlated and may omit protected assumptions."
+    ],
+    "checkpoint": "Conduct a formal reassessment at the earlier of: authenticated critical-path completion for two non-Codex adapters; one external adapter surviving an upstream provider change; completion of compatibility/security governance; or six months after this run. Repeat no later than the 12-month boundary, using the preceding indicators and preserving the 18-month horizon."
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The sole case fixture directly supports the current-state premises and exposes counterevidence, but no independent demand, maintenance-cost, provider-stability, or governance-capacity evidence is available."
+  },
+  "change_conditions": [
+    "Reassess when two non-Codex adapters complete authenticated critical-path runs.",
+    "Reassess when an external adapter is implemented and maintained through an upstream provider change.",
+    "Reassess when compatibility and security ownership and policy become operational.",
+    "Reassess in six months even if no trigger fires, and no later than the 12-month boundary."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_DISTINCT_EVIDENCE",
+      "message": "Intensive rigor requires at least two distinct evidence references, but the bound manifest contains only the case evidence entry.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2"
+  }
+}

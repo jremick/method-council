@@ -1,0 +1,392 @@
+{
+  "schema_version": "0.1.0",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "method_id": "alternative-futures",
+  "method_version": "0.1.0",
+  "rigor": "intensive",
+  "status": "INCOMPLETE",
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "completed_steps": [
+    "frame",
+    "identify-forces",
+    "test-axes",
+    "select-axes",
+    "construct",
+    "challenge",
+    "implications",
+    "indicators"
+  ],
+  "findings": [
+    {
+      "id": "alternative-futures-frame-01",
+      "type": "fact",
+      "statement": "The focal issue is whether to freeze and publicly support a third-party provider-plugin API in the next release or keep the adapter boundary internal for 12 months, assessed across the 18 months ending 2028-02-20 without making the product decision.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "frame"
+    },
+    {
+      "id": "alternative-futures-forces-01",
+      "type": "fact",
+      "statement": "Material forces include independently changing provider CLI authentication and non-interactive contracts, an already decomposed internal preview interface, contributor interest without an implemented external adapter, live functional evidence only for Codex, and absent public support and remote settings read-back capabilities.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "identify-forces"
+    },
+    {
+      "id": "alternative-futures-axes-01",
+      "type": "inference",
+      "statement": "Two decision-important uncertainties organize distinct futures: provider-contract stability from continuing churn to convergence, and ecosystem readiness from weak unproven demand to sustained external implementation and maintenance capacity. They are related through adoption incentives but not collapsed: stable provider contracts do not create maintainers, and strong demand can exist despite provider churn.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "select-axes"
+    },
+    {
+      "id": "alternative-futures-scenario-01",
+      "type": "inference",
+      "statement": "Convergence and sustained readiness: provider contracts settle, at least two authenticated critical paths work, and contributors build and maintain adapters; a public boundary becomes testable against real consumers, while compatibility and security support remain explicit obligations rather than automatic benefits.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "construct"
+    },
+    {
+      "id": "alternative-futures-scenario-02",
+      "type": "inference",
+      "statement": "Convergence without readiness: provider contracts settle but contributor requests do not become maintained adapters; freezing publicly would primarily formalize an interface for hypothetical users, while continued internal learning has lower ecosystem opportunity cost.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "construct"
+    },
+    {
+      "id": "alternative-futures-scenario-03",
+      "type": "inference",
+      "statement": "Churn with sustained readiness: contributors implement adapters while provider authentication and execution contracts keep changing; the abstraction is stress-tested quickly, but public compatibility and security support costs rise and may force shims, versioning, or breaking changes.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "construct"
+    },
+    {
+      "id": "alternative-futures-scenario-04",
+      "type": "inference",
+      "statement": "Churn without readiness: provider contracts continue changing and contributor interest does not translate into implementations; a public freeze creates support obligations with little external validation, while an internal boundary can change as the first integrations expose missing seams.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "construct"
+    },
+    {
+      "id": "alternative-futures-challenge-01",
+      "type": "assumption",
+      "statement": "The matrix assumes provider-contract stability and ecosystem readiness remain the most decision-discriminating uncertainties; a wild card such as a provider removing CLI automation, a serious adapter-originated security incident, or a dominant standardized provider protocol could overwhelm both axes.",
+      "evidence_refs": [],
+      "method_step": "challenge"
+    },
+    {
+      "id": "alternative-futures-implications-01",
+      "type": "inference",
+      "statement": "Across all four futures, robust work includes preserving the internal separation of probe, render, launch, collect, timeout/retry, observation, cancellation, and error normalization; recording authenticated critical-path evidence; specifying compatibility and security responsibilities; and measuring real external maintenance rather than treating requests or scenario counts as proof.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "implications"
+    },
+    {
+      "id": "alternative-futures-implications-02",
+      "type": "inference",
+      "statement": "Public freezing is most resilient in the convergence-and-readiness future and most exposed in the churn-without-readiness future; keeping the boundary internal protects learning under churn but creates increasing migration and contributor-friction costs if sustained external implementations emerge.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "implications"
+    },
+    {
+      "id": "alternative-futures-unknown-01",
+      "type": "unknown",
+      "statement": "The evidence does not establish future provider contract stability, whether either contributor will implement and maintain an adapter, the effort to support compatibility and security, or whether Claude and Gemini can complete authenticated critical-path runs.",
+      "evidence_refs": [
+        "case"
+      ],
+      "method_step": "indicators"
+    }
+  ],
+  "alternatives": [
+    "Convergence and sustained ecosystem readiness",
+    "Convergence without ecosystem readiness",
+    "Provider churn with sustained ecosystem readiness",
+    "Provider churn without ecosystem readiness"
+  ],
+  "method_artifact": {
+    "focal_issue": "How might the conditions affecting a public third-party provider-plugin API develop over the next 18 months, and what would those futures imply for the choice between freezing the API in the next release and keeping it internal for 12 months?",
+    "boundary": "Method Council provider adapters, prospective external adapter contributors and maintainers, provider CLI authentication and non-interactive execution contracts, compatibility policy, security support, and operational support capability. The analysis does not select the product option.",
+    "horizon": {
+      "start": "2026-08-20",
+      "end": "2028-02-20",
+      "months": 18
+    },
+    "forces": [
+      "Forty synthetic workflows across six recurring analysis activities create breadth for contract testing but are not external adoption evidence.",
+      "Three provider CLIs evolve independently and have changed authentication and non-interactive execution contracts.",
+      "Two prospective contributors requested documentation, but no external adapter has been implemented or maintained.",
+      "The internal preview interface already separates eight operational concerns.",
+      "Only Codex has live functional evidence; Claude and Gemini launch and collection are disabled and unverified.",
+      "A public API introduces compatibility and security-support promises while no public support channel or remote settings read-back exists.",
+      "Delay preserves learning flexibility but permits internal interface churn and possible later migration cost."
+    ],
+    "uncertainties": [
+      "Whether provider CLI contracts converge or continue material churn.",
+      "Whether contributor interest becomes multiple implemented, actively maintained external adapters.",
+      "Whether the current internal seams survive two additional authenticated critical-path integrations.",
+      "Whether accountable compatibility, security, support, and remote settings verification capabilities are established."
+    ],
+    "axis_tests": [
+      {
+        "candidate": "Provider-contract stability",
+        "importance": "Directly affects adapter breakage, compatibility burden, and feasibility of a stable public contract.",
+        "uncertainty": "Recent changes show instability, but future convergence is not established.",
+        "independence": "Can vary independently of external contributor demand and maintenance capacity.",
+        "endpoints": [
+          "continuing material churn",
+          "operational convergence"
+        ]
+      },
+      {
+        "candidate": "Ecosystem readiness",
+        "importance": "Determines whether a public contract serves maintained implementations rather than speculative demand.",
+        "uncertainty": "Requests exist, but implementations and maintainers do not.",
+        "independence": "Can rise despite provider churn or remain weak after provider convergence.",
+        "endpoints": [
+          "weak or unproven demand",
+          "sustained implementation and maintenance capacity"
+        ]
+      },
+      {
+        "candidate": "Internal interface stability",
+        "importance": "Relevant to freeze risk.",
+        "uncertainty": "Not tested by two live non-Codex integrations.",
+        "independence": "Rejected as a primary axis because it is substantially influenced by provider churn and integration learning; retained as an indicator and implication."
+      }
+    ],
+    "axes": [
+      "Provider-contract stability",
+      "Ecosystem readiness"
+    ],
+    "endpoints": {
+      "provider-contract stability": [
+        "continuing material churn",
+        "operational convergence"
+      ],
+      "ecosystem readiness": [
+        "weak or unproven demand",
+        "sustained implementation and maintenance capacity"
+      ]
+    },
+    "scenarios": [
+      {
+        "name": "Grounded expansion",
+        "conditions": "Operational convergence and sustained ecosystem readiness.",
+        "causal_path": "Provider contracts stabilize; authenticated Claude and Gemini critical paths expose and resolve remaining interface gaps; contributors implement adapters and accept maintenance responsibilities; compatibility and security operations become accountable.",
+        "actors": [
+          "Method Council maintainers",
+          "provider CLI owners",
+          "external adapter contributors",
+          "adapter users"
+        ],
+        "assumptions": [
+          "Authenticated integrations provide representative learning.",
+          "Maintainers and support ownership persist beyond initial implementation."
+        ],
+        "wild_cards": [
+          "A standardized provider protocol sharply reduces adapter-specific surface area."
+        ]
+      },
+      {
+        "name": "Stable but quiet",
+        "conditions": "Operational convergence and weak or unproven ecosystem readiness.",
+        "causal_path": "Provider CLIs settle and internal integrations become easier, but prospective contributors do not ship or maintain adapters and external usage remains unobserved.",
+        "actors": [
+          "Method Council maintainers",
+          "provider CLI owners",
+          "prospective contributors"
+        ],
+        "assumptions": [
+          "Contributor requests are not a reliable proxy for maintained adoption."
+        ],
+        "wild_cards": [
+          "A major downstream project adopts the interface abruptly."
+        ]
+      },
+      {
+        "name": "Demand outruns stability",
+        "conditions": "Continuing material churn and sustained ecosystem readiness.",
+        "causal_path": "External contributors build against the preview seams while providers keep altering authentication and execution behavior; real use reveals valuable abstractions and costly incompatibilities simultaneously.",
+        "actors": [
+          "External adapter maintainers",
+          "Method Council maintainers",
+          "provider security and CLI teams",
+          "users affected by breakage"
+        ],
+        "assumptions": [
+          "Contributors tolerate churn long enough to generate useful evidence."
+        ],
+        "wild_cards": [
+          "A provider security change disables third-party non-interactive execution."
+        ]
+      },
+      {
+        "name": "Fragmented solitude",
+        "conditions": "Continuing material churn and weak or unproven ecosystem readiness.",
+        "causal_path": "Provider changes repeatedly invalidate integration assumptions, Claude and Gemini evidence remains delayed or unstable, and contributor interest does not become maintained code.",
+        "actors": [
+          "Method Council maintainers",
+          "provider CLI owners",
+          "unserved prospective contributors"
+        ],
+        "assumptions": [
+          "No alternate standard or dominant external adopter changes incentives."
+        ],
+        "wild_cards": [
+          "A security incident makes public adapter extensibility materially less acceptable."
+        ]
+      }
+    ],
+    "coverage_challenges": [
+      "The axes are not fully independent because provider churn can suppress contributor participation; scenarios therefore state the causal interaction instead of treating quadrants as isolated.",
+      "The convergence-and-readiness scenario could become a preferred-future story; it retains compatibility, security, and support burdens and does not imply that public freezing is automatically warranted.",
+      "The four scenarios are structured possibilities, not exhaustive or probabilistic forecasts.",
+      "Synthetic workflow count is testing breadth, not evidence of ecosystem demand or production reliability.",
+      "Wild cards could dominate the matrix and must be monitored separately."
+    ],
+    "revisions": [
+      "Rejected internal-interface stability as a primary axis because integration learning and provider churn materially drive it.",
+      "Defined readiness as implemented and maintained external adapters plus accountable operations, not documentation requests alone.",
+      "Kept support and security obligations visible in the favorable scenario to avoid embedding a preferred outcome."
+    ],
+    "cross-scenario_implications": {
+      "robust_actions": [
+        "Maintain the decomposed internal seams and contract tests across all 40 synthetic workflows.",
+        "Complete and record authenticated critical-path runs for additional providers before treating the abstraction as provider-neutral.",
+        "Define compatibility versioning, deprecation, vulnerability handling, support ownership, and remote settings read-back criteria.",
+        "Use implemented and maintained adapters, breakage history, and support load as evidence; do not substitute requests or scenario counts.",
+        "Keep cancellation, timeout/retry, model observation, and error normalization behavior measurable across adapters."
+      ],
+      "contingent_actions": [
+        {
+          "condition": "Convergence and sustained readiness",
+          "implication": "A bounded public candidate can be evaluated against real implementations and explicit support gates."
+        },
+        {
+          "condition": "Convergence without readiness",
+          "implication": "Prioritize low-cost documentation or design-partner validation before accepting a broad compatibility promise."
+        },
+        {
+          "condition": "Churn with sustained readiness",
+          "implication": "Favor experimental versioning, capability negotiation, and narrow design-partner commitments until breakage rates fall."
+        },
+        {
+          "condition": "Churn without readiness",
+          "implication": "Preserve internal change freedom and concentrate on provider integration learning and operational controls."
+        }
+      ],
+      "option_exposure": {
+        "freeze_publicly_next_release": "Captures contributor momentum when readiness is sustained, but is exposed to churn, premature abstraction, and unstaffed compatibility and security obligations.",
+        "keep_internal_for_12_months": "Preserves learning flexibility under churn, but is exposed to migration cost, contributor workarounds, and lost trust if real maintained demand accelerates."
+      }
+    },
+    "change_conditions": [
+      {
+        "scenario": "Grounded expansion",
+        "signals": [
+          "At least two non-Codex provider adapters complete repeatable authenticated critical-path runs.",
+          "Two or more external adapters are implemented and have named maintainers with sustained maintenance activity.",
+          "A written compatibility and security-support policy has accountable owners and remote settings read-back is operational."
+        ],
+        "owner": "Integration lead for run evidence; maintainer lead for ecosystem activity; security/support owner for policy and read-back.",
+        "cadence": "Monthly evidence review; immediate review after provider contract changes or security events."
+      },
+      {
+        "scenario": "Stable but quiet",
+        "signals": [
+          "Provider CLI authentication and non-interactive contracts show no material breaking change across two consecutive quarterly reviews.",
+          "Contributor requests do not yield an implemented maintained adapter.",
+          "External support demand remains absent or anecdotal."
+        ],
+        "owner": "Provider-integration owner and community triage owner.",
+        "cadence": "Quarterly contract comparison and monthly contributor ledger review."
+      },
+      {
+        "scenario": "Demand outruns stability",
+        "signals": [
+          "External adapters and active maintainers appear while provider changes repeatedly require compatibility patches.",
+          "Authentication, launch, collection, cancellation, or error-normalization contracts break between releases.",
+          "Support load and security exceptions grow faster than policy and automation coverage."
+        ],
+        "owner": "Adapter maintainers record breakage; integration lead consolidates; security/support owner assesses exposure.",
+        "cadence": "Per release and per breaking incident, summarized monthly."
+      },
+      {
+        "scenario": "Fragmented solitude",
+        "signals": [
+          "Claude and Gemini remain disabled, unverified, or fail repeatable authenticated critical paths.",
+          "No maintained external adapter emerges.",
+          "Provider contract changes continue to force internal interface revisions."
+        ],
+        "owner": "Integration lead with contributor-triage input.",
+        "cadence": "Monthly until two additional critical paths are verified, then quarterly."
+      },
+      {
+        "scenario": "Wild-card override",
+        "signals": [
+          "A provider removes automation access, a serious adapter-originated security incident occurs, or a broadly adopted standard protocol displaces bespoke adapters."
+        ],
+        "owner": "Security owner and project maintainer jointly.",
+        "cadence": "Event-triggered within five business days."
+      }
+    ],
+    "checkpoint": {
+      "date": "2027-02-20",
+      "purpose": "Six-month reassessment early enough to influence the 12-month internal-boundary period and the remaining 18-month horizon.",
+      "review_inputs": [
+        "Authenticated critical-path results by provider",
+        "Provider contract-change and adapter-breakage ledger",
+        "External adapter implementations, named maintainers, and maintenance history",
+        "Compatibility, security-support, public support channel, and remote settings read-back readiness",
+        "Support incidents and unresolved security exceptions"
+      ],
+      "trigger_early": "Reassess immediately after a provider automation removal, material security incident, first maintained external adapter, second verified non-Codex critical path, or adoption of a provider-neutral standard.",
+      "decision_boundary": "The checkpoint supplies evidence for a later product decision; this method does not choose freeze or defer."
+    }
+  },
+  "confidence": {
+    "band": "moderate",
+    "basis": "The scenarios are tightly bound to the supplied current observations and distinguish decision-relevant conditions, but the single repository fixture contains no external adoption history, provider roadmap evidence, cost estimates, or verified non-Codex execution results."
+  },
+  "change_conditions": [
+    "Reassess on 2027-02-20 using provider critical-path evidence, contract-change history, maintained external adapters, support load, and compatibility/security readiness.",
+    "Reassess early if a second non-Codex adapter completes repeatable authenticated critical-path runs or a maintained external adapter appears.",
+    "Reassess early after a material provider automation change, adapter-related security incident, or adoption of a broadly supported provider-neutral protocol.",
+    "Treat repeated provider breakage, absent maintainers, or missing support ownership as evidence against the convergence-and-readiness conditions, not as proof of a final product choice."
+  ],
+  "errors": [
+    {
+      "code": "INSUFFICIENT_DISTINCT_EVIDENCE",
+      "message": "The intensive alternative-futures method requires at least four distinct evidence references, but the run manifest contains only the single evidence entry 'case'; the analysis is therefore structurally incomplete despite completing all enabled procedure steps.",
+      "retryable": false
+    }
+  ],
+  "execution": {
+    "adapter": "codex",
+    "provider_state": "verified",
+    "model_requested": null,
+    "model_observed": null,
+    "external_api_calls": false,
+    "correlation_group": "codex-accept-forecast-plugin-ecosystem-20260820-v2"
+  }
+}

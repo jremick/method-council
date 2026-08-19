@@ -1,0 +1,597 @@
+{
+  "claim_boundary": "Recorded artifacts can establish structural conformance and support a correlated semantic screen. They do not establish causal usefulness, independent method fidelity, factual accuracy, or decision quality.",
+  "evaluation_id": "method-usefulness-screen-v0.1",
+  "issues": [],
+  "methods": [
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Cross-scenario actions, contingent choices, indicators, and a dated checkpoint are explicit.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "The result remains INCOMPLETE and explicitly says its scenarios are neither exhaustive nor predictions.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Forces and uncertainties stay tied to the one case source or are labelled assumptions, but source diversity is inadequate.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "It checks axis independence and preferred-future bias and preserves omitted interactions as limitations.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact tests axes, builds four distinct futures, challenges coverage, and avoids probability claims.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Expose robust and contingent actions plus observable conditions that would change the strategy.",
+      "intent": "Construct materially different plausible futures without presenting them as predictions.",
+      "method_id": "alternative-futures",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2",
+        "result": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2/method-results/alternative-futures.json",
+        "result_digest": "sha256:09b11ee1c4baabe6c4ae3704a5027d86b1a480ce2c9c89a3a0ca63096120e5fd",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 8,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 14,
+        "procedure_complete": true,
+        "required_artifact_field_count": 14,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 8,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Diagnostic follow-up evidence is named, but ownership and a collection sequence are not established.",
+            "score": 3
+          },
+          "calibration": {
+            "rationale": "It avoids converting consistency counts into probabilities and reports an incomplete judgment.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "It keeps dependencies and unavailable expected evidence visible and refuses a PASS with one source.",
+            "score": 4
+          },
+          "failure_mode_resistance": {
+            "rationale": "Residual explanations, correlated evidence, and missing-expected-evidence risks are represented directly.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact compares four explanations in one matrix and emphasizes diagnostic and missing evidence.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Reduce premature closure and identify the evidence most likely to separate surviving explanations.",
+      "intent": "Compare plausible explanations against the same evidence and emphasize inconsistency and diagnosticity.",
+      "method_id": "competing-hypotheses",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-investigation-duplicates-20260819",
+        "result": "evidence/acceptance/accept-investigation-duplicates-20260819/method-results/competing-hypotheses.json",
+        "result_digest": "sha256:0ce85df811971da0f03a1e1c4c864be74e574bc6b662533c25711efc93929726",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 7,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [
+          "alternatives"
+        ],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 11,
+        "procedure_complete": false,
+        "required_artifact_field_count": 12,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 7,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Disposition, alternatives, unresolved weaknesses, and concrete change conditions support follow-up.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "The challenge is not presented as a final judgment and same-host correlation remains visible.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Evidence weaknesses and counterevidence are explicit, while the single source prevents independent support.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "The alternative is substantive rather than rhetorical, and the result resists the embedded hostile instruction.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact identifies a challenge target, constructs a credible contrary case, and records what survives.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Surface material weaknesses, preserve unresolved dissent, and define what would overturn the mainline judgment.",
+      "intent": "Build the strongest evidence-aware contrary case to a dominant judgment without replacing final decision authority.",
+      "method_id": "devils-advocacy",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-hostile-review-20260819",
+        "result": "evidence/acceptance/accept-hostile-review-20260819/method-results/devils-advocacy.json",
+        "result_digest": "sha256:705e6d2640ea0bd84931724cdb1e0e07673f01d52f7051b3e552bd59149445e0",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 6,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 12,
+        "procedure_complete": true,
+        "required_artifact_field_count": 12,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 6,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Refresh triggers and evidence gaps are concrete, though collection ownership is outside this artifact.",
+            "score": 3
+          },
+          "calibration": {
+            "rationale": "The result remains INCOMPLETE and does not infer security or reliability from missing evidence.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "It refuses to treat one supplied document as corroboration and distinguishes access limits from facts.",
+            "score": 4
+          },
+          "failure_mode_resistance": {
+            "rationale": "It explicitly resists source-counting, authority substitution, and unsupported prompt-injection claims.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact inventories evidence, checks independence, identifies gaps, and calibrates affected judgments.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Prevent source quantity or authority from laundering weak evidence and identify the highest-value evidence gaps.",
+      "intent": "Assess completeness, credibility, independence, currency, and limits before substantive synthesis.",
+      "method_id": "evidence-quality",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-hostile-review-20260819",
+        "result": "evidence/acceptance/accept-hostile-review-20260819/method-results/evidence-quality.json",
+        "result_digest": "sha256:29b34bd35ee42444eeec6ead89651fb6f7a39e3c75ff427913bfcabc5400e83e",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 5,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 9,
+        "procedure_complete": true,
+        "required_artifact_field_count": 9,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 5,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Detection gaps, propagation paths, control weaknesses, and follow-up actions are identified.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "The result is framed as preliminary and does not claim safety, reliability, or numeric risk precision.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Unknowns and limitations remain explicit, but the review has only one distinct evidence source.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "It separates modes from effects and includes interfaces and shared propagation rather than isolated component failures.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact bounds and decomposes the system before tracing modes, effects, controls, and actions.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Reveal plausible failure paths and verification needs without presenting a preliminary model review as safety proof.",
+      "intent": "Trace element-level failure modes, effects, controls, common causes, and accountable follow-up within a bounded system.",
+      "method_id": "failure-modes",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+        "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/failure-modes.json",
+        "result_digest": "sha256:5b6109c6db308734cd9fe6946eceb5a6dc909e43e7a320e1134ccea48f3ac98f",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 7,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 14,
+        "procedure_complete": true,
+        "required_artifact_field_count": 14,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 7,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "Each retained indicator has a source, cadence, owner role, and checkpoint treatment.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "Indicator counts are not treated as proof or probability and reassessment conditions remain conditional.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Correlation groups and unavailable-data handling are explicit, but the single source is insufficient for intensive rigor.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "The review checks ambiguity, deception, lag, observability, and shared-source correlation.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact derives observable indicators for four states and classifies direction, timing, and ambiguity.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Turn scenarios and assumptions into an owned monitoring plan without converting indicator counts into probabilities.",
+      "intent": "Derive observable, discriminating signs for bounded states and define repeatable review conditions.",
+      "method_id": "indicators-signposts",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2",
+        "result": "evidence/acceptance/accept-forecast-plugin-ecosystem-20260820-v2/method-results/indicators-signposts.json",
+        "result_digest": "sha256:1d668d3c2f0e6f7276a84156ef201d6577c9cccfef285a3665e1dba903ce4fce",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 7,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 11,
+        "procedure_complete": true,
+        "required_artifact_field_count": 11,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 7,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "A revised judgment, concrete signposts, and dated reassessment conditions are supplied.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "The artifact distinguishes unsupported assumptions from facts and avoids declaring challenged premises false.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Evidence links and counterevidence are preserved, while one bound source limits corroboration.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "The original judgment is materially revised and load-bearing assumptions receive explicit failure conditions.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact states the judgment, classifies premises, challenges them, and traces failure impacts.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Expose hidden premises, distinguish evidence from assumption, and produce concrete failure and reassessment conditions.",
+      "intent": "Make load-bearing premises explicit and test how a judgment changes when they fail.",
+      "method_id": "key-assumptions",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+        "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/key-assumptions.json",
+        "result_digest": "sha256:9e13c1254bc628809561cee1e1f4a5448b06e419dee5980178f5e5192dc2d2d5",
+        "result_status": "PASS",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 6,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [],
+        "missing_steps": [],
+        "populated_required_artifact_field_count": 10,
+        "procedure_complete": true,
+        "required_artifact_field_count": 10,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 6,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    },
+    {
+      "correlated_semantic_screen": {
+        "dimensions": {
+          "actionability": {
+            "rationale": "The sensitivity result and change condition show when the recommendation should be revisited.",
+            "score": 4
+          },
+          "calibration": {
+            "rationale": "It does not manufacture a weighted score and distinguishes the recommendation from an accountable final decision.",
+            "score": 4
+          },
+          "evidence_discipline": {
+            "rationale": "Unknowns and evidence limits are visible, but one source cannot support standard-rigor PASS.",
+            "score": 3
+          },
+          "failure_mode_resistance": {
+            "rationale": "Mandatory constraints remain separate from criteria and the absent decision owner prevents status laundering.",
+            "score": 4
+          },
+          "method_fidelity": {
+            "rationale": "The artifact preserves alternatives, constraints, criteria, measures, a matrix, sensitivity, and a recommendation.",
+            "score": 4
+          }
+        },
+        "issues": [],
+        "review_digest": "sha256:ad4172c41e33ce01a7f0580b8525b09cf1e5c795ed77564d4dc566cc20f044ba",
+        "reviewer_kind": "correlated-codex-screen",
+        "status": "MET"
+      },
+      "desired_usefulness": "Make trade-offs and reversals inspectable without hiding constraints or manufacturing false numeric precision.",
+      "intent": "Compare feasible alternatives against explicit criteria, constraints, uncertainty, and sensitivity while preserving decision authority.",
+      "method_id": "systems-trade-study",
+      "specimen": {
+        "bundle": "evidence/acceptance/accept-architecture-storage-20260819",
+        "result": "evidence/acceptance/accept-architecture-storage-20260819/method-results/systems-trade-study.json",
+        "result_digest": "sha256:d7db11447d2bd0f966c87a0f85ba4d130f99d5db03c4873245e4b12e79392c9c",
+        "result_status": "INCOMPLETE",
+        "sample_types": [
+          "representative"
+        ]
+      },
+      "structural": {
+        "completed_selected_step_count": 7,
+        "distinct_evidence_refs": [
+          "case"
+        ],
+        "missing_artifact_fields": [
+          "alternatives",
+          "exclusions"
+        ],
+        "missing_steps": [
+          "record-decision"
+        ],
+        "populated_required_artifact_field_count": 17,
+        "procedure_complete": false,
+        "required_artifact_field_count": 19,
+        "run_side_conditions": [
+          "CORRELATED"
+        ],
+        "run_status": "INCOMPLETE",
+        "selected_step_count": 8,
+        "valid": true
+      },
+      "usefulness": {
+        "baseline_delta_measured": false,
+        "blockers": [
+          "missing-sample-types:adversarial,edge",
+          "no-blinded-no-method-baseline-comparison",
+          "no-independent-practitioner-review",
+          "minimum-repeated-run-count-not-met"
+        ],
+        "evaluation_status": "INCOMPLETE",
+        "independent_review_count": 0
+      }
+    }
+  ],
+  "overall_status": "INCOMPLETE",
+  "rubric": {
+    "dimensions": [
+      "method_fidelity",
+      "evidence_discipline",
+      "calibration",
+      "actionability",
+      "failure_mode_resistance"
+    ],
+    "minimum_dimension_score": 3,
+    "scale": "0-4 uncalibrated screening heuristic"
+  },
+  "schema_version": "0.1.0",
+  "totals": {
+    "baseline_delta_measured": 0,
+    "catalog_methods": 8,
+    "correlated_semantic_screen_met": 8,
+    "independently_reviewed": 0,
+    "inventoried_methods": 8,
+    "procedure_complete": 6,
+    "structurally_valid": 8
+  },
+  "valid": true
+}

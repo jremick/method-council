@@ -1,0 +1,25 @@
+{
+  "checked_methods": [
+    "alternative-futures",
+    "devils-advocacy",
+    "evidence-quality",
+    "indicators-signposts",
+    "key-assumptions"
+  ],
+  "issues": [],
+  "report_digest": "sha256:67df51c2dcfcb22b0ac919510651ff1549acb2644bdf447d8f6162a4ad46ebe6",
+  "run_id": "accept-forecast-plugin-ecosystem-20260820-v2",
+  "schema_version": "0.1.0",
+  "selected_methods": [
+    "evidence-quality",
+    "key-assumptions",
+    "alternative-futures",
+    "indicators-signposts",
+    "devils-advocacy"
+  ],
+  "side_conditions": [
+    "CORRELATED"
+  ],
+  "status": "INCOMPLETE",
+  "valid": true
+}

@@ -62,9 +62,12 @@ is required because external writes remain out of scope.
   rejects forged or mismatched reports.
 - The canonical Codex skill is projected into `.agents/skills/` by a
   deterministic, content-bound sync helper.
-- Four real ChatGPT-authenticated Codex runs are recorded. All four are valid
+- Five real ChatGPT-authenticated Codex runs are recorded. All five are valid
   `INCOMPLETE / CORRELATED` evidence, retaining missing evidence rather than
   laundering under-evidenced passes into PASS.
+- All eight methods have recorded specimen coverage and a correlated
+  semantic screen; usefulness validation remains `INCOMPLETE` pending blinded
+  baselines, repeated cases, and independent practitioner review.
 - Claude Code and Gemini CLI adapter contracts are present but launch and
   collection stay disabled and functionally unverified.
 - Original vector diagrams, social preview, and generated analysis-workbench
