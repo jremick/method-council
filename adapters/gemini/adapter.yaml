@@ -1,0 +1,149 @@
+schema_version: "0.1.0"
+kind: "adapter-compiler-input"
+id: "gemini"
+version: "0.1.0"
+status: "preview"
+summary: "Preview compiler input for a bounded Gemini CLI adapter."
+
+support:
+  maturity: "preview"
+  authentication: "unverified"
+  functional_compatibility: "unverified"
+  execution_validation: "not-run"
+  verified: false
+  limitations:
+    - "No Gemini CLI command was executed for this adapter."
+    - "Installation, authentication, entitlement, model access, and output fidelity are unknown."
+    - "Gemini JSON output is an envelope, not native Method Council schema enforcement."
+
+canonical_inputs:
+  - "schemas/method.schema.json"
+  - "schemas/profile.schema.json"
+  - "schemas/run.schema.json"
+  - "schemas/method-result.schema.json"
+  - "schemas/report.schema.json"
+  - "schemas/provider-status.schema.json"
+  - "methods/"
+  - "profiles/"
+
+compiler:
+  id: "method-council-adapter-compiler"
+  version: "0.1.0"
+  generated_metadata_required:
+    - "canonical_input_digest"
+    - "generator_id"
+    - "generator_version"
+
+host:
+  family: "gemini-cli"
+  executable: "gemini"
+  authentication: "provider-managed"
+  external_provider_dependencies:
+    - "Google Gemini service or another Gemini CLI-supported provider route"
+
+defaults:
+  external_provider_calls: false
+  tool_side_effects: false
+  raw_prompt_persistence: false
+  hidden_chain_of_thought_requested: false
+  same_host_passes_correlated: true
+  default_rigor: "standard"
+
+capability_interface:
+  probe:
+    status: "documented-unverified"
+    enabled: false
+    external_call: false
+    argv:
+      - "gemini"
+      - "--version"
+    proves:
+      - "executable presence and reported version only"
+    does_not_prove:
+      - "authentication"
+      - "model availability"
+      - "functional compatibility"
+  render:
+    status: "designed-unverified"
+    enabled: true
+    strategy: "reuse-canonical-method-task"
+    input_contract: "schemas/run.schema.json"
+    output_contract: "schemas/method-result.schema.json"
+    prompt_transport: "stdin"
+    raw_prompt_persistence: false
+  launch:
+    status: "documented-unverified"
+    enabled: false
+    external_call: true
+    input_transport: "stdin"
+    argv_template:
+      - "gemini"
+      - "--prompt"
+      - "Apply the bounded Method Council task supplied on stdin. Return only the requested JSON object."
+      - "--output-format"
+      - "stream-json"
+      - "--model"
+      - "{{requested_model}}"
+      - "--extensions"
+      - "none"
+    enablement_requirements:
+      - "explicit external-call opt-in"
+      - "successful read-only capability probe"
+      - "verified authentication without credential capture"
+      - "validated deny-all tool policy for the installed CLI version"
+      - "provider-specific integration and adversarial tests"
+  collect:
+    status: "documented-unverified"
+    enabled: false
+    format: "stream-json"
+    extraction: "result event response followed by deterministic schema validation"
+    deterministic_validation_required: true
+    invalid_output_status: "ERROR"
+  timeout-retry:
+    status: "host-enforced-unverified"
+    timeout_owner: "adapter-host-wrapper"
+    default_timeout_seconds: 300
+    maximum_attempts: 1
+    retry_default: false
+    retryable_categories: []
+  model-observation:
+    status: "documented-unverified"
+    requested_model:
+      mechanism: "--model"
+      optional: true
+    observed_model:
+      mechanism: "stream-json init event model field"
+      required_for_release_claim: true
+      fallback: null
+    mismatch_status: "INCOMPLETE"
+  cancel:
+    status: "host-enforced-unverified"
+    enabled: false
+    mechanism: "terminate-child-process"
+    vendor_cancel_command: null
+    grace_seconds: 5
+  error-normalization:
+    status: "documented-unverified"
+    inputs:
+      - "process-exit-code"
+      - "stream-json error event"
+      - "timeout"
+      - "cancellation"
+    categories:
+      zero_with_valid_contract: "PASS"
+      zero_with_invalid_contract: "ERROR"
+      exit_1_general_or_api: "ERROR"
+      exit_41_authentication: "ERROR"
+      exit_42_input: "ERROR"
+      exit_44_sandbox: "ERROR"
+      exit_52_configuration: "ERROR"
+      exit_53_turn_limit: "INCOMPLETE"
+      other_nonzero: "ERROR"
+      timeout: "ERROR"
+      cancelled: "INCOMPLETE"
+
+templates:
+  strategy: "reuse canonical Codex-neutral task payloads after compilation"
+  provider_specific_files: []
+
+sources: "adapters/gemini/SOURCES.md"
