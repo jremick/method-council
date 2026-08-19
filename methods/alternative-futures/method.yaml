@@ -26,6 +26,7 @@ provenance:
     - The scenarios are structured possibilities, not exhaustive futures or probability forecasts.
     - A two-axis matrix may omit important interactions and should not be forced onto unsuitable problems.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, decide, forecast, architect, review]
 capabilities: [scenario-generation]
 requires_methods: []

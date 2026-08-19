@@ -36,6 +36,7 @@ provenance:
     - It does not demonstrate safety, reliability, hazard closure, or compliance with any standard.
     - It must not replace domain-expert safety, reliability, software assurance, or regulatory review.
     - Source terminology and scoring practices vary; no proprietary scoring table is reproduced.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, architect, review]
 capabilities: [failure-analysis]
 requires_methods: []

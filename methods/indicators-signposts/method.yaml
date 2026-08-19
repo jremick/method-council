@@ -34,6 +34,7 @@ provenance:
     - Indicator counts alone do not establish which scenario is true or assign probability.
     - Monitoring quality depends on indicator observability and the collection process.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, investigate, decide, forecast, architect, review]
 capabilities: [monitoring]
 requires_methods: []

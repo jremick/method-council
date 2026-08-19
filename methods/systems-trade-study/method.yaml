@@ -34,6 +34,7 @@ provenance:
     - It does not prescribe NASA process or satisfy programme-specific engineering requirements.
     - Weighted scoring is optional and cannot make subjective criteria objectively true.
     - The recommendation does not replace the accountable decision authority.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [decide, architect, review]
 capabilities: [decision-analysis]
 requires_methods: []

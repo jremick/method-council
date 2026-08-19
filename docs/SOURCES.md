@@ -12,6 +12,25 @@ The canonical claim details live in each `methods/<id>/method.yaml`. The adjacen
 concise human guide. Where either conflicts with a schema-validated YAML record, the YAML record is
 the method definition.
 
+## Provenance-class semantics
+
+The catalog's provenance class describes the project record's relationship to
+its cited public sources. It is not an authority rank, publisher designation,
+fidelity score, certification, or quality threshold.
+
+- `established-primary-method` means a primary public source names and describes
+  the approach and the project record retains a recognisable outline. The YAML
+  wording, result contract, evidence rules, and rigor variants are still project
+  adaptations and remain preview material.
+- `project-adaptation` means the record combines sources or makes substantial
+  domain-neutral, model-mediated, or control-oriented changes.
+- Other schema classes are available for future records but do not confer
+  validation merely by being selected.
+
+These classifications are project judgments and have not received independent
+method-fidelity review. A method can cite an authoritative publisher while the
+project implementation remains unvalidated.
+
 ## Source register
 
 | Source ID | Publisher and work | Supports in this catalog | Source and access notes |
@@ -29,11 +48,11 @@ the method definition.
 | Method | Source basis | Catalog claim |
 |---|---|---|
 | `evidence-quality` | CIA primer; ICD 203 | Project adaptation of public Quality of Information Check with evidence-ledger, correlation, retrieval, and claim-fidelity controls. |
-| `key-assumptions` | CIA primer; Ask Molly | Public method structure preserved; typed findings, evidence links, and change conditions added. |
+| `key-assumptions` | CIA primer; Ask Molly | Project adaptation of the public outline with typed findings, evidence links, and change conditions. |
 | `competing-hypotheses` | CIA primer | ACH-inspired project adaptation. It remains preview because formal ACH fidelity, corpus adequacy, and hypothesis completeness have not been independently assessed. |
 | `alternative-futures` | CIA primer | Public two-axis scenario workflow adapted for typed assumptions, robustness implications, and checkpoints. Scenarios are not forecasts. |
-| `indicators-signposts` | CIA primer; Ask Molly | Public monitoring workflow adapted to require observability, correlation checks, ownership, and unavailable-data treatment. |
-| `devils-advocacy` | CIA primer; Ask Molly | Public contrarian method adapted to require a steelmanned case, evidence bindings, correlation labels, and a post-challenge disposition. |
+| `indicators-signposts` | CIA primer; Ask Molly | Project adaptation of the public monitoring outline, adding observability, correlation checks, ownership, and unavailable-data treatment. |
+| `devils-advocacy` | CIA primer; Ask Molly | Project adaptation of the public contrarian outline, adding a steelmanned case, evidence bindings, correlation labels, and a post-challenge disposition. |
 | `systems-trade-study` | NASA decision-analysis page; NASA SE handbook | Portable project adaptation. It does not prescribe NASA programme process or one scoring algorithm. |
 | `failure-modes` | GSFC-HDBK-8004 record; NASA software FMEA guidance | Preliminary cross-domain failure review only; not a validated FMEA/FMECA, safety case, or compliance artifact. |
 
@@ -51,6 +70,9 @@ the method definition.
   assumptions, unknowns, alternatives, dissent, and change conditions are retained.
 - Public institutional sources can still be incomplete, dated, domain-specific, or unsuitable for
   a particular decision. Users must review source fit and currency.
+- Catalog rigor variants, method-count bands, step selections, and numeric evidence minima are
+  project-defined, unvalidated safeguards. They are not publisher procedures, calibrated quality
+  thresholds, confidence scores, or evidence that an output is sufficiently rigorous for a domain.
 
 ## Licensing and reuse caution
 

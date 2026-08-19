@@ -34,6 +34,7 @@ provenance:
     - A strong contrary case is a stress test, not proof that the alternative is correct.
     - Same-context model passes may broaden method coverage but are not independent corroboration.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, investigate, decide, forecast, architect, review]
 capabilities: [challenge]
 requires_methods: []

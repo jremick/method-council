@@ -19,13 +19,13 @@ separate explicit approval and live readback.
 | Wiki | Off; canonical documentation remains in the repository |
 | Projects | Off until a maintained public roadmap requires it |
 | Releases | None during pre-public development |
-| Social preview | Asset and upload deferred until the public surface and name are final |
+| Social preview | `assets/exported/social-preview.png` is committed; upload remains unapplied until a remote exists and publication is approved |
 
 Topics should be rechecked against the actual implementation at publication.
 Avoid terms such as `intelligence-grade`, `official`, `audited`, or
 `production-ready` unless later evidence directly supports them.
 
-## Stage 1 — Pre-Public Candidate
+## Stage 1 target — Pre-Public Candidate
 
 Before any visibility change:
 
@@ -46,6 +46,22 @@ Before any visibility change:
 
 Passing source checks locally is not evidence that these GitHub settings exist.
 
+## Current local preparation evidence
+
+- The tracked CI workflow uses `contents: read`, a bounded timeout, a frozen
+  dependency sync, and immutable commit pins for third-party actions.
+- The locked Python environment exported for audit reported no known
+  vulnerabilities at the time of review.
+- A clean clone synced and passed the local validation suite.
+- A bounded Git-history inspection was completed, but the dedicated `gitleaks`
+  executable was unavailable; history-wide secret scanning remains a gate.
+- The generated hero and 1280 × 640 social-preview PNG are committed. Neither
+  asset's existence proves that GitHub rendered or applied it.
+
+These are local source and execution facts. Hosted CI, required check names,
+GitHub security features, repository visibility, and rendered public surfaces
+remain unknown until a remote exists and each setting is read back live.
+
 ## Later public-alpha gate
 
 Public visibility should be a final, separate action after release eligibility and
@@ -62,6 +78,8 @@ publication are both approved. Immediately before and after the change, read bac
 
 Do not describe a committed preview image as an applied GitHub social preview.
 Do not treat a commit hash as proof that rendered or live settings match source.
+Do not infer a required check context from the workflow's source job name; read
+the successful hosted check name from the publication-candidate run.
 
 ## Initial public support posture
 

@@ -99,21 +99,29 @@ because not every renderer exposes internal SVG accessibility metadata.
 | Method Datum mark | Project identity | Original code-native SVG |
 | Method Council workflow | Explain the six-stage path | Original code-native SVG |
 | Traceable report cutaway | Explain the report contract | Original code-native SVG |
-| Bitmap hero | Future editorial atmosphere | Deliberately deferred |
-| Social preview PNG | Future GitHub sharing surface | Deliberately deferred |
+| Analysis Bench hero | Editorial atmosphere for the public surface | Generated bitmap committed; representative concept art only |
+| Social preview PNG | Future GitHub sharing surface | Original SVG and 1280 × 640 PNG committed; GitHub upload not applied |
 
-The diagrams are explanatory artifacts, not screenshots of a shipped interface.
-No bitmap hero or fake product screenshot is part of this phase.
+The diagrams and hero are explanatory artifacts, not screenshots of a shipped
+interface. The social-preview PNG is a prepared repository asset; committing it
+does not apply GitHub's custom social-preview setting.
 
-## Future bitmap direction
+## Bitmap direction and review
 
-If a bitmap hero is later generated, it should show a top-down contemporary
-architecture analysis desk: paper plans, tracing overlays, a metal scale, binder
-clips, and one restrained clay registration mark. It must contain no people,
-screens, readable text, gears, sepia treatment, government insignia, or sci-fi
-elements. Essential labels must be added deterministically outside the generated
-image, and generation provenance must record the prompt, model, date, edits, and
-review result.
+The committed hero shows a top-down contemporary architecture analysis desk:
+paper plans, tracing overlays, a metal scale, binder clips, and one restrained
+clay registration mark. It contains no intentional people, screens, readable
+text, government insignia, or sci-fi interface elements. Essential labels remain
+outside the generated image.
+
+The generation host exposed the image-generation capability but did not expose
+a reliable model identifier, so the provenance records the model state as
+unknown rather than inferring a product or version name. Visual inspection at
+native size found the intended paper, steel, ink, and clay composition; no
+obvious private data, logos, readable text, people, screens, or watermarks were
+observed. The 1280 × 640 social preview was also inspected for legibility and
+private-data absence. This is observational review, not proof of accessibility,
+usability, originality against all existing works, or GitHub rendering quality.
 
 ## Accessibility and review
 
@@ -135,8 +143,9 @@ representative users or assistive technology.
 
 The files in `assets/source/` are canonical editable SVG sources. Files in
 `assets/exported/` are durable public-surface exports derived from those sources.
-Both remain code-native in this phase so labels can be inspected and changed
-without image generation.
+The social preview remains inspectable as SVG source; the generated hero is a
+bitmap with its prompt summary, model-state limit, digest, and review notes
+recorded in `assets/PROVENANCE.md`.
 
 Before release:
 
@@ -144,4 +153,6 @@ Before release:
 2. Render at target sizes and inspect visually.
 3. Confirm exported content matches its source.
 4. Confirm Markdown alt text and internal SVG descriptions are present.
-5. Record any later generated or third-party asset in the notices.
+5. Confirm generated or third-party assets have current provenance and claim
+   limits.
+6. After any GitHub upload, read back the live custom social-preview state.

@@ -32,6 +32,7 @@ provenance:
     - This preview has not undergone independent method-fidelity assessment.
     - The method exposes assumptions; it cannot prove that every hidden assumption was found.
     - Use does not imply CIA training, endorsement, certification, or intelligence-grade analysis.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, investigate, decide, forecast, architect, review]
 capabilities: [assumption-testing, challenge]
 requires_methods: []

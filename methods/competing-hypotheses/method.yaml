@@ -27,6 +27,7 @@ provenance:
     - Consistency or inconsistency labels do not calculate posterior probability.
     - Completeness of the hypothesis set and evidence corpus still requires human review.
     - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, investigate, forecast, review]
 capabilities: [hypothesis-comparison]
 requires_methods: []

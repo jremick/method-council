@@ -34,6 +34,7 @@ provenance:
     - This preview has not undergone independent method-fidelity assessment.
     - It does not verify a source merely because a citation, URL, or document is present.
     - It does not confer compliance with ICD 203 or endorsement by CIA, ODNI, or the US Government.
+    - Rigor variants and numeric minima are project-defined, unvalidated safeguards; they are not publisher procedures or calibrated quality thresholds.
 activities: [analyse, investigate, decide, forecast, review]
 capabilities: [evidence-assessment]
 requires_methods: []
@@ -110,7 +111,6 @@ result_schema: schemas/method-result.schema.json
 evidence_rules:
   minimum_references: 1
   allow_unreferenced_assumptions: false
-  required_source_classes: [primary, authoritative]
 complements: [key-assumptions, competing-hypotheses, systems-trade-study]
 conflicts: []
 failure_modes:
