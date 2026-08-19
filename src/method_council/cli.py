@@ -11,9 +11,10 @@ from typing import Any
 from method_council.acceptance import verify_acceptance
 from method_council.catalog import load_catalog, validate_repository
 from method_council.documents import DocumentError, load_document, repository_root
-from method_council.evidence import file_digest, validate_result_evidence
+from method_council.evidence import file_digest
 from method_council.issues import Issue
 from method_council.release import verify_release_manifest
+from method_council.result_validation import validate_result_against_run
 from method_council.routing import ACTIVITIES, RIGOR_COUNTS, validate_route
 from method_council.run import prepare_run, verify_run
 from method_council.schema import SCHEMA_ALIASES, SchemaRegistry
@@ -80,8 +81,21 @@ def _check_command(args: argparse.Namespace) -> int:
             else:
                 run_issues = registry.validate(run, "run")
                 issues.extend(run_issues)
-                if not run_issues and isinstance(document, dict) and isinstance(run, dict):
-                    issues.extend(validate_result_evidence(document, run))
+                if (
+                    not issues
+                    and not run_issues
+                    and isinstance(document, dict)
+                    and isinstance(run, dict)
+                ):
+                    catalog = load_catalog(root, registry)
+                    issues.extend(
+                        Issue("check.catalog-invalid", issue.message, issue.path)
+                        for issue in catalog.issues
+                    )
+                    if not catalog.issues:
+                        method = catalog.methods.get(str(document["method_id"]))
+                        result_issues, _ = validate_result_against_run(document, run, method)
+                        issues.extend(result_issues)
     result = {
         "valid": not issues,
         "schema": args.schema,
@@ -94,14 +108,12 @@ def _check_command(args: argparse.Namespace) -> int:
 
 
 def _aggregate_command(args: argparse.Namespace) -> int:
-    root = _root(args.root, Path(args.results[0]))
+    result_paths = [Path(result_name).resolve() for result_name in args.results]
+    root = _root(args.root, result_paths[0])
     registry = SchemaRegistry(root / "schemas")
-    loaded: list[dict[str, Any]] = []
-    ledger: list[dict[str, str]] = []
+    claimed_results: list[tuple[Path, dict[str, Any]]] = []
     issues: list[Issue] = []
-    method_ids: list[str] = []
-    for result_name in args.results:
-        path = Path(result_name).resolve()
+    for path in result_paths:
         try:
             result = load_document(path)
         except DocumentError as exc:
@@ -113,12 +125,74 @@ def _aggregate_command(args: argparse.Namespace) -> int:
                 Issue(issue.code, issue.message, f"{path}:{issue.path}") for issue in schema_issues
             )
             continue
-        loaded.append(result)
-        method_ids.append(result["method_id"])
+        claimed_results.append((path, result))
+
+    run: dict[str, Any] | None = None
+    catalog = None
+    run_path: Path | None = Path(args.run).resolve() if args.run else None
+    if run_path is None:
+        candidates = {
+            path.parent.parent / "run.json"
+            for path, _ in claimed_results
+            if path.parent.name == "method-results" and (path.parent.parent / "run.json").is_file()
+        }
+        if len(candidates) == 1:
+            run_path = candidates.pop()
+        elif len(candidates) > 1:
+            issues.append(
+                Issue(
+                    "aggregate.multiple-runs",
+                    "results resolve to more than one run; supply --run explicitly",
+                    "/results",
+                )
+            )
+    if run_path is not None:
+        try:
+            loaded_run = load_document(run_path)
+        except DocumentError as exc:
+            issues.append(Issue("aggregate.run-parse-error", str(exc), str(run_path)))
+        else:
+            run_issues = registry.validate(loaded_run, "run")
+            issues.extend(
+                Issue(issue.code, issue.message, f"{run_path}:{issue.path}") for issue in run_issues
+            )
+            if not run_issues and isinstance(loaded_run, dict):
+                run = loaded_run
+                catalog = load_catalog(root, registry)
+                issues.extend(
+                    Issue("aggregate.catalog-invalid", issue.message, issue.path)
+                    for issue in catalog.issues
+                )
+
+    loaded: list[dict[str, Any]] = []
+    ledger: list[dict[str, str]] = []
+    method_ids: list[str] = []
+    for path, claimed_result in claimed_results:
+        effective_result = dict(claimed_result)
+        method_ids.append(str(claimed_result["method_id"]))
+        if run is not None and catalog is not None and not catalog.issues:
+            method = catalog.methods.get(str(claimed_result["method_id"]))
+            result_issues, pass_issues = validate_result_against_run(claimed_result, run, method)
+            issues.extend(
+                Issue(issue.code, issue.message, f"{path}:{issue.path}") for issue in result_issues
+            )
+            if claimed_result["status"] == "PASS" and pass_issues:
+                effective_result["status"] = "INCOMPLETE"
+        elif claimed_result["status"] == "PASS":
+            if run_path is None:
+                issues.append(
+                    Issue(
+                        "aggregate.run-required-for-pass",
+                        "PASS results require --run or a discoverable sibling run.json",
+                        str(path),
+                    )
+                )
+            effective_result["status"] = "INCOMPLETE"
+        loaded.append(effective_result)
         ledger.append(
             {
-                "method_id": result["method_id"],
-                "status": result["status"],
+                "method_id": str(effective_result["method_id"]),
+                "status": str(effective_result["status"]),
                 "result_digest": file_digest(path),
             }
         )
@@ -134,23 +208,24 @@ def _aggregate_command(args: argparse.Namespace) -> int:
             )
         )
 
+    derived = aggregate_results(loaded)
     if issues:
-        result = {
-            "valid": False,
-            "status": aggregate_status([item["status"] for item in loaded] + ["ERROR"]),
-            "side_conditions": [],
-            "method_count": len(loaded),
-            "counts": {},
-            "method_ledger": ledger,
-            "issues": [issue.as_dict() for issue in issues],
-        }
-    else:
-        result = {
-            "valid": True,
-            **aggregate_results(loaded),
-            "method_ledger": ledger,
-            "issues": [],
-        }
+        incomplete_codes = {"aggregate.run-required-for-pass"}
+        issue_status = (
+            "INCOMPLETE"
+            if all(
+                issue.code in incomplete_codes or issue.code.startswith("result.pass-")
+                for issue in issues
+            )
+            else "ERROR"
+        )
+        derived["status"] = aggregate_status((derived["status"], issue_status))
+    result = {
+        "valid": not issues,
+        **derived,
+        "method_ledger": ledger,
+        "issues": [issue.as_dict() for issue in issues],
+    }
     _emit(result)
     return 0 if result["valid"] else 1
 
@@ -260,6 +335,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     aggregate_parser.add_argument("results", nargs="+", help="method-result JSON or YAML files")
     aggregate_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    aggregate_parser.add_argument(
+        "--run", help="run manifest; auto-detected for results inside method-results/"
+    )
     aggregate_parser.set_defaults(handler=_aggregate_command)
 
     prepare_parser = subparsers.add_parser(

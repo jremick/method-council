@@ -13,9 +13,9 @@ from typing import Any
 
 from method_council.catalog import Catalog, load_catalog
 from method_council.documents import MAX_DOCUMENT_BYTES, DocumentError
-from method_council.evidence import content_digest, file_digest, validate_result_evidence
+from method_council.evidence import content_digest, file_digest
 from method_council.issues import Issue
-from method_council.result_validation import validate_pass_semantics
+from method_council.result_validation import validate_result_against_run
 from method_council.routing import validate_route
 from method_council.schema import SchemaRegistry
 from method_council.status import aggregate_results, aggregate_status
@@ -417,33 +417,21 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
         if schema_issues:
             issues.extend(_prefixed(schema_issues, path.relative_to(run_dir).as_posix()))
             continue
-        result_issues = validate_result_evidence(result, run)
-        issues.extend(_prefixed(result_issues, path.relative_to(run_dir).as_posix()))
         method_id = str(result["method_id"])
         observed_methods.append(method_id)
         method = catalog.methods.get(method_id)
-        if method and result["method_version"] != method["version"]:
-            issues.append(
-                Issue(
-                    "run.method-version",
-                    "result method version does not match catalog",
-                    path.as_posix(),
-                )
+        result_issues, semantic_issues = validate_result_against_run(result, run, method)
+        correlation_codes = {
+            "run.correlation-missing",
+            "run.correlation-unbound",
+            "run.correlation-group-missing",
+        }
+        issues.extend(
+            _prefixed(
+                [issue for issue in result_issues if issue.code not in correlation_codes],
+                path.relative_to(run_dir).as_posix(),
             )
-        if result["rigor"] != run.get("rigor"):
-            issues.append(
-                Issue("run.rigor-mismatch", "result rigor does not match run", path.as_posix())
-            )
-        if result["execution"] != host:
-            issues.append(
-                Issue(
-                    "run.execution-mismatch",
-                    "result execution metadata does not match run host",
-                    path.as_posix(),
-                )
-            )
-        semantic_issues = validate_pass_semantics(result, method, run["rigor"]) if method else []
-        issues.extend(_prefixed(semantic_issues, path.relative_to(run_dir).as_posix()))
+        )
         finding_ids.extend(str(finding["id"]) for finding in result.get("findings", []))
         claimed_results.append(result)
         effective_result = dict(result)

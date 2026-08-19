@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
+from method_council.evidence import validate_result_evidence
 from method_council.issues import Issue
 
 
@@ -150,3 +151,94 @@ def validate_pass_semantics(
         )
 
     return issues
+
+
+def validate_result_against_run(
+    result: Mapping[str, Any],
+    run: Mapping[str, Any],
+    method: Mapping[str, Any] | None,
+) -> tuple[list[Issue], list[Issue]]:
+    """Validate one schema-checked result against its run and method record.
+
+    The second return value isolates unsupported claimed-PASS issues so callers
+    can derive an effective ``INCOMPLETE`` status without hiding other contract
+    failures.
+    """
+
+    issues = validate_result_evidence(result, run)
+    pass_issues: list[Issue] = []
+    if method is None:
+        issues.append(
+            Issue(
+                "run.method-unknown",
+                f"result references unknown catalog method {result.get('method_id')!r}",
+                "/method_id",
+            )
+        )
+        return issues, pass_issues
+
+    if result.get("method_version") != method.get("version"):
+        issues.append(
+            Issue(
+                "run.method-version",
+                "result method version does not match catalog",
+                "/method_version",
+            )
+        )
+    if result.get("rigor") != run.get("rigor"):
+        issues.append(
+            Issue(
+                "run.rigor-mismatch",
+                "result rigor does not match run",
+                "/rigor",
+            )
+        )
+    if result.get("execution") != run.get("host"):
+        issues.append(
+            Issue(
+                "run.execution-mismatch",
+                "result execution metadata does not match run host",
+                "/execution",
+            )
+        )
+
+    rigor = run.get("rigor")
+    if isinstance(rigor, str) and rigor in method.get("rigor", {}):
+        pass_issues = validate_pass_semantics(result, method, rigor)
+        issues.extend(pass_issues)
+
+    host = run.get("host", {})
+    correlation_group = result.get("execution", {}).get("correlation_group")
+    if (
+        correlation_group is not None
+        and len(run.get("methods", [])) > 1
+        and "CORRELATED" not in result.get("side_conditions", [])
+    ):
+        issues.append(
+            Issue(
+                "run.correlation-missing",
+                "shared correlation group requires CORRELATED",
+                "/side_conditions",
+            )
+        )
+    if correlation_group is None and "CORRELATED" in result.get("side_conditions", []):
+        issues.append(
+            Issue(
+                "run.correlation-unbound",
+                "CORRELATED requires a non-null correlation group",
+                "/side_conditions",
+            )
+        )
+    if (
+        len(run.get("methods", [])) > 1
+        and host.get("adapter") == "codex"
+        and host.get("correlation_group") is None
+    ):
+        issues.append(
+            Issue(
+                "run.correlation-group-missing",
+                "multi-method Codex run requires a correlation group",
+                "/host/correlation_group",
+            )
+        )
+    return issues, pass_issues
