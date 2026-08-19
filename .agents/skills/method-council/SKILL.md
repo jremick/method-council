@@ -107,9 +107,9 @@ simulated output does not count as a completed pass.
 
 ## Challenge, aggregate, and synthesize
 
-Run the validated challenge method against the checked artifacts. Its purpose is
-to test assumptions, alternatives, counterevidence, and change conditions—not to
-force consensus.
+Run the route-selected challenge method against the checked artifacts. Its
+purpose is to test assumptions, alternatives, counterevidence, and change
+conditions—not to force consensus.
 
 Derive primary status and the method ledger from checked artifacts:
 

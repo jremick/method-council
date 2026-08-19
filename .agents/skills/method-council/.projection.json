@@ -1,5 +1,5 @@
 {
-  "canonical_input_digest": "sha256:0aef1181af1b8937bd09473ff8331513bb136009af9b2cd609ffed5a93dac87a",
+  "canonical_input_digest": "sha256:f5afafb6ab70b6c202b281bce924831af9d163845f3559226b34e130eff2165e",
   "generated_files": [
     "SKILL.md",
     "agents/openai.yaml",
