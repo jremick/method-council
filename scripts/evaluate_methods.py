@@ -7,16 +7,15 @@ import argparse
 import json
 from pathlib import Path
 
-from method_council.evaluation import write_evaluation_report
+from method_council.evaluation import EVALUATION_REPORT_PATH, write_evaluation_report
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--inventory", type=Path, default=Path("evals/methods/inventory.json"))
-    parser.add_argument("--output", type=Path, default=Path("evals/methods/screening-report.json"))
     args = parser.parse_args()
-    report = write_evaluation_report(args.root, args.inventory, args.output)
+    report = write_evaluation_report(args.root, args.inventory, EVALUATION_REPORT_PATH)
     print(json.dumps(report["totals"], indent=2, sort_keys=True))
     return 0 if report["valid"] else 1
 

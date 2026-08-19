@@ -51,6 +51,6 @@ def test_checked_in_report_matches_recomputed_report():
     assert recorded == expected
 
 
-def test_evaluation_report_refuses_output_outside_repository():
-    with pytest.raises(ValueError, match="output path escapes repository root"):
+def test_evaluation_report_refuses_noncanonical_output():
+    with pytest.raises(ValueError, match="output must be the canonical report path"):
         write_evaluation_report(ROOT, INVENTORY, Path("../outside-report.json"))

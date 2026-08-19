@@ -17,6 +17,7 @@ RUBRIC_DIMENSIONS = (
     "actionability",
     "failure_mode_resistance",
 )
+EVALUATION_REPORT_PATH = Path("evals/methods/screening-report.json")
 
 
 def _load_object(path: Path) -> dict[str, Any]:
@@ -275,15 +276,12 @@ def evaluate_method_suite(root: Path, inventory_path: Path) -> dict[str, Any]:
 
 
 def write_evaluation_report(root: Path, inventory_path: Path, output_path: Path) -> dict[str, Any]:
-    """Write the deterministic report to a repository-relative path."""
+    """Recompute the checked-in report without exposing a general file writer."""
 
     report = evaluate_method_suite(root, inventory_path)
     root = root.resolve()
-    output = (root / output_path).resolve()
-    try:
-        output.relative_to(root)
-    except ValueError as exc:
-        raise ValueError(f"output path escapes repository root: {output_path}") from exc
-    output.parent.mkdir(parents=True, exist_ok=True)
+    if output_path != EVALUATION_REPORT_PATH:
+        raise ValueError(f"output must be the canonical report path: {EVALUATION_REPORT_PATH}")
+    output = _repo_path(root, EVALUATION_REPORT_PATH.as_posix(), expect="file")
     output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return report

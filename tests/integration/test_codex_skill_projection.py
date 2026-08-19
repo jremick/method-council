@@ -153,11 +153,8 @@ def test_sync_is_content_bound_idempotent_and_removes_stale_files(tmp_path: Path
 
 @pytest.mark.parametrize("skill_path", [CANONICAL, PROJECTION])
 def test_skill_passes_bundled_quick_validate(skill_path: Path) -> None:
-    configured = os.environ.get("CODEX_SKILL_QUICK_VALIDATE")
     validator = (
-        Path(configured).expanduser()
-        if configured
-        else Path.home()
+        Path.home()
         / ".codex"
         / "skills"
         / ".system"
