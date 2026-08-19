@@ -1,0 +1,148 @@
+schema_version: "0.1.0"
+id: failure-modes
+version: "0.1.0"
+title: Failure Modes Review
+summary: >-
+  Performs a preliminary bottom-up review of how defined system elements can fail, the effects of
+  those failures, existing detection or controls, and actions requiring accountable follow-up.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: nasa-gsfc-hdbk-8004-2024
+      title: "Guideline for Failure Modes and Effects Analysis and Risk Assessment, GSFC-HDBK-8004"
+      publisher: National Aeronautics and Space Administration, Goddard Space Flight Center
+      url: https://standards.nasa.gov/node/12367
+      accessed: "2026-08-19"
+      supports:
+        - Active public NASA handbook scope for FMECA as a living development risk assessment
+      notes: >-
+        NASA identifies it as not mandatory, not a NASA core standard, and not NASA-endorsed.
+        Method Council does not reproduce the handbook tables or scoring scales.
+    - id: nasa-sw-fmea-2023
+      title: "Software Engineering Handbook 8.05: Software Failure Modes and Effects Analysis"
+      publisher: National Aeronautics and Space Administration
+      url: https://swehb.nasa.gov/spaces/SWEHBVC/pages/72024562/8.05%2B-%2BSW%2BFailure%2BModes%2Band%2BEffects%2BAnalysis
+      accessed: "2026-08-19"
+      supports:
+        - Public bottom-up software FMEA orientation, preliminary use, procedure outline, and limitations
+      notes: Introductory public guidance; domain experts remain necessary.
+  adaptation: >-
+    Adapts public NASA FMEA guidance into a lightweight cross-domain failure review. It omits
+    proprietary or programme-specific forms and numerical criticality formulae, preserving severity,
+    likelihood, and detectability only as separately justified qualitative observations.
+  claim_limits:
+    - This is a preliminary preview, not a validated FMEA or FMECA implementation.
+    - It does not demonstrate safety, reliability, hazard closure, or compliance with any standard.
+    - It must not replace domain-expert safety, reliability, software assurance, or regulatory review.
+    - Source terminology and scoring practices vary; no proprietary scoring table is reproduced.
+activities: [analyse, architect, review]
+applicability:
+  use_when:
+    - A sufficiently defined architecture, component, interface, or process needs bottom-up failure review.
+    - Failure propagation, detection, controls, or corrective actions inform a design decision.
+  avoid_when:
+    - The design is too abstract to identify meaningful elements and interfaces.
+    - A safety-critical or regulated decision would rely on this preview without qualified review.
+  prerequisites:
+    - A bounded system description with elements, functions, interfaces, and operating context
+    - Named human owners for action review in consequential applications
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid pass is disabled because superficial coverage can imply false assurance.
+  standard:
+    enabled: true
+    steps: [bound-system, decompose, identify-modes, trace-effects, controls, actions, limitations]
+    minimum_evidence_refs: 2
+    notes: Produces a preliminary qualitative review with explicit coverage limits.
+  intensive:
+    enabled: true
+    steps: [bound-system, decompose, identify-modes, trace-effects, assess-risk, controls, common-cause, actions, verify-actions, limitations]
+    minimum_evidence_refs: 3
+    notes: Adds justified risk dimensions, common-cause review, and action verification planning.
+procedure:
+  - id: bound-system
+    title: Bound the system
+    instruction: >-
+      Define mission or purpose, operating states, environment, interfaces, assumptions, exclusions,
+      and the level of decomposition used for the review.
+    required: true
+    artifact_fields: [system_boundary, operating_states, exclusions]
+  - id: decompose
+    title: Decompose functions and elements
+    instruction: >-
+      Enumerate relevant functions, components, software units, interfaces, and dependencies at a
+      consistent level without inventing undocumented architecture.
+    required: true
+    artifact_fields: [elements, functions, interfaces]
+  - id: identify-modes
+    title: Identify failure modes
+    instruction: >-
+      For each element or interface, state plausible ways the required function can be absent,
+      incorrect, late, intermittent, degraded, or otherwise outside its requirement.
+    required: true
+    artifact_fields: [failure_modes]
+  - id: trace-effects
+    title: Trace effects
+    instruction: >-
+      Trace each failure mode through local, next-level, and system-level effects, separating the
+      failure mode from its cause and consequence.
+    required: true
+    artifact_fields: [effects, propagation_paths]
+  - id: assess-risk
+    title: Assess risk dimensions
+    instruction: >-
+      Record separately justified qualitative observations for severity, likelihood, and detection,
+      preserving unknowns and avoiding unsupported numerical risk-priority scores.
+    required: false
+    artifact_fields: [risk_dimensions]
+  - id: controls
+    title: Identify detection and controls
+    instruction: >-
+      Record existing detection, prevention, compensation, containment, recovery, and verification
+      mechanisms with evidence references where available.
+    required: true
+    artifact_fields: [detections, controls]
+  - id: common-cause
+    title: Review dependencies and common causes
+    instruction: >-
+      Look for shared dependencies, common inputs, coupled interfaces, and repeated design defects
+      that could defeat apparently independent controls.
+    required: false
+    artifact_fields: [common_causes, coupled_failures]
+  - id: actions
+    title: Define corrective actions
+    instruction: >-
+      Propose elimination, control, detection, recovery, or evidence-gathering actions with owners
+      and priority rationale, without executing side effects.
+    required: true
+    artifact_fields: [actions]
+  - id: verify-actions
+    title: Plan action verification
+    instruction: >-
+      Define how each accepted action and its unintended impacts would be independently verified
+      before the risk is considered reduced.
+    required: false
+    artifact_fields: [verification_plan]
+  - id: limitations
+    title: State coverage limits
+    instruction: >-
+      Record excluded states, undocumented components, missing expertise, incomplete failure lists,
+      evidence gaps, and the human review required.
+    required: true
+    artifact_fields: [limitations, unknowns]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [systems-trade-study, key-assumptions, evidence-quality]
+conflicts: []
+failure_modes:
+  - The system boundary or decomposition level is incomplete or inconsistent.
+  - Failure modes, causes, and effects are conflated in one vague statement.
+  - Numerical rankings are used without justified scales or evidence.
+  - Shared dependencies and common-cause failures are missed.
+  - A preliminary model-generated review is presented as safety or reliability proof.

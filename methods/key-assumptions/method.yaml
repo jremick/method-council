@@ -1,0 +1,121 @@
+schema_version: "0.1.0"
+id: key-assumptions
+version: "0.1.0"
+title: Key Assumptions Check
+summary: >-
+  Makes the premises supporting a judgment explicit, challenges their validity, and records how
+  the judgment would change if a load-bearing assumption failed.
+status: preview
+provenance:
+  class: established-primary-method
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Key Assumptions Check purpose, applicability, and public four-step procedure
+      notes: Public 2009 primer; the procedure here is a concise project adaptation.
+    - id: cia-ask-molly-sats-2024
+      title: "Ask Molly: SATs Advice"
+      publisher: Central Intelligence Agency
+      url: https://www.cia.gov/stories/story/ask-molly-sats-advice/
+      accessed: "2026-08-19"
+      supports:
+        - Current public explanation of listing and challenging assumptions underlying a judgment
+      notes: Public outreach summary, not a certification or complete training source.
+  adaptation: >-
+    Preserves the public method's judgment-premise-challenge structure while requiring typed
+    assumptions, evidence references where available, impact statements, and change conditions.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - The method exposes assumptions; it cannot prove that every hidden assumption was found.
+    - Use does not imply CIA training, endorsement, certification, or intelligence-grade analysis.
+activities: [analyse, investigate, decide, forecast, architect, review]
+applicability:
+  use_when:
+    - A conclusion depends on premises that may be implicit, inherited, or stale.
+    - The cost of being wrong warrants testing what must be true.
+  avoid_when:
+    - No candidate judgment, design claim, or analytic line has been stated.
+    - The task requires direct measurement rather than premise review.
+  prerequisites:
+    - A clearly stated judgment or proposed course of action
+rigor:
+  rapid:
+    enabled: true
+    steps: [state-judgment, enumerate, challenge, bound-impact]
+    minimum_evidence_refs: 0
+    notes: Focuses on no more than five potentially load-bearing assumptions.
+  standard:
+    enabled: true
+    steps: [state-judgment, enumerate, classify, challenge, bound-impact, define-signposts]
+    minimum_evidence_refs: 1
+    notes: Adds assumption classification, evidence links, and observable change conditions.
+  intensive:
+    enabled: true
+    steps: [state-judgment, enumerate, classify, challenge, bound-impact, define-signposts, seek-review]
+    minimum_evidence_refs: 2
+    notes: Adds a separate review of omitted assumptions and counterevidence.
+procedure:
+  - id: state-judgment
+    title: State the judgment
+    instruction: >-
+      Write the current judgment, recommendation, or design claim in falsifiable language and
+      identify its scope and decision boundary.
+    required: true
+    artifact_fields: [judgment, scope]
+  - id: enumerate
+    title: Enumerate premises
+    instruction: >-
+      List stated and unstated premises that must hold for the judgment to remain supportable,
+      labelling unverified premises as assumptions.
+    required: true
+    artifact_fields: [assumptions]
+  - id: classify
+    title: Classify the assumptions
+    instruction: >-
+      Separate load-bearing assumptions from contextual factors and uncertainties, and bind any
+      supporting or contradicting evidence references.
+    required: false
+    artifact_fields: [assumption_classes, evidence_links]
+  - id: challenge
+    title: Challenge each assumption
+    instruction: >-
+      Ask why each assumption must be true, where it might fail, whether it has become stale, and
+      what credible counterevidence exists.
+    required: true
+    artifact_fields: [challenges, counterevidence]
+  - id: bound-impact
+    title: Bound the impact
+    instruction: >-
+      Explain how the judgment changes if each load-bearing assumption is false, weak, or
+      indeterminate without forcing a binary conclusion.
+    required: true
+    artifact_fields: [failure_impacts, revised_judgment]
+  - id: define-signposts
+    title: Define change conditions
+    instruction: >-
+      Identify observable evidence or events that would strengthen, weaken, or invalidate each
+      load-bearing assumption.
+    required: false
+    artifact_fields: [change_conditions]
+  - id: seek-review
+    title: Seek omitted assumptions
+    instruction: >-
+      Use a separate reviewer or explicitly correlated challenge pass to look for premises the
+      original pass omitted or protected.
+    required: false
+    artifact_fields: [review_findings]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 0
+  allow_unreferenced_assumptions: true
+complements: [evidence-quality, devils-advocacy, indicators-signposts]
+conflicts: []
+failure_modes:
+  - The judgment is vague enough that its supporting premises cannot be tested.
+  - Contextual facts are relabelled as assumptions without preserving their evidence.
+  - A challenged assumption is declared false without contrary evidence.
+  - The exercise confirms the original judgment but records no failure conditions.

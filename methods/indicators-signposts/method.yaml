@@ -1,0 +1,125 @@
+schema_version: "0.1.0"
+id: indicators-signposts
+version: "0.1.0"
+title: Indicators and Signposts
+summary: >-
+  Defines observable, discriminating signs for competing hypotheses or scenarios and establishes
+  a repeatable checkpoint for detecting meaningful change over time.
+status: preview
+provenance:
+  class: established-primary-method
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Indicators or Signposts of Change purpose, applicability, public procedure, and monitoring
+      notes: Public 2009 primer; the project adds explicit observability and review ownership.
+    - id: cia-ask-molly-sats-2024
+      title: "Ask Molly: SATs Advice"
+      publisher: Central Intelligence Agency
+      url: https://www.cia.gov/stories/story/ask-molly-sats-advice/
+      accessed: "2026-08-19"
+      supports:
+        - Current public explanation of observable events and periodic review
+      notes: Public outreach summary, not a certification or complete training source.
+  adaptation: >-
+    Preserves the public scenario-to-observable-signs workflow while requiring indicators to be
+    attributable, time-bounded, discriminating where possible, and paired with collection and
+    review conditions.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - Indicator counts alone do not establish which scenario is true or assign probability.
+    - Monitoring quality depends on indicator observability and the collection process.
+    - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+activities: [analyse, investigate, decide, forecast, architect, review]
+applicability:
+  use_when:
+    - A hypothesis, scenario, assumption, or risk should be revisited as new evidence arrives.
+    - Decision owners need advance warning and explicit change conditions.
+  avoid_when:
+    - The target state is not defined well enough to derive observable consequences.
+    - No one can collect or review the proposed indicators.
+  prerequisites:
+    - At least one bounded hypothesis, scenario, assumption, or risk state
+    - A monitoring horizon or decision checkpoint
+rigor:
+  rapid:
+    enabled: true
+    steps: [frame-states, derive, quality-check, checkpoint]
+    minimum_evidence_refs: 0
+    notes: Produces a short list of high-value indicators and one review trigger.
+  standard:
+    enabled: true
+    steps: [frame-states, derive, classify, quality-check, collection, checkpoint]
+    minimum_evidence_refs: 1
+    notes: Adds indicators for and against each state plus collection ownership.
+  intensive:
+    enabled: true
+    steps: [frame-states, derive, classify, quality-check, test-ambiguity, collection, checkpoint]
+    minimum_evidence_refs: 2
+    notes: Adds ambiguity, lag, deception, and cross-scenario diagnosticity checks.
+procedure:
+  - id: frame-states
+    title: Frame the target states
+    instruction: >-
+      State the hypotheses, scenarios, assumptions, or risk states to monitor and the time window
+      in which change would matter.
+    required: true
+    artifact_fields: [target_states, horizon]
+  - id: derive
+    title: Derive observable signs
+    instruction: >-
+      For each state, derive activities, statements, events, measurements, or absences that would
+      reasonably be expected if it were emerging or receding.
+    required: true
+    artifact_fields: [candidate_indicators]
+  - id: classify
+    title: Classify direction and timing
+    instruction: >-
+      Mark whether each indicator supports, weakens, or is neutral to each state, and record likely
+      lead time, persistence, and reversibility.
+    required: false
+    artifact_fields: [indicator_matrix]
+  - id: quality-check
+    title: Check indicator quality
+    instruction: >-
+      Test observability, specificity, diagnostic value, susceptibility to manipulation, and whether
+      multiple indicators share the same underlying source.
+    required: true
+    artifact_fields: [quality_checks, correlation_groups]
+  - id: test-ambiguity
+    title: Test ambiguity and deception
+    instruction: >-
+      Identify plausible alternative causes, collection blind spots, lagging signals, and ways an
+      actor or system could create a misleading indicator.
+    required: false
+    artifact_fields: [ambiguities, deception_risks]
+  - id: collection
+    title: Define collection
+    instruction: >-
+      Assign an evidence source, cadence, owner, and unavailable-data treatment for every retained
+      indicator without authorising new collection side effects.
+    required: false
+    artifact_fields: [collection_plan]
+  - id: checkpoint
+    title: Set review conditions
+    instruction: >-
+      Define when accumulated observations trigger reassessment, preserving conflicts and avoiding
+      an unsupported rule based only on the number of indicators observed.
+    required: true
+    artifact_fields: [change_conditions, checkpoint]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 0
+  allow_unreferenced_assumptions: true
+complements: [alternative-futures, competing-hypotheses, key-assumptions]
+conflicts: []
+failure_modes:
+  - Indicators are vague outcomes rather than observable events or measurements.
+  - Several indicators repeat one underlying source and are counted independently.
+  - Post-hoc edits make the indicator list fit the observed outcome.
+  - A simple indicator count is presented as probability or proof.
+  - No collection owner, cadence, or unavailable-data treatment is defined.

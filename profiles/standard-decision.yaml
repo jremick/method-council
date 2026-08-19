@@ -1,0 +1,15 @@
+schema_version: "0.1.0"
+id: standard-decision
+version: "0.1.0"
+title: Standard Decision Review
+activity: decide
+rigor: standard
+methods:
+  - evidence-quality
+  - systems-trade-study
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Checks the decision evidence, evaluates feasible alternatives, and stress-tests the resulting
+  recommendation. The accountable human decision remains separate from the method output.

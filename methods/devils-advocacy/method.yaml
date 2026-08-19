@@ -1,0 +1,125 @@
+schema_version: "0.1.0"
+id: devils-advocacy
+version: "0.1.0"
+title: Devil's Advocacy
+summary: >-
+  Stress-tests a dominant judgment or consensus by constructing the strongest evidence-aware case
+  for a materially different explanation and reporting what survives the challenge.
+status: preview
+provenance:
+  class: established-primary-method
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Devil's Advocacy purpose, applicability, limitations, and public procedure
+      notes: Public 2009 primer; the project preserves explicit labelling of the contrarian exercise.
+    - id: cia-ask-molly-sats-2024
+      title: "Ask Molly: SATs Advice"
+      publisher: Central Intelligence Agency
+      url: https://www.cia.gov/stories/story/ask-molly-sats-advice/
+      accessed: "2026-08-19"
+      supports:
+        - Current public explanation of challenging consensus with an alternative case
+      notes: Public outreach summary, not a certification or complete training source.
+  adaptation: >-
+    Preserves the explicit prevailing-view and alternative-case structure while requiring a
+    steelmanned challenge, evidence and counterevidence bindings, correlation labels, and a
+    post-challenge disposition that does not confuse advocacy with the final judgment.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - A strong contrary case is a stress test, not proof that the alternative is correct.
+    - Same-context model passes may broaden method coverage but are not independent corroboration.
+    - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+activities: [analyse, investigate, decide, forecast, architect, review]
+applicability:
+  use_when:
+    - A strongly held view, consensus, or load-bearing assumption deserves deliberate challenge.
+    - Failure to notice contrary evidence would materially affect the decision.
+  avoid_when:
+    - Several comparably supported explanations require a symmetric comparison instead.
+    - The prevailing judgment and its supporting evidence have not been stated.
+  prerequisites:
+    - A clearly stated prevailing judgment or recommendation
+    - Access to its key assumptions and evidence references
+rigor:
+  rapid:
+    enabled: true
+    steps: [baseline, select-target, build-case, disposition]
+    minimum_evidence_refs: 0
+    notes: Challenges one load-bearing assumption or conclusion.
+  standard:
+    enabled: true
+    steps: [baseline, select-target, audit-evidence, build-case, test-mainline, disposition]
+    minimum_evidence_refs: 2
+    notes: Requires a separate labelled challenge artifact and evidence ledger.
+  intensive:
+    enabled: true
+    steps: [baseline, select-target, audit-evidence, build-case, test-mainline, seek-rebuttal, disposition]
+    minimum_evidence_refs: 3
+    notes: Adds a rebuttal pass and preserves unresolved dissent.
+procedure:
+  - id: baseline
+    title: Record the prevailing view
+    instruction: >-
+      State the dominant judgment, its scope, key assumptions, strongest supporting evidence, and
+      confidence basis before constructing a challenge.
+    required: true
+    artifact_fields: [mainline_judgment, mainline_evidence, mainline_assumptions]
+  - id: select-target
+    title: Select the challenge target
+    instruction: >-
+      Choose a load-bearing assumption, inference, or conclusion susceptible to material challenge
+      and explain why failure would matter.
+    required: true
+    artifact_fields: [challenge_target]
+  - id: audit-evidence
+    title: Audit the mainline evidence
+    instruction: >-
+      Examine critical evidence for gaps, questionable validity, contrary observations,
+      correlation, or possible manipulation without inventing unavailable facts.
+    required: false
+    artifact_fields: [evidence_weaknesses, counterevidence]
+  - id: build-case
+    title: Build the strongest contrary case
+    instruction: >-
+      Construct a coherent alternative explanation using the best available evidence, explicit
+      assumptions, and a causal account rather than a superficial opposite claim.
+    required: true
+    artifact_fields: [alternative_case, alternative_assumptions]
+  - id: test-mainline
+    title: Test what survives
+    instruction: >-
+      Compare the alternative case with the prevailing view and identify logic, evidence, or
+      assumptions that fail, weaken, remain sound, or remain unknown.
+    required: false
+    artifact_fields: [surviving_mainline, material_challenges]
+  - id: seek-rebuttal
+    title: Seek a rebuttal
+    instruction: >-
+      Give the prevailing case a bounded opportunity to answer the strongest contrary arguments,
+      labelling shared model or context as correlated.
+    required: false
+    artifact_fields: [rebuttal, unresolved_dissent]
+  - id: disposition
+    title: Record the disposition
+    instruction: >-
+      State whether the original judgment is retained, caveated, revised, or left incomplete and
+      define evidence or events that would change that disposition.
+    required: true
+    artifact_fields: [disposition, change_conditions]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 0
+  allow_unreferenced_assumptions: true
+complements: [key-assumptions, evidence-quality, systems-trade-study]
+conflicts: []
+failure_modes:
+  - The alternative is a straw man rather than the strongest credible contrary case.
+  - The advocate selectively ignores evidence that weakens the alternative.
+  - A repeated model pass is described as independent corroboration.
+  - The challenge artifact is mistaken for the project's final judgment.
+  - The exercise produces rhetorical opposition but no change conditions.

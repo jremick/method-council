@@ -1,0 +1,139 @@
+schema_version: "0.1.0"
+id: competing-hypotheses
+version: "0.1.0"
+title: Competing Hypotheses Analysis
+summary: >-
+  Compares plausible explanations against the same evidence set, emphasising inconsistency and
+  diagnostic evidence to reduce premature closure on a preferred explanation.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Analysis of Competing Hypotheses purpose, applicability, matrix, and public procedure
+        - Emphasis on disconfirmation, diagnostic evidence, sensitivity, and monitoring
+      notes: The project avoids claiming formal ACH fidelity until independently reviewed.
+  adaptation: >-
+    Adapts the public ACH workflow into a typed matrix that preserves evidence identifiers,
+    counterevidence, missing expected evidence, dependencies, and sensitivity without treating
+    matrix counts as probabilities.
+  claim_limits:
+    - This preview is ACH-inspired and is not yet claimed as a validated ACH implementation.
+    - Consistency or inconsistency labels do not calculate posterior probability.
+    - Completeness of the hypothesis set and evidence corpus still requires human review.
+    - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+activities: [analyse, investigate, forecast, review]
+applicability:
+  use_when:
+    - Several plausible explanations compete for a shared body of evidence.
+    - Premature closure, deception, or ambiguous evidence is a material concern.
+  avoid_when:
+    - The alternatives are choices to evaluate rather than explanations of observed evidence.
+    - The available evidence cannot be bound to stable references.
+  prerequisites:
+    - At least two distinct, falsifiable hypotheses
+    - A bounded evidence manifest
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A shortened matrix is too likely to omit hypotheses or discriminating evidence.
+  standard:
+    enabled: true
+    steps: [frame, enumerate-hypotheses, inventory-evidence, matrix, discriminate, test-missing, report]
+    minimum_evidence_refs: 3
+    notes: Requires a complete visible matrix and narrative limitations.
+  intensive:
+    enabled: true
+    steps: [frame, enumerate-hypotheses, inventory-evidence, matrix, refine, discriminate, test-sensitivity, test-missing, indicators, report]
+    minimum_evidence_refs: 5
+    notes: Adds hypothesis refinement, sensitivity, denial/deception consideration, and monitoring indicators.
+procedure:
+  - id: frame
+    title: Frame the question
+    instruction: >-
+      State the observed condition to explain, the relevant time boundary, and what would count as
+      a materially different explanation.
+    required: true
+    artifact_fields: [question, scope]
+  - id: enumerate-hypotheses
+    title: Enumerate hypotheses
+    instruction: >-
+      Generate mutually distinguishable, plausible hypotheses and keep an explicit residual or
+      unknown explanation when the set may be incomplete.
+    required: true
+    artifact_fields: [hypotheses]
+  - id: inventory-evidence
+    title: Inventory shared evidence
+    instruction: >-
+      List significant evidence and arguments once, binding each item to its manifest identifier
+      and noting source dependencies.
+    required: true
+    artifact_fields: [evidence, dependencies]
+  - id: matrix
+    title: Build the matrix
+    instruction: >-
+      Assess every evidence item against every hypothesis as consistent, inconsistent, neutral,
+      or unknown, with a short rationale for the label.
+    required: true
+    artifact_fields: [matrix]
+  - id: refine
+    title: Refine the set
+    instruction: >-
+      Revisit hypotheses and evidence after the first matrix pass, adding or splitting hypotheses
+      only when the distinction is material and documented.
+    required: false
+    artifact_fields: [revisions]
+  - id: discriminate
+    title: Identify diagnostic evidence
+    instruction: >-
+      Highlight evidence that differs across hypotheses and avoid counting widely consistent
+      evidence as strongly discriminating.
+    required: true
+    artifact_fields: [diagnostic_evidence, weak_hypotheses]
+  - id: test-sensitivity
+    title: Test sensitivity
+    instruction: >-
+      Reassess the comparison if critical evidence is wrong, correlated, misleading, or removed,
+      preserving any resulting rank instability.
+    required: false
+    artifact_fields: [sensitivity_cases]
+  - id: test-missing
+    title: Test missing expected evidence
+    instruction: >-
+      Record evidence expected under each hypothesis but not observed, and distinguish unavailable
+      evidence from meaningfully absent evidence.
+    required: true
+    artifact_fields: [missing_expected_evidence]
+  - id: indicators
+    title: Define discriminating indicators
+    instruction: >-
+      Identify future observations that would be consistent or inconsistent with each surviving
+      hypothesis.
+    required: false
+    artifact_fields: [change_conditions]
+  - id: report
+    title: Report all live hypotheses
+    instruction: >-
+      Explain the best-supported and weaker live hypotheses, counterevidence, uncertainties, and
+      conditions that would change the assessment without converting tallies into probabilities.
+    required: true
+    artifact_fields: [assessment, alternatives, limitations]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 3
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, indicators-signposts, devils-advocacy]
+conflicts: []
+failure_modes:
+  - The hypothesis set omits a plausible residual explanation.
+  - Consistency counts are presented as probabilities or objective rankings.
+  - Correlated evidence is counted repeatedly as independent support.
+  - Unavailable evidence is treated as meaningful absence without justification.
+  - The matrix is populated after selecting a preferred conclusion.

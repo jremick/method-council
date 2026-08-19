@@ -1,0 +1,17 @@
+schema_version: "0.1.0"
+id: intensive-forecast
+version: "0.1.0"
+title: Intensive Forecast Exploration
+activity: forecast
+rigor: intensive
+methods:
+  - evidence-quality
+  - key-assumptions
+  - alternative-futures
+  - indicators-signposts
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Explores uncertainty through assumptions, multiple plausible futures, observable indicators,
+  and a dedicated challenge. It is not a calibrated probabilistic forecasting system.

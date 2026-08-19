@@ -1,0 +1,15 @@
+schema_version: "0.1.0"
+id: standard-investigation
+version: "0.1.0"
+title: Standard Investigation
+activity: investigate
+rigor: standard
+methods:
+  - evidence-quality
+  - competing-hypotheses
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Audits the evidence base, compares alternative explanations, and separately challenges the
+  leading account. Same-host or same-model passes must remain labelled correlated.

@@ -1,0 +1,118 @@
+schema_version: "0.1.0"
+id: evidence-quality
+version: "0.1.0"
+title: Evidence Quality Review
+summary: >-
+  Reviews the completeness, credibility, independence, currency, and limitations of the
+  evidence base before substantive judgments are synthesised.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Quality of Information Check purpose and public procedure
+        - Reviewing source accuracy, corroboration, ambiguity, and information gaps
+      notes: Public 2009 primer; Method Council does not reproduce its wording or examples.
+    - id: odni-icd-203-2025
+      title: "Intelligence Community Directive 203: Analytic Standards"
+      publisher: Office of the Director of National Intelligence
+      url: https://www.odni.gov/files/documents/ICD/ICD-203.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Describing the quality and credibility of sources, data, and methodologies
+        - Expressing uncertainty and distinguishing information, assumptions, and judgments
+      notes: Used as a public quality anchor, not as a claim of IC compliance.
+  adaptation: >-
+    Adapts the public Quality of Information Check into a domain-neutral evidence ledger for
+    model-mediated analysis, adding explicit correlation, access, and machine-retrieval limits.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - It does not verify a source merely because a citation, URL, or document is present.
+    - It does not confer compliance with ICD 203 or endorsement by CIA, ODNI, or the US Government.
+activities: [analyse, investigate, decide, forecast, review]
+applicability:
+  use_when:
+    - Important judgments depend on documents, observations, datasets, or testimony.
+    - Source quality, independence, or coverage may materially change confidence.
+  avoid_when:
+    - No evidence corpus or source metadata is available to inspect.
+    - The task is purely generative and makes no factual or evidentiary claim.
+  prerequisites:
+    - A bounded evidence manifest with stable reference identifiers
+    - Available source metadata and access limitations
+rigor:
+  rapid:
+    enabled: true
+    steps: [inventory, assess-critical, expose-gaps]
+    minimum_evidence_refs: 1
+    notes: Reviews only the evidence most critical to the proposed judgment.
+  standard:
+    enabled: true
+    steps: [inventory, assess-critical, test-independence, expose-gaps, calibrate]
+    minimum_evidence_refs: 2
+    notes: Reviews all cited evidence and distinguishes source count from source independence.
+  intensive:
+    enabled: true
+    steps: [inventory, assess-critical, test-independence, expose-gaps, calibrate, plan-refresh]
+    minimum_evidence_refs: 3
+    notes: Adds sensitivity to source failure and a refresh plan for time-sensitive evidence.
+procedure:
+  - id: inventory
+    title: Inventory the evidence
+    instruction: >-
+      Enumerate the evidence references, source types, dates, access paths, and known handling
+      limitations without inferring unavailable metadata.
+    required: true
+    artifact_fields: [evidence_inventory, access_limits]
+  - id: assess-critical
+    title: Assess critical evidence
+    instruction: >-
+      Identify evidence load-bearing to each judgment and assess its relevance, credibility,
+      currency, completeness, and susceptibility to error or deception.
+    required: true
+    artifact_fields: [critical_evidence, quality_observations]
+  - id: test-independence
+    title: Test source independence
+    instruction: >-
+      Trace shared origin, syndication, common datasets, or circular citation so correlated
+      reports are not counted as independent corroboration.
+    required: false
+    artifact_fields: [correlation_groups]
+  - id: expose-gaps
+    title: Expose gaps and ambiguity
+    instruction: >-
+      Record missing, inaccessible, contradictory, recalled, or ambiguous information and the
+      judgments each limitation could affect.
+    required: true
+    artifact_fields: [gaps, contradictions, affected_judgments]
+  - id: calibrate
+    title: Calibrate confidence contribution
+    instruction: >-
+      State how the evidence base supports or limits confidence without converting qualitative
+      observations into an unsupported numerical probability.
+    required: false
+    artifact_fields: [confidence_basis]
+  - id: plan-refresh
+    title: Plan evidence refresh
+    instruction: >-
+      Define observable conditions, newly obtainable evidence, or age thresholds that should
+      trigger a new review.
+    required: false
+    artifact_fields: [refresh_triggers]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+  required_source_classes: [primary, authoritative]
+complements: [key-assumptions, competing-hypotheses, systems-trade-study]
+conflicts: []
+failure_modes:
+  - Source quantity is mistaken for independent corroboration.
+  - Missing metadata is silently filled with plausible but unverified detail.
+  - Authority or popularity is substituted for claim-specific source fidelity.
+  - A source-quality label is treated as proof that every claim in the source is true.

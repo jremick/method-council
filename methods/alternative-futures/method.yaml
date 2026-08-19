@@ -1,0 +1,124 @@
+schema_version: "0.1.0"
+id: alternative-futures
+version: "0.1.0"
+title: Alternative Futures Analysis
+summary: >-
+  Explores several plausible ways a complex, uncertain situation could develop and tests how
+  decisions or strategies perform across those futures without predicting a single outcome.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Alternative Futures Analysis purpose, applicability, axes approach, scenarios, and indicators
+      notes: Public 2009 primer; narratives and examples are not reproduced.
+  adaptation: >-
+    Adapts the public two-axis alternative-futures procedure for domain-neutral use, retaining the
+    distinction between plausible scenarios and forecasts while requiring assumptions, wild cards,
+    strategy implications, and indicators to be explicit.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - The scenarios are structured possibilities, not exhaustive futures or probability forecasts.
+    - A two-axis matrix may omit important interactions and should not be forced onto unsuitable problems.
+    - Use does not imply CIA endorsement, training, certification, or intelligence-grade analysis.
+activities: [analyse, decide, forecast, architect, review]
+applicability:
+  use_when:
+    - Complexity and uncertainty make a single-outcome forecast unreliable.
+    - A decision should be tested for robustness across materially different conditions.
+  avoid_when:
+    - The focal issue and time horizon cannot be bounded.
+    - One dominant uncertainty can be measured directly with a simpler sensitivity analysis.
+  prerequisites:
+    - A focal issue, decision horizon, and relevant stakeholders
+    - Evidence-informed forces or uncertainties
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A compressed scenario pass risks shallow stories and arbitrary axes.
+  standard:
+    enabled: true
+    steps: [frame, identify-forces, select-axes, construct, implications, indicators]
+    minimum_evidence_refs: 2
+    notes: Produces a bounded scenario matrix and decision implications.
+  intensive:
+    enabled: true
+    steps: [frame, identify-forces, test-axes, select-axes, construct, challenge, implications, indicators]
+    minimum_evidence_refs: 4
+    notes: Adds axis challenge, wild cards, cross-scenario robustness, and monitoring.
+procedure:
+  - id: frame
+    title: Frame the focal issue
+    instruction: >-
+      Define the decision-relevant focal issue, system boundary, stakeholders, and time horizon in
+      terms that can support materially different futures.
+    required: true
+    artifact_fields: [focal_issue, boundary, horizon]
+  - id: identify-forces
+    title: Identify forces and uncertainties
+    instruction: >-
+      Derive relevant forces, actors, trends, constraints, and uncertainties from the evidence,
+      labelling speculative additions as assumptions.
+    required: true
+    artifact_fields: [forces, uncertainties]
+  - id: test-axes
+    title: Test candidate axes
+    instruction: >-
+      Check candidate uncertainties for decision importance, genuine uncertainty, independence,
+      and distinct endpoints before choosing an organising structure.
+    required: false
+    artifact_fields: [axis_tests]
+  - id: select-axes
+    title: Select organising uncertainties
+    instruction: >-
+      Select two critical uncertainties with meaningful endpoints, or state why another scenario
+      structure is more suitable and preserve that adaptation.
+    required: true
+    artifact_fields: [axes, endpoints]
+  - id: construct
+    title: Construct plausible futures
+    instruction: >-
+      Describe internally coherent futures for the resulting combinations, including causal path,
+      assumptions, actors, and relevant wild cards without assigning unsupported probabilities.
+    required: true
+    artifact_fields: [scenarios]
+  - id: challenge
+    title: Challenge scenario coverage
+    instruction: >-
+      Look for collapsed distinctions, implausible combinations, omitted interactions, and a
+      scenario that is merely the preferred future in disguise.
+    required: false
+    artifact_fields: [coverage_challenges, revisions]
+  - id: implications
+    title: Test decision implications
+    instruction: >-
+      Evaluate how the current strategy or candidate options fare in each future and distinguish
+      robust actions from contingent actions.
+    required: true
+    artifact_fields: [cross-scenario_implications]
+  - id: indicators
+    title: Define scenario indicators
+    instruction: >-
+      Identify observable, discriminating signs that would suggest each future is becoming more or
+      less plausible and assign a review checkpoint.
+    required: true
+    artifact_fields: [change_conditions, checkpoint]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: true
+complements: [key-assumptions, indicators-signposts, systems-trade-study]
+conflicts: []
+failure_modes:
+  - Candidate axes are correlated, unimportant, or not genuinely uncertain.
+  - Scenario narratives are presented as predictions or exhaustive futures.
+  - The preferred strategy is embedded in the scenario construction.
+  - Wild cards and interactions are added without being labelled as assumptions.
+  - No observable indicators or decision implications follow from the scenarios.

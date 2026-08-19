@@ -1,0 +1,15 @@
+schema_version: "0.1.0"
+id: standard-review
+version: "0.1.0"
+title: Standard Judgment Review
+activity: review
+rigor: standard
+methods:
+  - evidence-quality
+  - key-assumptions
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Reviews evidence, exposes load-bearing assumptions, and constructs a labelled contrary case.
+  It does not independently validate the underlying domain analysis.

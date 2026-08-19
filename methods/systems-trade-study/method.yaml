@@ -1,0 +1,139 @@
+schema_version: "0.1.0"
+id: systems-trade-study
+version: "0.1.0"
+title: Systems Trade Study
+summary: >-
+  Compares feasible system alternatives against decision-relevant criteria, constraints,
+  uncertainty, and sensitivity while preserving the rationale and decision authority.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: nasa-se-decision-analysis-2023
+      title: "NASA Systems Engineering Handbook, Section 6.8: Decision Analysis"
+      publisher: National Aeronautics and Space Administration
+      url: https://www.nasa.gov/reference/6-8-decision-analysis/
+      accessed: "2026-08-19"
+      supports:
+        - Decision framing, criteria, alternatives, evaluation, uncertainty, recommendation, and report content
+      notes: Official NASA public guidance; Method Council is not a NASA implementation.
+    - id: nasa-se-handbook-rev2-2017
+      title: "NASA Systems Engineering Handbook, NASA/SP-2016-6105 Rev 2"
+      publisher: National Aeronautics and Space Administration
+      url: https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20170001761.pdf
+      accessed: "2026-08-19"
+      supports:
+        - Public systems-engineering context for decision analysis and trade studies
+      notes: Public use permitted by the NASA Technical Reports Server record.
+  adaptation: >-
+    Adapts NASA's public decision-analysis guidance into a provider-neutral comparison artifact,
+    keeping criteria, measures, units, uncertainty, sensitivity, recommendation, and final decision
+    distinct rather than prescribing one scoring algorithm.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity assessment.
+    - It does not prescribe NASA process or satisfy programme-specific engineering requirements.
+    - Weighted scoring is optional and cannot make subjective criteria objectively true.
+    - The recommendation does not replace the accountable decision authority.
+activities: [decide, architect, review]
+applicability:
+  use_when:
+    - Two or more feasible system alternatives must be compared transparently.
+    - Requirements, constraints, trade-offs, and uncertainty affect a design decision.
+  avoid_when:
+    - A mandatory requirement already eliminates every option but one.
+    - Alternatives are not sufficiently defined to measure against shared criteria.
+  prerequisites:
+    - A decision owner and bounded decision statement
+    - Feasible alternatives, constraints, and evidence-backed evaluation inputs
+rigor:
+  rapid:
+    enabled: true
+    steps: [frame, alternatives, criteria, evaluate, recommend]
+    minimum_evidence_refs: 1
+    notes: Uses qualitative comparison and makes unresolved uncertainty explicit.
+  standard:
+    enabled: true
+    steps: [frame, alternatives, criteria, define-measures, evaluate, sensitivity, recommend, record-decision]
+    minimum_evidence_refs: 2
+    notes: Requires measurement definitions, uncertainty, and a decision record.
+  intensive:
+    enabled: true
+    steps: [frame, alternatives, criteria, define-measures, evaluate, sensitivity, challenge, recommend, record-decision]
+    minimum_evidence_refs: 3
+    notes: Adds independent challenge of criteria, assumptions, scoring, and option coverage.
+procedure:
+  - id: frame
+    title: Frame the decision
+    instruction: >-
+      State the decision, owner, intended outcome, system boundary, non-negotiable constraints,
+      time horizon, and what is explicitly out of scope.
+    required: true
+    artifact_fields: [decision, owner, constraints, boundary]
+  - id: alternatives
+    title: Define alternatives
+    instruction: >-
+      Describe feasible alternatives at comparable resolution, including the status quo where it is
+      genuinely feasible, and reject options only with a recorded constraint.
+    required: true
+    artifact_fields: [alternatives, exclusions]
+  - id: criteria
+    title: Establish criteria
+    instruction: >-
+      Derive decision criteria from intended outcomes, requirements, risks, and stakeholder needs
+      before evaluating results.
+    required: true
+    artifact_fields: [criteria, criterion_rationale]
+  - id: define-measures
+    title: Define measures and rules
+    instruction: >-
+      Specify units, direction, data source, uncertainty treatment, thresholds, and any weighting or
+      aggregation rule for each criterion.
+    required: false
+    artifact_fields: [measures, selection_rule]
+  - id: evaluate
+    title: Evaluate consistently
+    instruction: >-
+      Apply the same evidence-backed measures to every alternative, preserving unknown values,
+      incomparable units, assumptions, and constraint violations.
+    required: true
+    artifact_fields: [evaluation_matrix, assumptions, unknowns]
+  - id: sensitivity
+    title: Test sensitivity
+    instruction: >-
+      Vary influential assumptions, uncertain inputs, weights, and thresholds to identify rank
+      reversals and robust conclusions.
+    required: false
+    artifact_fields: [sensitivity_results]
+  - id: challenge
+    title: Challenge the comparison
+    instruction: >-
+      Review for omitted alternatives, double-counted criteria, criteria selected after scoring,
+      hidden veto constraints, and false precision.
+    required: false
+    artifact_fields: [challenge_findings]
+  - id: recommend
+    title: Form the recommendation
+    instruction: >-
+      Recommend an alternative only to the degree supported by the evaluation, stating trade-offs,
+      uncertainty, dissent, and conditions that would change the recommendation.
+    required: true
+    artifact_fields: [recommendation, rationale, change_conditions]
+  - id: record-decision
+    title: Record the accountable decision
+    instruction: >-
+      Preserve the decision authority's final choice and rationale separately from the method's
+      recommendation, including any accepted risk.
+    required: false
+    artifact_fields: [final_decision, decision_rationale]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, key-assumptions, failure-modes, devils-advocacy]
+conflicts: []
+failure_modes:
+  - Criteria or weights are changed after seeing results without recording the change.
+  - Incomparable measures are aggregated into a falsely precise score.
+  - A mandatory constraint is hidden inside a weighted criterion.
+  - The option set excludes a feasible alternative without rationale.
+  - The method recommendation is presented as the accountable final decision.

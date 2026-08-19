@@ -1,0 +1,16 @@
+schema_version: "0.1.0"
+id: standard-architecture
+version: "0.1.0"
+title: Standard Architecture Decision
+activity: architect
+rigor: standard
+methods:
+  - key-assumptions
+  - systems-trade-study
+  - failure-modes
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Makes design assumptions explicit, compares alternatives, performs a preliminary failure review,
+  and challenges the recommendation. The failure review does not demonstrate system safety.

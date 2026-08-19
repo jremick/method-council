@@ -1,0 +1,15 @@
+schema_version: "0.1.0"
+id: rapid-analysis
+version: "0.1.0"
+title: Rapid Analysis Check
+activity: analyse
+rigor: rapid
+methods:
+  - evidence-quality
+  - key-assumptions
+challenge_required: true
+status: preview
+notes: >-
+  Reviews the most critical evidence and challenges up to five load-bearing assumptions. This
+  profile is a triage aid, not a substitute for standard or intensive analysis when consequences
+  are material.
