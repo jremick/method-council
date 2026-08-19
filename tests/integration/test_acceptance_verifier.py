@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from method_council.acceptance import (
+    TASKS,
     build_acceptance_prompt,
     expected_model_artifacts,
     extract_git_snapshot,
@@ -38,6 +39,10 @@ def test_forecast_task_closes_initial_method_coverage() -> None:
         "method-results/indicators-signposts.json",
         "method-results/devils-advocacy.json",
     ]
+    host_schema = json.loads(
+        (ROOT / "schemas" / "host-execution.schema.json").read_text(encoding="utf-8")
+    )
+    assert set(host_schema["properties"]["task"]["enum"]) == set(TASKS)
 
 
 def _write(path: Path, payload: dict) -> None:
