@@ -1,0 +1,15 @@
+{
+  "canonical_input_digest": "sha256:a0c7dda3b6e0593e23da7130cd6610b57ade5bf80ab63efbd2bf1575c4f6f8dc",
+  "generated_files": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "references/orchestration.md",
+    "references/routing.md"
+  ],
+  "generator_id": "method-council-codex-skill-sync",
+  "generator_version": "0.1.0",
+  "kind": "codex-skill-projection",
+  "schema_version": "0.1.0",
+  "source": "skill/method-council",
+  "target": ".agents/skills/method-council"
+}

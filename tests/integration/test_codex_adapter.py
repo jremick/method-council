@@ -67,8 +67,10 @@ def test_adapter_declares_fail_closed_codex_defaults() -> None:
     assert manifest["command_contract"] == [
         "validate",
         "route",
+        "prepare",
         "check",
         "aggregate",
+        "verify-run",
         "verify-release",
     ]
 
@@ -90,6 +92,12 @@ def test_adapter_templates_and_canonical_inputs_resolve() -> None:
         "generator_id",
         "generator_version",
     }
+    assert manifest["skill_projection"] == {
+        "target": ".agents/skills/method-council",
+        "generator_id": "method-council-codex-skill-sync",
+        "generator_version": "0.1.0",
+        "metadata": ".agents/skills/method-council/.projection.json",
+    }
 
 
 def test_templates_keep_untrusted_data_in_explicit_boundaries() -> None:
@@ -104,3 +112,12 @@ def test_templates_keep_untrusted_data_in_explicit_boundaries() -> None:
     assert "{{output_path}}" in method_task
     assert "{{output_path}}" in challenge_task
     assert "{{output_path}}" in synthesis_task
+    for template in (method_task, challenge_task):
+        assert "{{adapter}}" in template
+        assert "{{provider_state}}" in template
+        assert "{{model_requested}}" in template
+        assert "{{model_observed}}" in template
+        assert "{{external_api_calls}}" in template
+        assert "{{correlation_group}}" in template
+        assert "CORRELATED" in template
+    assert "method-council verify-run" in synthesis_task

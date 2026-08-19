@@ -26,4 +26,6 @@ judgment, decision boundary, and next action. Retain the strongest alternative,
 assumptions, unknowns, dissent, checkpoint indicators, routing limitations, and
 all non-passing conditions. Bind judgments only to existing finding IDs. Do not
 change derived status, invent evidence, force consensus, or expose hidden
-chain-of-thought.
+chain-of-thought. The report is provisional until `method-council verify-run
+{{run_dir}}` validates exact method coverage, content digests, ledger parity,
+derived status, and correlation labelling.

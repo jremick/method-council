@@ -25,11 +25,23 @@ Apply only the supplied canonical challenge method to run `{{run_id}}` at
 {{checked_method_results}}
 </checked-method-results>
 
+Use this observable execution record in the result:
+
+- Adapter: `{{adapter}}`
+- Provider state: `{{provider_state}}`
+- Model requested: `{{model_requested}}`
+- Model observed: `{{model_observed}}`
+- External API calls: `{{external_api_calls}}`
+- Correlation group: `{{correlation_group}}`
+- Correlation side condition: `{{correlation_label}}`
+
 Identify unsupported assumptions, counterevidence, contradictions, the strongest
 alternative, and evidence that would discriminate between conclusions. Preserve
 dissent rather than forcing agreement. Do not launch tools or providers and do
 not request hidden chain-of-thought.
 
-Write one `method-result.schema.json` object to `{{output_path}}`. Use only bound
-evidence IDs. Missing required material must remain `INCOMPLETE` or `ERROR`; it
-cannot be simulated.
+Write one `method-result.schema.json` object to `{{output_path}}`. Its `execution`
+object must match the execution record above. If multiple results share the
+non-null correlation group, include `CORRELATED` in `side_conditions`. Use only
+bound evidence IDs. Missing required material must remain `INCOMPLETE` or
+`ERROR`; it cannot be simulated.
