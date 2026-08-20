@@ -87,6 +87,36 @@ If a method does not improve its matched baseline, narrow its applicability,
 revise its artifact contract, keep it preview-only, or remove it. Do not average
 a weak method into a suite-level pass.
 
+## Wave 4C — portfolio value and new-method admission
+
+Method-level results do not show whether a full profile is worth its extra
+steps. For each activity profile, compare four blinded conditions:
+
+1. a matched generic-analysis baseline;
+2. the best single applicable method;
+3. the current profile; and
+4. the current profile with one method removed.
+
+Measure decision-relevant gain, material omissions, critical errors, review
+time, execution time, and disagreement. The removal tests show whether a method
+adds useful coverage or mainly repeats another pass. Also test whether the
+router chooses a suitable method set for unseen questions; a useful method that
+is consistently selected for the wrong task still lowers portfolio value.
+
+Candidate methods follow a separate admission gate before joining the preview
+catalogue. Each candidate needs a public primary source, independent fidelity
+review, representative, edge, and adversarial cases, and a blinded comparison
+with both the generic baseline and the nearest existing method or profile. It
+must fail visibly when required evidence is unavailable. Familiarity, source
+prestige, or one strong example is not sufficient.
+
+The first recommended candidates are Causal Factors Analysis and an Outside
+View / Reference Class Check. An Outside-In Context Scan should follow if it
+can avoid generic checklist output. Test a pre-mortem first as a profile built
+from existing methods rather than assuming it needs a separate contract. See
+the [method catalogue review](../docs/METHOD_CATALOGUE.md) for the coverage
+reasoning.
+
 ## Independence and governance
 
 - At least one reviewer per method must be a practitioner independent of the
