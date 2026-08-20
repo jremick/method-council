@@ -20,16 +20,24 @@
 
 ## Quick start
 
-The easiest way to start in Codex is to point it at this repository and ask it
-to use the included [Method Council skill](skill/method-council/SKILL.md). With
-another AI, give it access to the
-[GitHub repository](https://github.com/jremick/method-council) and ask it to
-follow the method files. No local setup is needed for this path.
+The tested setup uses Codex with a ChatGPT subscription. Install
+[Git](https://git-scm.com/) and [uv](https://docs.astral.sh/uv/), then run:
+
+```bash
+git clone https://github.com/jremick/method-council.git
+cd method-council
+uv sync --frozen --all-groups
+uv run --frozen method-council validate
+```
+
+Open the cloned folder in Codex. The included
+[Method Council skill](skill/method-council/SKILL.md) will be available as
+`$method-council`.
 
 For example:
 
 ```text
-Read the Method Council repository and use it to review this decision:
+Use $method-council to review this decision:
 
 [your question]
 
@@ -49,9 +57,9 @@ You can also ask for a specific kind of help:
 - “Clarify what ‘safe enough’ means here and test the edge cases.”
 - “Show which values and affected people this design may be overlooking.”
 
-The repository already includes a Method Council skill for Codex. The method
-files are model-neutral, so another capable AI can read and follow them, but
-those paths have not yet received the same testing.
+The checkout keeps the skill, method catalogue, and validation tools together.
+A standalone packaged install is not available yet. The method files are
+model-neutral, but other AI providers have not received the same testing.
 
 ## What Method Council is
 

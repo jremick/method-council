@@ -31,6 +31,8 @@ prerelease labels.
 
 ### Changed
 
+- The README quick start now begins with the tested installation path and uses
+  list formatting for the method-family catalogue.
 - The method evaluation report now lists catalogue methods without specimens as
   unevaluated instead of borrowing confidence or rejecting the expanded
   catalogue.
