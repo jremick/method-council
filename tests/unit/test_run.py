@@ -8,8 +8,9 @@ import pytest
 from method_council.catalog import load_catalog
 from method_council.documents import MAX_DOCUMENT_BYTES
 from method_council.evidence import content_digest, file_digest
+from method_council.result_validation import expected_execution_for_method
 from method_council.run import prepare_run, verify_run
-from method_council.status import aggregate_status
+from method_council.status import aggregate_results
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -68,6 +69,12 @@ def _method_result(run: dict, method: dict, finding_id: str, status: str = "PASS
     }
     minimum_references = max(1, method["rigor"][run["rigor"]]["minimum_evidence_refs"])
     evidence_refs = [entry["id"] for entry in run["evidence"][:minimum_references]]
+    execution = dict(expected_execution_for_method(run, method["id"]))
+    group = execution["correlation_group"]
+    expected_groups = [
+        expected_execution_for_method(run, method_id)["correlation_group"]
+        for method_id in run["methods"]
+    ]
     return {
         "schema_version": "0.1.0",
         "run_id": run["run_id"],
@@ -75,7 +82,9 @@ def _method_result(run: dict, method: dict, finding_id: str, status: str = "PASS
         "method_version": "0.1.0",
         "rigor": run["rigor"],
         "status": status,
-        "side_conditions": ["CORRELATED"],
+        "side_conditions": ["CORRELATED"]
+        if group is not None and expected_groups.count(group) > 1
+        else [],
         "completed_steps": selected_steps,
         "findings": [
             {
@@ -94,7 +103,7 @@ def _method_result(run: dict, method: dict, finding_id: str, status: str = "PASS
         },
         "change_conditions": ["Different fixture bytes."],
         "errors": [],
-        "execution": run["host"],
+        "execution": execution,
         "method_artifact": {
             field: f"Synthetic contract value for {field}." for field in artifact_fields
         },
@@ -121,12 +130,13 @@ def _write_bundle(
         path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         paths.append(path)
         results.append(result)
-    primary = aggregate_status(statuses)
+    aggregate = aggregate_results(results)
+    primary = aggregate["status"]
     report = {
         "schema_version": "0.1.0",
         "run_id": run["run_id"],
         "status": primary,
-        "side_conditions": ["CORRELATED"],
+        "side_conditions": aggregate["side_conditions"],
         "judgment": "The bounded fixture supports a limited judgment.",
         "decision_boundary": "Test the run-verification contract only.",
         "next_action": "Retain the stated limitations.",
@@ -221,6 +231,135 @@ def test_prepare_persists_only_question_digest_and_requires_preview_opt_in(tmp_p
             external_api_calls=False,
             correlation_group=None,
         )
+
+
+def _multi_model_plan() -> dict:
+    return {
+        "mode": "multi-model",
+        "assignments": [
+            {
+                "methods": ["evidence-quality"],
+                "execution": {
+                    "adapter": "codex",
+                    "provider_state": "verified",
+                    "model_requested": "gpt-5.5",
+                    "model_observed": "gpt-5.5",
+                    "external_api_calls": False,
+                    "correlation_group": None,
+                },
+            },
+            {
+                "methods": ["key-assumptions"],
+                "execution": {
+                    "adapter": "claude",
+                    "provider_state": "verified",
+                    "model_requested": "claude-sonnet",
+                    "model_observed": None,
+                    "external_api_calls": True,
+                    "correlation_group": None,
+                },
+            },
+        ],
+    }
+
+
+def test_prepare_and_verify_multi_model_assignments(tmp_path: Path):
+    root = _root(tmp_path)
+    evidence = root / "case.md"
+    evidence.write_text("Bound multi-model evidence.\n", encoding="utf-8")
+    run_dir = root / "runs" / "run-multi-model"
+    prepared = prepare_run(
+        root=root,
+        run_dir=run_dir,
+        question="Check the bounded case with two model paths.",
+        catalog=load_catalog(root),
+        profile_id="rapid-analysis",
+        activity=None,
+        rigor=None,
+        method_ids=[],
+        allow_preview=True,
+        require_challenge=False,
+        evidence_specs=["case=case.md"],
+        evidence_kind="repository",
+        adapter="codex",
+        provider_state="verified",
+        model_requested="gpt-5.5",
+        model_observed="gpt-5.5",
+        external_api_calls=False,
+        correlation_group=None,
+        execution_plan=_multi_model_plan(),
+    )
+
+    assert prepared["valid"]
+    run = prepared["run"]
+    assert run["host"]["correlation_group"] is None
+    assert run["execution_plan"]["mode"] == "multi-model"
+    paths = _write_bundle(run_dir, run)
+    verdict = verify_run(run_dir, root=root)
+    assert verdict["valid"]
+    assert verdict["status"] == "PASS"
+    assert verdict["side_conditions"] == []
+
+    second = json.loads(paths[1].read_text(encoding="utf-8"))
+    second["execution"] = run["host"]
+    paths[1].write_text(json.dumps(second), encoding="utf-8")
+    _rewrite_report_ledger(run_dir, paths)
+    verdict = verify_run(run_dir, root=root)
+    assert not verdict["valid"]
+    assert any(issue["code"] == "run.execution-mismatch" for issue in verdict["issues"])
+
+
+@pytest.mark.parametrize(
+    ("mutation", "issue_code"),
+    [
+        ("missing", "run.execution-plan-missing"),
+        ("duplicate", "run.execution-plan-duplicate"),
+        ("extra", "run.execution-plan-extra"),
+        ("same-target", "run.execution-plan-targets"),
+        ("shared-without-group", "run.execution-plan-correlation-missing"),
+    ],
+)
+def test_prepare_rejects_invalid_multi_model_plan(tmp_path: Path, mutation: str, issue_code: str):
+    root = _root(tmp_path)
+    plan = _multi_model_plan()
+    if mutation == "missing":
+        plan["assignments"][1]["methods"] = ["evidence-quality"]
+    elif mutation == "duplicate":
+        plan["assignments"][0]["methods"] = ["evidence-quality", "key-assumptions"]
+        plan["assignments"][0]["execution"]["correlation_group"] = "codex-shared"
+    elif mutation == "extra":
+        plan["assignments"][1]["methods"].append("outside-in")
+        plan["assignments"][1]["execution"]["correlation_group"] = "claude-shared"
+    elif mutation == "same-target":
+        plan["assignments"][1]["execution"] = dict(plan["assignments"][0]["execution"])
+    else:
+        plan["assignments"][0]["methods"] = ["evidence-quality", "key-assumptions"]
+        plan["assignments"][1]["methods"] = ["outside-in"]
+
+    prepared = prepare_run(
+        root=root,
+        run_dir=root / "runs" / f"run-{mutation}-plan",
+        question="Validate the execution plan.",
+        catalog=load_catalog(root),
+        profile_id="rapid-analysis",
+        activity=None,
+        rigor=None,
+        method_ids=[],
+        allow_preview=True,
+        require_challenge=False,
+        evidence_specs=[],
+        evidence_kind="repository",
+        adapter="codex",
+        provider_state="verified",
+        model_requested="gpt-5.5",
+        model_observed="gpt-5.5",
+        external_api_calls=False,
+        correlation_group=None,
+        execution_plan=plan,
+    )
+
+    assert not prepared["valid"]
+    assert issue_code in {issue["code"] for issue in prepared["issues"]}
 
 
 def test_prepare_rejects_outside_evidence_and_nonempty_target(tmp_path: Path):
@@ -396,6 +535,7 @@ def test_verify_run_binds_manifest_id_to_directory_name(tmp_path: Path):
         ("missing-artifact", "result.pass-artifact-field-missing"),
         ("empty-findings", "result.pass-findings-empty"),
         ("errors", "result.pass-errors-present"),
+        ("provider-state", "result.pass-provider-unverified"),
         ("skipped", "result.pass-skipped"),
     ],
 )
@@ -431,6 +571,14 @@ def test_verify_run_downgrades_unsupported_pass_semantics(
         report_path.write_text(json.dumps(report), encoding="utf-8")
     elif mutation == "errors":
         result["errors"] = [{"code": "host.failed", "message": "Synthetic failure."}]
+    elif mutation == "provider-state":
+        result["execution"]["provider_state"] = "preview"
+        run["host"]["provider_state"] = "preview"
+        _rewrite_run(run_dir, run)
+        for other_path in paths[1:]:
+            other_result = json.loads(other_path.read_text(encoding="utf-8"))
+            other_result["execution"]["provider_state"] = "preview"
+            other_path.write_text(json.dumps(other_result), encoding="utf-8")
     else:
         result["side_conditions"].append("SKIPPED")
         report_path = run_dir / "report.json"

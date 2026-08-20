@@ -57,6 +57,7 @@ def prepare_run(
     model_observed: str | None,
     external_api_calls: bool,
     correlation_group: str | None,
+    execution_plan: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Create a bounded run scaffold without persisting the raw question."""
 
@@ -103,7 +104,7 @@ def prepare_run(
         return {"valid": False, "route": route, "issues": route["issues"]}
 
     run_id = run_dir.name
-    if len(method_ids) > 1 and correlation_group is None:
+    if execution_plan is None and len(method_ids) > 1 and correlation_group is None:
         correlation_group = f"{adapter}-{run_id}"
 
     evidence: list[dict[str, Any]] = []
@@ -158,12 +159,23 @@ def prepare_run(
             "correlation_group": correlation_group,
         },
     }
+    if execution_plan is not None:
+        run["execution_plan"] = dict(execution_plan)
     schema_issues = SchemaRegistry(root / "schemas").validate(run, "run")
     if schema_issues:
         return {
             "valid": False,
             "route": route,
             "issues": [issue.as_dict() for issue in schema_issues],
+        }
+
+    execution_issues: list[Issue] = []
+    _validate_execution_plan(run, execution_issues)
+    if execution_issues:
+        return {
+            "valid": False,
+            "route": route,
+            "issues": [issue.as_dict() for issue in execution_issues],
         }
 
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -322,6 +334,80 @@ def _validate_manifest_route(run: Mapping[str, Any], catalog: Catalog, issues: l
         issues.append(Issue("run.route-invalid", issue["message"], issue["path"]))
 
 
+def _validate_execution_plan(run: Mapping[str, Any], issues: list[Issue]) -> None:
+    """Require exact method coverage and genuinely distinct execution targets."""
+
+    plan = run.get("execution_plan")
+    if not isinstance(plan, Mapping):
+        return
+    assignments = plan.get("assignments", [])
+    assigned_methods = [
+        str(method_id)
+        for assignment in assignments
+        if isinstance(assignment, Mapping)
+        for method_id in assignment.get("methods", [])
+    ]
+    selected = [str(method_id) for method_id in run.get("methods", [])]
+    counts = Counter(assigned_methods)
+    for method_id, count in sorted(counts.items()):
+        if count > 1:
+            issues.append(
+                Issue(
+                    "run.execution-plan-duplicate",
+                    f"method {method_id!r} has more than one execution assignment",
+                    "/execution_plan/assignments",
+                )
+            )
+    for method_id in sorted(set(selected) - set(assigned_methods)):
+        issues.append(
+            Issue(
+                "run.execution-plan-missing",
+                f"selected method {method_id!r} has no execution assignment",
+                "/execution_plan/assignments",
+            )
+        )
+    for method_id in sorted(set(assigned_methods) - set(selected)):
+        issues.append(
+            Issue(
+                "run.execution-plan-extra",
+                f"execution assignment includes unselected method {method_id!r}",
+                "/execution_plan/assignments",
+            )
+        )
+
+    targets: set[tuple[Any, Any, Any]] = set()
+    for index, assignment in enumerate(assignments):
+        if not isinstance(assignment, Mapping):
+            continue
+        execution = assignment.get("execution", {})
+        if not isinstance(execution, Mapping):
+            continue
+        targets.add(
+            (
+                execution.get("adapter"),
+                execution.get("model_requested"),
+                execution.get("model_observed"),
+            )
+        )
+        if len(assignment.get("methods", [])) > 1 and execution.get("correlation_group") is None:
+            issues.append(
+                Issue(
+                    "run.execution-plan-correlation-missing",
+                    "one execution assignment covering multiple methods requires a "
+                    "correlation group",
+                    f"/execution_plan/assignments/{index}/execution/correlation_group",
+                )
+            )
+    if len(targets) < 2:
+        issues.append(
+            Issue(
+                "run.execution-plan-targets",
+                "multi-model mode requires at least two distinct adapter/model targets",
+                "/execution_plan/assignments",
+            )
+        )
+
+
 def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
     """Recompute run completeness, digests, status, and report binding."""
 
@@ -383,6 +469,7 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
     for issue in catalog.issues:
         issues.append(Issue("run.catalog-invalid", issue.message, issue.path))
     _validate_manifest_route(run, catalog, issues)
+    _validate_execution_plan(run, issues)
 
     result_dir = run_dir / "method-results"
     if result_dir.is_symlink() or (result_dir.exists() and not result_dir.is_dir()):
@@ -408,7 +495,6 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
     claimed_ledger: list[dict[str, str]] = []
     finding_ids: list[str] = []
     observed_methods: list[str] = []
-    host = run.get("host", {})
     for path in result_paths:
         result, result_digest = _load_object(path, "run.result-invalid", issues)
         if result is None:
@@ -511,9 +597,10 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
                 )
             )
     if (
-        len(selected) > 1
-        and host.get("adapter") == "codex"
-        and host.get("correlation_group") is None
+        "execution_plan" not in run
+        and len(selected) > 1
+        and run.get("host", {}).get("adapter") == "codex"
+        and run.get("host", {}).get("correlation_group") is None
     ):
         issues.append(
             Issue(

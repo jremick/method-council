@@ -1,0 +1,16 @@
+schema_version: "0.1.0"
+id: standard-causal-investigation
+version: "0.1.0"
+title: Standard Causal Investigation
+activity: investigate
+rigor: standard
+methods:
+  - evidence-quality
+  - competing-hypotheses
+  - causal-factors
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Tests the evidence and alternative explanations before constructing a causal account, then
+  separately challenges the leading explanation and proposed corrective actions.

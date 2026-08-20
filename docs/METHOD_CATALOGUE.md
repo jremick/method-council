@@ -2,23 +2,21 @@
 
 ## Outcome
 
-The current eight methods are a good alpha set. Together they cover evidence,
+The catalogue now has eleven preview methods. The original eight cover evidence,
 assumptions, explanation, challenge, uncertainty, monitoring, choice, and
-failure. They are not a complete set for every kind of analysis.
-
-The next catalogue wave should test two new methods first:
+prospective failure. Three additions close the clearest gaps:
 
 1. **Causal Factors Analysis** for explaining why an observed problem happened.
 2. **Outside View / Reference Class Check** for comparing forecasts with what
-   happened in similar real cases.
+   happened in similar completed cases.
+3. **Outside-In Context Scan** for finding material external forces before the
+   question becomes too narrowly framed.
 
-An **Outside-In Context Scan** is also worth prototyping. A pre-mortem is better
-tested first as a short profile made from methods already in the catalogue.
-
-No candidate should enter the public catalogue only because it is well known.
-It should add a distinct result, have a reputable public source, work within a
-bounded AI task, state when it should not be used, and beat a matched no-method
-baseline in evaluation.
+The three additions have source-backed contracts and clear contraindications,
+but they are still unevaluated. They should remain preview-only until they beat
+a matched no-method baseline and receive independent fidelity and practitioner
+review. A pre-mortem is still better tested first as a profile made from methods
+already in the catalogue.
 
 ## Why the current methods were selected
 
@@ -32,15 +30,20 @@ baseline in evaluation.
 | **Indicators and Signposts** | Monitoring | It turns a judgment into observable signals and a reason to revisit the work instead of leaving the report static. |
 | **Systems Trade Study** | Choice | It makes criteria, constraints, uncertainty, and reversals visible when options must be compared. |
 | **Failure Modes Review** | Prospective risk | It works from system elements to possible failures, effects, controls, and follow-up checks before failure occurs. |
+| **Causal Factors Analysis** | Retrospective cause | It traces an observed outcome through timeline, causal links, contributing conditions, failed controls, and corrective actions. |
+| **Outside View / Reference Class Check** | Base-rate check | It compares a plan or estimate with actual outcomes in defensible comparable cases and refuses false precision when the data are weak. |
+| **Outside-In Context Scan** | Context framing | It looks for material external forces early, then tests their impact and evidence instead of returning a generic trend list. |
 
 The intelligence-analysis methods are adapted from the CIA's public
 [*Tradecraft Primer*](https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf)
 and use the public [ICD 203 analytic standards](https://www.odni.gov/files/documents/ICD/ICD-203.pdf)
-as a quality anchor. The decision and failure methods are adapted from public
-NASA guidance. These sources establish a serious basis for the procedures;
-they do not prove that Method Council's AI adaptations are faithful or useful.
+as a quality anchor. The decision, failure, and causal methods are adapted from
+public NASA guidance. The outside-view method uses public Homes England
+reference-class guidance. These sources establish a serious basis for the
+procedures; they do not prove that Method Council's AI adaptations are faithful
+or useful.
 
-## Coverage gaps
+## Why the three additions were selected
 
 ### 1. Explaining an event after it happened
 
@@ -49,13 +52,13 @@ Failure Modes looks forward at how a system could fail. Neither provides a
 full retrospective chain from event timeline, through contributing conditions
 and failed controls, to corrective action.
 
-**Recommendation:** prototype **Causal Factors Analysis**. It should allow
-multiple causes, distinguish direct causes from contributing conditions, link
-each causal claim to evidence, and stop when the data runs out. NASA's current
+**Added as preview:** **Causal Factors Analysis** allows multiple causes,
+distinguishes direct causes from contributing conditions, links each causal
+claim to evidence, and stops when the data runs out. NASA's current
 [software process-assessment guidance](https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695538/SWE-204%2B-%2BProcess%2BAssessments)
 describes timelines, causal maps, root and contributing factors, corrective
-actions, and follow-up checks. A general Method Council version would still be
-a preview adaptation, not a safety investigation or certification artifact.
+actions, and follow-up checks. The Method Council version is a general preview
+adaptation, not a safety investigation or certification artifact.
 
 ### 2. Using base rates instead of only an inside view
 
@@ -63,10 +66,10 @@ Alternative Futures explores plausible paths, but it does not compare a
 forecast with the observed outcomes of similar past cases. That leaves a gap
 for cost, schedule, adoption, delivery, and reliability estimates.
 
-**Recommendation:** prototype an **Outside View / Reference Class Check**. It
-should define a comparable class, show the actual outcome distribution, explain
-how similar the current case is, and remain `INCOMPLETE` when reliable
-comparators are unavailable. UK government
+**Added as preview:** the **Outside View / Reference Class Check** defines a
+comparable class, shows the actual outcome range, explains how similar the
+current case is, and remains `INCOMPLETE` when reliable comparators are
+unavailable. UK government
 [reference-class guidance](https://www.gov.uk/government/publications/optimism-bias-and-contingency-at-homes-england/optimism-bias-and-contingency-at-homes-england-accessible-version)
 uses completed comparable projects to counter optimism bias and explicitly
 depends on suitable historical data. The method should not invent a base rate
@@ -77,12 +80,22 @@ or turn a small, biased sample into false precision.
 The current set can begin with the question as framed and still miss external
 forces that sit outside the immediate evidence bundle.
 
-**Recommendation:** prototype an **Outside-In Context Scan** after the first two
-candidates. The CIA primer describes Outside-In Thinking as a way to identify
-external forces, factors, and trends early in a project. Its main risk in an AI
-workflow is producing a generic checklist. It should enter the catalogue only
-if evaluation shows that it finds material, evidenced factors that the baseline
-misses.
+**Added as preview:** the **Outside-In Context Scan** adapts the CIA primer's
+Outside-In Thinking to identify external forces, factors, and trends early. Its
+main risk in an AI workflow is producing a generic checklist. It should remain
+preview-only unless evaluation shows that it finds material, evidenced factors
+that the baseline misses.
+
+## Remaining gaps
+
+- calibrated probabilistic work where trustworthy priors and outcome feedback
+  exist;
+- human and organisational perspectives that cannot be simulated by merely
+  assigning another prompt to the same model;
+- specialised safety, security, legal, medical, and regulated methods whose
+  use requires domain authority; and
+- proof that the router chooses the right methods and that multi-method profiles
+  add enough value to justify their extra cost.
 
 ## Useful ideas that should not become new methods yet
 
@@ -105,18 +118,22 @@ misses.
   trustworthy priors, likelihoods, and calibration controls. Adding them before
   those inputs can be verified would invite false precision.
 
-## Admission test for a new method
+## Admission and retention test
 
-A candidate moves into the preview catalogue only after it has:
+A candidate enters the preview catalogue only after it has:
 
-1. a public primary source and an independent source-fidelity review;
+1. a reputable public source and a traceable adaptation record;
 2. a clear job that is not already covered by another method or profile;
 3. a bounded result contract, evidence rules, contraindications, and honest
-   `INCOMPLETE` behavior;
-4. representative, edge, and adversarial cases;
-5. blinded comparison with a no-method baseline and the nearest existing
-   method; and
-6. an independent practitioner review of usefulness and likely misuse.
+   `INCOMPLETE` behavior.
+
+It should not be promoted or kept indefinitely without:
+
+1. independent source-fidelity review;
+2. representative, edge, and adversarial cases;
+3. blinded comparison with a no-method baseline and the nearest existing
+   method or profile; and
+4. independent practitioner review of usefulness and likely misuse.
 
 The [confidence plan](../evals/CONFIDENCE_PLAN.md) describes the wider evaluation
 program. New-method admission should use the same frozen rubrics, retained

@@ -1,0 +1,16 @@
+schema_version: "0.1.0"
+id: standard-context-analysis
+version: "0.1.0"
+title: Standard Context Analysis
+activity: analyse
+rigor: standard
+methods:
+  - outside-in
+  - evidence-quality
+  - key-assumptions
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Broadens the frame to material external forces, checks the evidence and assumptions they affect,
+  and separately challenges the resulting judgment.

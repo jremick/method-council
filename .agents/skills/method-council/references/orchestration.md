@@ -6,10 +6,24 @@ subagent interface rather than hard-coded or guessed tool syntax.
 
 ## Coordinator boundary
 
-The coordinator owns scope, route validation, evidence IDs, task isolation,
-artifact checks, aggregation, synthesis, and the final checkpoint. A method pass
-owns only its assigned procedure and output artifact. It may not expand scope,
-launch providers, mutate shared files, or decide the aggregate status.
+The coordinator owns scope, route validation, evidence IDs, execution
+assignments, task isolation, artifact checks, aggregation, synthesis, and the
+final checkpoint. A method pass owns only its assigned procedure and output
+artifact. It may not expand scope, launch an unassigned provider, mutate shared
+files, or decide the aggregate status.
+
+## Execution paths
+
+The default is one GPT path through the Codex subscription. For an authorised
+multi-model run, use `run.execution_plan.assignments` as the source of truth.
+Every selected method appears exactly once. Each result must echo its assigned
+execution fields; the coordinator host is not a valid substitute.
+
+Different model paths can reveal different blind spots, but shared evidence,
+sources, task framing, or coordination can still correlate them. Keep initial
+passes mutually blind and preserve disagreement. If an assigned provider is not
+supported, authenticated, or observable, record the failure and stop that pass.
+Do not reroute it silently.
 
 ## Method task packet
 
@@ -26,7 +40,7 @@ Give each method pass:
    call state, and correlation group.
 7. The expected correlation side condition. Results that share a non-null
    correlation group must all include `CORRELATED`.
-8. A prohibition on side effects, external provider calls, invented evidence,
+8. A prohibition on side effects, unassigned provider calls, invented evidence,
    and hidden chain-of-thought.
 
 The adapter source template is `adapters/codex/templates/method-task.md` in a

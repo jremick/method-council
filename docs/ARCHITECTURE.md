@@ -27,7 +27,11 @@ flowchart LR
     S --> RP[Model route proposal]
     RP --> RV{Deterministic route validation}
     RV -->|invalid| E[Fail-closed report]
-    RV -->|valid| M[Separate method passes]
+    RV -->|valid| EP{Execution plan}
+    EP -->|default| G[One GPT host]
+    EP -->|optional and authorised| P[Different model targets]
+    G --> M[Separate method passes]
+    P --> M
     M --> C[Schema and evidence checks]
     C --> H[Challenge pass]
     H --> Y[Synthesis]
@@ -43,6 +47,8 @@ flowchart LR
 - Adapters cannot mark their own output verified.
 - Only the deterministic core derives the primary run status.
 - External provider and write capabilities are deny-by-default.
+- A multi-model plan records assignments but does not itself grant provider
+  access, prove authentication, or launch external calls.
 
 ## Failure behavior
 
@@ -50,6 +56,8 @@ flowchart LR
 - Missing/invalid method artifact: `ERROR` or `INCOMPLETE`; never simulate it.
 - Provider capability not proven: `unverified` or `unavailable`.
 - Same-model passes: retain `CORRELATED` side condition.
+- Assigned model/provider unavailable: retain `ERROR` or `INCOMPLETE`; do not
+  silently substitute the coordinator model.
 - Missing evidence: findings remain assumptions/unknowns and the report cannot
   pass an evidence-completeness gate.
 - Synthesis disagreement: retain both conclusions and the discriminating

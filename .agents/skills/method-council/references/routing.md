@@ -9,9 +9,9 @@ Choose the activity by the result the user needs, not by keywords alone.
 | Activity | Intended result | Useful method contributions |
 |---|---|---|
 | `analyse` | Explain what the evidence supports | frame the question, assess evidence, test assumptions and alternatives |
-| `investigate` | Identify the next discriminating inquiry | competing hypotheses, evidence gaps, diagnostic tests and collection priorities |
+| `investigate` | Identify the next discriminating inquiry | competing hypotheses, causal factors, evidence gaps, diagnostic tests and collection priorities |
 | `decide` | Choose among explicit alternatives | criteria, trade-offs, pre-mortem, risk and reversibility |
-| `forecast` | State plausible futures and observable indicators | alternative futures, signposts, base rates and change conditions |
+| `forecast` | State plausible futures and observable indicators | outside view, alternative futures, signposts and change conditions |
 | `architect` | Shape a system under constraints | requirements, trade studies, failure modes and verification boundaries |
 | `review` | Challenge an existing artifact or claim | standards-based checks, adversarial review, counterevidence and residual risk |
 
@@ -55,6 +55,10 @@ Correlation: same-host passes; CORRELATED
 External provider calls: none
 Raw prompt persistence: off
 ```
+
+For a multi-model route, replace the host and correlation lines with the exact
+per-method assignments. State that external calls are authorised and supported;
+do not imply availability from a preview adapter or installed executable.
 
 Do not claim the route is optimal or the methods are official unless the
 canonical source record supports that exact statement.

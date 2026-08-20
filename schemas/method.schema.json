@@ -50,7 +50,10 @@
           "monitoring",
           "challenge",
           "decision-analysis",
-          "failure-analysis"
+          "failure-analysis",
+          "causal-analysis",
+          "reference-class-analysis",
+          "context-analysis"
         ]
       }
     },

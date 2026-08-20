@@ -1,0 +1,111 @@
+schema_version: "0.1.0"
+id: causal-factors
+version: "0.1.0"
+title: Causal Factors Analysis
+summary: >-
+  Reconstructs what happened, distinguishes root and contributing factors from symptoms,
+  and links corrective actions to the conditions they are intended to prevent.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: nasa-swe-204-process-assessments
+      title: "SWE-204: Process Assessments"
+      publisher: NASA Software Engineering Handbook
+      url: https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695538/SWE-204%2B-%2BProcess%2BAssessments
+      accessed: "2026-08-20"
+      supports:
+        - Closed-loop root cause analysis for high-severity non-conformances
+        - Timelines, causal graphs, causal factors, corrective actions, and effectiveness checks
+      notes: Public NASA engineering guidance; this project generalises it beyond NASA software assurance.
+  adaptation: >-
+    Adapts NASA's closed-loop root cause guidance into a domain-neutral causal-factors record for
+    bounded technical and operational investigations.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity or usefulness assessment.
+    - It is not a substitute for a regulated safety, legal, personnel, or mishap investigation.
+    - A plausible causal story is not proof; unsupported links must remain assumptions or unknowns.
+    - Rigor variants and evidence minima are project-defined safeguards, not NASA requirements.
+activities: [analyse, investigate, review]
+capabilities: [causal-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - An observed failure, defect, incident, or recurring outcome needs a retrospective explanation.
+    - Corrective actions should address underlying conditions rather than only the visible symptom.
+  avoid_when:
+    - The event and its boundary cannot be defined from available evidence.
+    - The task is prospective risk discovery rather than analysis of an observed outcome.
+  prerequisites:
+    - A bounded event or problem statement
+    - Time-ordered observations, records, or testimony with stable evidence identifiers
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid causal label creates too much risk of premature closure.
+  standard:
+    enabled: true
+    steps: [frame-event, build-timeline, map-causes, classify-factors, design-actions]
+    minimum_evidence_refs: 2
+    notes: Builds a traceable causal account and targeted corrective actions.
+  intensive:
+    enabled: true
+    steps: [frame-event, build-timeline, map-causes, classify-factors, design-actions, verify-effectiveness]
+    minimum_evidence_refs: 3
+    notes: Adds an effectiveness and recurrence-monitoring plan.
+procedure:
+  - id: frame-event
+    title: Frame the event
+    instruction: >-
+      Define the observed outcome, scope, impact, time boundary, and what a successful explanation
+      must account for without embedding a preferred cause in the problem statement.
+    required: true
+    artifact_fields: [event_statement, scope, impact]
+  - id: build-timeline
+    title: Build the timeline
+    instruction: >-
+      Order relevant conditions, decisions, controls, changes, signals, and outcomes, preserving
+      conflicts or gaps rather than smoothing them into a single narrative.
+    required: true
+    artifact_fields: [timeline, evidence_gaps]
+  - id: map-causes
+    title: Map causal links
+    instruction: >-
+      Connect candidate causes and contributing conditions to the outcome, recording the evidence,
+      counterevidence, and alternative explanation for each material link.
+    required: true
+    artifact_fields: [causal_map, alternative_explanations]
+  - id: classify-factors
+    title: Classify causal factors
+    instruction: >-
+      Distinguish direct causes, contributing factors, failed or missing controls, and symptoms;
+      identify systemic factors only where the evidence supports that broader claim.
+    required: true
+    artifact_fields: [causal_factors, failed_controls, root_cause_boundary]
+  - id: design-actions
+    title: Design corrective actions
+    instruction: >-
+      Link each proposed action to a supported causal factor, assign an observable intended effect,
+      and note displacement risk or other areas where the same condition may exist.
+    required: true
+    artifact_fields: [corrective_actions, action_cause_links, displacement_risks]
+  - id: verify-effectiveness
+    title: Verify effectiveness
+    instruction: >-
+      Define checks, owners, time horizons, and recurrence indicators that would show whether the
+      corrective actions changed the causal conditions rather than only closing the record.
+    required: false
+    artifact_fields: [effectiveness_checks, recurrence_indicators]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, competing-hypotheses, failure-modes]
+conflicts: []
+failure_modes:
+  - The first plausible explanation is labelled the root cause without testing alternatives.
+  - Human error is treated as a stopping point instead of examining conditions and controls.
+  - A chronological sequence is mistaken for a demonstrated causal relationship.
+  - Corrective actions close the symptom but are not tied to supported causal factors.

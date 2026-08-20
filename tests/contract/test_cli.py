@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -123,6 +124,92 @@ def test_frozen_wave_one_commands_are_exposed():
         "verify-acceptance",
         "verify-release",
     }
+
+
+def test_prepare_accepts_repository_multi_model_execution_plan(tmp_path, capsys):
+    for name in ("schemas", "methods", "profiles"):
+        shutil.copytree(REPO_ROOT / name, tmp_path / name)
+    (tmp_path / "question.md").write_text("Review this bounded question.\n", encoding="utf-8")
+    plan = {
+        "mode": "multi-model",
+        "assignments": [
+            {
+                "methods": ["evidence-quality"],
+                "execution": {
+                    "adapter": "codex",
+                    "provider_state": "verified",
+                    "model_requested": "gpt-5.5",
+                    "model_observed": "gpt-5.5",
+                    "external_api_calls": False,
+                    "correlation_group": None,
+                },
+            },
+            {
+                "methods": ["key-assumptions"],
+                "execution": {
+                    "adapter": "gemini",
+                    "provider_state": "preview",
+                    "model_requested": "gemini-pro",
+                    "model_observed": None,
+                    "external_api_calls": True,
+                    "correlation_group": None,
+                },
+            },
+        ],
+    }
+    (tmp_path / "plan.json").write_text(json.dumps(plan), encoding="utf-8")
+
+    exit_code = main(
+        [
+            "prepare",
+            "runs/run-cli-multi",
+            "--root",
+            str(tmp_path),
+            "--profile",
+            "rapid-analysis",
+            "--allow-preview",
+            "--question-file",
+            str(tmp_path / "question.md"),
+            "--execution-plan",
+            "plan.json",
+        ]
+    )
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["valid"]
+    assert payload["run"]["execution_plan"] == plan
+
+
+def test_prepare_rejects_execution_plan_outside_repository(tmp_path, capsys):
+    root = tmp_path / "repo"
+    for name in ("schemas", "methods", "profiles"):
+        shutil.copytree(REPO_ROOT / name, root / name)
+    question = root / "question.md"
+    question.write_text("Review this bounded question.\n", encoding="utf-8")
+    outside_plan = tmp_path / "outside-plan.json"
+    outside_plan.write_text("{}", encoding="utf-8")
+
+    exit_code = main(
+        [
+            "prepare",
+            "runs/run-cli-outside",
+            "--root",
+            str(root),
+            "--profile",
+            "rapid-analysis",
+            "--allow-preview",
+            "--question-file",
+            str(question),
+            "--execution-plan",
+            str(outside_plan),
+        ]
+    )
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 2
+    assert payload["error"]["code"] == "command.error"
+    assert "repository file" in payload["error"]["message"]
 
 
 def test_check_emits_json_and_nonzero_for_invalid_document(tmp_path, capsys):

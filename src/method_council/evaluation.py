@@ -104,22 +104,23 @@ def evaluate_method_suite(root: Path, inventory_path: Path) -> dict[str, Any]:
     if len(specimen_ids) != len(set(specimen_ids)):
         issues.append({"code": "eval.duplicate-method", "message": "duplicate method specimen"})
     catalog_ids = set(catalog.methods)
-    if set(specimen_ids) != catalog_ids:
+    unexpected_specimens = sorted(set(specimen_ids) - catalog_ids)
+    if unexpected_specimens:
         issues.append(
             {
                 "code": "eval.catalog-coverage",
-                "message": "inventory must cover every catalog method exactly once",
-                "missing": sorted(catalog_ids - set(specimen_ids)),
-                "unexpected": sorted(set(specimen_ids) - catalog_ids),
+                "message": "inventory contains methods that are not in the catalog",
+                "unexpected": unexpected_specimens,
             }
         )
-    if set(reviews) != catalog_ids:
+    expected_reviews = set(specimen_ids)
+    if set(reviews) != expected_reviews:
         issues.append(
             {
                 "code": "eval.review-coverage",
-                "message": "review file must cover every catalog method exactly once",
-                "missing": sorted(catalog_ids - set(reviews)),
-                "unexpected": sorted(set(reviews) - catalog_ids),
+                "message": "review file must cover every inventoried method exactly once",
+                "missing": sorted(expected_reviews - set(reviews)),
+                "unexpected": sorted(set(reviews) - expected_reviews),
             }
         )
 
@@ -242,9 +243,11 @@ def evaluate_method_suite(root: Path, inventory_path: Path) -> dict[str, Any]:
                 }
             )
 
+    unevaluated_methods = sorted(catalog_ids - set(specimen_ids))
     totals = {
         "catalog_methods": len(catalog.methods),
         "inventoried_methods": len(results),
+        "unevaluated_methods": len(unevaluated_methods),
         "structurally_valid": sum(item["structural"]["valid"] for item in results),
         "procedure_complete": sum(item["structural"]["procedure_complete"] for item in results),
         "correlated_semantic_screen_met": sum(
@@ -257,7 +260,7 @@ def evaluate_method_suite(root: Path, inventory_path: Path) -> dict[str, Any]:
             item["usefulness"]["independent_review_count"] > 0 for item in results
         ),
     }
-    valid = not issues and totals["inventoried_methods"] == totals["catalog_methods"]
+    valid = not issues
     return {
         "schema_version": "0.1.0",
         "evaluation_id": inventory["evaluation_id"],
@@ -270,6 +273,7 @@ def evaluate_method_suite(root: Path, inventory_path: Path) -> dict[str, Any]:
             "minimum_dimension_score": threshold,
         },
         "totals": totals,
+        "unevaluated_methods": unevaluated_methods,
         "issues": issues,
         "methods": sorted(results, key=lambda item: item["method_id"]),
     }

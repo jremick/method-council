@@ -1,0 +1,126 @@
+schema_version: "0.1.0"
+id: outside-view
+version: "0.1.0"
+title: Outside View / Reference Class Check
+summary: >-
+  Tests a plan or estimate against the actual outcomes of comparable past cases so internal
+  detail and optimism do not silently define the expected range.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: homes-england-reference-class-forecasting-2024
+      title: "Optimism Bias and Contingency at Homes England"
+      publisher: Homes England, UK Government
+      url: https://www.gov.uk/government/publications/optimism-bias-and-contingency-at-homes-england/optimism-bias-and-contingency-at-homes-england-accessible-version
+      accessed: "2026-08-20"
+      supports:
+        - Taking an outside view from the actual outcomes of comparable completed projects
+        - Selecting a reference class, establishing an outcome distribution, and adjusting an estimate
+      notes: Public 2024 guidance focused on cost and schedule forecasting in Homes England projects.
+  adaptation: >-
+    Generalises the outside-view sequence into a bounded check for technical estimates, plans,
+    adoption forecasts, and architecture decisions while withholding quantitative adjustment when
+    a reliable reference class is unavailable.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity or usefulness assessment.
+    - It is not a calibrated reference-class forecast unless suitable historical data and analysis exist.
+    - Small, selectively chosen, or maturity-mismatched comparison sets must not produce false precision.
+    - Rigor variants and evidence minima are project-defined safeguards, not Homes England rules.
+activities: [analyse, decide, forecast, architect, review]
+capabilities: [reference-class-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - A plan, estimate, forecast, or option depends heavily on an inside view of the present case.
+    - Comparable completed cases may reveal base rates, outcome ranges, or recurring overruns.
+  avoid_when:
+    - No defensible comparison class or outcome data can be obtained.
+    - The target quantity, decision date, or maturity stage is not defined.
+  prerequisites:
+    - A clearly stated estimate, plan, or expected outcome
+    - Comparable completed cases with outcome and maturity information
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A quick comparison set is too easy to cherry-pick or over-interpret.
+  standard:
+    enabled: true
+    steps: [define-target, select-class, test-comparability, establish-range, compare-estimate, expose-limits]
+    minimum_evidence_refs: 3
+    notes: Produces a qualitative or quantitative outside-view check with explicit data limits.
+  intensive:
+    enabled: true
+    steps: [define-target, select-class, test-comparability, establish-range, compare-estimate, stress-test, expose-limits, plan-refresh]
+    minimum_evidence_refs: 4
+    notes: Adds sensitivity to class selection and a plan to refresh the comparison set.
+procedure:
+  - id: define-target
+    title: Define the target
+    instruction: >-
+      State the quantity, outcome, estimate date, decision horizon, and current maturity so the
+      outside view compares like with like.
+    required: true
+    artifact_fields: [target_definition, inside_view_estimate, maturity_baseline]
+  - id: select-class
+    title: Select the reference class
+    instruction: >-
+      Identify completed cases broad enough to avoid cherry-picking and similar enough to be
+      informative; record inclusion, exclusion, and data-availability rules before inspecting results.
+    required: true
+    artifact_fields: [reference_class, selection_rules, exclusions]
+  - id: test-comparability
+    title: Test comparability
+    instruction: >-
+      Compare scope, context, scale, maturity, incentives, and measurement definitions, then state
+      where the reference class is informative and where it is not.
+    required: true
+    artifact_fields: [comparability_assessment, material_differences]
+  - id: establish-range
+    title: Establish the outcome range
+    instruction: >-
+      Summarise the actual outcome distribution or, when data are insufficient, the bounded
+      qualitative pattern without inventing probabilities or statistical precision.
+    required: true
+    artifact_fields: [reference_class_size, outcome_range, distribution_method]
+  - id: compare-estimate
+    title: Compare and adjust
+    instruction: >-
+      Compare the inside-view estimate with the reference-class range and state an evidence-backed
+      adjustment, range, or decision implication; remain incomplete if the data cannot support one.
+    required: true
+    artifact_fields: [comparison, adjusted_range, decision_implication]
+  - id: stress-test
+    title: Stress-test class selection
+    instruction: >-
+      Test how reasonable changes to inclusion, maturity matching, and anomalous cases alter the
+      result, highlighting conclusions that depend on one fragile class definition.
+    required: false
+    artifact_fields: [sensitivity_checks]
+  - id: expose-limits
+    title: Expose limits
+    instruction: >-
+      Record missing cases, survivorship bias, measurement drift, strategic reporting, and other
+      limits that could make the outside view misleading.
+    required: true
+    artifact_fields: [data_limits, bias_risks, confidence_boundary]
+  - id: plan-refresh
+    title: Plan the refresh
+    instruction: >-
+      Define which completed cases, outcome observations, or maturity changes should update the
+      reference class and trigger a revised comparison.
+    required: false
+    artifact_fields: [refresh_plan]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 3
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, alternative-futures, systems-trade-study]
+conflicts: []
+failure_modes:
+  - The comparison class is selected after seeing outcomes and quietly favours the preferred answer.
+  - A small or weak dataset is converted into precise probabilities or uplift values.
+  - Cases at different maturity stages are compared as if their uncertainty were equivalent.
+  - Surface similarity hides different incentives, scope, definitions, or operating conditions.

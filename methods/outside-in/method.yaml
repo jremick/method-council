@@ -1,0 +1,125 @@
+schema_version: "0.1.0"
+id: outside-in
+version: "0.1.0"
+title: Outside-In Context Scan
+summary: >-
+  Starts with external forces, factors, and trends so important context is considered before an
+  analysis or design becomes anchored on what the team already controls and knows.
+status: preview
+provenance:
+  class: project-adaptation
+  sources:
+    - id: cia-tradecraft-primer-2009
+      title: "A Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis"
+      publisher: Central Intelligence Agency, Center for the Study of Intelligence
+      url: https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf
+      accessed: "2026-08-20"
+      supports:
+        - Outside-In Thinking for identifying external forces, factors, and trends early
+        - Assessing the impact and evidentiary relevance of external factors
+      notes: Public 2009 primer; Method Council does not reproduce its examples or wording.
+  adaptation: >-
+    Adapts Outside-In Thinking into a domain-neutral context scan with stable evidence references,
+    materiality tests, interaction checks, and an explicit boundary between influence and control.
+  claim_limits:
+    - This preview has not undergone independent method-fidelity or usefulness assessment.
+    - A category list is not evidence that every listed force is material to the issue.
+    - The scan does not predict timing or magnitude without supporting evidence.
+    - Rigor variants and evidence minima are project-defined safeguards, not CIA procedures.
+activities: [analyse, decide, forecast, architect, review]
+capabilities: [context-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - A new analysis, plan, or architecture may be framed too narrowly around internal concerns.
+    - External technical, economic, social, environmental, policy, or ecosystem change could matter.
+  avoid_when:
+    - The task is a tightly bounded mechanical check with no material external dependency.
+    - A broad scan would displace a required specialist or regulated assessment.
+  prerequisites:
+    - A generic, non-leading description of the issue
+    - A bounded time horizon and decision context
+rigor:
+  rapid:
+    enabled: true
+    steps: [reframe-issue, enumerate-forces, assess-impact]
+    minimum_evidence_refs: 1
+    notes: A quick framing scan that identifies which external questions need evidence.
+  standard:
+    enabled: true
+    steps: [reframe-issue, enumerate-forces, separate-influence, assess-impact, test-evidence, derive-implications]
+    minimum_evidence_refs: 2
+    notes: Tests material external factors and connects them to the decision or analysis.
+  intensive:
+    enabled: true
+    steps: [reframe-issue, enumerate-forces, separate-influence, assess-impact, test-evidence, map-interactions, derive-implications, set-refresh]
+    minimum_evidence_refs: 3
+    notes: Adds interaction effects and refresh triggers for changing context.
+procedure:
+  - id: reframe-issue
+    title: Reframe the issue
+    instruction: >-
+      Restate the problem in generic outcome terms, removing the current solution, organisation,
+      or internal workflow from the centre of the question.
+    required: true
+    artifact_fields: [outside_in_question, horizon]
+  - id: enumerate-forces
+    title: Enumerate external forces
+    instruction: >-
+      Identify external technical, economic, social, environmental, policy, market, and ecosystem
+      forces that could shape the outcome without treating the categories as a mandatory checklist.
+    required: true
+    artifact_fields: [external_forces, omitted_domains]
+  - id: separate-influence
+    title: Separate control and influence
+    instruction: >-
+      Distinguish forces the decision maker cannot control, factors they can influence, and internal
+      choices so response options do not masquerade as external facts.
+    required: false
+    artifact_fields: [control_influence_map]
+  - id: assess-impact
+    title: Assess potential impact
+    instruction: >-
+      Explain the direction, pathway, time horizon, and material consequence through which each
+      candidate force could affect the issue.
+    required: true
+    artifact_fields: [impact_pathways, materiality_screen]
+  - id: test-evidence
+    title: Test relevance with evidence
+    instruction: >-
+      Use available evidence to retain, weaken, or reject each material factor, recording gaps and
+      avoiding unsupported claims about timing, scale, or inevitability.
+    required: false
+    artifact_fields: [evidence_tests, rejected_factors, information_gaps]
+  - id: map-interactions
+    title: Map interactions
+    instruction: >-
+      Identify combinations, feedback loops, or dependencies through which individually modest
+      forces could become material together.
+    required: false
+    artifact_fields: [interactions]
+  - id: derive-implications
+    title: Derive implications
+    instruction: >-
+      Connect the supported external factors to assumptions, options, research priorities, and
+      conditions that should change the recommendation.
+    required: false
+    artifact_fields: [decision_implications, research_priorities, change_conditions]
+  - id: set-refresh
+    title: Set refresh triggers
+    instruction: >-
+      Define observable changes in the external context that should trigger a new scan or alter the
+      decision boundary.
+    required: false
+    artifact_fields: [refresh_triggers]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, key-assumptions, alternative-futures]
+conflicts: []
+failure_modes:
+  - A generic category checklist replaces a materiality and evidence test.
+  - External trends are treated as inevitable without timing, pathway, or counterevidence.
+  - Internal choices are mixed with external forces and obscure what can actually be changed.
+  - The scan grows without a bounded horizon or connection to the decision.

@@ -18,8 +18,8 @@ The high-level idea of coordinating multiple analytical passes was informed by:
 
 Method records cite primary or authoritative publications from the Office of the
 Director of National Intelligence, United States Central Intelligence Agency,
-and NASA. The threat model separately cites public security guidance including
-NIST and OWASP material.
+NASA, and Homes England. The threat model separately cites public security
+guidance including NIST and OWASP material.
 
 Those publications are references for provenance and analysis quality. Their
 names, titles, and links are factual citations, not endorsements, certifications,

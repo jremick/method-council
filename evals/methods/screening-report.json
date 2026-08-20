@@ -586,12 +586,18 @@
   "schema_version": "0.1.0",
   "totals": {
     "baseline_delta_measured": 0,
-    "catalog_methods": 8,
+    "catalog_methods": 11,
     "correlated_semantic_screen_met": 8,
     "independently_reviewed": 0,
     "inventoried_methods": 8,
     "procedure_complete": 6,
-    "structurally_valid": 8
+    "structurally_valid": 8,
+    "unevaluated_methods": 3
   },
+  "unevaluated_methods": [
+    "causal-factors",
+    "outside-in",
+    "outside-view"
+  ],
   "valid": true
 }

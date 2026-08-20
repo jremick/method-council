@@ -1,7 +1,7 @@
 schema_version: "0.1.0"
 kind: "adapter-compiler-input"
 id: "codex"
-version: "0.2.0"
+version: "0.3.0"
 status: "preview"
 summary: "Codex-first adapter for native ChatGPT-subscription methodology runs."
 
@@ -18,7 +18,7 @@ canonical_inputs:
 
 compiler:
   id: "method-council-adapter-compiler"
-  version: "0.2.0"
+  version: "0.3.0"
   generated_metadata_required:
     - "canonical_input_digest"
     - "generator_id"
@@ -35,6 +35,8 @@ host:
     - "local-command-execution"
 
 defaults:
+  execution_strategy: "single-gpt"
+  multi_model_execution_plan: "optional-user-authorised"
   external_provider_calls: false
   tool_side_effects: false
   raw_prompt_persistence: false
@@ -68,6 +70,7 @@ command_contract:
   - "check"
   - "aggregate"
   - "verify-run"
+  - "verify-acceptance"
   - "verify-release"
 
 templates:

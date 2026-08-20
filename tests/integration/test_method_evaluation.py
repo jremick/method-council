@@ -17,14 +17,16 @@ def test_method_screen_covers_catalog_and_remains_incomplete():
     assert report["valid"] is True
     assert report["overall_status"] == "INCOMPLETE"
     assert report["totals"] == {
-        "catalog_methods": 8,
+        "catalog_methods": 11,
         "inventoried_methods": 8,
+        "unevaluated_methods": 3,
         "structurally_valid": 8,
         "procedure_complete": 6,
         "correlated_semantic_screen_met": 8,
         "baseline_delta_measured": 0,
         "independently_reviewed": 0,
     }
+    assert report["unevaluated_methods"] == ["causal-factors", "outside-in", "outside-view"]
     assert report["issues"] == []
     for method in report["methods"]:
         assert method["structural"]["valid"] is True

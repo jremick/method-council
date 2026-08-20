@@ -99,6 +99,7 @@ because not every renderer exposes internal SVG accessibility metadata.
 | Method Datum mark | Project identity | Original code-native SVG |
 | Method Council workflow | Explain the six-stage path | Original code-native SVG |
 | Traceable report cutaway | Explain the report contract | Original code-native SVG |
+| Council in practice | Show separate methods converging on one recommendation and checkpoint | Original code-native SVG |
 | Analysis Bench hero | Editorial atmosphere for the public surface | Generated bitmap committed; representative concept art only |
 | Social preview PNG | Future GitHub sharing surface | Original SVG and 1280 × 640 PNG committed; GitHub upload not applied |
 

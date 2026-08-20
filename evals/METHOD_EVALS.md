@@ -24,10 +24,15 @@ audit rather than treating a model grader as final authority:
 
 ## Current screening set
 
-The inventory at `evals/methods/inventory.json` covers all eight catalog
-methods. Six use the hardened 2026-08-19 acceptance bundles. Alternative
-Futures and Indicators/Signposts use the hardened forecast bundle recorded on
-2026-08-20. Each currently has one representative run only.
+The inventory at `evals/methods/inventory.json` covers the original eight
+catalog methods. Six use the hardened 2026-08-19 acceptance bundles.
+Alternative Futures and Indicators/Signposts use the hardened forecast bundle
+recorded on 2026-08-20. Each currently has one representative run only.
+
+Causal Factors Analysis, Outside View, and Outside-In Context Scan are listed
+as unevaluated in the generated report. They have no specimen or semantic score
+yet. Adding a source-backed method does not transfer confidence from another
+method.
 
 Generate the content-derived report:
 
@@ -35,7 +40,8 @@ Generate the content-derived report:
 uv run --frozen python scripts/evaluate_methods.py
 ```
 
-The command re-verifies every source bundle, checks catalog coverage, checks
+The command re-verifies every inventoried source bundle, rejects unknown or
+unreviewed specimens, reports catalogue methods without specimens, checks
 selected-step and artifact-field coverage, validates the bounded 0-4 review
 records, and writes `evals/methods/screening-report.json`.
 
@@ -46,7 +52,7 @@ method's usefulness status from `INCOMPLETE`.
 
 ## Next validation wave
 
-For each method, add:
+For each of the original eight methods, add:
 
 - one edge case and one adversarial case, for at least three recorded runs;
 - a no-method baseline produced without exposing the method or scoring rubric;
@@ -59,3 +65,8 @@ For each method, add:
 Keep prompts, answers, rubrics, budgets, model state, and harness versions
 separate enough to detect contamination and reward hacking. Do not convert a
 same-model or same-host majority into independent corroboration.
+
+For each of the three new methods, first add one representative, one edge, and
+one adversarial case plus a matched no-method baseline and nearest-method
+comparison. They should not receive even an initial correlated screen until the
+artifact checks pass and the grading packet is frozen.

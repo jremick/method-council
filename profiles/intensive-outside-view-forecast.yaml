@@ -1,0 +1,17 @@
+schema_version: "0.1.0"
+id: intensive-outside-view-forecast
+version: "0.1.0"
+title: Intensive Outside-View Forecast
+activity: forecast
+rigor: intensive
+methods:
+  - evidence-quality
+  - outside-view
+  - alternative-futures
+  - indicators-signposts
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Anchors an estimate in comparable outcomes, explores structural uncertainty, defines observable
+  change signals, and separately challenges the resulting forecast.

@@ -108,6 +108,13 @@ or an adapter file does not prove authentication, availability, compatibility,
 or successful execution. Those states require provider-specific probes and real
 run evidence.
 
+An optional `execution_plan` can assign methods to different model targets when
+the user authorises the calls and the current host supports them. The plan makes
+the assignments and returned execution metadata checkable; the deterministic
+CLI does not launch providers. Different models are preferred when practical
+because they can expose model-specific blind spots, but they do not create
+independent truth while the task, sources, or coordinator remain shared.
+
 ## Privacy and persistence
 
 - Raw prompts and full context are not persisted by default.
@@ -131,8 +138,9 @@ local envelope and does not establish cryptographic execution authenticity,
 containment, method quality, or general security.
 
 The forecast run adds live production-path coverage for Alternative Futures and
-Indicators/Signposts. The resulting eight-method semantic screen is still
-correlated and does not establish decision-relevant usefulness; see
+Indicators/Signposts. The resulting screen of the original eight methods is
+still correlated and does not establish decision-relevant usefulness. The
+three expanded methods have no specimen yet; see
 [`evals/METHOD_EVALS.md`](../evals/METHOD_EVALS.md).
 
 The initial pre-hardening bundles were retired after independent review showed
@@ -140,7 +148,7 @@ that their verifier trusted method PASS claims without enforcing selected
 steps, evidence minima, artifact fields, and the complete route policy. They
 were not rewritten into the current evidence.
 
-Still needed before public alpha:
+Still needed before a non-Codex compatibility claim or public beta:
 
 - independent method-fidelity and user-journey review;
 - independently signed or host-controlled execution attestation;

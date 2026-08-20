@@ -237,6 +237,22 @@ def _prepare_command(args: argparse.Namespace) -> int:
     run_dir = Path(args.run_dir)
     if not run_dir.is_absolute():
         run_dir = root / run_dir
+    execution_plan = None
+    if args.execution_plan:
+        plan_path = Path(args.execution_plan)
+        if not plan_path.is_absolute():
+            plan_path = root / plan_path
+        resolved_plan = plan_path.resolve()
+        try:
+            resolved_plan.relative_to(root)
+        except ValueError as exc:
+            raise ValueError("execution plan must be a repository file") from exc
+        if plan_path.is_symlink() or not resolved_plan.is_file():
+            raise ValueError("execution plan must be a regular repository file")
+        loaded_plan = load_document(resolved_plan)
+        if not isinstance(loaded_plan, dict):
+            raise ValueError("execution plan must be an object")
+        execution_plan = loaded_plan
     result = prepare_run(
         root=root,
         run_dir=run_dir,
@@ -256,6 +272,7 @@ def _prepare_command(args: argparse.Namespace) -> int:
         model_observed=args.model_observed,
         external_api_calls=args.external_api_calls,
         correlation_group=args.correlation_group,
+        execution_plan=execution_plan,
     )
     _emit(result)
     return 0 if result["valid"] else 1
@@ -372,6 +389,10 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_parser.add_argument("--model-observed")
     prepare_parser.add_argument("--external-api-calls", action="store_true")
     prepare_parser.add_argument("--correlation-group")
+    prepare_parser.add_argument(
+        "--execution-plan",
+        help="repository JSON or YAML assigning selected methods to multiple model targets",
+    )
     prepare_parser.set_defaults(handler=_prepare_command)
 
     run_parser = subparsers.add_parser(

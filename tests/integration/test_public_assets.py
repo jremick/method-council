@@ -42,6 +42,17 @@ def test_analysis_bench_hero_matches_recorded_provenance_digest():
     assert "not a product screenshot" in provenance
 
 
+def test_council_in_practice_source_and_export_match():
+    source = REPO_ROOT / "assets/source/council-in-practice.svg"
+    export = REPO_ROOT / "assets/exported/council-in-practice.svg"
+
+    root = ET.parse(source).getroot()
+    assert root.attrib["viewBox"] == "0 0 1120 660"
+    assert root.find("{http://www.w3.org/2000/svg}title") is not None
+    assert root.find("{http://www.w3.org/2000/svg}desc") is not None
+    assert source.read_bytes() == export.read_bytes()
+
+
 def test_public_markdown_local_links_resolve_inside_repository():
     markdown_files = [
         *REPO_ROOT.glob("*.md"),

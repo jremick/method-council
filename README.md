@@ -18,7 +18,8 @@
 </p>
 
 > **Public alpha:** ready to try and inspect, but not yet proven to improve
-> decisions. Codex is the tested path. Other model adapters are still previews.
+> decisions. Codex with GPT is the tested path. Other model adapters are still
+> disabled previews.
 
 ![A contemporary analysis workbench with separate method passes aligned at one review point](assets/generated/analysis-bench-hero.png)
 
@@ -49,9 +50,9 @@ You can also ask for a specific kind of help:
 - “Stress-test this conclusion and show the strongest case against it.”
 - “Explore plausible futures and tell me what signs to watch.”
 
-Codex can use the project skill included in this repository. The method files
-are model-neutral, so another capable AI can read and follow them, but those
-paths have not yet received the same testing.
+The repository already includes a Method Council skill for Codex. The method
+files are model-neutral, so another capable AI can read and follow them, but
+those paths have not yet received the same testing.
 
 ## What Method Council is
 
@@ -75,13 +76,16 @@ independent minds.
 | **Indicators and Signposts** | Decide what to watch and when new evidence should trigger a review. |
 | **Systems Trade Study** | Compare options against clear criteria, constraints, uncertainty, and trade-offs. |
 | **Failure Modes Review** | Find how parts of a system could fail, what the effects would be, and which controls need checking. |
+| **Causal Factors Analysis** | Explain an observed failure from timeline and contributing conditions through corrective action. |
+| **Outside View / Reference Class Check** | Test a plan or estimate against what happened in comparable completed cases. |
+| **Outside-In Context Scan** | Find material external forces before a question becomes too narrowly framed. |
 
-These eight cover the main jobs needed for an alpha: check the inputs, test the
-reasoning, compare explanations, challenge the answer, explore uncertainty,
-watch for change, choose between options, and anticipate failure. They are a
-useful starting range, not a complete catalogue. See the
-[method catalogue review](docs/METHOD_CATALOGUE.md) for why each was selected
-and which additions are being considered.
+The first eight cover input quality, assumptions, explanations, challenge,
+uncertainty, monitoring, choice, and prospective failure. The three new preview
+methods add retrospective causes, real-world base rates, and wider context.
+That gives the catalogue a useful range without adding methods that mainly
+repeat the same job. See the [method catalogue review](docs/METHOD_CATALOGUE.md)
+for the selection reasoning and remaining gaps.
 
 ## How it works
 
@@ -95,6 +99,21 @@ and which additions are being considered.
    counterevidence, and credible alternatives.
 5. **Combine the results.** The final report shows the answer, disagreements,
    limitations, next actions, and what would change the judgment.
+
+![A storage design question is checked by five separate methods before synthesis and a human checkpoint](assets/exported/council-in-practice.svg)
+
+The methods are the council members. Models are optional execution paths.
+
+- **Easy default:** one GPT runs each method in Codex. These passes are marked
+  `CORRELATED` because they may share the same model blind spots.
+- **Preferred when available:** assign passes to different supported provider
+  models. Useful disagreement can expose model-specific blind spots, but it is
+  still not independent proof or a vote for the truth.
+
+External providers are never called automatically. They must be supported by
+the current host and explicitly authorised. If a provider fails, the run stays
+`ERROR` or `INCOMPLETE`; Method Council does not replace it with a simulated
+answer.
 
 The software checks that the expected steps and evidence links are present. It
 cannot prove that a conclusion is true or that the method was used expertly.
@@ -120,7 +139,8 @@ Method Council is a public alpha:
   commit-bound acceptance runs.
 - Those runs pass the structural and host-evidence checks, while honestly
   remaining `INCOMPLETE / CORRELATED`.
-- All eight methods have an initial specimen and a correlated semantic screen.
+- Eight of the eleven methods have an initial specimen and a correlated
+  semantic screen. The three new methods are explicitly unevaluated.
 - No method has yet passed the planned blinded baseline comparison and
   independent practitioner review.
 - Claude and Gemini adapter contracts exist only as disabled previews.
@@ -130,8 +150,8 @@ authority for a high-stakes decision.
 
 ## Learn more
 
-- [Method catalogue review](docs/METHOD_CATALOGUE.md) — current coverage, gaps,
-  and recommended additions
+- [Method catalogue review](docs/METHOD_CATALOGUE.md) — selection reasoning,
+  current coverage, and remaining gaps
 - [Method guides](methods/) — the steps, uses, and limits of each method
 - [Report anatomy](docs/REPORT_ANATOMY.md) — what a finished report contains
 - [Method evaluation](evals/METHOD_EVALS.md) — what has and has not been tested

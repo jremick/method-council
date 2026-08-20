@@ -52,8 +52,10 @@ URLs inserted only at synthesis time.
 ## Correlation and diversity
 
 Method diversity, model diversity, provider diversity, and source diversity are
-separate fields. Multiple passes on one host/model are labelled correlated and
-must not be described as independent corroboration.
+different claims. Multiple passes on one host/model are labelled correlated and
+must not be described as independent corroboration. Different models may expose
+different blind spots, but shared prompts, evidence, sources, and coordination
+still prevent an independence claim.
 
 ## Persistence
 
@@ -68,6 +70,25 @@ whether another provider was called, and a correlation group. Requested and
 observed model identifiers remain `null` when the runner cannot independently
 observe them. Multi-method runs on one Codex host require a non-null correlation
 group, and every grouped result must carry `CORRELATED`.
+
+The default run has one `host` execution record and uses it for every method.
+An optional `execution_plan` can set `mode: multi-model` and assign each selected
+method to one execution record. The plan must:
+
+1. cover every selected method exactly once and include no unselected method;
+2. contain at least two distinct adapter/model targets;
+3. give a shared non-null correlation group to any one assignment that runs
+   more than one method; and
+4. match each returned method result to its assigned execution metadata.
+
+A method result cannot retain `PASS` unless its recorded provider state is
+`verified`. Preview, unverified, unavailable, or degraded execution remains
+`INCOMPLETE` or a stronger applicable state.
+
+The deterministic CLI records and validates this plan. It does not launch a
+provider. External calls remain disabled until the user authorises them and the
+current host exposes a supported route. A missing provider result remains
+`ERROR` or `INCOMPLETE`; it is never replaced with a synthetic pass.
 
 Authentication evidence, process timing, and raw-stream persistence state are
 recorded separately from method conclusions. A version response or login state

@@ -9,6 +9,20 @@ from method_council.evidence import validate_result_evidence
 from method_council.issues import Issue
 
 
+def expected_execution_for_method(run: Mapping[str, Any], method_id: str) -> Mapping[str, Any]:
+    """Return the execution metadata assigned to one selected method."""
+
+    plan = run.get("execution_plan")
+    if isinstance(plan, Mapping):
+        for assignment in plan.get("assignments", []):
+            if isinstance(assignment, Mapping) and method_id in assignment.get("methods", []):
+                execution = assignment.get("execution")
+                if isinstance(execution, Mapping):
+                    return execution
+    host = run.get("host")
+    return host if isinstance(host, Mapping) else {}
+
+
 def _has_content(value: Any) -> bool:
     if value is None:
         return False
@@ -33,6 +47,14 @@ def validate_pass_semantics(
         return []
 
     issues: list[Issue] = []
+    if result.get("execution", {}).get("provider_state") != "verified":
+        issues.append(
+            Issue(
+                "result.pass-provider-unverified",
+                "PASS requires verified provider execution state",
+                "/execution/provider_state",
+            )
+        )
     variant = method["rigor"][rigor]
     selected_steps = list(variant["steps"])
     selected_set = set(selected_steps)
@@ -193,11 +215,12 @@ def validate_result_against_run(
                 "/rigor",
             )
         )
-    if result.get("execution") != run.get("host"):
+    expected_execution = expected_execution_for_method(run, str(result.get("method_id", "")))
+    if result.get("execution") != expected_execution:
         issues.append(
             Issue(
                 "run.execution-mismatch",
-                "result execution metadata does not match run host",
+                "result execution metadata does not match its run assignment",
                 "/execution",
             )
         )
@@ -207,11 +230,14 @@ def validate_result_against_run(
         pass_issues = validate_pass_semantics(result, method, rigor)
         issues.extend(pass_issues)
 
-    host = run.get("host", {})
     correlation_group = result.get("execution", {}).get("correlation_group")
+    expected_groups = [
+        expected_execution_for_method(run, str(method_id)).get("correlation_group")
+        for method_id in run.get("methods", [])
+    ]
     if (
         correlation_group is not None
-        and len(run.get("methods", [])) > 1
+        and expected_groups.count(correlation_group) > 1
         and "CORRELATED" not in result.get("side_conditions", [])
     ):
         issues.append(
@@ -230,9 +256,10 @@ def validate_result_against_run(
             )
         )
     if (
-        len(run.get("methods", [])) > 1
-        and host.get("adapter") == "codex"
-        and host.get("correlation_group") is None
+        "execution_plan" not in run
+        and len(run.get("methods", [])) > 1
+        and run.get("host", {}).get("adapter") == "codex"
+        and run.get("host", {}).get("correlation_group") is None
     ):
         issues.append(
             Issue(

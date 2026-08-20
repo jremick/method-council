@@ -15,7 +15,7 @@ the implementation's own status flags as quality authority.
 
 | Claim | Required evidence | Current state |
 | --- | --- | --- |
-| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens |
+| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens; three new methods unevaluated |
 | Outputs resemble the intended method | Blinded rubric review across varied cases | Correlated screen only |
 | A method improves analysis | Matched no-method baseline and pairwise grading | Not measured |
 | Improvement is repeatable | Multiple independent runs per condition | Not measured |
@@ -29,7 +29,9 @@ Create three case types for every method:
 2. **Edge:** a task near the method's contraindications or with ambiguous fit.
 3. **Adversarial:** a task designed around a documented method failure mode.
 
-This produces 24 case-method pairs. For each pair:
+For the full eleven-method catalogue this produces 33 case-method pairs. Start
+with the eight existing methods and run the three new methods as a separate
+admission block so their failures remain visible. For each pair:
 
 - generate a method-conditioned artifact and a matched generic-analysis
   baseline;
@@ -103,18 +105,17 @@ adds useful coverage or mainly repeats another pass. Also test whether the
 router chooses a suitable method set for unseen questions; a useful method that
 is consistently selected for the wrong task still lowers portfolio value.
 
-Candidate methods follow a separate admission gate before joining the preview
-catalogue. Each candidate needs a public primary source, independent fidelity
-review, representative, edge, and adversarial cases, and a blinded comparison
-with both the generic baseline and the nearest existing method or profile. It
-must fail visibly when required evidence is unavailable. Familiarity, source
-prestige, or one strong example is not sufficient.
+The three new preview methods now form the first admission block. Each needs an
+independent fidelity review, representative, edge, and adversarial cases, and a
+blinded comparison with both the generic baseline and the nearest existing
+method or profile. Causal Factors should be compared with Competing Hypotheses
+and Failure Modes; Outside View with Alternative Futures; Outside-In with a
+generic context prompt and Key Assumptions. Each must fail visibly when its
+required evidence is unavailable.
 
-The first recommended candidates are Causal Factors Analysis and an Outside
-View / Reference Class Check. An Outside-In Context Scan should follow if it
-can avoid generic checklist output. Test a pre-mortem first as a profile built
-from existing methods rather than assuming it needs a separate contract. See
-the [method catalogue review](../docs/METHOD_CATALOGUE.md) for the coverage
+Test a pre-mortem first as a profile built from existing methods rather than
+assuming it needs a separate contract. See the
+[method catalogue review](../docs/METHOD_CATALOGUE.md) for the coverage
 reasoning.
 
 ## Independence and governance

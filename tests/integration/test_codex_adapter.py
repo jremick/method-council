@@ -55,6 +55,8 @@ def test_adapter_declares_fail_closed_codex_defaults() -> None:
         "hidden_chain_of_thought_requested": False,
         "same_host_passes_correlated": True,
         "default_rigor": "standard",
+        "execution_strategy": "single-gpt",
+        "multi_model_execution_plan": "optional-user-authorised",
     }
     assert manifest["activities"] == [
         "analyse",
@@ -71,6 +73,7 @@ def test_adapter_declares_fail_closed_codex_defaults() -> None:
         "check",
         "aggregate",
         "verify-run",
+        "verify-acceptance",
         "verify-release",
     ]
 

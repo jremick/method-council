@@ -47,7 +47,8 @@ decision controls, not generic recommendations.
 The ledger records:
 
 - method ID and version;
-- host, provider state, and observable model identifier;
+- coordinator host plus any per-method execution assignment, provider state,
+  and observable model identifier;
 - method, model, provider, and source diversity separately;
 - correlation and degraded/skipped side conditions;
 - artifact digests, validation reasons, and timestamps;
