@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 860" role="img" aria-labelledby="title desc">
+  <title id="title">A complex public-service decision examined by six complementary methods</title>
+  <desc id="desc">Source material including service research, legal duties, current architecture, incident history, vendor proposals, and programme evidence feeds a nuanced decision about replacing fragmented case-management systems. Six separate methods examine evidence quality, external context, comparable cases, trade-offs, failure modes, and the case against the emerging plan before a staged recommendation and human checkpoint.</desc>
+  <metadata>Original Method Council code-native SVG. Palette and layout follow docs/DESIGN_SYSTEM.md.</metadata>
+  <rect width="1120" height="860" fill="#F7F8F6"/>
+  <g stroke="#D5DCE0" stroke-width="1">
+    <path d="M40 74H1080M40 798H1080"/>
+    <path d="M80 32V828M1040 32V828" stroke-dasharray="4 8"/>
+  </g>
+
+  <text x="60" y="50" fill="#11131A" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">A complex council in practice</text>
+  <text x="1060" y="48" text-anchor="end" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">SIX COMPLEMENTARY CHECKS</text>
+
+  <text x="60" y="94" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">SOURCE MATERIAL</text>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(60 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Service research</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Demand and user needs</text>
+    </g>
+    <g transform="translate(229 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Legal duties</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Privacy and access</text>
+    </g>
+    <g transform="translate(398 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Current architecture</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Systems and dependencies</text>
+    </g>
+    <g transform="translate(567 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Incident history</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Outages and workarounds</text>
+    </g>
+    <g transform="translate(736 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Vendor proposals</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Cost and delivery claims</text>
+    </g>
+    <g transform="translate(905 106)">
+      <rect width="155" height="68" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="12" y="25" fill="#11131A" font-size="12" font-weight="700">Programme evidence</text>
+      <text x="12" y="46" fill="#536070" font-size="11">Comparable outcomes</text>
+    </g>
+  </g>
+  <g fill="none" stroke="#536070" stroke-width="1.5">
+    <path d="M137 174V194H560"/>
+    <path d="M306 174V194H560"/>
+    <path d="M475 174V194H560"/>
+    <path d="M644 174V194H560"/>
+    <path d="M813 174V194H560"/>
+    <path d="M982 174V194H560"/>
+    <path d="M560 194V214"/>
+  </g>
+  <circle cx="560" cy="194" r="4" fill="#A9563D"/>
+
+  <rect x="60" y="214" width="1000" height="112" rx="4" fill="#FFFFFF" stroke="#2C4258" stroke-width="2"/>
+  <text x="86" y="243" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">COMPLEX QUESTION</text>
+  <text x="86" y="290" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">Should a public service replace fragmented case-management systems</text>
+  <text x="86" y="314" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">with one shared platform over three years?</text>
+  <text x="1034" y="244" text-anchor="end" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13">Continuity · privacy · local autonomy</text>
+  <text x="1034" y="264" text-anchor="end" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">Fixed budget · uncertain demand</text>
+
+  <g fill="none" stroke="#2C4258" stroke-width="2">
+    <path d="M560 326V350H210V370"/>
+    <path d="M560 350V370"/>
+    <path d="M560 350H910V370"/>
+    <path d="M560 350V474H210V494"/>
+    <path d="M560 474V494"/>
+    <path d="M560 474H910V494"/>
+  </g>
+  <circle cx="560" cy="350" r="5" fill="#A9563D"/>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(60 370)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
+      <rect width="8" height="96" fill="#2C4258"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Evidence Quality Review</text>
+      <text x="24" y="56" fill="#536070" font-size="13">Can these sources support the decision?</text>
+      <text x="24" y="79" fill="#2C4258" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">INPUT CHECK</text>
+    </g>
+    <g transform="translate(410 370)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
+      <rect width="8" height="96" fill="#2C4258"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Outside-In Context Scan</text>
+      <text x="24" y="56" fill="#536070" font-size="13">Which external forces could reshape it?</text>
+      <text x="24" y="79" fill="#2C4258" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CONTEXT CHECK</text>
+    </g>
+    <g transform="translate(760 370)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
+      <rect width="8" height="96" fill="#2C4258"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Outside View</text>
+      <text x="24" y="56" fill="#536070" font-size="13">What happened in comparable programmes?</text>
+      <text x="24" y="79" fill="#2C4258" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">BASE-RATE CHECK</text>
+    </g>
+    <g transform="translate(60 494)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
+      <rect width="8" height="96" fill="#2C4258"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Systems Trade Study</text>
+      <text x="24" y="56" fill="#536070" font-size="13">Which path best fits the real constraints?</text>
+      <text x="24" y="79" fill="#2C4258" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CHOICE CHECK</text>
+    </g>
+    <g transform="translate(410 494)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
+      <rect width="8" height="96" fill="#2C4258"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Failure Modes Review</text>
+      <text x="24" y="56" fill="#536070" font-size="13">How could migration and operations fail?</text>
+      <text x="24" y="79" fill="#2C4258" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RISK CHECK</text>
+    </g>
+    <g transform="translate(760 494)">
+      <rect width="300" height="96" rx="4" fill="#FFFFFF" stroke="#A9563D" stroke-width="2"/>
+      <rect width="8" height="96" fill="#A9563D"/>
+      <text x="24" y="31" fill="#11131A" font-size="15" font-weight="700">Devil's Advocacy</text>
+      <text x="24" y="56" fill="#536070" font-size="13">What is the best case against the plan?</text>
+      <text x="24" y="79" fill="#843820" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CHALLENGE CHECK</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#2C4258" stroke-width="2">
+    <path d="M210 466V480H560"/>
+    <path d="M560 466V480"/>
+    <path d="M910 466V480H560"/>
+    <path d="M560 480H385V618H560"/>
+    <path d="M210 590V618H560"/>
+    <path d="M560 590V640"/>
+    <path d="M910 590V618H560" stroke="#A9563D"/>
+  </g>
+  <circle cx="560" cy="618" r="6" fill="#A9563D"/>
+
+  <rect x="170" y="640" width="780" height="92" rx="4" fill="#E8EDF0" stroke="#2C4258" stroke-width="2"/>
+  <text x="198" y="674" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Staged recommendation</text>
+  <text x="198" y="702" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="14">Preferred path  ·  conditions  ·  dissent  ·  unknowns  ·  pause or reversal triggers</text>
+
+  <path d="M560 732V752" stroke="#A9563D" stroke-width="2"/>
+  <rect x="410" y="752" width="300" height="48" rx="24" fill="#FFFFFF" stroke="#A9563D" stroke-width="2"/>
+  <text x="560" y="782" text-anchor="middle" fill="#843820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">HUMAN CHECKPOINT</text>
+
+  <text x="60" y="834" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">The methods structure the analysis.</text>
+  <text x="322" y="834" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">They do not replace evidence, domain expertise, affected people, or decision authority.</text>
+</svg>

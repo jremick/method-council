@@ -42,15 +42,23 @@ def test_analysis_bench_hero_matches_recorded_provenance_digest():
     assert "not a product screenshot" in provenance
 
 
-def test_council_in_practice_source_and_export_match():
-    source = REPO_ROOT / "assets/source/council-in-practice.svg"
-    export = REPO_ROOT / "assets/exported/council-in-practice.svg"
+def test_council_in_practice_sources_and_exports_match():
+    diagrams = {
+        "council-in-practice.svg": "0 0 1120 760",
+        "council-in-practice-complex.svg": "0 0 1120 860",
+    }
 
-    root = ET.parse(source).getroot()
-    assert root.attrib["viewBox"] == "0 0 1120 660"
-    assert root.find("{http://www.w3.org/2000/svg}title") is not None
-    assert root.find("{http://www.w3.org/2000/svg}desc") is not None
-    assert source.read_bytes() == export.read_bytes()
+    for filename, expected_view_box in diagrams.items():
+        source = REPO_ROOT / "assets/source" / filename
+        export = REPO_ROOT / "assets/exported" / filename
+
+        root = ET.parse(source).getroot()
+        title = root.find("{http://www.w3.org/2000/svg}title")
+        description = root.find("{http://www.w3.org/2000/svg}desc")
+        assert root.attrib["viewBox"] == expected_view_box
+        assert title is not None and title.text
+        assert description is not None and "source" in description.text.lower()
+        assert source.read_bytes() == export.read_bytes()
 
 
 def test_public_markdown_local_links_resolve_inside_repository():

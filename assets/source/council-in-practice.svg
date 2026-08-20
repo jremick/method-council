@@ -1,32 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 660" role="img" aria-labelledby="title desc">
-  <title id="title">Five method passes form a practical council around one decision</title>
-  <desc id="desc">A storage design question branches into evidence quality, assumptions, trade study, failure modes, and devil's advocacy. Their separate findings converge into a recommendation with dissent and change conditions, followed by a human checkpoint. A note explains that one GPT is the easy default and different supported models are preferred when available.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 760" role="img" aria-labelledby="title desc">
+  <title id="title">Source material and five method passes form a practical council around one decision</title>
+  <desc id="desc">Source material including benchmark results, requirements, system history, and option designs feeds a storage design question. The question branches into evidence quality, assumptions, trade study, failure modes, and devil's advocacy. Their separate findings converge into a recommendation with dissent and change conditions, followed by a human checkpoint. A note explains that one GPT is the easy default and different supported models are preferred when available.</desc>
   <metadata>Original Method Council code-native SVG. Palette and layout follow docs/DESIGN_SYSTEM.md.</metadata>
-  <rect width="1120" height="660" fill="#F7F8F6"/>
+  <rect width="1120" height="760" fill="#F7F8F6"/>
   <g stroke="#D5DCE0" stroke-width="1">
-    <path d="M40 74H1080M40 596H1080"/>
-    <path d="M80 32V628M1040 32V628" stroke-dasharray="4 8"/>
+    <path d="M40 74H1080M40 696H1080"/>
+    <path d="M80 32V728M1040 32V728" stroke-dasharray="4 8"/>
   </g>
 
   <text x="60" y="50" fill="#11131A" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="700">A council in practice</text>
   <text x="1060" y="48" text-anchor="end" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">METHODS, NOT PERSONAS</text>
 
-  <rect x="60" y="92" width="1000" height="78" rx="4" fill="#FFFFFF" stroke="#2C4258" stroke-width="2"/>
-  <text x="86" y="121" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">QUESTION</text>
-  <text x="86" y="149" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Which storage design should we adopt?</text>
-  <text x="1034" y="123" text-anchor="end" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13">One evidence set</text>
-  <text x="1034" y="147" text-anchor="end" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">Five separate checks</text>
+  <text x="60" y="94" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">SOURCE MATERIAL</text>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(60 106)">
+      <rect width="235" height="58" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="14" y="24" fill="#11131A" font-size="13" font-weight="700">Benchmark results</text>
+      <text x="14" y="44" fill="#536070" font-size="12">Performance and cost runs</text>
+    </g>
+    <g transform="translate(315 106)">
+      <rect width="235" height="58" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="14" y="24" fill="#11131A" font-size="13" font-weight="700">Requirements</text>
+      <text x="14" y="44" fill="#536070" font-size="12">Scale, recovery, and budget</text>
+    </g>
+    <g transform="translate(570 106)">
+      <rect width="235" height="58" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="14" y="24" fill="#11131A" font-size="13" font-weight="700">System history</text>
+      <text x="14" y="44" fill="#536070" font-size="12">Incidents and operating load</text>
+    </g>
+    <g transform="translate(825 106)">
+      <rect width="235" height="58" rx="3" fill="#FFFFFF" stroke="#D5DCE0"/>
+      <text x="14" y="24" fill="#11131A" font-size="13" font-weight="700">Option designs</text>
+      <text x="14" y="44" fill="#536070" font-size="12">Proposed architectures</text>
+    </g>
+  </g>
+  <g fill="none" stroke="#536070" stroke-width="1.5">
+    <path d="M177 164V180H560"/>
+    <path d="M432 164V180H560"/>
+    <path d="M687 164V180H560"/>
+    <path d="M942 164V180H560"/>
+    <path d="M560 180V196"/>
+  </g>
+  <circle cx="560" cy="180" r="4" fill="#A9563D"/>
+
+  <rect x="60" y="196" width="1000" height="78" rx="4" fill="#FFFFFF" stroke="#2C4258" stroke-width="2"/>
+  <text x="86" y="225" fill="#536070" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">QUESTION</text>
+  <text x="86" y="253" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Which storage design should we adopt?</text>
+  <text x="1034" y="227" text-anchor="end" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13">Four source groups</text>
+  <text x="1034" y="251" text-anchor="end" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">Five separate checks</text>
 
   <g fill="none" stroke="#2C4258" stroke-width="2">
-    <path d="M148 170V211"/>
-    <path d="M354 170V211"/>
-    <path d="M560 170V211"/>
-    <path d="M766 170V211"/>
-    <path d="M972 170V211"/>
+    <path d="M148 274V315"/>
+    <path d="M354 274V315"/>
+    <path d="M560 274V315"/>
+    <path d="M766 274V315"/>
+    <path d="M972 274V315"/>
   </g>
 
   <g font-family="Arial, Helvetica, sans-serif">
-    <g transform="translate(60 211)">
+    <g transform="translate(60 315)">
       <rect width="176" height="160" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
       <rect width="176" height="8" fill="#2C4258"/>
       <text x="14" y="36" fill="#11131A" font-size="15" font-weight="700">Evidence Quality</text>
@@ -35,7 +67,7 @@
       <text x="14" y="99" fill="#536070" font-size="13">independent?</text>
       <text x="14" y="137" fill="#2C4258" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">INPUT CHECK</text>
     </g>
-    <g transform="translate(266 211)">
+    <g transform="translate(266 315)">
       <rect width="176" height="160" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
       <rect width="176" height="8" fill="#2C4258"/>
       <text x="14" y="36" fill="#11131A" font-size="15" font-weight="700">Key Assumptions</text>
@@ -44,7 +76,7 @@
       <text x="14" y="99" fill="#536070" font-size="13">to hold?</text>
       <text x="14" y="137" fill="#2C4258" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">REASONING CHECK</text>
     </g>
-    <g transform="translate(472 211)">
+    <g transform="translate(472 315)">
       <rect width="176" height="160" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
       <rect width="176" height="8" fill="#2C4258"/>
       <text x="14" y="36" fill="#11131A" font-size="15" font-weight="700">Trade Study</text>
@@ -53,7 +85,7 @@
       <text x="14" y="99" fill="#536070" font-size="13">constraints?</text>
       <text x="14" y="137" fill="#2C4258" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">CHOICE CHECK</text>
     </g>
-    <g transform="translate(678 211)">
+    <g transform="translate(678 315)">
       <rect width="176" height="160" rx="4" fill="#FFFFFF" stroke="#2C4258"/>
       <rect width="176" height="8" fill="#2C4258"/>
       <text x="14" y="36" fill="#11131A" font-size="15" font-weight="700">Failure Modes</text>
@@ -62,7 +94,7 @@
       <text x="14" y="99" fill="#536070" font-size="13">controls matter?</text>
       <text x="14" y="137" fill="#2C4258" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">RISK CHECK</text>
     </g>
-    <g transform="translate(884 211)">
+    <g transform="translate(884 315)">
       <rect width="176" height="160" rx="4" fill="#FFFFFF" stroke="#A9563D" stroke-width="2"/>
       <rect width="176" height="8" fill="#A9563D"/>
       <text x="14" y="36" fill="#11131A" font-size="15" font-weight="700">Devil's Advocacy</text>
@@ -74,22 +106,22 @@
   </g>
 
   <g fill="none" stroke="#2C4258" stroke-width="2">
-    <path d="M148 371V410H560"/>
-    <path d="M354 371V410H560"/>
-    <path d="M560 371V432"/>
-    <path d="M766 371V410H560"/>
-    <path d="M972 371V410H560" stroke="#A9563D"/>
+    <path d="M148 475V514H560"/>
+    <path d="M354 475V514H560"/>
+    <path d="M560 475V536"/>
+    <path d="M766 475V514H560"/>
+    <path d="M972 475V514H560" stroke="#A9563D"/>
   </g>
-  <circle cx="560" cy="410" r="6" fill="#A9563D"/>
+  <circle cx="560" cy="514" r="6" fill="#A9563D"/>
 
-  <rect x="230" y="432" width="660" height="86" rx="4" fill="#E8EDF0" stroke="#2C4258" stroke-width="2"/>
-  <text x="258" y="464" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Recommendation</text>
-  <text x="258" y="492" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="14">Supported answer  ·  dissent  ·  unknowns  ·  what would change it</text>
+  <rect x="230" y="536" width="660" height="86" rx="4" fill="#E8EDF0" stroke="#2C4258" stroke-width="2"/>
+  <text x="258" y="568" fill="#11131A" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Recommendation</text>
+  <text x="258" y="596" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="14">Supported answer  ·  dissent  ·  unknowns  ·  what would change it</text>
 
-  <path d="M560 518V548" stroke="#A9563D" stroke-width="2"/>
-  <rect x="410" y="548" width="300" height="48" rx="24" fill="#FFFFFF" stroke="#A9563D" stroke-width="2"/>
-  <text x="560" y="578" text-anchor="middle" fill="#843820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">HUMAN CHECKPOINT</text>
+  <path d="M560 622V650" stroke="#A9563D" stroke-width="2"/>
+  <rect x="410" y="650" width="300" height="48" rx="24" fill="#FFFFFF" stroke="#A9563D" stroke-width="2"/>
+  <text x="560" y="680" text-anchor="middle" fill="#843820" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">HUMAN CHECKPOINT</text>
 
-  <text x="60" y="630" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Default: one GPT runs the methods.</text>
-  <text x="315" y="630" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">When supported and authorised, different models are preferred because they can expose different blind spots.</text>
+  <text x="60" y="734" fill="#2C4258" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Default: one GPT runs the methods.</text>
+  <text x="315" y="734" fill="#536070" font-family="Arial, Helvetica, sans-serif" font-size="13">When supported and authorised, different models are preferred because they can expose different blind spots.</text>
 </svg>

@@ -18,6 +18,8 @@ prerelease labels.
   target, correlation, and result-assignment checks.
 - A council-in-practice diagram and multi-model guidance in the README and
   existing Codex skill.
+- A complex council example and visible source-material inputs in the README
+  diagrams.
 
 ### Changed
 
@@ -27,6 +29,8 @@ prerelease labels.
 - The Codex adapter defaults to one GPT while allowing an explicit,
   user-authorised multi-model plan. Claude and Gemini execution remain disabled
   previews.
+- The README opening and skill-first quick start use simpler, more direct
+  language.
 
 ## [0.1.0-alpha.1] - 2026-08-20
 

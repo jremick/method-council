@@ -5,7 +5,7 @@
 <h1 align="center">Method Council</h1>
 
 <p align="center">
-  <strong>Give an AI more than one way to examine a hard question.</strong>
+  <strong>Give an AI more than one way to examine hard or complex questions and problems.</strong>
   <br>
   Evidence, assumptions, alternatives, and risks are checked separately and
   brought together in one report.
@@ -17,17 +17,15 @@
   <img alt="Status: public alpha" src="https://img.shields.io/badge/status-public%20alpha-C58B2A.svg">
 </p>
 
-> **Public alpha:** ready to try and inspect, but not yet proven to improve
-> decisions. Codex with GPT is the tested path. Other model adapters are still
-> disabled previews.
-
 ![A contemporary analysis workbench with separate method passes aligned at one review point](assets/generated/analysis-bench-hero.png)
 
 ## Quick start
 
-Open this repository in Codex, or give another AI access to the
-[GitHub repository](https://github.com/jremick/method-council). Then ask it to
-use Method Council on your question.
+The easiest way to start in Codex is to point it at this repository and ask it
+to use the included [Method Council skill](skill/method-council/SKILL.md). With
+another AI, give it access to the
+[GitHub repository](https://github.com/jremick/method-council) and ask it to
+follow the method files. No local setup is needed for this path.
 
 For example:
 
@@ -100,7 +98,13 @@ for the selection reasoning and remaining gaps.
 5. **Combine the results.** The final report shows the answer, disagreements,
    limitations, next actions, and what would change the judgment.
 
-![A storage design question is checked by five separate methods before synthesis and a human checkpoint](assets/exported/council-in-practice.svg)
+![Source material for a storage design question is checked by five separate methods before synthesis and a human checkpoint](assets/exported/council-in-practice.svg)
+
+A larger problem can draw on more kinds of source material and use methods that
+check the evidence, external context, comparable cases, trade-offs, failure
+paths, and the emerging recommendation.
+
+![A complex public-service platform decision combines six kinds of source material and six complementary methods before a staged recommendation and human checkpoint](assets/exported/council-in-practice-complex.svg)
 
 The methods are the council members. Models are optional execution paths.
 
