@@ -6,6 +6,7 @@ summary: >-
   Makes the premises supporting a judgment explicit, challenges their validity, and records how
   the judgment would change if a load-bearing assumption failed.
 status: preview
+family: analytical
 provenance:
   class: established-primary-method
   sources:

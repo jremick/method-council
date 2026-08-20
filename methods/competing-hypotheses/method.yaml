@@ -6,6 +6,7 @@ summary: >-
   Compares plausible explanations against the same evidence set, emphasising inconsistency and
   diagnostic evidence to reduce premature closure on a preferred explanation.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

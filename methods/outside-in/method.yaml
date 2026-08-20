@@ -6,6 +6,7 @@ summary: >-
   Starts with external forces, factors, and trends so important context is considered before an
   analysis or design becomes anchored on what the team already controls and knows.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

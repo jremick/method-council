@@ -1,0 +1,136 @@
+schema_version: "0.1.0"
+id: value-sensitive-inquiry
+version: "0.1.0"
+title: Value-Sensitive Inquiry
+summary: >-
+  Examines how a system or decision affects direct and indirect stakeholders, which values are at
+  stake, and how conceptual, empirical, and technical evidence changes the design choices.
+status: preview
+family: participatory
+provenance:
+  class: project-adaptation
+  sources:
+    - id: vsd-lab-methodology
+      title: About Value Sensitive Design
+      publisher: Value Sensitive Design Lab
+      url: https://vsdesign.org/vsd/
+      accessed: "2026-08-20"
+      supports:
+        - Iterative conceptual, empirical, and technical investigations
+        - Attention to direct and indirect stakeholders, values, and value tensions
+      notes: >-
+        Public methodology overview from the Value Sensitive Design Lab. Method Council adapts its
+        tripartite structure into a bounded inquiry record; it does not reproduce a full VSD process.
+  adaptation: >-
+    Turns the public Value Sensitive Design structure into a source-bound inquiry that separates
+    stakeholder evidence, proposed values, technical affordances, value tensions, and missing voices.
+  claim_limits:
+    - A model cannot represent, consult, or create consent for affected people.
+    - Generated stakeholder views are hypotheses, not empirical evidence.
+    - A value inventory is not proof of legitimacy, fairness, inclusion, or social acceptability.
+    - This preview has not received independent VSD-fidelity or practitioner review.
+activities: [analyse, decide, architect, review]
+capabilities: [value-sensitive-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - A system or decision may affect people differently, including people who are not direct users.
+    - Design choices embed or change values, rights, responsibilities, power, or access.
+  avoid_when:
+    - The bounded question has no material human or social effects.
+    - The work would use invented stakeholder opinions in place of empirical inquiry.
+  prerequisites:
+    - A bounded system or decision and its material technical constraints
+    - Actual stakeholder or user evidence, or an explicit record that this evidence is missing
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid values checklist is too likely to substitute stereotypes for stakeholder evidence.
+  standard:
+    enabled: true
+    steps: [bound-system, identify-stakeholders, name-values, bind-empirical-evidence, inspect-technical-affordances, map-value-tensions, record-gaps]
+    minimum_evidence_refs: 2
+    notes: Separates stakeholder evidence from hypotheses and connects values to technical choices.
+  intensive:
+    enabled: true
+    steps: [bound-system, identify-stakeholders, name-values, bind-empirical-evidence, inspect-technical-affordances, map-value-tensions, test-exclusions, plan-iteration, record-gaps]
+    minimum_evidence_refs: 3
+    notes: Adds exclusion tests and an accountable plan for further empirical and technical iteration.
+procedure:
+  - id: bound-system
+    title: Bound the system and decision
+    instruction: >-
+      State the system, decision, lifecycle boundary, accountable authority, technical constraints,
+      and which consequences are inside or outside this inquiry.
+    required: true
+    artifact_fields: [system_boundary, decision_boundary, technical_constraints, excluded_consequences]
+  - id: identify-stakeholders
+    title: Identify direct and indirect stakeholders
+    instruction: >-
+      Identify people and groups who use, operate, govern, experience, or are indirectly affected
+      by the system, and distinguish evidence-backed inclusion from analyst hypotheses.
+    required: true
+    artifact_fields: [direct_stakeholders, indirect_stakeholders, stakeholder_basis]
+  - id: name-values
+    title: Name candidate values
+    instruction: >-
+      Record the values, rights, duties, interests, and possible harms at stake, their source, and
+      whose perspective they express without presenting a generic value list as stakeholder evidence.
+    required: true
+    artifact_fields: [candidate_values, value_sources, affected_perspectives]
+  - id: bind-empirical-evidence
+    title: Bind empirical stakeholder evidence
+    instruction: >-
+      Link interviews, observations, surveys, complaints, usage evidence, or other supplied material
+      to the relevant stakeholder and value claims; label absent or weak evidence explicitly.
+    required: true
+    artifact_fields: [stakeholder_evidence, unsupported_hypotheses, evidence_gaps]
+  - id: inspect-technical-affordances
+    title: Inspect technical affordances and constraints
+    instruction: >-
+      Show how architecture, defaults, permissions, data flows, interfaces, and operational choices
+      support, constrain, or reshape the candidate values without assuming design determines use.
+    required: true
+    artifact_fields: [technical_affordances, technical_constraints, value_effects]
+  - id: map-value-tensions
+    title: Map value tensions
+    instruction: >-
+      Identify where values or stakeholder interests reinforce or conflict with one another and
+      record feasible design responses, distributional effects, and unresolved trade-offs.
+    required: true
+    artifact_fields: [value_tensions, design_responses, distributional_effects, unresolved_tradeoffs]
+  - id: test-exclusions
+    title: Test exclusions and power
+    instruction: >-
+      Examine who could be missing, unable to participate, disproportionately burdened, or overruled,
+      and whether the available evidence privileges direct users, majorities, or institutional power.
+    required: false
+    artifact_fields: [missing_stakeholders, participation_limits, power_asymmetries]
+  - id: plan-iteration
+    title: Plan further inquiry
+    instruction: >-
+      Define the next conceptual, empirical, or technical investigation, its accountable owner, and
+      what evidence or stakeholder participation could change the design judgment.
+    required: false
+    artifact_fields: [next_investigations, accountable_owners, change_conditions]
+  - id: record-gaps
+    title: Record limits and missing voices
+    instruction: >-
+      State which stakeholder and value claims are supported, hypothetical, disputed, or absent and
+      keep the result INCOMPLETE when required stakeholder evidence is unavailable.
+    required: true
+    artifact_fields: [supported_claims, disputed_claims, missing_voices, completion_limit]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [reflective-equilibrium, evidence-quality, systems-trade-study, outside-in]
+conflicts: []
+failure_modes:
+  - The model invents stakeholder views or treats generated personas as empirical participation.
+  - A generic value list replaces evidence about this system, context, and affected people.
+  - Majority preference or internal agreement is presented as legitimacy or consent.
+  - Technical affordances are assumed to determine behaviour or eliminate social context.
+  - Indirect, excluded, low-power, or absent stakeholders disappear from the final judgment.

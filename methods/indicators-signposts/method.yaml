@@ -6,6 +6,7 @@ summary: >-
   Defines observable, discriminating signs for competing hypotheses or scenarios and establishes
   a repeatable checkpoint for detecting meaningful change over time.
 status: preview
+family: analytical
 provenance:
   class: established-primary-method
   sources:

@@ -19,6 +19,10 @@ gates.
 6. **Evaluation harness** — representative, adversarial, and failure fixtures.
 7. **Evidence bundle** — content-bound reports used for later release decisions.
 
+Methods carry a primary family so the catalogue can be searched by the kind of
+question being asked. Family metadata is descriptive routing input, not a
+quality score or a deterministic selector.
+
 ## Data flow
 
 ```mermaid
@@ -72,6 +76,15 @@ flowchart LR
 - **Chosen hybrid:** native host orchestration plus a small local deterministic
   core. It preserves the subscription-first UX while keeping hard gates in
   code.
+
+## Planned automatic advisor
+
+The current `Model route proposal` step is semantic and untrusted. The target
+advisor will convert the question into bounded selection signals, apply
+deterministic family/method eligibility and parsimony rules, show a route preview,
+and preserve an exact user override before the existing route validator. It will
+not launch a method or provider. See [METHOD_ADVISOR.md](METHOD_ADVISOR.md) for
+the phased design and separate selection-evaluation gate.
 
 ## Observability
 

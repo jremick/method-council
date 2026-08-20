@@ -34,6 +34,16 @@ external writes, purchases, publication, or other consequential action.
    methods, why each is useful, default host, any per-method model assignments,
    correlation, external provider calls, and persistence.
 
+Unless the user names an exact method set, act as a bounded method advisor:
+identify the material task signals, consider the relevant method families, and
+propose the smallest complementary route that could change the answer. The user
+may accept or override that proposal. An override never bypasses catalogue,
+activity, rigor, dependency, conflict, challenge, provider, or side-effect rules.
+
+This selection is currently a model proposal, not the planned deterministic
+task-fit advisor. Do not claim the route is optimal. The command below validates
+route constraints; it does not prove that the chosen methods fit the question.
+
 If the activity or decision boundary would materially change the work and cannot
 be inferred safely, ask one concise question. Do not invent missing evidence.
 
@@ -43,7 +53,7 @@ is ambiguous, the user overrides methods, or the proposed route needs explanatio
 
 ## Validate the route
 
-Choose methods only from the canonical catalog. Prefer complementary procedures
+Choose methods only from the canonical catalogue. Prefer complementary procedures
 that can change the conclusion; method count is not a quality measure.
 
 Run the deterministic route check before delegating any pass:

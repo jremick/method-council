@@ -37,6 +37,17 @@ method with the `challenge` capability. Human/data prerequisites remain visible
 in the route explanation; only method dependencies and declared capabilities
 can be enforced without interpreting the task context.
 
+Every method also declares one primary `family`: `analytical`, `interpretive`,
+`normative`, `pragmatic`, or `participatory`. The family helps an advisor narrow
+the catalogue; it does not establish task fit, method fidelity, completeness, or
+that the method draws on only one kind of reasoning.
+
+The current skill makes a model-proposed route and the deterministic validator
+checks the constraints above. It does not yet deterministically derive a good
+method set from the user's question. The proposed advisor keeps task signals,
+eligibility rules, route validation, and user overrides separate as described in
+[METHOD_ADVISOR.md](METHOD_ADVISOR.md).
+
 ## Findings
 
 Every finding is exactly one of:

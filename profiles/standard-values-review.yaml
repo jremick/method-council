@@ -1,0 +1,17 @@
+schema_version: "0.1.0"
+id: standard-values-review
+version: "0.1.0"
+title: Standard Values and Stakeholders Review
+activity: decide
+rigor: standard
+methods:
+  - evidence-quality
+  - value-sensitive-inquiry
+  - reflective-equilibrium
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Checks the evidence, examines stakeholder and value effects, reconciles supplied judgments with
+  candidate principles, and challenges the current position. It cannot replace actual stakeholder
+  participation or the accountable human decision.

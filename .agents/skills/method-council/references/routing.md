@@ -18,6 +18,29 @@ Choose the activity by the result the user needs, not by keywords alone.
 If a request spans activities, choose the one that owns the final deliverable.
 Use methods from another activity only when the catalog says they fit.
 
+## Method families
+
+Use families to decide which parts of the catalogue deserve attention. Do not
+select one method from every family automatically.
+
+| Family | Consider it when the task involves | Current methods |
+|---|---|---|
+| `analytical` | evidence, causes, alternatives, forecasts, uncertainty, or risk | evidence-quality, key-assumptions, competing-hypotheses, devils-advocacy, alternative-futures, indicators-signposts, failure-modes, causal-factors, outside-view, outside-in |
+| `interpretive` | ambiguous concepts, passages, meaning, or historical context | concept-clarification, contextual-interpretation |
+| `normative` | duties, principles, fairness, rights, or value conflict | reflective-equilibrium |
+| `pragmatic` | practical consequences, action, criteria, or option choice | pragmatic-clarification, systems-trade-study |
+| `participatory` | affected people, distribution, participation, or missing voices | value-sensitive-inquiry |
+
+Before proposing a method, check its `use_when`, `avoid_when`, prerequisites,
+activity, rigor, complements, and claim limits. A missing prerequisite is a gap
+to report, not evidence to invent. In particular, generated personas are not
+stakeholder evidence and model coherence is not moral authority.
+
+If the user names an exact method set, use it as the requested route only after
+validation. If the user gives include/exclude preferences, apply them before
+proposing the smallest remaining route. Ask one concise question when an unknown
+would materially change the family or method choice.
+
 ## Rigor
 
 Rigor changes the workflow, not merely response length.

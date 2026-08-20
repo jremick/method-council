@@ -6,6 +6,7 @@ summary: >-
   Compares feasible system alternatives against decision-relevant criteria, constraints,
   uncertainty, and sensitivity while preserving the rationale and decision authority.
 status: preview
+family: pragmatic
 provenance:
   class: project-adaptation
   sources:

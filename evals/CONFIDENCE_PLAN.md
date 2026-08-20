@@ -15,7 +15,7 @@ the implementation's own status flags as quality authority.
 
 | Claim | Required evidence | Current state |
 | --- | --- | --- |
-| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens; three new methods unevaluated |
+| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens; eight other methods unevaluated |
 | Outputs resemble the intended method | Blinded rubric review across varied cases | Correlated screen only |
 | A method improves analysis | Matched no-method baseline and pairwise grading | Not measured |
 | Improvement is repeatable | Multiple independent runs per condition | Not measured |
@@ -29,8 +29,8 @@ Create three case types for every method:
 2. **Edge:** a task near the method's contraindications or with ambiguous fit.
 3. **Adversarial:** a task designed around a documented method failure mode.
 
-For the full eleven-method catalogue this produces 33 case-method pairs. Start
-with the eight existing methods and run the three new methods as a separate
+For the full 16-method catalogue this produces 48 case-method pairs. Start with
+the eight inventoried methods and run the eight unevaluated methods as a separate
 admission block so their failures remain visible. For each pair:
 
 - generate a method-conditioned artifact and a matched generic-analysis
@@ -105,18 +105,24 @@ adds useful coverage or mainly repeats another pass. Also test whether the
 router chooses a suitable method set for unseen questions; a useful method that
 is consistently selected for the wrong task still lowers portfolio value.
 
-The three new preview methods now form the first admission block. Each needs an
+The eight unevaluated preview methods form the first admission block. Each needs an
 independent fidelity review, representative, edge, and adversarial cases, and a
 blinded comparison with both the generic baseline and the nearest existing
 method or profile. Causal Factors should be compared with Competing Hypotheses
 and Failure Modes; Outside View with Alternative Futures; Outside-In with a
-generic context prompt and Key Assumptions. Each must fail visibly when its
-required evidence is unavailable.
+generic context prompt and Key Assumptions. The five family-expansion methods
+should be compared with both a generic reasoning prompt and the closest existing
+analytical or decision route. Each must fail visibly when its required evidence
+is unavailable.
 
 Test a pre-mortem first as a profile built from existing methods rather than
 assuming it needs a separate contract. See the
 [method catalogue review](../docs/METHOD_CATALOGUE.md) for the coverage
 reasoning.
+
+Evaluate automatic selection separately from method usefulness. The
+[method advisor plan](../docs/METHOD_ADVISOR.md) defines acceptable-set labels,
+baselines, threats, and held-out gates for the future default selector.
 
 ## Independence and governance
 

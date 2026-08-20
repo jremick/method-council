@@ -1,0 +1,130 @@
+schema_version: "0.1.0"
+id: concept-clarification
+version: "0.1.0"
+title: Concept and Meaning Clarification
+summary: >-
+  Clarifies vague, overloaded, or contested terms by separating their uses, proposing a
+  purpose-fit explication, and testing the boundaries and trade-offs of that clearer concept.
+status: preview
+family: interpretive
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-carnap-methodology
+      title: "Rudolf Carnap: Methodology — Explication"
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/carnap/methodology.html
+      accessed: "2026-08-20"
+      supports:
+        - Clarifying an inexact concept in its intended context before proposing an explicatum
+        - Evaluating a clearer concept for exactness, similarity, fruitfulness, and usefulness
+      notes: >-
+        Expert reference synthesis of Carnap's method; the Method Council procedure is a new
+        bounded adaptation and does not reproduce a primary text or claim one correct definition.
+    - id: sep-analysis-conceptual-engineering
+      title: "Analysis: Conceptions of Analysis in Analytic Philosophy — Conceptual Engineering"
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/analysis/s6.html
+      accessed: "2026-08-20"
+      supports:
+        - Evaluating and improving concepts rather than only reporting familiar usage
+        - Making the revisionary purpose and value choices of conceptual change explicit
+      notes: Expert reference synthesis used to expose the normative risks of redefining concepts.
+  adaptation: >-
+    Combines Carnapian explication with explicit usage, boundary-case, and revision-trade-off
+    records suitable for model-mediated analysis of practical questions.
+  claim_limits:
+    - This preview has not undergone independent philosophical-fidelity or usefulness assessment.
+    - It does not establish the one correct meaning of a term or settle an underlying factual dispute.
+    - Proposed definitions can encode values and exclusions; those effects must remain visible.
+    - Invented examples are not evidence of actual language use or stakeholder understanding.
+activities: [analyse, decide, architect, review]
+capabilities: [concept-clarification]
+requires_methods: []
+applicability:
+  use_when:
+    - Important conclusions depend on a vague, overloaded, contested, or changing term.
+    - Participants may be using the same word for materially different concepts or purposes.
+  avoid_when:
+    - The relevant term is already explicit and the disagreement is wholly factual or empirical.
+    - A legal, scientific, or domain definition is authoritative and reinterpretation is out of scope.
+  prerequisites:
+    - The exact terms or concepts whose meaning affects the question
+    - Examples, source passages, or observed uses with stable evidence identifiers
+rigor:
+  rapid:
+    enabled: true
+    steps: [define-purpose, distinguish-senses, propose-explication, test-boundaries]
+    minimum_evidence_refs: 1
+    notes: Clarifies one decision-critical term and tests the most consequential boundaries.
+  standard:
+    enabled: true
+    steps: [define-purpose, inventory-uses, distinguish-senses, propose-explication, test-boundaries, record-tradeoffs]
+    minimum_evidence_refs: 2
+    notes: Compares documented uses and records what the proposed clarification preserves or changes.
+  intensive:
+    enabled: true
+    steps: [define-purpose, inventory-uses, distinguish-senses, propose-explication, test-boundaries, trace-consequences, record-tradeoffs]
+    minimum_evidence_refs: 3
+    notes: Adds cross-context consequences and stronger tests for semantic drift or exclusion.
+procedure:
+  - id: define-purpose
+    title: Define the clarification purpose
+    instruction: >-
+      Name the term, the question it affects, the context in which greater precision is needed,
+      and the practical or theoretical purpose the clarification must serve.
+    required: true
+    artifact_fields: [target_concept, clarification_purpose, affected_question]
+  - id: inventory-uses
+    title: Inventory documented uses
+    instruction: >-
+      Collect source-bound examples of how the term is used, by whom, in which context, and with
+      which apparent function without treating generated examples as observed usage.
+    required: false
+    artifact_fields: [usage_inventory, source_contexts]
+  - id: distinguish-senses
+    title: Distinguish material senses
+    instruction: >-
+      Separate meanings, referents, levels, or purposes that are being conflated and show which
+      apparent disagreements change when those senses are distinguished.
+    required: true
+    artifact_fields: [sense_map, conflations, remaining_disputes]
+  - id: propose-explication
+    title: Propose a clearer concept
+    instruction: >-
+      State a more precise purpose-fit concept, its intended scope, and any operational indicators
+      while avoiding claims that the proposal is the uniquely correct ordinary meaning.
+    required: true
+    artifact_fields: [proposed_explication, scope, indicators]
+  - id: test-boundaries
+    title: Test boundaries and counterexamples
+    instruction: >-
+      Apply clear positive, negative, borderline, and adversarial cases to the proposal and record
+      where it produces ambiguity, contradiction, overreach, or unintended classification.
+    required: true
+    artifact_fields: [boundary_cases, counterexamples, revisions]
+  - id: trace-consequences
+    title: Trace cross-context consequences
+    instruction: >-
+      Compare how adopting the proposed concept would change claims, classifications, actions, or
+      obligations across the material contexts and affected groups represented in the evidence.
+    required: false
+    artifact_fields: [cross_context_consequences, affected_groups]
+  - id: record-tradeoffs
+    title: Record preservation and loss
+    instruction: >-
+      State which established uses the explication preserves, changes, excludes, or leaves open and
+      identify the value choices or decision consequences embedded in those trade-offs.
+    required: false
+    artifact_fields: [preserved_uses, excluded_uses, value_tradeoffs, unresolved_meaning]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [key-assumptions, contextual-interpretation, pragmatic-clarification, reflective-equilibrium]
+conflicts: []
+failure_modes:
+  - A preferred conclusion is smuggled into the analysis by redefining a contested term.
+  - Generated examples are presented as evidence of actual language use or shared understanding.
+  - Greater precision is mistaken for factual truth, moral correctness, or universal acceptance.
+  - Important ordinary, technical, cultural, or stakeholder uses disappear without being recorded.

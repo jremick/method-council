@@ -1,0 +1,128 @@
+schema_version: "0.1.0"
+id: reflective-equilibrium
+version: "0.1.0"
+title: Reflective Equilibrium
+summary: >-
+  Reconciles considered judgments about cases with candidate principles and relevant background
+  theories, recording revisions, unresolved tensions, and the limits of the resulting coherence.
+status: preview
+family: normative
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-reflective-equilibrium-2023
+      title: Reflective Equilibrium
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/reflective-equilibrium/
+      accessed: "2026-08-20"
+      supports:
+        - Mutual adjustment of considered judgments, principles, arguments, and theories
+        - Wide and narrow variants plus objections concerning bias, indeterminacy, and credibility
+      notes: >-
+        Expert reference synthesis describing a dominant method in moral and political philosophy;
+        the artifact contract and rigor variants are Method Council adaptations.
+  adaptation: >-
+    Turns reflective equilibrium into a bounded, source-aware deliberation record that separates
+    supplied judgments, candidate principles, revisions, dissent, and unresolved normative conflict.
+  claim_limits:
+    - Coherence among judgments and principles is not proof of moral truth or public legitimacy.
+    - The model must not invent stakeholder judgments or speak for people who supplied no view.
+    - Initial judgments and background theories can reproduce bias, exclusion, or status-quo assumptions.
+    - This preview has not received independent philosophical-fidelity or practitioner review.
+activities: [analyse, decide, architect, review]
+capabilities: [normative-deliberation]
+requires_methods: []
+applicability:
+  use_when:
+    - A decision turns on values, principles, duties, fairness, or difficult judgments about cases.
+    - General rules and case-level intuitions conflict or produce unacceptable implications.
+  avoid_when:
+    - The question is settled by an authoritative rule or a factual test within the stated boundary.
+    - No accountable human judgments, principles, or case material are available to examine.
+  prerequisites:
+    - A bounded normative question and the accountable decision boundary
+    - Supplied judgments about cases, candidate principles, or authoritative value statements
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid value checklist is too likely to hide bias or manufacture agreement.
+  standard:
+    enabled: true
+    steps: [bound-question, collect-judgments, state-principles, test-fit, revise-elements, record-equilibrium]
+    minimum_evidence_refs: 1
+    notes: Iterates between supplied judgments and principles while preserving unresolved conflict.
+  intensive:
+    enabled: true
+    steps: [bound-question, collect-judgments, state-principles, examine-background, test-fit, revise-elements, test-bias, record-equilibrium]
+    minimum_evidence_refs: 2
+    notes: Adds competing background theories and explicit bias, exclusion, and independence checks.
+procedure:
+  - id: bound-question
+    title: Bound the normative question
+    instruction: >-
+      State the decision, affected scope, accountable authority, factual constraints, and the value
+      conflict that cannot be resolved by evidence alone.
+    required: true
+    artifact_fields: [normative_question, decision_boundary, factual_constraints, value_conflict]
+  - id: collect-judgments
+    title: Collect considered judgments
+    instruction: >-
+      Record supplied judgments about concrete and general cases, their source and confidence, and
+      the conditions under which they were formed without inventing a consensus.
+    required: true
+    artifact_fields: [considered_judgments, judgment_sources, confidence_conditions]
+  - id: state-principles
+    title: State candidate principles
+    instruction: >-
+      Formulate the principles, rights, duties, values, or rules that could explain and extend the
+      judgments, distinguishing supplied commitments from model-generated candidates.
+    required: true
+    artifact_fields: [candidate_principles, principle_sources, generated_candidates]
+  - id: examine-background
+    title: Examine background theories
+    instruction: >-
+      Compare relevant moral, political, institutional, or domain theories and arguments, recording
+      their scope, source basis, and consequences without reducing them to caricatured labels.
+    required: false
+    artifact_fields: [background_theories, supporting_arguments, theory_limits]
+  - id: test-fit
+    title: Test judgments and principles
+    instruction: >-
+      Apply principles to representative, difficult, and counterexample cases; identify where a
+      judgment challenges a principle or a principle gives reason to revise a judgment.
+    required: true
+    artifact_fields: [case_principle_tests, inconsistencies, counterexamples]
+  - id: revise-elements
+    title: Revise toward coherence
+    instruction: >-
+      Make each proposed revision to a judgment, principle, or scope explicit, explain the reason,
+      and retain rejected revisions and their strongest supporting case.
+    required: true
+    artifact_fields: [revision_log, rejected_revisions, revision_reasons]
+  - id: test-bias
+    title: Test bias and independence
+    instruction: >-
+      Examine whether the starting judgments, principles, evidence, or generated alternatives share
+      an untested social position, status-quo assumption, framing bias, or source dependency.
+    required: false
+    artifact_fields: [bias_tests, excluded_positions, independence_limits]
+  - id: record-equilibrium
+    title: Record the resulting position
+    instruction: >-
+      State the current coherent position, the judgments and principles supporting it, unresolved
+      tensions and dissent, and the cases or arguments that would require another revision.
+    required: true
+    artifact_fields: [current_equilibrium, supporting_structure, unresolved_tensions, revision_triggers]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [value-sensitive-inquiry, concept-clarification, evidence-quality, devils-advocacy]
+conflicts: []
+failure_modes:
+  - Coherence is presented as moral truth, democratic legitimacy, or stakeholder consent.
+  - The model invents considered judgments for people who did not supply them.
+  - Initial intuitions and principles reproduce the same bias and merely reinforce one another.
+  - Ethical theories are reduced to labels or a vote instead of arguments, cases, and revisions.

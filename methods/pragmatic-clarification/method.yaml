@@ -1,0 +1,128 @@
+schema_version: "0.1.0"
+id: pragmatic-clarification
+version: "0.1.0"
+title: Pragmatic Clarification
+summary: >-
+  Clarifies a concept, hypothesis, or disagreement by tracing what observable experience,
+  rational action, or decision consequence would differ if each candidate meaning were accepted.
+status: preview
+family: pragmatic
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-pragmatism-2024
+      title: Pragmatism
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/pragmatism/
+      accessed: "2026-08-20"
+      supports:
+        - Peirce's Pragmatic Maxim as a method for clarifying concepts and hypotheses
+        - Tracing practical implications for experience in specific situations and rational conduct
+      notes: >-
+        Expert reference synthesis of a diverse tradition; this project uses a bounded Peircean
+        clarification procedure and does not equate truth or all meaning with immediate usefulness.
+  adaptation: >-
+    Converts the Pragmatic Maxim into a traceable consequence comparison with explicit contexts,
+    observations, actions, remaining verbal disputes, and limits on practical reduction.
+  claim_limits:
+    - The method clarifies practical meaning; it does not establish that useful beliefs are true.
+    - Not every moral, aesthetic, experiential, or metaphysical difference has an immediate test.
+    - Consequences depend on supported context and goals; invented scenarios are not observed evidence.
+    - This preview has not undergone independent philosophical-fidelity or usefulness assessment.
+activities: [analyse, decide, architect, review]
+capabilities: [pragmatic-clarification]
+requires_methods: []
+applicability:
+  use_when:
+    - A disagreement may be verbal or its competing claims have unclear practical implications.
+    - A concept or hypothesis needs observable implications before it can guide inquiry or action.
+  avoid_when:
+    - The question concerns meaning or value that should not be reduced to observable utility alone.
+    - The practical consequences are already explicit and the dispute is evidentiary rather than semantic.
+  prerequisites:
+    - The competing claims, concepts, or meanings to compare
+    - The material contexts, goals, and affected decisions with stable evidence identifiers
+rigor:
+  rapid:
+    enabled: true
+    steps: [bound-claim, trace-consequences, compare-differences, record-meaning]
+    minimum_evidence_refs: 1
+    notes: Tests the most decision-relevant practical difference between two candidate meanings.
+  standard:
+    enabled: true
+    steps: [bound-claim, define-contexts, trace-consequences, define-observations, compare-differences, diagnose-dispute, record-meaning]
+    minimum_evidence_refs: 2
+    notes: Compares consequences across supported contexts and identifies empirically discriminating observations.
+  intensive:
+    enabled: true
+    steps: [bound-claim, define-contexts, trace-consequences, vary-goals, define-observations, compare-differences, diagnose-dispute, record-meaning]
+    minimum_evidence_refs: 3
+    notes: Adds materially different goals, affected groups, and conditions to test consequence stability.
+procedure:
+  - id: bound-claim
+    title: Bound the clarification target
+    instruction: >-
+      State the concept, hypothesis, or disagreement, the candidate meanings or claims, and the
+      decision or inquiry that a practical clarification must inform.
+    required: true
+    artifact_fields: [clarification_target, candidate_meanings, affected_decision]
+  - id: define-contexts
+    title: Define material contexts
+    instruction: >-
+      Identify the supported situations, constraints, goals, and actors in which accepting each
+      candidate could make a practical difference, separating evidence from constructed cases.
+    required: false
+    artifact_fields: [material_contexts, goals, constructed_cases]
+  - id: trace-consequences
+    title: Trace practical consequences
+    instruction: >-
+      For each candidate, state the expected changes in experience, observation, rational conduct,
+      inquiry, classification, or decision while linking factual premises to evidence.
+    required: true
+    artifact_fields: [consequence_map, action_implications, experience_implications]
+  - id: vary-goals
+    title: Vary goals and affected groups
+    instruction: >-
+      Test whether the practical meaning changes across legitimate goals, time horizons, or affected
+      groups and record conflicts that a single notion of usefulness would hide.
+    required: false
+    artifact_fields: [goal_variations, stakeholder_consequences, time_horizon_effects]
+  - id: define-observations
+    title: Define discriminating observations
+    instruction: >-
+      Specify observable outcomes, experiments, or decisions that would differ between candidates,
+      including cases where no feasible observation can discriminate them.
+    required: false
+    artifact_fields: [discriminating_observations, feasible_tests, test_limits]
+  - id: compare-differences
+    title: Compare meaningful differences
+    instruction: >-
+      Separate consequences shared by all candidates from those that materially differ and identify
+      whether the practical disagreement persists after unsupported assumptions are removed.
+    required: true
+    artifact_fields: [shared_consequences, material_differences, assumption_dependencies]
+  - id: diagnose-dispute
+    title: Diagnose the remaining dispute
+    instruction: >-
+      Identify parts of the disagreement that appear verbal, empirical, normative, interpretive, or
+      currently undecidable instead of declaring every non-observable dispute meaningless.
+    required: false
+    artifact_fields: [dispute_diagnosis, empirical_questions, normative_questions]
+  - id: record-meaning
+    title: Record practical meaning and limits
+    instruction: >-
+      State the practical meaning supported for each candidate, what action or inquiry follows, and
+      which important semantic, moral, or experiential questions remain outside the method.
+    required: true
+    artifact_fields: [practical_meanings, next_inquiries, nonpragmatic_remainder]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [concept-clarification, systems-trade-study, key-assumptions, indicators-signposts]
+conflicts: []
+failure_modes:
+  - Immediate usefulness is treated as truth or as the whole meaning of a contested question.
+  - The model invents consequences, goals, or affected groups and presents them as observed context.
+  - A genuine normative disagreement is dismissed as merely verbal because it lacks an easy test.
+  - Shared practical consequences conceal important longer-term, distributive, or experiential differences.

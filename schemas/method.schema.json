@@ -10,6 +10,7 @@
     "title",
     "summary",
     "status",
+    "family",
     "provenance",
     "activities",
     "capabilities",
@@ -30,6 +31,10 @@
     "title": { "type": "string", "minLength": 3 },
     "summary": { "type": "string", "minLength": 20 },
     "status": { "enum": ["draft", "preview", "validated", "retired"] },
+    "family": {
+      "description": "Primary routing family; this is not a method quality or completeness score.",
+      "enum": ["analytical", "interpretive", "normative", "pragmatic", "participatory"]
+    },
     "provenance": { "$ref": "#/$defs/provenance" },
     "activities": {
       "type": "array",
@@ -53,7 +58,12 @@
           "failure-analysis",
           "causal-analysis",
           "reference-class-analysis",
-          "context-analysis"
+          "context-analysis",
+          "concept-clarification",
+          "contextual-interpretation",
+          "normative-deliberation",
+          "pragmatic-clarification",
+          "value-sensitive-analysis"
         ]
       }
     },

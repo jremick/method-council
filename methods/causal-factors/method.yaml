@@ -6,6 +6,7 @@ summary: >-
   Reconstructs what happened, distinguishes root and contributing factors from symptoms,
   and links corrective actions to the conditions they are intended to prevent.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

@@ -16,10 +16,11 @@ The high-level idea of coordinating multiple analytical passes was informed by:
 
 ## Method and quality sources
 
-Method records cite primary or authoritative publications from the Office of the
-Director of National Intelligence, United States Central Intelligence Agency,
-NASA, and Homes England. The threat model separately cites public security
-guidance including NIST and OWASP material.
+Method records cite public primary guidance or expert reference material from
+the Office of the Director of National Intelligence, United States Central
+Intelligence Agency, NASA, Homes England, the Stanford Encyclopedia of
+Philosophy, and the Value Sensitive Design Lab. The threat model separately
+cites public security guidance including NIST and OWASP material.
 
 Those publications are references for provenance and analysis quality. Their
 names, titles, and links are factual citations, not endorsements, certifications,

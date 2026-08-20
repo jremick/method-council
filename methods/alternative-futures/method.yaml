@@ -6,6 +6,7 @@ summary: >-
   Explores several plausible ways a complex, uncertain situation could develop and tests how
   decisions or strategies perform across those futures without predicting a single outcome.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

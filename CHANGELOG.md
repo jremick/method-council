@@ -10,6 +10,14 @@ prerelease labels.
 
 ### Added
 
+- Five source-backed preview methods spanning interpretive, normative,
+  pragmatic, and participatory reasoning: Concept and Meaning Clarification,
+  Contextual Interpretation, Reflective Equilibrium, Pragmatic Clarification,
+  and Value-Sensitive Inquiry.
+- Required primary-family metadata across the 16-method catalogue, plus meaning,
+  values, and rapid concept profiles.
+- A phased automatic method advisor design with explainable task signals, exact
+  user override, deterministic constraints, and a separate selection-evaluation gate.
 - Causal Factors Analysis, Outside View / Reference Class Check, and Outside-In
   Context Scan as source-backed, unevaluated preview methods.
 - Three complementary profiles for causal investigation, outside-view

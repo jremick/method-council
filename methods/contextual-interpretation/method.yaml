@@ -1,0 +1,128 @@
+schema_version: "0.1.0"
+id: contextual-interpretation
+version: "0.1.0"
+title: Contextual Interpretation
+summary: >-
+  Interprets source material by moving between its parts and whole, surfacing prior assumptions,
+  reconstructing relevant context, and preserving multiple readings when evidence does not decide.
+status: preview
+family: interpretive
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-hermeneutics-2025
+      title: Hermeneutics
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/hermeneutics/
+      accessed: "2026-08-20"
+      supports:
+        - Interpretation as inquiry into meaning, language, history, action, and practical life
+        - Revising understanding through attention to parts, whole, context, and presuppositions
+      notes: >-
+        Expert reference synthesis of a diverse philosophical tradition; it does not define one
+        universally accepted hermeneutic algorithm.
+  adaptation: >-
+    Converts selected hermeneutic commitments into a bounded source-linked review of initial
+    assumptions, part-whole interpretation, context, alternative readings, and unresolved plurality.
+  claim_limits:
+    - Hermeneutics is a contested tradition, not one standard procedure; this record is experimental.
+    - The method cannot recover private authorial intent or turn interpretation into factual proof.
+    - Contextual plausibility does not license invented history, motives, audiences, or lived experience.
+    - Independent philosophical and practitioner review is required before any fidelity claim.
+activities: [analyse, investigate, review]
+capabilities: [contextual-interpretation]
+requires_methods: []
+applicability:
+  use_when:
+    - Meaning depends on how passages, actions, or claims relate to a wider source and context.
+    - Several credible interpretations may affect a review, investigation, or policy judgment.
+  avoid_when:
+    - No primary material or contextual evidence is available to interpret.
+    - The task asks only whether a directly stated factual claim is true.
+  prerequisites:
+    - A bounded text, record, statement, policy, action, or artifact with stable evidence identifiers
+    - Relevant historical, institutional, audience, or practice context where available
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid reading creates too much risk of unsupported context or premature closure.
+  standard:
+    enabled: true
+    steps: [bound-material, state-presuppositions, read-parts-whole, reconstruct-context, compare-readings, test-readings, record-plurality]
+    minimum_evidence_refs: 2
+    notes: Produces source-linked interpretations and preserves material ambiguity.
+  intensive:
+    enabled: true
+    steps: [bound-material, state-presuppositions, read-parts-whole, reconstruct-context, trace-reception, compare-readings, test-readings, record-plurality]
+    minimum_evidence_refs: 3
+    notes: Adds reception, institutional use, or historical change where suitable evidence exists.
+procedure:
+  - id: bound-material
+    title: Bound the material
+    instruction: >-
+      Identify exactly what is being interpreted, the question the interpretation must inform, the
+      relevant source boundaries, and any inaccessible or redacted material.
+    required: true
+    artifact_fields: [interpretandum, interpretation_question, source_boundary, access_limits]
+  - id: state-presuppositions
+    title: State prior assumptions
+    instruction: >-
+      Record the initial reading, background concepts, interests, and contextual assumptions brought
+      to the material so later changes in understanding remain visible.
+    required: true
+    artifact_fields: [initial_reading, interpretive_presuppositions]
+  - id: read-parts-whole
+    title: Read parts and whole together
+    instruction: >-
+      Compare decision-relevant passages, actions, or elements with the wider artifact and revise the
+      reading when a part changes the whole or the whole changes the apparent meaning of a part.
+    required: true
+    artifact_fields: [part_whole_map, revised_readings]
+  - id: reconstruct-context
+    title: Reconstruct supported context
+    instruction: >-
+      Link relevant historical, institutional, linguistic, audience, and practice context to sources,
+      distinguishing documented context from inference and unavailable background.
+    required: true
+    artifact_fields: [context_record, contextual_inferences, context_gaps]
+  - id: trace-reception
+    title: Trace use and reception
+    instruction: >-
+      Examine how the material has been received, applied, contested, or changed over time without
+      treating later use as proof of its original meaning.
+    required: false
+    artifact_fields: [reception_history, use_changes]
+  - id: compare-readings
+    title: Compare credible readings
+    instruction: >-
+      Develop the strongest source-compatible interpretations, state what each explains or misses,
+      and avoid inventing an opposing reading only to create artificial balance.
+    required: true
+    artifact_fields: [candidate_interpretations, explanatory_coverage]
+  - id: test-readings
+    title: Test interpretive support
+    instruction: >-
+      Test each reading against the full material, disconfirming passages, supported context, and
+      practical consequences, documenting where evidence favors or weakens it.
+    required: true
+    artifact_fields: [interpretation_tests, counterreadings, support_limits]
+  - id: record-plurality
+    title: Record changed understanding
+    instruction: >-
+      State the best-supported understanding, how it differs from the initial reading, the remaining
+      plausible alternatives, and what additional material could discriminate between them.
+    required: true
+    artifact_fields: [supported_interpretation, understanding_changes, unresolved_readings, discriminating_material]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [concept-clarification, evidence-quality, outside-in, devils-advocacy]
+conflicts: []
+failure_modes:
+  - The model invents historical context, authorial intent, audience response, or lived experience.
+  - One plausible reading is presented as certain because it supports the preferred conclusion.
+  - The interpreter's own assumptions remain hidden while other perspectives are treated as biased.
+  - Ambiguity is preserved performatively even when source evidence clearly rules out a reading.

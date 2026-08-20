@@ -6,6 +6,7 @@ summary: >-
   Tests a plan or estimate against the actual outcomes of comparable past cases so internal
   detail and optimism do not silently define the expected range.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

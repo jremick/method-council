@@ -2,139 +2,151 @@
 
 ## Outcome
 
-The catalogue now has eleven preview methods. The original eight cover evidence,
-assumptions, explanation, challenge, uncertainty, monitoring, choice, and
-prospective failure. Three additions close the clearest gaps:
+The catalogue has 16 preview methods in five primary families. A family says
+which kind of question a method mainly helps answer. It is a routing aid, not a
+claim that the method uses only one style of thinking.
 
-1. **Causal Factors Analysis** for explaining why an observed problem happened.
-2. **Outside View / Reference Class Check** for comparing forecasts with what
-   happened in similar completed cases.
-3. **Outside-In Context Scan** for finding material external forces before the
-   question becomes too narrowly framed.
-
-The three additions have source-backed contracts and clear contraindications,
-but they are still unevaluated. They should remain preview-only until they beat
-a matched no-method baseline and receive independent fidelity and practitioner
-review. A pre-mortem is still better tested first as a profile made from methods
-already in the catalogue.
-
-## Why the current methods were selected
-
-| Method | Place in the set | Why it stays |
+| Family | Main question | Optional methods |
 | --- | --- | --- |
-| **Evidence Quality Review** | Input check | Weak, stale, duplicated, or dependent sources can undermine every later method. This check makes that visible before synthesis. |
-| **Key Assumptions Check** | Reasoning check | Many conclusions rest on premises that are not stated as evidence. This method exposes the load-bearing ones and defines change conditions. |
-| **Competing Hypotheses Analysis** | Explanation | It compares explanations against the same evidence and pays attention to disconfirming information, which helps reduce premature closure. |
-| **Devil's Advocacy** | Challenge | It tests a leading judgment with the strongest credible contrary case. This is different from listing weak pros and cons. |
-| **Alternative Futures Analysis** | Uncertainty | It handles situations where one forecast would be misleading by exploring several plausible futures and robust actions. |
-| **Indicators and Signposts** | Monitoring | It turns a judgment into observable signals and a reason to revisit the work instead of leaving the report static. |
-| **Systems Trade Study** | Choice | It makes criteria, constraints, uncertainty, and reversals visible when options must be compared. |
-| **Failure Modes Review** | Prospective risk | It works from system elements to possible failures, effects, controls, and follow-up checks before failure occurs. |
-| **Causal Factors Analysis** | Retrospective cause | It traces an observed outcome through timeline, causal links, contributing conditions, failed controls, and corrective actions. |
-| **Outside View / Reference Class Check** | Base-rate check | It compares a plan or estimate with actual outcomes in defensible comparable cases and refuses false precision when the data are weak. |
-| **Outside-In Context Scan** | Context framing | It looks for material external forces early, then tests their impact and evidence instead of returning a generic trend list. |
+| **Analytical** | What do the evidence, explanations, uncertainties, and risks support? | Evidence Quality, Key Assumptions, Competing Hypotheses, Devil's Advocacy, Alternative Futures, Indicators and Signposts, Failure Modes, Causal Factors, Outside View, Outside-In Context Scan |
+| **Interpretive** | What do the important terms, passages, and contexts mean? | Concept and Meaning Clarification, Contextual Interpretation |
+| **Normative** | Which principles and judgments should guide the choice? | Reflective Equilibrium |
+| **Pragmatic** | What changes in practice, and which action works under the stated goals? | Pragmatic Clarification, Systems Trade Study |
+| **Participatory** | Whose values and experience need real evidence or involvement? | Value-Sensitive Inquiry |
 
-The intelligence-analysis methods are adapted from the CIA's public
-[*Tradecraft Primer*](https://www.cia.gov/resources/csi/static/955180a45afe3f5013772c313b16face/Tradecraft-Primer-apr09.pdf)
-and use the public [ICD 203 analytic standards](https://www.odni.gov/files/documents/ICD/ICD-203.pdf)
-as a quality anchor. The decision, failure, and causal methods are adapted from
-public NASA guidance. The outside-view method uses public Homes England
-reference-class guidance. These sources establish a serious basis for the
-procedures; they do not prove that Method Council's AI adaptations are faithful
-or useful.
+The families are complementary. A difficult public policy question may need an
+interpretive pass to clarify a contested term, a participatory pass to expose
+missing stakeholder evidence, a normative pass to test principles, and an
+analytical challenge before synthesis. More methods are not automatically
+better: a council should use the smallest set that can materially change the
+answer.
 
-## Why the three additions were selected
+## Why these methods were selected
 
-### 1. Explaining an event after it happened
+### Analytical family
 
-Competing Hypotheses helps decide which explanation best fits the evidence.
-Failure Modes looks forward at how a system could fail. Neither provides a
-full retrospective chain from event timeline, through contributing conditions
-and failed controls, to corrective action.
+The analytical methods cover distinct jobs in an evidence-led workflow:
 
-**Added as preview:** **Causal Factors Analysis** allows multiple causes,
-distinguishes direct causes from contributing conditions, links each causal
-claim to evidence, and stops when the data runs out. NASA's current
-[software process-assessment guidance](https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695538/SWE-204%2B-%2BProcess%2BAssessments)
-describes timelines, causal maps, root and contributing factors, corrective
-actions, and follow-up checks. The Method Council version is a general preview
-adaptation, not a safety investigation or certification artifact.
+- **Evidence Quality Review** checks whether inputs are credible, current,
+  independent, and sufficient.
+- **Key Assumptions Check** exposes the premises holding a conclusion up.
+- **Competing Hypotheses Analysis** compares explanations against the same
+  evidence and counterevidence.
+- **Devil's Advocacy** constructs a strong contrary case and records what
+  survives it.
+- **Alternative Futures Analysis** explores plausible paths without claiming
+  to predict one future.
+- **Indicators and Signposts** defines observable reasons to revisit a judgment.
+- **Failure Modes Review** examines prospective failures, effects, and controls.
+- **Causal Factors Analysis** traces an observed outcome through contributing
+  conditions and corrective action.
+- **Outside View / Reference Class Check** compares a plan with defensible
+  completed cases instead of relying only on the inside view.
+- **Outside-In Context Scan** finds material external forces before the question
+  becomes too narrow.
 
-### 2. Using base rates instead of only an inside view
+These are adapted from public CIA, ODNI, NASA, and UK government material. The
+sources give the procedures a traceable basis; they do not prove that this AI
+adaptation is faithful, useful, or suitable for a particular domain.
 
-Alternative Futures explores plausible paths, but it does not compare a
-forecast with the observed outcomes of similar past cases. That leaves a gap
-for cost, schedule, adoption, delivery, and reliability estimates.
+### Interpretive family
 
-**Added as preview:** the **Outside View / Reference Class Check** defines a
-comparable class, shows the actual outcome range, explains how similar the
-current case is, and remains `INCOMPLETE` when reliable comparators are
-unavailable. UK government
-[reference-class guidance](https://www.gov.uk/government/publications/optimism-bias-and-contingency-at-homes-england/optimism-bias-and-contingency-at-homes-england-accessible-version)
-uses completed comparable projects to counter optimism bias and explicitly
-depends on suitable historical data. The method should not invent a base rate
-or turn a small, biased sample into false precision.
+- **Concept and Meaning Clarification** separates overloaded uses, proposes a
+  purpose-fit definition, and tests boundaries and consequences. It is useful
+  when words such as “safe,” “fair,” or “ready” carry the disagreement.
+- **Contextual Interpretation** compares source-bound readings through the
+  relationship between passages, the wider work, its context, and later use.
+  It preserves plausible disagreement instead of claiming one mechanical reading.
 
-### 3. Checking the wider context before analysis narrows
+These methods close a material gap in a catalogue that was strongest at factual
+and causal questions. They are based on public expert syntheses of explication,
+conceptual engineering, and hermeneutics. Those philosophical traditions are
+diverse and contested; the project does not present one school as the standard.
 
-The current set can begin with the question as framed and still miss external
-forces that sit outside the immediate evidence bundle.
+### Normative family
 
-**Added as preview:** the **Outside-In Context Scan** adapts the CIA primer's
-Outside-In Thinking to identify external forces, factors, and trends early. Its
-main risk in an AI workflow is producing a generic checklist. It should remain
-preview-only unless evaluation shows that it finds material, evidenced factors
-that the baseline misses.
+- **Reflective Equilibrium** iterates between supplied case judgments, candidate
+  principles, and relevant background arguments. It records revisions and
+  unresolved tensions.
 
-## Remaining gaps
+This is useful when evidence alone cannot settle questions involving duties,
+fairness, rights, or principles. Coherence is not moral truth, democratic
+legitimacy, or consent. The method cannot invent the judgments of affected people.
 
-- calibrated probabilistic work where trustworthy priors and outcome feedback
-  exist;
-- human and organisational perspectives that cannot be simulated by merely
-  assigning another prompt to the same model;
-- specialised safety, security, legal, medical, and regulated methods whose
-  use requires domain authority; and
-- proof that the router chooses the right methods and that multi-method profiles
-  add enough value to justify their extra cost.
+### Pragmatic family
 
-## Useful ideas that should not become new methods yet
+- **Pragmatic Clarification** tests what practical or observable difference a
+  claim makes across goals and contexts. It can reveal when a dispute has no
+  decision-relevant difference—or when an apparently small semantic difference
+  changes action.
+- **Systems Trade Study** compares feasible options against explicit criteria,
+  constraints, uncertainty, and reversals.
 
-- **Pre-mortem / What-if analysis:** high practical value, but much of its work
-  can be composed from Failure Modes, Alternative Futures, Devil's Advocacy,
-  and Indicators and Signposts. Test a short `pre-mortem` profile before adding
-  another overlapping method.
-- **Value of Information:** NASA decision analysis already asks whether reducing
-  uncertainty could change the ranking of options. First extend or profile the
-  Systems Trade Study; split out a new method only if the result is clearer and
-  measurably more useful.
-- **Team A/Team B and Red Team:** these approaches need genuinely distinct
-  expertise, evidence, or actor knowledge. Several agents using the same model
-  are correlated and should not be presented as independent teams.
-- **Brainstorming:** useful inside other methods, but idea generation alone does
-  not produce a decision-ready analysis.
-- **SWOT and PESTLE:** familiar names do not guarantee useful analysis. A sourced
-  Outside-In method offers a clearer procedure and a testable output.
-- **Bayesian or probabilistic methods:** potentially valuable, but they need
-  trustworthy priors, likelihoods, and calibration controls. Adding them before
-  those inputs can be verified would invite false precision.
+Together these connect meaning to action without reducing all meaning to
+usefulness or treating the most useful claim as true.
+
+### Participatory family
+
+- **Value-Sensitive Inquiry** examines direct and indirect stakeholders, the
+  values at stake, actual empirical material, and how technical choices affect
+  those values.
+
+The method adapts the public Value Sensitive Design structure of conceptual,
+empirical, and technical investigation. It must remain `INCOMPLETE` when
+material stakeholder evidence is absent. Generated personas are hypotheses,
+not participation, representation, or consent.
+
+## Remaining areas worth exploring
+
+These areas may add coverage, but each needs source review and a clear job that
+does not duplicate an existing method:
+
+- **Language in use and speech acts:** how an utterance performs an action in a
+  specific social context, beyond defining its terms.
+- **Genealogical or historical concept review:** how a category developed and
+  whose purposes or power it has served.
+- **Lived-experience inquiry:** how to bind first-person evidence without having
+  a model simulate experience it does not possess.
+- **Critical dialogue and argument reconstruction:** charitable reconstruction,
+  objection, reply, and burden-of-proof tracking.
+- **Creative and analogical methods:** generating genuinely different frames
+  while controlling seductive but weak analogies.
+- **Probabilistic calibration:** useful only when priors, likelihoods, outcome
+  feedback, and scoring can be made trustworthy.
+- **Comparative traditions:** non-Western and cross-cultural methods require
+  qualified source and practitioner review, not token additions to a list.
+- **Organisational and political inquiry:** real incentives, power, culture, and
+  experience cannot be established by assigning another prompt to the same model.
+
+## Useful ideas that should not become methods yet
+
+- **Pre-mortem / What-if:** first test a profile made from Failure Modes,
+  Alternative Futures, Devil's Advocacy, and Indicators.
+- **Value of Information:** first extend or profile the Systems Trade Study; split
+  it only if the result is clearer and measurably more useful.
+- **Team A/Team B and Red Team:** these need genuinely distinct expertise,
+  evidence, or actor knowledge. Same-model agents remain correlated.
+- **Brainstorming:** useful inside other methods, but generation alone is not a
+  decision-ready analysis.
+- **SWOT and PESTLE:** familiar names do not guarantee material, evidenced output.
+  Outside-In provides a more testable current contract.
+- **Bayesian methods:** premature without reliable inputs and calibration controls.
 
 ## Admission and retention test
 
-A candidate enters the preview catalogue only after it has:
+A preview method needs:
 
-1. a reputable public source and a traceable adaptation record;
-2. a clear job that is not already covered by another method or profile;
+1. a reputable public source and traceable adaptation record;
+2. a distinct job and primary family;
 3. a bounded result contract, evidence rules, contraindications, and honest
-   `INCOMPLETE` behavior.
+   `INCOMPLETE` behaviour; and
+4. a named nearest method or profile for comparison.
 
-It should not be promoted or kept indefinitely without:
+Promotion requires independent source-fidelity review, representative/edge/
+adversarial cases, blinded comparison with a generic baseline and the nearest
+alternative, and practitioner review of usefulness and misuse. If a method does
+not add value, narrow it, revise it, or remove it rather than averaging it into
+a suite-level success.
 
-1. independent source-fidelity review;
-2. representative, edge, and adversarial cases;
-3. blinded comparison with a no-method baseline and the nearest existing
-   method or profile; and
-4. independent practitioner review of usefulness and likely misuse.
-
-The [confidence plan](../evals/CONFIDENCE_PLAN.md) describes the wider evaluation
-program. New-method admission should use the same frozen rubrics, retained
-failures, and independence rules.
+The [confidence plan](../evals/CONFIDENCE_PLAN.md) covers method evaluation. The
+[automatic method advisor plan](METHOD_ADVISOR.md) covers selection quality.

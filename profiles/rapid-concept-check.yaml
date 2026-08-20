@@ -1,0 +1,14 @@
+schema_version: "0.1.0"
+id: rapid-concept-check
+version: "0.1.0"
+title: Rapid Concept Check
+activity: analyse
+rigor: rapid
+methods:
+  - concept-clarification
+  - key-assumptions
+challenge_required: true
+status: preview
+notes: >-
+  Clarifies one decision-critical term and checks the assumptions attached to it. This is a bounded
+  triage route, not a substitute for contextual interpretation or stakeholder inquiry.

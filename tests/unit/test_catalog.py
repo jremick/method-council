@@ -16,6 +16,7 @@ def _method(identifier: str, **overrides):
         "title": f"Method {identifier}",
         "summary": "A sufficiently long method summary used by deterministic unit tests.",
         "status": "validated",
+        "family": "analytical",
         "provenance": {
             "class": "project-adaptation",
             "sources": [
@@ -92,6 +93,18 @@ def _write_catalog(tmp_path, methods, profile_methods):
     )
 
 
+def test_real_catalog_covers_all_method_families():
+    catalog = load_catalog(REPO_ROOT, SchemaRegistry(REPO_ROOT / "schemas"))
+
+    assert {method["family"] for method in catalog.methods.values()} == {
+        "analytical",
+        "interpretive",
+        "normative",
+        "pragmatic",
+        "participatory",
+    }
+
+
 def test_valid_catalog_passes_semantic_validation(tmp_path):
     _write_catalog(tmp_path, [_method("method-a")], ["method-a"])
 
@@ -116,6 +129,15 @@ def test_structurally_invalid_record_is_not_loaded(tmp_path):
     method = _method("method-a")
     method["provenance"]["sources"][0]["accessed"] = "yesterday"
     _write_catalog(tmp_path, [method], ["method-a"])
+
+    catalog = load_catalog(tmp_path, SchemaRegistry(REPO_ROOT / "schemas"))
+
+    assert "method-a" not in catalog.methods
+    assert any(issue.code == "schema.invalid" for issue in catalog.issues)
+
+
+def test_unknown_method_family_is_rejected(tmp_path):
+    _write_catalog(tmp_path, [_method("method-a", family="rhetorical")], ["method-a"])
 
     catalog = load_catalog(tmp_path, SchemaRegistry(REPO_ROOT / "schemas"))
 

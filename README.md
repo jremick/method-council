@@ -14,7 +14,6 @@
 <p align="center">
   <a href="https://github.com/jremick/method-council/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/jremick/method-council/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-blue.svg"></a>
-  <img alt="Status: public alpha" src="https://img.shields.io/badge/status-public%20alpha-C58B2A.svg">
 </p>
 
 ![A contemporary analysis workbench with separate method passes aligned at one review point](assets/generated/analysis-bench-hero.png)
@@ -47,6 +46,8 @@ You can also ask for a specific kind of help:
 - “Compare these options and show which assumptions could change the choice.”
 - “Stress-test this conclusion and show the strongest case against it.”
 - “Explore plausible futures and tell me what signs to watch.”
+- “Clarify what ‘safe enough’ means here and test the edge cases.”
+- “Show which values and affected people this design may be overlooking.”
 
 The repository already includes a Method Council skill for Codex. The method
 files are model-neutral, so another capable AI can read and follow them, but
@@ -62,35 +63,35 @@ The “members” are methods, not characters or simulated experts. Separate
 methods provide different checks. They do not turn one model into several
 independent minds.
 
-## The methods
+## The method families
 
-| Method | What it helps you do |
-| --- | --- |
-| **Evidence Quality Review** | Check whether the available information is credible, current, independent, and sufficient. |
-| **Key Assumptions Check** | Find the beliefs holding an answer up and show what changes if they are wrong. |
-| **Competing Hypotheses Analysis** | Compare several explanations against the same evidence instead of choosing a favourite too early. |
-| **Devil's Advocacy** | Build the strongest credible case against the leading conclusion and record what survives. |
-| **Alternative Futures Analysis** | Explore several plausible ways a situation could develop without pretending to predict one future. |
-| **Indicators and Signposts** | Decide what to watch and when new evidence should trigger a review. |
-| **Systems Trade Study** | Compare options against clear criteria, constraints, uncertainty, and trade-offs. |
-| **Failure Modes Review** | Find how parts of a system could fail, what the effects would be, and which controls need checking. |
-| **Causal Factors Analysis** | Explain an observed failure from timeline and contributing conditions through corrective action. |
-| **Outside View / Reference Class Check** | Test a plan or estimate against what happened in comparable completed cases. |
-| **Outside-In Context Scan** | Find material external forces before a question becomes too narrowly framed. |
+Method Council has 16 optional methods in five families. A family is simply the
+kind of question a method mainly helps answer. Most councils need only two to
+four complementary methods.
 
-The first eight cover input quality, assumptions, explanations, challenge,
-uncertainty, monitoring, choice, and prospective failure. The three new preview
-methods add retrospective causes, real-world base rates, and wider context.
-That gives the catalogue a useful range without adding methods that mainly
-repeat the same job. See the [method catalogue review](docs/METHOD_CATALOGUE.md)
-for the selection reasoning and remaining gaps.
+| Family | What it helps you ask | Optional methods and their value |
+| --- | --- | --- |
+| **Analytical** | What do the evidence, explanations, uncertainty, and risks support? | Evidence Quality *(check sources)*; Key Assumptions *(find load-bearing beliefs)*; Competing Hypotheses *(compare explanations)*; Devil's Advocacy *(challenge the lead answer)*; Alternative Futures *(explore plausible paths)*; Indicators and Signposts *(know what to watch)*; Failure Modes *(find possible failures)*; Causal Factors *(explain an observed outcome)*; Outside View *(use comparable cases)*; Outside-In *(scan wider forces)* |
+| **Interpretive** | What do the important terms, passages, and contexts mean? | Concept Clarification *(separate and test meanings)*; Contextual Interpretation *(compare source-bound readings)* |
+| **Normative** | Which principles and judgments should guide the choice? | Reflective Equilibrium *(reconcile judgments and principles)* |
+| **Pragmatic** | What changes in practice, and which option best serves the goal? | Pragmatic Clarification *(test practical differences)*; Systems Trade Study *(compare options and trade-offs)* |
+| **Participatory** | Whose values and experience need real evidence or involvement? | Value-Sensitive Inquiry *(connect stakeholder evidence, values, and design)* |
+
+The newer interpretive, normative, pragmatic, and participatory methods widen
+the council beyond mainly factual and logical analysis. They also have strict
+limits: an AI cannot decide moral truth, invent stakeholder views, or turn one
+plausible interpretation into the only correct reading. All five new methods
+remain unevaluated previews. See the
+[method catalogue review](docs/METHOD_CATALOGUE.md) for the reasoning, sources,
+and remaining gaps.
 
 ## How it works
 
 1. **Scope the question.** Define the decision, evidence, constraints, and who
    will make the final call.
-2. **Choose the methods.** Use the smallest complementary set that fits the
-   task and the amount of rigor needed.
+2. **Choose the methods.** Unless you name them, the skill proposes the smallest
+   complementary set that fits the task and explains why. You can override the
+   proposal with specific methods.
 3. **Run separate passes.** Each method produces its own findings and keeps
    evidence, assumptions, and unknowns visible.
 4. **Challenge the emerging answer.** A challenge method looks for weaknesses,
@@ -122,6 +123,11 @@ answer.
 The software checks that the expected steps and evidence links are present. It
 cannot prove that a conclusion is true or that the method was used expertly.
 
+Today, automatic selection is a model proposal followed by deterministic route
+checks. A structured [automatic method advisor](docs/METHOD_ADVISOR.md) is
+planned as the eventual default, but it will not be treated as trusted until it
+passes separate selection evaluations.
+
 ## What the result means
 
 Every run has a clear status:
@@ -143,8 +149,8 @@ Method Council is a public alpha:
   commit-bound acceptance runs.
 - Those runs pass the structural and host-evidence checks, while honestly
   remaining `INCOMPLETE / CORRELATED`.
-- Eight of the eleven methods have an initial specimen and a correlated
-  semantic screen. The three new methods are explicitly unevaluated.
+- Eight of the 16 methods have an initial specimen and a correlated semantic
+  screen. The other eight are explicitly unevaluated.
 - No method has yet passed the planned blinded baseline comparison and
   independent practitioner review.
 - Claude and Gemini adapter contracts exist only as disabled previews.
@@ -156,6 +162,8 @@ authority for a high-stakes decision.
 
 - [Method catalogue review](docs/METHOD_CATALOGUE.md) — selection reasoning,
   current coverage, and remaining gaps
+- [Automatic method advisor plan](docs/METHOD_ADVISOR.md) — default selection,
+  user overrides, safeguards, and evaluation gates
 - [Method guides](methods/) — the steps, uses, and limits of each method
 - [Report anatomy](docs/REPORT_ANATOMY.md) — what a finished report contains
 - [Method evaluation](evals/METHOD_EVALS.md) — what has and has not been tested

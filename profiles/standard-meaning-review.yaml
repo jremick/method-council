@@ -1,0 +1,17 @@
+schema_version: "0.1.0"
+id: standard-meaning-review
+version: "0.1.0"
+title: Standard Meaning and Context Review
+activity: review
+rigor: standard
+methods:
+  - concept-clarification
+  - contextual-interpretation
+  - key-assumptions
+  - devils-advocacy
+challenge_required: true
+status: preview
+notes: >-
+  Clarifies a decision-critical concept, interprets supplied material in context, exposes the
+  assumptions connecting meaning to judgment, and challenges the leading reading. It does not
+  establish one correct interpretation.

@@ -6,6 +6,7 @@ summary: >-
   Performs a preliminary bottom-up review of how defined system elements can fail, the effects of
   those failures, existing detection or controls, and actions requiring accountable follow-up.
 status: preview
+family: analytical
 provenance:
   class: project-adaptation
   sources:

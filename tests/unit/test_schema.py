@@ -36,6 +36,7 @@ def test_format_checker_rejects_invalid_source_uri():
         "title": "Test method",
         "summary": "A sufficiently long summary for this test method.",
         "status": "preview",
+        "family": "analytical",
         "provenance": {
             "class": "project-adaptation",
             "sources": [
@@ -52,6 +53,8 @@ def test_format_checker_rejects_invalid_source_uri():
             "claim_limits": ["This fixture makes no external quality claim."],
         },
         "activities": ["analyse"],
+        "capabilities": ["evidence-assessment"],
+        "requires_methods": [],
         "applicability": {
             "use_when": ["Testing"],
             "avoid_when": ["Not testing"],
