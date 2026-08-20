@@ -107,6 +107,14 @@ paths, and the emerging recommendation.
 
 ![A complex public-service platform decision combines six kinds of source material and six complementary methods before a staged recommendation and human checkpoint](assets/exported/council-in-practice-complex.svg)
 
+A values-heavy question might ask: **What should “fair access” mean for an
+automated public service, and which design should follow from it?** Source
+material could include the policy definition, legal duties, service data,
+appeals, and actual stakeholder research. A possible council is Concept
+Clarification, Value-Sensitive Inquiry, Reflective Equilibrium, and Devil's
+Advocacy. If the stakeholder evidence is missing, the council must say so and
+remain incomplete rather than inventing people's views.
+
 The methods are the council members. Models are optional execution paths.
 
 - **Easy default:** one GPT runs each method in Codex. These passes are marked
