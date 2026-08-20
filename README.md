@@ -71,11 +71,11 @@ four complementary methods.
 
 | Family | What it helps you ask | Optional methods and their value |
 | --- | --- | --- |
-| **Analytical** | What do the evidence, explanations, uncertainty, and risks support? | Evidence Quality *(check sources)*; Key Assumptions *(find load-bearing beliefs)*; Competing Hypotheses *(compare explanations)*; Devil's Advocacy *(challenge the lead answer)*; Alternative Futures *(explore plausible paths)*; Indicators and Signposts *(know what to watch)*; Failure Modes *(find possible failures)*; Causal Factors *(explain an observed outcome)*; Outside View *(use comparable cases)*; Outside-In *(scan wider forces)* |
-| **Interpretive** | What do the important terms, passages, and contexts mean? | Concept Clarification *(separate and test meanings)*; Contextual Interpretation *(compare source-bound readings)* |
-| **Normative** | Which principles and judgments should guide the choice? | Reflective Equilibrium *(reconcile judgments and principles)* |
-| **Pragmatic** | What changes in practice, and which option best serves the goal? | Pragmatic Clarification *(test practical differences)*; Systems Trade Study *(compare options and trade-offs)* |
-| **Participatory** | Whose values and experience need real evidence or involvement? | Value-Sensitive Inquiry *(connect stakeholder evidence, values, and design)* |
+| **Analytical** | What do the evidence, explanations, uncertainty, and risks support? | <ul><li>Evidence Quality — check sources</li><li>Key Assumptions — find load-bearing beliefs</li><li>Competing Hypotheses — compare explanations</li><li>Devil's Advocacy — challenge the lead answer</li><li>Alternative Futures — explore plausible paths</li><li>Indicators and Signposts — know what to watch</li><li>Failure Modes — find possible failures</li><li>Causal Factors — explain an observed outcome</li><li>Outside View — use comparable cases</li><li>Outside-In — scan wider forces</li></ul> |
+| **Interpretive** | What do the important terms, passages, and contexts mean? | <ul><li>Concept Clarification — separate and test meanings</li><li>Contextual Interpretation — compare source-bound readings</li></ul> |
+| **Normative** | Which principles and judgments should guide the choice? | <ul><li>Reflective Equilibrium — reconcile judgments and principles</li></ul> |
+| **Pragmatic** | What changes in practice, and which option best serves the goal? | <ul><li>Pragmatic Clarification — test practical differences</li><li>Systems Trade Study — compare options and trade-offs</li></ul> |
+| **Participatory** | Whose values and experience need real evidence or involvement? | <ul><li>Value-Sensitive Inquiry — connect stakeholder evidence, values, and design</li></ul> |
 
 The newer interpretive, normative, pragmatic, and participatory methods widen
 the council beyond mainly factual and logical analysis. They also have strict
