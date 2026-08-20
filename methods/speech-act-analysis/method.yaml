@@ -1,0 +1,143 @@
+schema_version: "0.1.0"
+id: speech-act-analysis
+version: "0.1.0"
+title: Speech-Act and Language-in-Use Analysis
+summary: >-
+  Examines what a source-bound utterance does in context, including its asserted content,
+  communicative force, commitments, authority conditions, uptake, and possible effects.
+status: preview
+family: interpretive
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-speech-acts-2023
+      title: Speech Acts
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/archives/sum2023/entries/speech-acts/index.html
+      accessed: "2026-08-20"
+      supports:
+        - Language can perform actions such as asserting, requesting, promising, warning, or authorising
+        - Communicative force and effects depend on context, conventions, authority, intentions, and uptake
+      notes: >-
+        Expert synthesis of several contested traditions. The project creates a bounded interpretive
+        checklist and does not claim one complete taxonomy or access to private speaker intent.
+  adaptation: >-
+    Turns speech-act concepts into a source-bound comparison of content, force, conditions,
+    commitments, uptake, and effects suitable for reviewing policies, messages, and interactions.
+  claim_limits:
+    - The method cannot recover private intention or actual audience uptake without evidence.
+    - Speech-act classifications are interpretive and can vary across linguistic and social contexts.
+    - A communicative act is not automatically legally binding, truthful, legitimate, or effective.
+    - This preview has not received independent philosophy-of-language or discourse-practice review.
+activities: [analyse, investigate, decide, review]
+capabilities: [speech-act-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - The question depends on what wording does, not only what its words denote.
+    - A statement may create commitments, permissions, warnings, requests, exclusions, or institutional effects.
+  avoid_when:
+    - The exact utterance and material context are unavailable.
+    - The task asks only whether the propositional content of a factual statement is true.
+  prerequisites:
+    - The exact source-bound utterance or interaction and its surrounding record
+    - Evidence about speaker role, audience, conventions, authority, sequence, and observable response where available
+rigor:
+  rapid:
+    enabled: true
+    steps: [bound-utterance, separate-content-force, identify-act, test-conditions, record-reading]
+    minimum_evidence_refs: 1
+    notes: Reviews one consequential utterance and the strongest supported account of its function.
+  standard:
+    enabled: true
+    steps: [bound-utterance, separate-content-force, identify-act, test-conditions, trace-commitments, examine-uptake, compare-readings, record-reading]
+    minimum_evidence_refs: 2
+    notes: Compares plausible acts and records commitments, uptake, and unsupported context.
+  intensive:
+    enabled: true
+    steps: [bound-utterance, separate-content-force, identify-act, test-conditions, trace-commitments, examine-uptake, trace-effects, compare-readings, test-power, record-reading]
+    minimum_evidence_refs: 3
+    notes: Adds downstream effects and power, exclusion, or authority analysis across relevant contexts.
+procedure:
+  - id: bound-utterance
+    title: Bound the utterance and context
+    instruction: >-
+      Quote or identify the exact utterance, interaction, speaker, audience, sequence, setting, and
+      decision question while marking missing or disputed contextual evidence.
+    required: true
+    artifact_fields: [utterance, interaction_boundary, speaker_audience, context_gaps]
+  - id: separate-content-force
+    title: Separate content from force
+    instruction: >-
+      State what the utterance appears to say and separately what communicative action it may perform,
+      avoiding the assumption that grammatical form uniquely determines social function.
+    required: true
+    artifact_fields: [propositional_content, candidate_forces, form_function_limits]
+  - id: identify-act
+    title: Identify candidate acts
+    instruction: >-
+      Classify the strongest supported candidates such as assertion, request, promise, warning,
+      permission, refusal, declaration, or indirect act and explain the source-bound cues for each.
+    required: true
+    artifact_fields: [candidate_acts, contextual_cues, classification_uncertainty]
+  - id: test-conditions
+    title: Test enabling conditions
+    instruction: >-
+      Check relevant conventions, authority, roles, sincerity assumptions, preparatory conditions,
+      timing, and procedural completion without inferring private mental states as facts.
+    required: true
+    artifact_fields: [enabling_conditions, authority_record, unsupported_intentions]
+  - id: trace-commitments
+    title: Trace commitments and permissions
+    instruction: >-
+      Record which obligations, expectations, permissions, entitlements, or conversational commitments
+      the utterance plausibly creates, changes, rejects, or leaves disputed.
+    required: false
+    artifact_fields: [commitments, permissions, disputed_obligations]
+  - id: examine-uptake
+    title: Examine uptake and response
+    instruction: >-
+      Link evidence of audience interpretation, acceptance, resistance, confusion, or non-response to
+      the candidate act, distinguishing observed uptake from predicted or intended uptake.
+    required: false
+    artifact_fields: [observed_uptake, audience_responses, uptake_gaps]
+  - id: trace-effects
+    title: Trace supported effects
+    instruction: >-
+      Identify documented behavioural, institutional, relational, or classificatory effects while
+      separating correlation, intended consequences, and credible alternative causes.
+    required: false
+    artifact_fields: [supported_effects, intended_effects, causal_limits]
+  - id: compare-readings
+    title: Compare plausible readings
+    instruction: >-
+      Develop the strongest context-compatible alternatives and show which evidence, conventions, or
+      sequence details favour or weaken each reading.
+    required: false
+    artifact_fields: [alternative_readings, discriminating_context, unresolved_readings]
+  - id: test-power
+    title: Test authority and exclusion
+    instruction: >-
+      Examine how institutional authority, social position, indirectness, silence, or audience access
+      affects who can perform, contest, or be bound by the apparent act.
+    required: false
+    artifact_fields: [power_conditions, excluded_participants, contestability]
+  - id: record-reading
+    title: Record the supported interpretation
+    instruction: >-
+      State the best-supported act, remaining alternatives, resulting commitments or effects, and the
+      evidence needed before making stronger claims about intention, uptake, legality, or impact.
+    required: true
+    artifact_fields: [supported_act, remaining_alternatives, implications, change_evidence]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [contextual-interpretation, concept-clarification, reflexive-thematic-analysis, rights-proportionality-review]
+conflicts: []
+failure_modes:
+  - Grammatical form is mechanically mapped to one speech act regardless of context.
+  - Private intention, sincerity, or audience uptake is invented and presented as fact.
+  - Naming an act is treated as proof that it was effective, legitimate, truthful, or legally binding.
+  - Institutional power, indirectness, sequence, culture, or contested conventions disappear from the analysis.
+  - A clever language reading distracts from checking the underlying factual claim or material effect.

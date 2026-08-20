@@ -1,0 +1,166 @@
+schema_version: "0.1.0"
+id: human-centred-design-inquiry
+version: "0.1.0"
+title: Human-Centred Design Inquiry
+summary: >-
+  Grounds a design decision in evidence about real users, their goals, tasks, environments,
+  constraints, and iterative evaluation rather than relying on stakeholder assumptions or invented personas.
+status: preview
+family: participatory
+provenance:
+  class: project-adaptation
+  sources:
+    - id: iso-9241-210-2019
+      title: ISO 9241-210:2019 — Human-centred design for interactive systems
+      publisher: International Organization for Standardization
+      url: https://www.iso.org/standard/77520.html
+      accessed: "2026-08-20"
+      supports:
+        - Human-centred design principles and activities throughout the lifecycle of interactive systems
+        - A framework for planning and managing human-centred design rather than detailed method coverage
+      notes: >-
+        Only the public ISO abstract and metadata are used. The project does not reconstruct the paid
+        standard, reproduce its checklist, or claim conformance.
+    - id: govuk-understand-user-needs
+      title: Service Standard — Understand users and their needs
+      publisher: UK Government Digital Service
+      url: https://www.gov.uk/service-manual/service-standard/point-1-understand-user-needs
+      accessed: "2026-08-20"
+      supports:
+        - Research with actual users, whole-context understanding, assumption testing, prototypes, and iteration
+        - Focusing on the user's problem rather than prematurely committing to one solution
+    - id: govuk-user-needs-research
+      title: Learning about users and their needs
+      publisher: UK Government Digital Service
+      url: https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs
+      accessed: "2026-08-20"
+      supports:
+        - Continuous evidence from interviews, observation, analytics, and service staff
+        - Treating non-user opinions as assumptions and including users who face barriers
+  adaptation: >-
+    Combines the public ISO lifecycle boundary with public GDS user-research guidance in a bounded
+    inquiry that separates user evidence, analyst assumptions, requirements, prototypes, and iteration.
+  claim_limits:
+    - This project does not reproduce ISO 9241-210 or establish conformance with it.
+    - Generated personas, simulated users, proxies, and model preferences are not user research.
+    - A design review does not establish usability, accessibility, safety, inclusion, or adoption.
+    - This preview has not received independent human-factors, user-research, or service-design review.
+activities: [analyse, decide, architect, review]
+capabilities: [human-centred-inquiry]
+requires_methods: []
+applicability:
+  use_when:
+    - A product, service, workflow, or interactive system must fit real user goals, tasks, and contexts.
+    - The team needs to separate evidence-backed user needs from internal assumptions and proposed features.
+  avoid_when:
+    - No real user evidence is available and the analysis would present generated personas as participation.
+    - The task requires formal usability, accessibility, safety, or ISO conformance assessment beyond this record.
+  prerequisites:
+    - A bounded design decision, lifecycle stage, intended users, and operational context
+    - Actual user research, observed behaviour, service evidence, or an explicit plan to obtain it
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid model-only pass would encourage invented users and untested needs.
+  standard:
+    enabled: true
+    steps: [bound-design, map-users-context, bind-user-evidence, identify-needs, map-tasks, define-requirements, test-design-evidence, plan-iteration, record-gaps]
+    minimum_evidence_refs: 2
+    notes: Requires real user evidence and turns unsupported views into research questions.
+  intensive:
+    enabled: true
+    steps: [bound-design, map-users-context, bind-user-evidence, identify-needs, map-tasks, test-exclusion, define-requirements, compare-prototypes, test-design-evidence, plan-iteration, record-gaps]
+    minimum_evidence_refs: 3
+    notes: Adds exclusion analysis and evidence from competing prototypes or repeated research rounds.
+procedure:
+  - id: bound-design
+    title: Bound the design decision
+    instruction: >-
+      State the product, service, workflow, or system; lifecycle stage; decision owner; affected channels;
+      constraints; and what this inquiry can and cannot establish.
+    required: true
+    artifact_fields: [design_boundary, lifecycle_stage, decision_owner, constraints]
+  - id: map-users-context
+    title: Map users and context of use
+    instruction: >-
+      Identify actual and likely users, non-users, support and operational roles, goals, environments,
+      devices, channels, abilities, constraints, and the evidence basis for each category.
+    required: true
+    artifact_fields: [user_groups, nonusers, context_of_use, category_basis]
+  - id: bind-user-evidence
+    title: Bind real user evidence
+    instruction: >-
+      Link interviews, observations, usability sessions, analytics, service data, complaints, or other
+      supplied evidence to claims and mark stakeholder opinions or generated examples as assumptions.
+    required: true
+    artifact_fields: [user_evidence, service_evidence, unsupported_assumptions, evidence_gaps]
+  - id: identify-needs
+    title: Identify evidence-backed needs
+    instruction: >-
+      State what users are trying to achieve, why, under which conditions, and which barriers they face,
+      keeping needs distinct from features, channels, organisational preferences, or proposed solutions.
+    required: true
+    artifact_fields: [user_goals, user_needs, barriers, solution_assumptions]
+  - id: map-tasks
+    title: Map tasks and journeys
+    instruction: >-
+      Trace relevant end-to-end tasks, decisions, handoffs, failure points, workarounds, support needs,
+      and interactions outside the immediate interface or organisational boundary.
+    required: true
+    artifact_fields: [task_map, journey_map, failure_points, workarounds]
+  - id: test-exclusion
+    title: Test exclusion and coverage
+    instruction: >-
+      Examine whether research and design omit disabled people, low-frequency users, non-digital channels,
+      language needs, low confidence, support roles, or other groups likely to face disproportionate barriers.
+    required: false
+    artifact_fields: [excluded_groups, research_coverage, disproportionate_barriers]
+  - id: define-requirements
+    title: Define human-centred requirements
+    instruction: >-
+      Translate supported needs and context into testable requirements and success or harm measures while
+      preserving traceability to evidence and uncertainty.
+    required: true
+    artifact_fields: [requirements, evidence_traceability, success_measures, harm_measures]
+  - id: compare-prototypes
+    title: Compare design alternatives
+    instruction: >-
+      Compare multiple prototypes or approaches against the supported requirements, including who was
+      involved, what was tested, observed breakdowns, and plausible options not yet tested.
+    required: false
+    artifact_fields: [design_alternatives, prototype_evidence, observed_breakdowns, untested_options]
+  - id: test-design-evidence
+    title: Test with user evidence
+    instruction: >-
+      Evaluate the proposed design against actual user evidence, observed task performance, accessibility
+      needs, support effects, and operational constraints without treating model simulation as user testing.
+    required: true
+    artifact_fields: [evaluation_evidence, task_outcomes, accessibility_evidence, unresolved_failures]
+  - id: plan-iteration
+    title: Plan the next research iteration
+    instruction: >-
+      Define the next research questions, participant groups, prototypes, measures, owners, privacy controls,
+      and design decisions that the resulting evidence could change.
+    required: true
+    artifact_fields: [research_questions, participant_plan, iteration_owner, change_decisions]
+  - id: record-gaps
+    title: Record design confidence and gaps
+    instruction: >-
+      State which needs and requirements are evidence-backed, assumed, contradicted, or untested and keep
+      the result incomplete when material user groups or task evidence are missing.
+    required: true
+    artifact_fields: [supported_needs, assumptions, contradictions, completion_limit]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [value-sensitive-inquiry, reflexive-thematic-analysis, capability-distribution-review, systems-trade-study, evidence-quality]
+conflicts: []
+failure_modes:
+  - Generated personas or stakeholder opinions are presented as evidence from actual users.
+  - Features or organisational preferences are relabelled as user needs.
+  - Research covers only typical or convenient users and hides people facing the largest barriers.
+  - Prototype enthusiasm substitutes for observed task outcomes, accessibility evidence, or operational fit.
+  - The review claims usability, inclusion, safety, adoption, or ISO conformance that it did not test.

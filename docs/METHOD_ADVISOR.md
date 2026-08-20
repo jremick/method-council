@@ -46,9 +46,10 @@ hidden reasoning or a free-form score:
 - evidence availability, source dependence, and material gaps;
 - causal, forecast, option-choice, or failure-risk focus;
 - vague or contested terms;
-- source interpretation or historical context;
-- duties, principles, fairness, rights, or value conflict;
-- direct and indirect stakeholder effects and missing participation;
+- source interpretation, qualitative-corpus patterns, language use, or historical context;
+- duties, principles, fairness, rights limits, substantive opportunity, distribution, or value conflict;
+- intervention pathways, mechanisms, outcomes, monitoring, reversibility, or governed adaptation;
+- direct and indirect stakeholder effects, real user evidence, expert elicitation, or missing participation;
 - external-context sensitivity;
 - explicit user includes, excludes, and exact selections.
 
@@ -70,6 +71,26 @@ Families narrow the search. Method-level rules then check applicability,
 contraindications, prerequisites, activity, rigor, complements, conflicts, and
 challenge coverage. Family diversity is useful only when the task signals call
 for it; the advisor must not select one method from every family by default.
+
+## New-method discrimination
+
+The expanded families need method-level distinctions so broad words such as
+“users,” “rights,” “change,” or “experts” do not select every related method.
+
+| Method | Select when | Do not select when |
+| --- | --- | --- |
+| `reflexive-thematic-analysis` | A bounded qualitative corpus needs patterns of shared meaning, source-linked coding, and reflexive interpretation | The task needs counts, prevalence, causal inference, or only one source summary |
+| `speech-act-analysis` | The action performed by exact wording, authority, uptake, or commitments matters | Only the truth of a factual proposition is in question or the utterance context is missing |
+| `rights-proportionality-review` | A measure limits an identified right or important interest and alternatives and burdens need justification | The right, authority, limit, jurisdiction, or effects evidence cannot be identified |
+| `capability-distribution-review` | Equal resources or formal access may produce unequal substantive opportunity | The task would invent what people value or has no material effect on opportunity or agency |
+| `theory-of-change` | A bounded intervention needs an explicit pathway from problem and inputs through mechanisms to outcomes | A change map would be used as proof of attribution or no intervention owner or outcome exists |
+| `adaptive-management` | A revisable decision can reduce consequential uncertainty through monitored cycles and authorised adjustment | The action is irreversible, monitoring is too late, experimentation is unethical, or no adjustment authority exists |
+| `human-centred-design-inquiry` | Actual user evidence must inform needs, tasks, requirements, prototypes, or iteration | Only generated personas or internal stakeholder opinions are available |
+| `structured-expert-elicitation` | Real experts can provide independent judgments over at least two controlled-feedback rounds | The proposed panel consists of model agents, one poll, an open debate, or no real participants |
+
+Missing prerequisites should normally exclude these methods from an executable
+route while allowing the advisor to recommend them as a next evidence-gathering
+step. It must not turn prerequisite absence into synthetic evidence.
 
 ## Proposed architecture
 
@@ -118,7 +139,8 @@ change the family or method choice, it should ask one concise question.
 ### Phase 0 — catalogue structure
 
 Complete in source: one required primary family per method, five family values,
-new interpretive/normative/pragmatic/participatory methods, and documented limits.
+expanded interpretive/normative/pragmatic/participatory methods, and documented
+limits. Catalogue presence does not complete method admission or selection evals.
 
 ### Phase 1 — advisory contract
 

@@ -1,5 +1,6 @@
 import json
 import shutil
+from collections import Counter
 from pathlib import Path
 
 from method_council.catalog import load_catalog
@@ -96,6 +97,7 @@ def _write_catalog(tmp_path, methods, profile_methods):
 def test_real_catalog_covers_all_method_families():
     catalog = load_catalog(REPO_ROOT, SchemaRegistry(REPO_ROOT / "schemas"))
 
+    assert len(catalog.methods) == 24
     assert {method["family"] for method in catalog.methods.values()} == {
         "analytical",
         "interpretive",
@@ -103,6 +105,55 @@ def test_real_catalog_covers_all_method_families():
         "pragmatic",
         "participatory",
     }
+    assert Counter(method["family"] for method in catalog.methods.values()) == {
+        "analytical": 10,
+        "interpretive": 4,
+        "normative": 3,
+        "pragmatic": 4,
+        "participatory": 3,
+    }
+
+
+def test_expanded_methods_remain_preview_and_preserve_participation_boundaries():
+    catalog = load_catalog(REPO_ROOT, SchemaRegistry(REPO_ROOT / "schemas"))
+    expected = {
+        "reflexive-thematic-analysis": ("interpretive", "thematic-analysis"),
+        "speech-act-analysis": ("interpretive", "speech-act-analysis"),
+        "rights-proportionality-review": ("normative", "rights-proportionality-analysis"),
+        "capability-distribution-review": ("normative", "capability-distribution-analysis"),
+        "theory-of-change": ("pragmatic", "theory-of-change"),
+        "adaptive-management": ("pragmatic", "adaptive-management"),
+        "human-centred-design-inquiry": ("participatory", "human-centred-inquiry"),
+        "structured-expert-elicitation": ("participatory", "expert-elicitation"),
+    }
+
+    for method_id, (family, capability) in expected.items():
+        method = catalog.methods[method_id]
+        assert method["status"] == "preview"
+        assert method["family"] == family
+        assert capability in method["capabilities"]
+        assert len(method["provenance"]["claim_limits"]) >= 4
+
+    for method_id in {
+        "adaptive-management",
+        "capability-distribution-review",
+        "human-centred-design-inquiry",
+        "reflexive-thematic-analysis",
+        "rights-proportionality-review",
+        "structured-expert-elicitation",
+    }:
+        assert catalog.methods[method_id]["rigor"]["rapid"]["enabled"] is False
+
+    expert_limits = " ".join(
+        catalog.methods["structured-expert-elicitation"]["provenance"]["claim_limits"]
+    )
+    user_limits = " ".join(
+        catalog.methods["human-centred-design-inquiry"]["provenance"]["claim_limits"]
+    )
+    adaptive_limits = " ".join(catalog.methods["adaptive-management"]["provenance"]["claim_limits"])
+    assert "model agents" in expert_limits.lower()
+    assert "generated personas" in user_limits.lower()
+    assert "plan or dashboard" in adaptive_limits.lower()
 
 
 def test_valid_catalog_passes_semantic_validation(tmp_path):

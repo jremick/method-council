@@ -1,0 +1,143 @@
+schema_version: "0.1.0"
+id: capability-distribution-review
+version: "0.1.0"
+title: Capability and Distribution Review
+summary: >-
+  Examines whether different people have substantive opportunities to achieve valued outcomes,
+  including the personal, social, and environmental conditions that shape conversion of means into ends.
+status: preview
+family: normative
+provenance:
+  class: project-adaptation
+  sources:
+    - id: sep-capability-approach-2025
+      title: The Capability Approach
+      publisher: Stanford Encyclopedia of Philosophy
+      url: https://plato.stanford.edu/entries/capability-approach/
+      accessed: "2026-08-20"
+      supports:
+        - Distinguishing resources and formal rights from substantive opportunities and achieved functionings
+        - Examining personal, social, and environmental conversion factors, human diversity, agency, and distribution
+      notes: >-
+        Expert synthesis of a plural framework associated with Amartya Sen, Martha Nussbaum, and
+        later scholarship. The project does not select a universal capability list or theory of justice.
+  adaptation: >-
+    Turns capability-approach concepts into a bounded distribution review that links resources,
+    formal entitlements, conversion factors, real opportunities, achieved outcomes, and missing voices.
+  claim_limits:
+    - The capability approach is a framework and does not by itself provide a complete theory of justice.
+    - Capability selection, thresholds, weighting, and aggregation require explicit normative justification.
+    - A model cannot infer people's valued opportunities, agency, adaptation, or lived constraints without evidence.
+    - This preview has not received independent capability-approach or distributional-practice review.
+activities: [analyse, decide, architect, review]
+capabilities: [capability-distribution-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - Equal resources, access, or formal rights may produce materially unequal real opportunities or outcomes.
+    - A decision needs to expose conversion barriers, constrained choices, or distribution across affected groups.
+  avoid_when:
+    - The bounded question has no material effect on people's opportunities, agency, or wellbeing.
+    - The analysis would invent what affected people value or substitute generic capability lists for empirical evidence.
+  prerequisites:
+    - A bounded decision, affected people or groups, and the purpose of the evaluation
+    - Evidence about resources, entitlements, constraints, actual opportunities, choices, and outcomes
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid checklist risks imposing generic capabilities and missing unequal conversion conditions.
+  standard:
+    enabled: true
+    steps: [bound-purpose, identify-affected-groups, distinguish-means-ends, select-capabilities, map-conversion-factors, compare-opportunities, preserve-agency, record-distribution]
+    minimum_evidence_refs: 2
+    notes: Compares substantive opportunities while keeping capability selection and missing evidence explicit.
+  intensive:
+    enabled: true
+    steps: [bound-purpose, identify-affected-groups, distinguish-means-ends, select-capabilities, map-conversion-factors, compare-opportunities, test-intersections, preserve-agency, test-adaptation, record-distribution]
+    minimum_evidence_refs: 3
+    notes: Adds intersectional constraints and tests whether expressed preferences reflect restricted options.
+procedure:
+  - id: bound-purpose
+    title: Bound the evaluative purpose
+    instruction: >-
+      State the decision, accountable authority, evaluation purpose, affected period, and which questions
+      about wellbeing, freedom, distribution, or justice remain outside this method.
+    required: true
+    artifact_fields: [decision_boundary, evaluative_purpose, authority, excluded_questions]
+  - id: identify-affected-groups
+    title: Identify affected people and groups
+    instruction: >-
+      Identify direct and indirect groups, internal diversity, absent voices, and the evidence basis for
+      inclusion without treating analyst-created categories as how people identify themselves.
+    required: true
+    artifact_fields: [affected_groups, internal_diversity, group_evidence, missing_voices]
+  - id: distinguish-means-ends
+    title: Distinguish means, capabilities, and functionings
+    instruction: >-
+      Separate resources and formal entitlements from real opportunities and achieved outcomes, showing
+      where apparently equal means do not imply equal ability to use them.
+    required: true
+    artifact_fields: [means, formal_entitlements, capabilities, functionings]
+  - id: select-capabilities
+    title: Justify capability selection
+    instruction: >-
+      State which doings, beings, or substantive opportunities matter for this purpose, whose values and
+      evidence support their selection, and which plausible capabilities remain excluded or disputed.
+    required: true
+    artifact_fields: [selected_capabilities, selection_basis, disputed_capabilities]
+  - id: map-conversion-factors
+    title: Map conversion conditions
+    instruction: >-
+      Link personal, social, institutional, technical, and environmental factors to each group's ability
+      to convert resources or rights into the selected opportunities and outcomes.
+    required: true
+    artifact_fields: [personal_factors, social_factors, environmental_factors, conversion_map]
+  - id: compare-opportunities
+    title: Compare real opportunities
+    instruction: >-
+      Compare the capability sets plausibly available to affected groups, including jointly incompatible
+      options, thresholds, robustness, uncertainty, and evidence gaps without inventing numeric precision.
+    required: true
+    artifact_fields: [capability_comparison, constrained_choices, robustness, comparison_limits]
+  - id: test-intersections
+    title: Test intersecting constraints
+    instruction: >-
+      Examine whether disability, care responsibilities, location, income, language, discrimination, or
+      other supported conditions combine in ways that group averages conceal.
+    required: false
+    artifact_fields: [intersecting_constraints, hidden_burdens, aggregation_limits]
+  - id: preserve-agency
+    title: Preserve agency and choice
+    instruction: >-
+      Distinguish having an opportunity from choosing or achieving it and avoid treating one preferred
+      functioning as mandatory when people have evidence-backed reasons to value different lives.
+    required: true
+    artifact_fields: [agency_record, choice_conditions, paternalism_risks]
+  - id: test-adaptation
+    title: Test constrained preference
+    instruction: >-
+      Examine whether reported satisfaction or preference may reflect restricted options, exclusion, or
+      adaptation while keeping this as a hypothesis unless affected-person evidence supports it.
+    required: false
+    artifact_fields: [adaptation_hypotheses, supporting_evidence, inference_limits]
+  - id: record-distribution
+    title: Record the distributional judgment
+    instruction: >-
+      State who gains or loses which substantive opportunities, the normative choices and uncertainties,
+      missing participation, and interventions or evidence that could change the result.
+    required: true
+    artifact_fields: [distributional_judgment, gains_and_losses, normative_choices, change_conditions]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [value-sensitive-inquiry, rights-proportionality-review, reflective-equilibrium, human-centred-design-inquiry, evidence-quality]
+conflicts: []
+failure_modes:
+  - Equal resources or formal access are treated as equal substantive opportunity.
+  - A generic capability list is imposed without purpose, affected-person evidence, or normative justification.
+  - Observed outcomes are treated as freely chosen despite constrained or mutually incompatible options.
+  - Group averages hide disability, care, geography, discrimination, or other conversion differences.
+  - The model invents lived constraints, values, adaptive preferences, or stakeholder consent.

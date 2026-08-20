@@ -1,0 +1,150 @@
+schema_version: "0.1.0"
+id: structured-expert-elicitation
+version: "0.1.0"
+title: Structured Expert Elicitation
+summary: >-
+  Designs and reviews a Delphi-style process in which real experts provide independent judgments
+  over repeated anonymous rounds with controlled feedback, aggregation, dissent, and attrition preserved.
+status: preview
+family: participatory
+provenance:
+  class: project-adaptation
+  sources:
+    - id: rand-delphi-guidance-2024
+      title: RAND Methodological Guidance for Conducting and Critically Appraising Delphi Panels
+      publisher: RAND Corporation
+      url: https://www.rand.org/content/dam/rand/pubs/tools/TLA3000/TLA3082-1/RAND_TLA3082-1.pdf
+      accessed: "2026-08-20"
+      supports:
+        - Delphi characteristics of anonymity, iteration, controlled feedback, and statistical summary
+        - Panel selection, question development, multiple rounds, consensus definition, reporting, and appraisal
+      notes: >-
+        Public methodological guidance. Method Council uses a bounded domain-neutral record and does
+        not reproduce scoring tools, claim RAND endorsement, or treat model agents as panel experts.
+  adaptation: >-
+    Converts RAND's public Delphi guidance into a model-assisted orchestration and appraisal artifact
+    that requires real expert participants and preserves panel design, rounds, feedback, dissent, and attrition.
+  claim_limits:
+    - Multiple model agents are not an expert panel and cannot satisfy the participant requirement.
+    - Consensus is not truth, probability calibration, stakeholder legitimacy, or independence from shared evidence.
+    - Expert selection, conflicts, anonymity, consent, privacy, attrition, and facilitation materially shape results.
+    - This preview has not received independent Delphi-method or research-ethics review.
+activities: [analyse, decide, forecast, review]
+capabilities: [expert-elicitation]
+requires_methods: []
+applicability:
+  use_when:
+    - A bounded question benefits from judgments of real experts that cannot be resolved by available empirical evidence alone.
+    - Independent initial responses and controlled feedback can reduce dominance while preserving disagreement.
+  avoid_when:
+    - No real qualified experts, secure participant process, or minimum two-round design is available.
+    - The result would be used as a substitute for empirical evidence, affected-stakeholder participation, or accountable decision authority.
+  prerequisites:
+    - A documented expert-selection rationale, real consenting participants, facilitator, privacy controls, and bounded question
+    - At least two planned rounds, independent initial responses, controlled anonymised feedback, and predefined aggregation rules
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A single model pass or one-round poll is not a Delphi-style elicitation.
+  standard:
+    enabled: true
+    steps: [bound-elicitation, design-panel, design-questions, collect-round, summarise-feedback, repeat-rounds, aggregate-judgments, report-panel]
+    minimum_evidence_refs: 2
+    notes: Requires real experts, at least two rounds, controlled feedback, and preserved disagreement.
+  intensive:
+    enabled: true
+    steps: [bound-elicitation, design-panel, test-diversity-conflicts, design-questions, pilot-instrument, collect-round, summarise-feedback, repeat-rounds, test-stability, aggregate-judgments, report-panel]
+    minimum_evidence_refs: 3
+    notes: Adds instrument piloting, panel-diversity review, stability analysis, and fuller attrition reporting.
+procedure:
+  - id: bound-elicitation
+    title: Bound the elicitation
+    instruction: >-
+      State the question, intended use, decision owner, domain, timeframe, uncertainty, claims the panel
+      cannot establish, and why expert judgment is appropriate relative to obtainable empirical evidence.
+    required: true
+    artifact_fields: [elicitation_question, intended_use, decision_owner, empirical_limits]
+  - id: design-panel
+    title: Design the expert panel
+    instruction: >-
+      Define expertise criteria, recruitment, panel size rationale, relevant disciplines and perspectives,
+      participation consent, anonymity boundary, and evidence that each participant is a real expert.
+    required: true
+    artifact_fields: [expertise_criteria, recruitment, panel_composition, participant_evidence]
+  - id: test-diversity-conflicts
+    title: Test diversity and conflicts
+    instruction: >-
+      Examine disciplinary, institutional, geographic, experiential, and demographic coverage where relevant,
+      along with conflicts, shared sources, correlated training, and missing expertise.
+    required: false
+    artifact_fields: [panel_diversity, conflicts, dependency_risks, missing_expertise]
+  - id: design-questions
+    title: Design questions and aggregation
+    instruction: >-
+      Create clear questions suited to the intended qualitative or quantitative judgment, response scales,
+      rationale prompts, predefined consensus or summary rules, stopping rules, and treatment of dissent.
+    required: true
+    artifact_fields: [question_set, response_scales, aggregation_rules, stopping_rules]
+  - id: pilot-instrument
+    title: Pilot the instrument
+    instruction: >-
+      Test question interpretation, burden, scale use, missing options, technical delivery, and privacy with
+      suitable pilot participants before the main rounds and record resulting changes.
+    required: false
+    artifact_fields: [pilot_results, question_revisions, delivery_risks]
+  - id: collect-round
+    title: Collect independent initial judgments
+    instruction: >-
+      Obtain separate responses and rationales from real participants without exposing others' positions,
+      recording completion, missing data, timing, and protocol deviations without revealing identities.
+    required: true
+    artifact_fields: [round_responses, rationales, completion_record, protocol_deviations]
+  - id: summarise-feedback
+    title: Produce controlled anonymous feedback
+    instruction: >-
+      Summarise quantitative distribution and qualitative rationales without identifying participants,
+      erasing minority views, manufacturing consensus, or letting the facilitator advocate one answer.
+    required: true
+    artifact_fields: [anonymous_summary, response_distribution, minority_rationales, facilitation_record]
+  - id: repeat-rounds
+    title: Repeat and document rounds
+    instruction: >-
+      Return controlled feedback, allow participants to revise or retain judgments with reasons, and run
+      at least one further round while recording response change, attrition, and repeated non-response.
+    required: true
+    artifact_fields: [round_history, judgment_changes, retained_dissent, attrition]
+  - id: test-stability
+    title: Test stability and stopping
+    instruction: >-
+      Apply the predefined stopping rule, examine whether distributions and rationales stabilised, and
+      avoid extending rounds merely to pressure dissenters toward agreement.
+    required: false
+    artifact_fields: [stability_analysis, stopping_decision, forced_consensus_risk]
+  - id: aggregate-judgments
+    title: Aggregate without hiding disagreement
+    instruction: >-
+      Apply the predefined summary or consensus rule, report dispersion and unresolved minorities, and
+      distinguish the panel's result from probability, fact, stakeholder agreement, or decision authority.
+    required: true
+    artifact_fields: [aggregate_result, dispersion, consensus_status, unresolved_dissent]
+  - id: report-panel
+    title: Report method and limitations
+    instruction: >-
+      Record panel design, participant and round counts, question changes, feedback, attrition, conflicts,
+      aggregation, dissent, privacy limits, and evidence needed to validate or challenge the judgment.
+    required: true
+    artifact_fields: [panel_report, method_deviations, privacy_limits, validation_needs]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, alternative-futures, indicators-signposts, devils-advocacy, value-sensitive-inquiry]
+conflicts: []
+failure_modes:
+  - Multiple model agents or generated personas are presented as a real expert panel.
+  - A one-round poll, open discussion, or majority vote is mislabelled as Delphi-style elicitation.
+  - Panel selection, conflicts, correlated expertise, attrition, or missing perspectives are hidden.
+  - Feedback or extra rounds pressure dissenters and manufacture consensus.
+  - Consensus is presented as truth, calibrated probability, stakeholder legitimacy, or decision authority.

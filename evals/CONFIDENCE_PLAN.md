@@ -15,7 +15,7 @@ the implementation's own status flags as quality authority.
 
 | Claim | Required evidence | Current state |
 | --- | --- | --- |
-| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens; eight other methods unevaluated |
+| Structural implementation works | Content-bound deterministic verification | Established for eight recorded specimens; 16 other methods unevaluated |
 | Outputs resemble the intended method | Blinded rubric review across varied cases | Correlated screen only |
 | A method improves analysis | Matched no-method baseline and pairwise grading | Not measured |
 | Improvement is repeatable | Multiple independent runs per condition | Not measured |
@@ -29,9 +29,9 @@ Create three case types for every method:
 2. **Edge:** a task near the method's contraindications or with ambiguous fit.
 3. **Adversarial:** a task designed around a documented method failure mode.
 
-For the full 16-method catalogue this produces 48 case-method pairs. Start with
-the eight inventoried methods and run the eight unevaluated methods as a separate
-admission block so their failures remain visible. For each pair:
+For the full 24-method catalogue this produces 72 case-method pairs. Start with
+the eight inventoried methods and run the 16 unevaluated methods as two separate
+admission cohorts so their failures remain visible. For each pair:
 
 - generate a method-conditioned artifact and a matched generic-analysis
   baseline;
@@ -105,15 +105,33 @@ adds useful coverage or mainly repeats another pass. Also test whether the
 router chooses a suitable method set for unseen questions; a useful method that
 is consistently selected for the wrong task still lowers portfolio value.
 
-The eight unevaluated preview methods form the first admission block. Each needs an
+The 16 unevaluated preview methods form two admission cohorts. Each needs an
 independent fidelity review, representative, edge, and adversarial cases, and a
 blinded comparison with both the generic baseline and the nearest existing
 method or profile. Causal Factors should be compared with Competing Hypotheses
 and Failure Modes; Outside View with Alternative Futures; Outside-In with a
-generic context prompt and Key Assumptions. The five family-expansion methods
-should be compared with both a generic reasoning prompt and the closest existing
-analytical or decision route. Each must fail visibly when its required evidence
-is unavailable.
+generic context prompt and Key Assumptions. The first five family-expansion
+methods should be compared with both a generic reasoning prompt and the closest
+existing analytical or decision route.
+
+For the eight newest methods, use these nearest-alternative comparisons:
+
+- Reflexive Thematic Analysis versus Contextual Interpretation and a generic
+  corpus summary;
+- Speech-Act Analysis versus Contextual Interpretation and Concept Clarification;
+- Rights and Proportionality versus Reflective Equilibrium and a Systems Trade Study;
+- Capability and Distribution versus Value-Sensitive Inquiry;
+- Theory of Change versus Key Assumptions plus a generic intervention map;
+- Adaptive Management versus a profile combining Theory of Change, Indicators,
+  and Alternative Futures;
+- Human-Centred Design Inquiry versus Value-Sensitive Inquiry and a generic
+  requirements review; and
+- Structured Expert Elicitation versus a one-round expert survey and a generic
+  synthesis using the same real-participant inputs.
+
+Each method must fail visibly when required corpus, legal context, affected-person
+evidence, user research, expert participants, monitoring, or decision authority is
+unavailable. A model-generated substitute is a test failure, not a degraded success.
 
 Test a pre-mortem first as a profile built from existing methods rather than
 assuming it needs a separate contract. See the

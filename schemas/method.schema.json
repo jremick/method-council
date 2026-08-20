@@ -61,9 +61,17 @@
           "context-analysis",
           "concept-clarification",
           "contextual-interpretation",
+          "thematic-analysis",
+          "speech-act-analysis",
           "normative-deliberation",
+          "rights-proportionality-analysis",
+          "capability-distribution-analysis",
           "pragmatic-clarification",
-          "value-sensitive-analysis"
+          "theory-of-change",
+          "adaptive-management",
+          "value-sensitive-analysis",
+          "human-centred-inquiry",
+          "expert-elicitation"
         ]
       }
     },

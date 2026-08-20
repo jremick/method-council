@@ -10,11 +10,15 @@ prerelease labels.
 
 ### Added
 
+- Eight source-backed, unevaluated preview methods: Reflexive Thematic Analysis,
+  Speech-Act Analysis, Rights and Proportionality Review, Capability and
+  Distribution Review, Theory of Change, Adaptive Management, Human-Centred
+  Design Inquiry, and Structured Expert Elicitation.
 - Five source-backed preview methods spanning interpretive, normative,
   pragmatic, and participatory reasoning: Concept and Meaning Clarification,
   Contextual Interpretation, Reflective Equilibrium, Pragmatic Clarification,
   and Value-Sensitive Inquiry.
-- Required primary-family metadata across the 16-method catalogue, plus meaning,
+- Required primary-family metadata across the 24-method catalogue, plus meaning,
   values, and rapid concept profiles.
 - A phased automatic method advisor design with explainable task signals, exact
   user override, deterministic constraints, and a separate selection-evaluation gate.

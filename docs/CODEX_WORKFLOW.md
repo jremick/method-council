@@ -140,7 +140,7 @@ containment, method quality, or general security.
 The forecast run adds live production-path coverage for Alternative Futures and
 Indicators/Signposts. The resulting screen of the original eight methods is
 still correlated and does not establish decision-relevant usefulness. The
-eight expanded methods have no specimen yet; see
+16 expanded methods have no specimen yet; see
 [`evals/METHOD_EVALS.md`](../evals/METHOD_EVALS.md).
 
 The initial pre-hardening bundles were retired after independent review showed

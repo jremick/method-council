@@ -1,0 +1,165 @@
+schema_version: "0.1.0"
+id: theory-of-change
+version: "0.1.0"
+title: Theory of Change
+summary: >-
+  Maps how an intervention is expected to move from a defined problem and inputs through activities,
+  mechanisms, outputs, outcomes, and impacts while exposing assumptions, context, risks, and evidence.
+status: preview
+family: pragmatic
+provenance:
+  class: project-adaptation
+  sources:
+    - id: uk-magenta-book-toc
+      title: Magenta Book — Central Government Guidance on Evaluation
+      publisher: HM Treasury and Evaluation Task Force
+      url: https://www.gov.uk/government/publications/the-magenta-book/magenta-book-central-government-guidance-on-evaluation-html
+      accessed: "2026-08-20"
+      supports:
+        - Mapping inputs through a causal chain to outputs, outcomes, and impacts
+        - Making mechanisms, assumptions, evidence, context, risks, and stakeholder involvement explicit
+      notes: >-
+        Official UK government evaluation guidance. Method Council creates a domain-neutral bounded
+        artifact and does not claim compliance with government evaluation requirements.
+    - id: uk-analysis-function-toc-toolkit
+      title: The Theory of Change Process — Guidance for Outcome Delivery Plans
+      publisher: UK Government Analysis Function
+      url: https://analysisfunction.civilservice.gov.uk/policy-store/the-analysis-function-theory-of-change-toolkit/
+      accessed: "2026-08-20"
+      supports:
+        - Problem definition, intended impacts, outcomes, outputs, inputs, assumptions, risks, indicators, and iteration
+        - Meaningful stakeholder participation and quality assurance of the theory over time
+  adaptation: >-
+    Converts public Theory of Change guidance into a source-linked intervention map, evidence ledger,
+    alternative pathway test, and monitoring plan suitable for a model-assisted council artifact.
+  claim_limits:
+    - A coherent theory is a testable explanation, not proof that the intervention causes its outcomes.
+    - Stakeholder workshops and domain expertise cannot be replaced by generated agreement.
+    - Linear maps can hide feedback, emergence, power, displacement, and unintended effects.
+    - This preview has not received independent evaluation-practice fidelity or usefulness review.
+activities: [analyse, decide, architect, review]
+capabilities: [theory-of-change]
+requires_methods: []
+applicability:
+  use_when:
+    - A programme, policy, service, or change needs an explicit explanation of how it is expected to work.
+    - Evaluation, monitoring, or design depends on exposing mechanisms, assumptions, risks, and outcomes.
+  avoid_when:
+    - There is no bounded intervention, intended outcome, or accountable owner to map.
+    - A diagram would be used as retrospective proof of attribution without outcome evidence or alternatives.
+  prerequisites:
+    - A defined problem, intervention boundary, intended beneficiaries or affected groups, and accountable owners
+    - Evidence about context, resources, activities, mechanisms, outcomes, assumptions, and plausible alternatives
+rigor:
+  rapid:
+    enabled: true
+    steps: [bound-intervention, define-problem, map-causal-chain, state-assumptions, record-theory]
+    minimum_evidence_refs: 1
+    notes: Produces a provisional pathway and the most load-bearing assumptions for a bounded intervention.
+  standard:
+    enabled: true
+    steps: [bound-intervention, define-problem, map-causal-chain, state-mechanisms, state-assumptions, test-evidence, examine-context, plan-indicators, record-theory]
+    minimum_evidence_refs: 2
+    notes: Adds evidence strength, contextual conditions, and a monitoring path.
+  intensive:
+    enabled: true
+    steps: [bound-intervention, define-problem, map-causal-chain, state-mechanisms, state-assumptions, test-evidence, examine-context, test-alternatives, map-feedback, plan-indicators, plan-iteration, record-theory]
+    minimum_evidence_refs: 3
+    notes: Tests rival pathways, feedback, unintended effects, and governed iteration in complex settings.
+procedure:
+  - id: bound-intervention
+    title: Bound the intervention
+    instruction: >-
+      State the intervention, population or system, timeframe, accountable owners, resources, intended
+      use of the theory, and material activities or consequences outside the boundary.
+    required: true
+    artifact_fields: [intervention_boundary, affected_population, timeframe, accountable_owners]
+  - id: define-problem
+    title: Define the problem and intended impact
+    instruction: >-
+      Describe the current condition, who experiences it, evidence of its causes and scale, the desired
+      long-term change, and any contested or incompatible problem framings.
+    required: true
+    artifact_fields: [problem_definition, problem_evidence, intended_impact, contested_framings]
+  - id: map-causal-chain
+    title: Map inputs to outcomes
+    instruction: >-
+      Link inputs and enabling conditions to activities, outputs, near-term outcomes, longer-term outcomes,
+      and impacts using explicit arrows or statements rather than an unexamined list.
+    required: true
+    artifact_fields: [inputs, activities, outputs, outcomes, impact_pathways]
+  - id: state-mechanisms
+    title: State the mechanisms
+    instruction: >-
+      Explain the behavioural, organisational, social, technical, or institutional processes expected
+      to connect each material link and identify where the mechanism is only hypothesised.
+    required: false
+    artifact_fields: [mechanisms, mechanism_hypotheses, mechanism_gaps]
+  - id: state-assumptions
+    title: Expose assumptions and risks
+    instruction: >-
+      Record internal and external assumptions, preconditions, risks, values, and dependencies for each
+      material link, including conditions under which the pathway would stall, reverse, or cause harm.
+    required: true
+    artifact_fields: [assumptions, preconditions, risks, failure_conditions]
+  - id: test-evidence
+    title: Test the evidence for each link
+    instruction: >-
+      Bind supporting and contrary evidence to material links, describe source quality and transfer limits,
+      and keep unsupported causal links as hypotheses rather than established facts.
+    required: false
+    artifact_fields: [link_evidence, counterevidence, evidence_strength, transfer_limits]
+  - id: examine-context
+    title: Examine context and distribution
+    instruction: >-
+      Identify contextual conditions, affected groups, implementation variation, power, incentives, and
+      possible displacement or unintended effects that could change who benefits and how the pathway works.
+    required: false
+    artifact_fields: [context_conditions, distributional_effects, implementation_variation, unintended_effects]
+  - id: test-alternatives
+    title: Test alternative explanations and pathways
+    instruction: >-
+      Compare rival mechanisms, external causes, non-intervention pathways, and alternative interventions
+      that could produce similar outcomes or explain observed change.
+    required: false
+    artifact_fields: [rival_mechanisms, alternative_pathways, alternative_interventions]
+  - id: map-feedback
+    title: Map feedback and complexity
+    instruction: >-
+      Identify feedback loops, delays, thresholds, adaptation, emergent effects, and interactions that make
+      the pathway nonlinear or cause outcomes to alter later activities and conditions.
+    required: false
+    artifact_fields: [feedback_loops, delays, thresholds, emergence_limits]
+  - id: plan-indicators
+    title: Plan tests and indicators
+    instruction: >-
+      Define observable measures for outputs, mechanisms, outcomes, assumptions, harms, and context, including
+      data sources, owners, cadence, and what pattern would weaken the theory.
+    required: false
+    artifact_fields: [indicators, data_sources, measurement_owners, falsifying_patterns]
+  - id: plan-iteration
+    title: Plan stakeholder review and iteration
+    instruction: >-
+      State which real stakeholders and domain experts must review the theory, when it will be revised, and
+      who can change the intervention or evaluation plan in response to evidence.
+    required: false
+    artifact_fields: [required_participants, review_cadence, revision_authority]
+  - id: record-theory
+    title: Record the theory and uncertainty
+    instruction: >-
+      Present the supported pathway, weakest links, rival explanations, evidence gaps, monitoring priorities,
+      and claims that remain incomplete rather than treating the map as causal proof.
+    required: true
+    artifact_fields: [theory_summary, weakest_links, rival_explanations, evaluation_priorities]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 1
+  allow_unreferenced_assumptions: false
+complements: [key-assumptions, evidence-quality, indicators-signposts, causal-factors, adaptive-management]
+conflicts: []
+failure_modes:
+  - A visually coherent chain is presented as proof that the intervention causes the intended outcome.
+  - Activities and outputs are confused with outcomes, impacts, or mechanisms.
+  - Stakeholder agreement, evidence strength, causal links, or contextual stability are invented.
+  - A linear map hides feedback, unintended effects, displacement, power, or unequal distribution.
+  - Indicators reward activity completion while failing to test mechanisms, outcomes, harms, or assumptions.

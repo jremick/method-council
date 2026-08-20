@@ -26,15 +26,17 @@ select one method from every family automatically.
 | Family | Consider it when the task involves | Current methods |
 |---|---|---|
 | `analytical` | evidence, causes, alternatives, forecasts, uncertainty, or risk | evidence-quality, key-assumptions, competing-hypotheses, devils-advocacy, alternative-futures, indicators-signposts, failure-modes, causal-factors, outside-view, outside-in |
-| `interpretive` | ambiguous concepts, passages, meaning, or historical context | concept-clarification, contextual-interpretation |
-| `normative` | duties, principles, fairness, rights, or value conflict | reflective-equilibrium |
-| `pragmatic` | practical consequences, action, criteria, or option choice | pragmatic-clarification, systems-trade-study |
-| `participatory` | affected people, distribution, participation, or missing voices | value-sensitive-inquiry |
+| `interpretive` | ambiguous concepts, passages, patterned qualitative meaning, language use, or historical context | concept-clarification, contextual-interpretation, reflexive-thematic-analysis, speech-act-analysis |
+| `normative` | duties, principles, fairness, rights, proportionality, real opportunity, distribution, or value conflict | reflective-equilibrium, rights-proportionality-review, capability-distribution-review |
+| `pragmatic` | practical consequences, action, intervention pathways, learning cycles, criteria, or option choice | pragmatic-clarification, systems-trade-study, theory-of-change, adaptive-management |
+| `participatory` | affected people, user evidence, real experts, distribution, participation, or missing voices | value-sensitive-inquiry, human-centred-design-inquiry, structured-expert-elicitation |
 
 Before proposing a method, check its `use_when`, `avoid_when`, prerequisites,
 activity, rigor, complements, and claim limits. A missing prerequisite is a gap
 to report, not evidence to invent. In particular, generated personas are not
-stakeholder evidence and model coherence is not moral authority.
+stakeholder or user evidence, model agents are not a Delphi panel, a plan or
+dashboard is not completed adaptive learning, and model coherence is not moral
+authority.
 
 If the user names an exact method set, use it as the requested route only after
 validation. If the user gives include/exclude preferences, apply them before

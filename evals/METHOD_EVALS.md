@@ -29,11 +29,11 @@ catalog methods. Six use the hardened 2026-08-19 acceptance bundles.
 Alternative Futures and Indicators/Signposts use the hardened forecast bundle
 recorded on 2026-08-20. Each currently has one representative run only.
 
-Causal Factors Analysis, Outside View, Outside-In Context Scan, Concept and
-Meaning Clarification, Contextual Interpretation, Reflective Equilibrium,
-Pragmatic Clarification, and Value-Sensitive Inquiry are listed as unevaluated
-in the generated report. They have no specimen or semantic score yet. Adding a
-source-backed method does not transfer confidence from another method.
+Sixteen methods are listed as unevaluated in the generated report. This includes
+the earlier Causal Factors, Outside View, Outside-In, concept, context, values,
+pragmatic, and stakeholder methods plus the eight newest interpretive, normative,
+pragmatic, and participatory methods. They have no specimen or semantic score
+yet. Adding a source-backed method does not transfer confidence from another method.
 
 Generate the content-derived report:
 
@@ -67,7 +67,7 @@ Keep prompts, answers, rubrics, budgets, model state, and harness versions
 separate enough to detect contamination and reward hacking. Do not convert a
 same-model or same-host majority into independent corroboration.
 
-For each of the eight unevaluated methods, first add one representative, one edge, and
+For each of the 16 unevaluated methods, first add one representative, one edge, and
 one adversarial case plus a matched no-method baseline and nearest-method
 comparison. They should not receive even an initial correlated screen until the
 artifact checks pass and the grading packet is frozen.

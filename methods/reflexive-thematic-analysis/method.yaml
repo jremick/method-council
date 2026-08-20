@@ -1,0 +1,151 @@
+schema_version: "0.1.0"
+id: reflexive-thematic-analysis
+version: "0.1.0"
+title: Reflexive Thematic Analysis
+summary: >-
+  Develops patterns of shared meaning across a bounded qualitative corpus through recursive
+  familiarisation, coding, theme development, review, definition, and reflexive reporting.
+status: preview
+family: interpretive
+provenance:
+  class: project-adaptation
+  sources:
+    - id: braun-clarke-reflexive-ta
+      title: Doing Reflexive TA
+      publisher: Thematic Analysis
+      url: https://www.thematicanalysis.net/doing-reflexive-ta/
+      accessed: "2026-08-20"
+      supports:
+        - Reflexive thematic analysis as a recursive six-phase process rather than a rigid sequence
+        - Researcher subjectivity and reflexivity as analytic resources rather than removable bias
+      notes: >-
+        Public guidance maintained by the method's authors. Method Council adds evidence identifiers,
+        model-use limits, and bounded artifacts; it does not reproduce training material.
+    - id: braun-clarke-quality-ta
+      title: Quality in TA
+      publisher: Thematic Analysis
+      url: https://www.thematicanalysis.net/quality-in-ta/
+      accessed: "2026-08-20"
+      supports:
+        - Methodological coherence and reflexive practice as quality concerns
+        - Avoiding assumptions that themes simply emerge or that coding reliability proves quality
+  adaptation: >-
+    Converts the recursive reflexive thematic analysis phases into a source-bound model-assisted
+    artifact while treating generated codes and themes as interpretations requiring human review.
+  claim_limits:
+    - This preview has not received independent qualitative-methods fidelity or usefulness review.
+    - Model-generated codes and themes are interpretations, not participant voices or objective discoveries.
+    - Theme frequency is not prevalence, importance, representativeness, or statistical generalisation.
+    - The method does not establish saturation, inter-rater reliability, or researcher reflexivity by itself.
+activities: [analyse, investigate, review]
+capabilities: [thematic-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - A bounded qualitative corpus must be interpreted for patterned meaning relevant to one question.
+    - The task needs more than summarising each source separately or counting repeated words.
+  avoid_when:
+    - The available material is too small, inaccessible, or unrepresentative for the claimed scope.
+    - The task requires prevalence estimates, causal inference, or an automated substitute for human interpretation.
+  prerequisites:
+    - A bounded qualitative corpus with stable evidence identifiers and relevant context
+    - A clear analytic question, sampling boundary, and accountable human analyst
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: A rapid pass is too likely to collapse reflexive analysis into topic extraction.
+  standard:
+    enabled: true
+    steps: [bound-analysis, familiarise-corpus, record-reflexivity, code-data, generate-themes, review-themes, define-themes, report-analysis]
+    minimum_evidence_refs: 3
+    notes: Uses the full recursive phase structure with source-linked candidate themes and reflexive limits.
+  intensive:
+    enabled: true
+    steps: [bound-analysis, familiarise-corpus, record-reflexivity, code-data, generate-themes, review-themes, test-negative-cases, define-themes, compare-readings, report-analysis]
+    minimum_evidence_refs: 5
+    notes: Adds negative-case and alternative-reading tests across the bounded corpus.
+procedure:
+  - id: bound-analysis
+    title: Bound the analysis
+    instruction: >-
+      State the analytic question, corpus and sampling boundaries, source contexts, excluded material,
+      and whether the intended reading is primarily semantic, latent, inductive, or theory-led.
+    required: true
+    artifact_fields: [analytic_question, corpus_boundary, sampling_boundary, analytic_orientation]
+  - id: familiarise-corpus
+    title: Familiarise with the corpus
+    instruction: >-
+      Read across the bounded corpus, recording source-linked familiarisation notes, recurring tensions,
+      contextual differences, and material that resists the initial framing.
+    required: true
+    artifact_fields: [familiarisation_notes, contextual_variation, initial_tensions]
+  - id: record-reflexivity
+    title: Record the analytic position
+    instruction: >-
+      State the model and human analyst roles, prior concepts, interests, decisions, and limitations that
+      shape interpretation; do not claim that a model removes subjectivity.
+    required: true
+    artifact_fields: [analytic_position, prior_concepts, interpretation_limits]
+  - id: code-data
+    title: Generate source-linked codes
+    instruction: >-
+      Create concise analytic codes for relevant data segments, retain their evidence identifiers and
+      context, and revise or split codes when they obscure materially different meanings.
+    required: true
+    artifact_fields: [codebook, coded_segments, code_revisions]
+  - id: generate-themes
+    title: Develop candidate themes
+    instruction: >-
+      Organise codes into candidate patterns of shared meaning with a central organising concept,
+      explaining how each candidate answers the analytic question rather than merely naming a topic.
+    required: true
+    artifact_fields: [candidate_themes, organising_concepts, code_theme_map]
+  - id: review-themes
+    title: Review themes recursively
+    instruction: >-
+      Test each candidate against its coded extracts and the wider corpus, revisiting codes, boundaries,
+      mergers, splits, and discarded themes when the interpretation does not hold.
+    required: true
+    artifact_fields: [theme_reviews, theme_revisions, discarded_themes]
+  - id: test-negative-cases
+    title: Test negative and divergent cases
+    instruction: >-
+      Examine source material that contradicts, complicates, or sits outside the candidate themes and
+      show whether it changes the theme, its scope, or the overall interpretation.
+    required: false
+    artifact_fields: [negative_cases, divergent_cases, resulting_changes]
+  - id: define-themes
+    title: Define and name themes
+    instruction: >-
+      State the scope, central concept, boundaries, relationships, and evidentiary basis of each retained
+      theme using names that convey an analytic claim rather than a broad topic label.
+    required: true
+    artifact_fields: [defined_themes, theme_boundaries, theme_relationships]
+  - id: compare-readings
+    title: Compare plausible readings
+    instruction: >-
+      Develop at least one credible alternative organisation or interpretation of the corpus and explain
+      what evidence or analytic commitments favour the retained account.
+    required: false
+    artifact_fields: [alternative_readings, discriminating_evidence, analytic_choices]
+  - id: report-analysis
+    title: Report the interpretation and limits
+    instruction: >-
+      Present the thematic account with source-linked examples, reflexive decisions, contradictions,
+      excluded scope, and conditions under which another analyst could reasonably read the corpus differently.
+    required: true
+    artifact_fields: [thematic_account, source_examples, reflexive_record, transfer_limits]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 3
+  allow_unreferenced_assumptions: false
+complements: [contextual-interpretation, evidence-quality, speech-act-analysis, value-sensitive-inquiry]
+conflicts: []
+failure_modes:
+  - Topic labels or word frequency are presented as developed themes.
+  - The model claims that themes emerged objectively and hides interpretive choices.
+  - Decontextualised quotations are used to support a pattern the wider corpus does not sustain.
+  - Theme frequency is misreported as prevalence, importance, consensus, or representativeness.
+  - Model output substitutes for participant voice, researcher reflexivity, or accountable qualitative judgment.

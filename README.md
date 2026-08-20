@@ -73,23 +73,23 @@ independent minds.
 
 ## The method families
 
-Method Council has 16 optional methods in five families. A family is simply the
+Method Council has 24 optional methods in five families. A family is simply the
 kind of question a method mainly helps answer. Most councils need only two to
 four complementary methods.
 
 | Family | What it helps you ask | Optional methods and their value |
 | --- | --- | --- |
 | **Analytical** | What do the evidence, explanations, uncertainty, and risks support? | <ul><li>Evidence Quality — check sources</li><li>Key Assumptions — find load-bearing beliefs</li><li>Competing Hypotheses — compare explanations</li><li>Devil's Advocacy — challenge the lead answer</li><li>Alternative Futures — explore plausible paths</li><li>Indicators and Signposts — know what to watch</li><li>Failure Modes — find possible failures</li><li>Causal Factors — explain an observed outcome</li><li>Outside View — use comparable cases</li><li>Outside-In — scan wider forces</li></ul> |
-| **Interpretive** | What do the important terms, passages, and contexts mean? | <ul><li>Concept Clarification — separate and test meanings</li><li>Contextual Interpretation — compare source-bound readings</li></ul> |
-| **Normative** | Which principles and judgments should guide the choice? | <ul><li>Reflective Equilibrium — reconcile judgments and principles</li></ul> |
-| **Pragmatic** | What changes in practice, and which option best serves the goal? | <ul><li>Pragmatic Clarification — test practical differences</li><li>Systems Trade Study — compare options and trade-offs</li></ul> |
-| **Participatory** | Whose values and experience need real evidence or involvement? | <ul><li>Value-Sensitive Inquiry — connect stakeholder evidence, values, and design</li></ul> |
+| **Interpretive** | What do the important terms, passages, and contexts mean? | <ul><li>Concept Clarification — separate and test meanings</li><li>Contextual Interpretation — compare source-bound readings</li><li>Reflexive Thematic Analysis — find patterns across qualitative evidence</li><li>Speech-Act Analysis — examine what language does in context</li></ul> |
+| **Normative** | Which principles and judgments should guide the choice? | <ul><li>Reflective Equilibrium — reconcile judgments and principles</li><li>Rights and Proportionality — test limits on rights or important interests</li><li>Capability and Distribution — compare people's real opportunities</li></ul> |
+| **Pragmatic** | What changes in practice, and which option best serves the goal? | <ul><li>Pragmatic Clarification — test practical differences</li><li>Systems Trade Study — compare options and trade-offs</li><li>Theory of Change — map how an intervention is expected to work</li><li>Adaptive Management — learn and adjust through monitored cycles</li></ul> |
+| **Participatory** | Whose values and experience need real evidence or involvement? | <ul><li>Value-Sensitive Inquiry — connect stakeholder evidence, values, and design</li><li>Human-Centred Design Inquiry — ground design in evidence from real users</li><li>Structured Expert Elicitation — gather real expert judgment over repeated rounds</li></ul> |
 
 The newer interpretive, normative, pragmatic, and participatory methods widen
 the council beyond mainly factual and logical analysis. They also have strict
 limits: an AI cannot decide moral truth, invent stakeholder views, or turn one
-plausible interpretation into the only correct reading. All five new methods
-remain unevaluated previews. See the
+plausible interpretation into the only correct reading. All methods without a
+recorded specimen remain unevaluated previews. See the
 [method catalogue review](docs/METHOD_CATALOGUE.md) for the reasoning, sources,
 and remaining gaps.
 
@@ -165,8 +165,8 @@ Method Council is a public alpha:
   commit-bound acceptance runs.
 - Those runs pass the structural and host-evidence checks, while honestly
   remaining `INCOMPLETE / CORRELATED`.
-- Eight of the 16 methods have an initial specimen and a correlated semantic
-  screen. The other eight are explicitly unevaluated.
+- Eight of the 24 methods have an initial specimen and a correlated semantic
+  screen. The other 16 are explicitly unevaluated.
 - No method has yet passed the planned blinded baseline comparison and
   independent practitioner review.
 - Claude and Gemini adapter contracts exist only as disabled previews.

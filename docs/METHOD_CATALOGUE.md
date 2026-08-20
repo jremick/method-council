@@ -2,17 +2,17 @@
 
 ## Outcome
 
-The catalogue has 16 preview methods in five primary families. A family says
+The catalogue has 24 preview methods in five primary families. A family says
 which kind of question a method mainly helps answer. It is a routing aid, not a
 claim that the method uses only one style of thinking.
 
 | Family | Main question | Optional methods |
 | --- | --- | --- |
 | **Analytical** | What do the evidence, explanations, uncertainties, and risks support? | Evidence Quality, Key Assumptions, Competing Hypotheses, Devil's Advocacy, Alternative Futures, Indicators and Signposts, Failure Modes, Causal Factors, Outside View, Outside-In Context Scan |
-| **Interpretive** | What do the important terms, passages, and contexts mean? | Concept and Meaning Clarification, Contextual Interpretation |
-| **Normative** | Which principles and judgments should guide the choice? | Reflective Equilibrium |
-| **Pragmatic** | What changes in practice, and which action works under the stated goals? | Pragmatic Clarification, Systems Trade Study |
-| **Participatory** | Whose values and experience need real evidence or involvement? | Value-Sensitive Inquiry |
+| **Interpretive** | What do the important terms, passages, patterns, and language-in-use mean? | Concept and Meaning Clarification, Contextual Interpretation, Reflexive Thematic Analysis, Speech-Act and Language-in-Use Analysis |
+| **Normative** | Which principles, rights, opportunities, and judgments should guide the choice? | Reflective Equilibrium, Rights and Proportionality Review, Capability and Distribution Review |
+| **Pragmatic** | What changes in practice, how should change happen, and how can action learn? | Pragmatic Clarification, Systems Trade Study, Theory of Change, Adaptive Management |
+| **Participatory** | Whose values, user experience, and real expertise need evidence or involvement? | Value-Sensitive Inquiry, Human-Centred Design Inquiry, Structured Expert Elicitation |
 
 The families are complementary. A difficult public policy question may need an
 interpretive pass to clarify a contested term, a participatory pass to expose
@@ -57,21 +57,35 @@ adaptation is faithful, useful, or suitable for a particular domain.
 - **Contextual Interpretation** compares source-bound readings through the
   relationship between passages, the wider work, its context, and later use.
   It preserves plausible disagreement instead of claiming one mechanical reading.
+- **Reflexive Thematic Analysis** develops patterns of shared meaning across a
+  bounded qualitative corpus while exposing coding, theme, and interpretive choices.
+- **Speech-Act and Language-in-Use Analysis** examines what a source-bound
+  utterance does in context, including commitments, authority, uptake, and effects.
 
 These methods close a material gap in a catalogue that was strongest at factual
 and causal questions. They are based on public expert syntheses of explication,
-conceptual engineering, and hermeneutics. Those philosophical traditions are
-diverse and contested; the project does not present one school as the standard.
+conceptual engineering, hermeneutics, speech-act theory, and public guidance from
+the authors of reflexive thematic analysis. Those traditions are diverse and
+contested; the project does not present one school as the standard or model
+interpretation as objective discovery.
 
 ### Normative family
 
 - **Reflective Equilibrium** iterates between supplied case judgments, candidate
   principles, and relevant background arguments. It records revisions and
   unresolved tensions.
+- **Rights and Proportionality Review** tests a right-limiting measure through
+  its objective, causal connection, less-restrictive alternatives, and supported
+  balance of benefits and burdens.
+- **Capability and Distribution Review** distinguishes resources and formal
+  rights from people's substantive opportunities, conversion conditions, choices,
+  and achieved outcomes.
 
 This is useful when evidence alone cannot settle questions involving duties,
-fairness, rights, or principles. Coherence is not moral truth, democratic
-legitimacy, or consent. The method cannot invent the judgments of affected people.
+fairness, rights, opportunities, distribution, or principles. These methods do
+not provide legal advice or one complete theory of justice. Coherence or balance
+is not moral truth, democratic legitimacy, or consent, and the model cannot
+invent the judgments, values, or lived constraints of affected people.
 
 ### Pragmatic family
 
@@ -81,28 +95,38 @@ legitimacy, or consent. The method cannot invent the judgments of affected peopl
   changes action.
 - **Systems Trade Study** compares feasible options against explicit criteria,
   constraints, uncertainty, and reversals.
+- **Theory of Change** maps how an intervention is expected to move from a
+  defined problem and inputs through mechanisms to outcomes, exposing evidence,
+  assumptions, context, risks, and rival pathways.
+- **Adaptive Management** designs or reviews a governed cycle of objectives,
+  alternatives, predictions, monitoring, learning, and authorised adjustment.
 
 Together these connect meaning to action without reducing all meaning to
-usefulness or treating the most useful claim as true.
+usefulness or treating the most useful claim as true. A coherent change map is
+not causal proof, and an adaptive plan or dashboard is not evidence that learning
+or adjustment occurred.
 
 ### Participatory family
 
 - **Value-Sensitive Inquiry** examines direct and indirect stakeholders, the
   values at stake, actual empirical material, and how technical choices affect
   those values.
+- **Human-Centred Design Inquiry** connects actual user research and context of
+  use to needs, tasks, requirements, design alternatives, evaluation, and iteration.
+- **Structured Expert Elicitation** supports a Delphi-style process with real
+  experts, independent initial judgments, repeated anonymous feedback, aggregation,
+  attrition, and preserved dissent.
 
-The method adapts the public Value Sensitive Design structure of conceptual,
-empirical, and technical investigation. It must remain `INCOMPLETE` when
-material stakeholder evidence is absent. Generated personas are hypotheses,
-not participation, representation, or consent.
+These methods distinguish model assistance from real participation. They must
+remain `INCOMPLETE` when material stakeholder, user, or expert evidence is absent.
+Generated personas are hypotheses, not participation; multiple model agents are
+not a Delphi panel; and consensus is not truth or legitimacy.
 
 ## Remaining areas worth exploring
 
 These areas may add coverage, but each needs source review and a clear job that
 does not duplicate an existing method:
 
-- **Language in use and speech acts:** how an utterance performs an action in a
-  specific social context, beyond defining its terms.
 - **Genealogical or historical concept review:** how a category developed and
   whose purposes or power it has served.
 - **Lived-experience inquiry:** how to bind first-person evidence without having

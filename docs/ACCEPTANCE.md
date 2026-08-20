@@ -65,7 +65,6 @@ this claim.
 Method-level screening of these artifacts is documented in
 [`evals/METHOD_EVALS.md`](../evals/METHOD_EVALS.md). It covers the original eight
 methods but retains every usefulness judgment as `INCOMPLETE` pending baseline
-and independent practitioner review. The three expanded methods are currently
-unevaluated.
+and independent practitioner review. The other 16 methods are currently unevaluated.
 
 See the [acceptance evidence index](../evidence/acceptance/README.md).

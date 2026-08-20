@@ -1,0 +1,165 @@
+schema_version: "0.1.0"
+id: adaptive-management
+version: "0.1.0"
+title: Adaptive Management
+summary: >-
+  Designs and reviews an iterative decision process in which explicit objectives, alternatives,
+  predictions, monitoring, learning, and authorised adjustment address consequential uncertainty.
+status: preview
+family: pragmatic
+provenance:
+  class: project-adaptation
+  sources:
+    - id: usdoi-adaptive-management-policy
+      title: 522 DM 1 — Adaptive Management Implementation Policy
+      publisher: U.S. Department of the Interior
+      url: https://www.doi.gov/sites/default/files/elips/documents/522-dm-1_0.pdf
+      accessed: "2026-08-20"
+      supports:
+        - Adjustable decision-making under consequential uncertainty using monitored outcomes and iterative learning
+        - Adaptive management as structured learning rather than ad hoc trial and error
+      notes: >-
+        Official department policy for resource-management contexts. Method Council generalises its
+        decision-learning structure and does not claim department compliance or domain suitability.
+    - id: usdoi-adaptive-management-guide
+      title: Adaptive Management — The U.S. Department of the Interior Technical Guide
+      publisher: U.S. Department of the Interior
+      url: https://www.doi.gov/sites/doi.gov/files/uploads/TechGuide-WebOptimized-2.pdf
+      accessed: "2026-08-20"
+      supports:
+        - Iterative cycles of objectives, alternatives, models, monitoring, assessment, learning, and adjustment
+        - Stakeholder involvement, institutional commitment, and explicit uncertainty
+  adaptation: >-
+    Converts the public adaptive-management cycle into a bounded plan-and-review artifact with explicit
+    authority, ethical limits, monitoring evidence, decision rules, and honest planning-versus-learning status.
+  claim_limits:
+    - A plan or dashboard is not evidence that adaptive management occurred or improved outcomes.
+    - Monitoring alone does not establish causal attribution or justify experimentation on affected people.
+    - Adjustment requires lawful authority, resources, continuity, and acceptable reversibility and harm boundaries.
+    - This preview has not received independent adaptive-management or domain-practitioner review.
+activities: [analyse, decide, forecast, architect, review]
+capabilities: [adaptive-management]
+requires_methods: []
+applicability:
+  use_when:
+    - A consequential decision is revisable and uncertainty can be reduced through monitored action and learning.
+    - Decision owners can define alternatives, observe outcomes, and change course at explicit checkpoints.
+  avoid_when:
+    - The action is effectively irreversible, monitoring cannot inform a timely adjustment, or experimentation is unethical.
+    - No accountable authority, sustained resources, or decision rule exists to act on what is learned.
+  prerequisites:
+    - Explicit objectives, decision alternatives, material uncertainties, accountable authority, and acceptable action bounds
+    - A feasible monitoring system, review cadence, data owners, and evidence from completed cycles for any learning claim
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: Adaptive management is a governed cycle, not a rapid one-off analysis.
+  standard:
+    enabled: true
+    steps: [bound-decision, define-objectives, state-uncertainties, compare-alternatives, predict-outcomes, design-monitoring, define-decision-rules, assign-governance, record-cycle]
+    minimum_evidence_refs: 2
+    notes: Designs a bounded adaptive cycle; planning-only results cannot claim observed learning.
+  intensive:
+    enabled: true
+    steps: [bound-decision, define-objectives, state-uncertainties, compare-alternatives, predict-outcomes, design-monitoring, define-decision-rules, assign-governance, assess-evidence, update-model, adapt-decision, record-cycle]
+    minimum_evidence_refs: 3
+    notes: Reviews completed cycles and requires evidence for any claimed learning or adaptation.
+procedure:
+  - id: bound-decision
+    title: Bound the adaptive decision
+    instruction: >-
+      State the system, decision authority, affected groups, geographic and temporal scope, legal and
+      ethical boundaries, reversibility, and harms that cannot be accepted as learning costs.
+    required: true
+    artifact_fields: [decision_boundary, authority, affected_groups, adaptation_limits]
+  - id: define-objectives
+    title: Define measurable objectives
+    instruction: >-
+      State the desired outcomes, constraints, competing objectives, success and harm measures, time
+      horizons, and priority conflicts without turning proxies into the objective itself.
+    required: true
+    artifact_fields: [objectives, constraints, success_measures, harm_measures]
+  - id: state-uncertainties
+    title: State decision-relevant uncertainty
+    instruction: >-
+      Identify competing models, uncertain mechanisms, external drivers, and knowledge gaps that could
+      change the preferred action and can plausibly be reduced through monitoring.
+    required: true
+    artifact_fields: [material_uncertainties, competing_models, reducible_gaps]
+  - id: compare-alternatives
+    title: Compare feasible actions
+    instruction: >-
+      Define current and alternative actions, including no-change or staged options, and compare expected
+      outcomes, information value, reversibility, burden distribution, and feasibility.
+    required: true
+    artifact_fields: [alternatives, expected_tradeoffs, reversibility, feasibility]
+  - id: predict-outcomes
+    title: Record testable predictions
+    instruction: >-
+      For each material model and action, state observable outcome patterns, timing, confounders, and
+      evidence that would favour, weaken, or fail to distinguish the alternatives.
+    required: true
+    artifact_fields: [predictions, model_action_map, discriminating_patterns, confounders]
+  - id: design-monitoring
+    title: Design fit-for-decision monitoring
+    instruction: >-
+      Define indicators, baselines, collection methods, frequency, quality checks, affected-person evidence,
+      owners, and latency needed to inform the next decision before adjustment becomes impossible.
+    required: true
+    artifact_fields: [monitoring_design, baselines, data_quality, monitoring_owners]
+  - id: define-decision-rules
+    title: Define review and adjustment rules
+    instruction: >-
+      Set review dates, thresholds, qualitative triggers, pause or stop conditions, and authorised responses
+      while allowing accountable judgment where evidence does not support a mechanical rule.
+    required: true
+    artifact_fields: [review_cadence, decision_rules, stop_conditions, authorised_responses]
+  - id: assign-governance
+    title: Assign governance and participation
+    instruction: >-
+      Identify decision owners, monitoring stewards, affected participants, independent review, resources,
+      transparency, conflict handling, and continuity needed to sustain the cycle.
+    required: true
+    artifact_fields: [decision_owners, data_stewards, participation_plan, governance_gaps]
+  - id: assess-evidence
+    title: Assess monitored outcomes
+    instruction: >-
+      Compare observed outcomes with predictions and baselines, including data quality, harms, anomalies,
+      alternative explanations, missing observations, and whether evidence is sufficiently discriminating.
+    required: false
+    artifact_fields: [observed_outcomes, prediction_comparison, data_limits, alternative_explanations]
+  - id: update-model
+    title: Update understanding
+    instruction: >-
+      Record which models, assumptions, or uncertainty ranges are strengthened, weakened, unchanged, or
+      newly introduced by the monitored evidence without treating a single cycle as definitive.
+    required: false
+    artifact_fields: [updated_models, revised_assumptions, remaining_uncertainty]
+  - id: adapt-decision
+    title: Make the authorised adjustment
+    instruction: >-
+      State the decision taken at the checkpoint, its evidence basis, dissent, safeguards, next monitoring
+      period, and why the adjustment stays within the approved ethical and legal boundary.
+    required: false
+    artifact_fields: [checkpoint_decision, evidence_basis, dissent, next_cycle]
+  - id: record-cycle
+    title: Record cycle status and limits
+    instruction: >-
+      Distinguish planned, operating, and completed-cycle evidence; state what was learned, what remains
+      unknown, actual harms or benefits, governance failures, and conditions for continuing or stopping.
+    required: true
+    artifact_fields: [cycle_stage, learning_claims, remaining_unknowns, continuation_conditions]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [theory-of-change, indicators-signposts, alternative-futures, key-assumptions, causal-factors]
+conflicts: []
+failure_modes:
+  - Ordinary trial and error or changing goals after failure is relabelled as adaptive management.
+  - A monitoring dashboard is treated as learning without predictions, review rules, or decision change.
+  - Planning artifacts claim observed adaptation despite no completed, evidence-bound cycle.
+  - A supposedly reversible experiment imposes unexamined, concentrated, or unacceptable harm.
+  - No owner, authority, resources, or timely data exists to make the promised adjustment.

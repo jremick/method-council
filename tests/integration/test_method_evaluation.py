@@ -17,9 +17,9 @@ def test_method_screen_covers_catalog_and_remains_incomplete():
     assert report["valid"] is True
     assert report["overall_status"] == "INCOMPLETE"
     assert report["totals"] == {
-        "catalog_methods": 16,
+        "catalog_methods": 24,
         "inventoried_methods": 8,
-        "unevaluated_methods": 8,
+        "unevaluated_methods": 16,
         "structurally_valid": 8,
         "procedure_complete": 6,
         "correlated_semantic_screen_met": 8,
@@ -27,13 +27,21 @@ def test_method_screen_covers_catalog_and_remains_incomplete():
         "independently_reviewed": 0,
     }
     assert report["unevaluated_methods"] == [
+        "adaptive-management",
+        "capability-distribution-review",
         "causal-factors",
         "concept-clarification",
         "contextual-interpretation",
+        "human-centred-design-inquiry",
         "outside-in",
         "outside-view",
         "pragmatic-clarification",
         "reflective-equilibrium",
+        "reflexive-thematic-analysis",
+        "rights-proportionality-review",
+        "speech-act-analysis",
+        "structured-expert-elicitation",
+        "theory-of-change",
         "value-sensitive-inquiry",
     ]
     assert report["issues"] == []

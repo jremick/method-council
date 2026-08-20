@@ -67,7 +67,7 @@ visibility and GitHub settings require separate live readback after mutation.
   `INCOMPLETE / CORRELATED` evidence, retaining missing evidence rather than
   laundering under-evidenced passes into PASS.
 - The original eight methods have recorded specimen coverage and a correlated
-  semantic screen. Three expanded methods have source-backed preview contracts
+  semantic screen. Sixteen expanded methods have source-backed preview contracts
   but no specimen yet. Usefulness validation remains `INCOMPLETE` pending
   blinded baselines, repeated cases, and independent practitioner review.
 - Claude Code and Gemini CLI adapter contracts are present but launch and

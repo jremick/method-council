@@ -1,0 +1,136 @@
+schema_version: "0.1.0"
+id: rights-proportionality-review
+version: "0.1.0"
+title: Rights and Proportionality Review
+summary: >-
+  Tests whether a proposed limit on a right or important interest has a supported objective,
+  rational connection, less-restrictive alternatives, and defensible balance of benefits and harms.
+status: preview
+family: normative
+provenance:
+  class: project-adaptation
+  sources:
+    - id: justice-canada-oakes
+      title: Charterpedia — Section 1, Reasonable Limits
+      publisher: Department of Justice Canada
+      url: https://www.justice.gc.ca/eng/csj-sjc/rfc-dlc/ccrf-ccdl/check/art1.html
+      accessed: "2026-08-20"
+      supports:
+        - A structured test of sufficiently important objective, rational connection, minimal impairment, and final balancing
+        - Evidence needs for the objective, causal connection, less-intrusive measures, and positive and negative effects
+      notes: >-
+        Official Canadian legal guidance describing section 1 Charter analysis. Method Council
+        generalises its questions as a deliberative review and does not provide jurisdiction-specific legal advice.
+  adaptation: >-
+    Generalises a public proportionality structure into a source-bound review of rights, objectives,
+    means, alternatives, burdens, benefits, and decision authority for non-judicial council use.
+  claim_limits:
+    - This method is not legal advice and cannot determine legal validity in any jurisdiction.
+    - Rights, burdens of proof, tests, deference, and remedies vary by authority and context.
+    - A proportionate balance is a reasoned judgment, not a mechanical score or proof of legitimacy.
+    - The preview has not received independent legal, policy, or philosophical fidelity review.
+activities: [analyse, decide, architect, review]
+capabilities: [rights-proportionality-analysis]
+requires_methods: []
+applicability:
+  use_when:
+    - A policy, design, rule, or decision may limit a recognised right or comparably important interest.
+    - The decision needs explicit justification of its objective, means, alternatives, and distribution of burdens.
+  avoid_when:
+    - No right, protected interest, authority, or proposed limit can be identified.
+    - The user needs jurisdiction-specific legal advice or adjudication that requires qualified counsel.
+  prerequisites:
+    - The proposed measure, responsible authority, objective, affected right or interest, and jurisdictional context
+    - Evidence about expected benefits, burdens, causal connection, and feasible less-restrictive alternatives
+rigor:
+  rapid:
+    enabled: false
+    steps: []
+    minimum_evidence_refs: 0
+    notes: Rights-limiting decisions should not be reduced to a rapid checklist.
+  standard:
+    enabled: true
+    steps: [bound-authority, identify-right, state-objective, test-rational-connection, compare-less-restrictive, balance-effects, record-judgment]
+    minimum_evidence_refs: 2
+    notes: Applies the complete review while keeping missing legal and effects evidence visible.
+  intensive:
+    enabled: true
+    steps: [bound-authority, identify-right, state-objective, test-rational-connection, compare-less-restrictive, test-distribution, balance-effects, plan-monitoring, record-judgment]
+    minimum_evidence_refs: 3
+    notes: Adds distributional analysis and post-decision monitoring of actual burdens and benefits.
+procedure:
+  - id: bound-authority
+    title: Bound the authority and test
+    instruction: >-
+      State the decision, responsible authority, jurisdiction or governing framework, burden of
+      justification, affected period, and which legal or normative questions require qualified review.
+    required: true
+    artifact_fields: [decision_boundary, authority, governing_framework, legal_review_needs]
+  - id: identify-right
+    title: Identify the right and limit
+    instruction: >-
+      Describe the source, scope, holders, and importance of the right or interest and the exact way
+      the proposed measure limits, conditions, or redistributes it without inventing legal status.
+    required: true
+    artifact_fields: [right_or_interest, source_and_scope, affected_holders, proposed_limit]
+  - id: state-objective
+    title: Test the objective
+    instruction: >-
+      State the measure's actual supported objective, its importance, and any competing or shifting
+      purposes; distinguish asserted benefits from evidence that the objective is pressing or material.
+    required: true
+    artifact_fields: [stated_objective, objective_evidence, competing_purposes]
+  - id: test-rational-connection
+    title: Test rational connection
+    instruction: >-
+      Examine the evidence and causal reasoning linking the measure to the objective, including
+      counterevidence, uncertainty, alternative explanations, and conditions where the link fails.
+    required: true
+    artifact_fields: [causal_connection, supporting_evidence, counterevidence, connection_limits]
+  - id: compare-less-restrictive
+    title: Compare less-restrictive alternatives
+    instruction: >-
+      Identify feasible measures that may achieve the objective with a smaller or differently
+      distributed burden and compare effectiveness, constraints, uncertainty, and omitted options.
+    required: true
+    artifact_fields: [alternatives, comparative_effectiveness, burden_comparison, omitted_options]
+  - id: test-distribution
+    title: Test distribution and exclusion
+    instruction: >-
+      Examine who receives benefits, who bears direct and indirect burdens, which groups may face
+      compounding barriers, and whether aggregate gains hide severe concentrated effects.
+    required: false
+    artifact_fields: [benefit_distribution, burden_distribution, compounding_effects]
+  - id: balance-effects
+    title: Balance supported effects
+    instruction: >-
+      Compare the supported benefits and burdens in their actual scope, severity, duration, reversibility,
+      and uncertainty without collapsing incomparable rights or harms into one invented score.
+    required: true
+    artifact_fields: [supported_benefits, supported_burdens, balancing_reasons, unresolved_conflicts]
+  - id: plan-monitoring
+    title: Plan monitoring and reconsideration
+    instruction: >-
+      Define indicators, evidence owners, review dates, and withdrawal or revision conditions so actual
+      burdens, benefits, and less-restrictive alternatives can be reassessed after implementation.
+    required: false
+    artifact_fields: [monitoring_plan, review_authority, revision_conditions]
+  - id: record-judgment
+    title: Record the bounded judgment
+    instruction: >-
+      State whether the available record supports, weakens, or leaves the proportionality case incomplete,
+      the strongest contrary view, required expert review, and evidence that could change the judgment.
+    required: true
+    artifact_fields: [proportionality_judgment, strongest_contrary_view, required_review, change_evidence]
+result_schema: schemas/method-result.schema.json
+evidence_rules:
+  minimum_references: 2
+  allow_unreferenced_assumptions: false
+complements: [evidence-quality, capability-distribution-review, reflective-equilibrium, value-sensitive-inquiry, devils-advocacy]
+conflicts: []
+failure_modes:
+  - A generic balancing score replaces the governing right, authority, evidence, or burden of justification.
+  - The stated objective shifts to fit the chosen measure or is accepted without evidence.
+  - Less-restrictive alternatives are omitted, caricatured, or dismissed without comparative support.
+  - Aggregate benefits hide severe, concentrated, irreversible, or unequally distributed burdens.
+  - A model-generated review is presented as legal advice, adjudication, democratic legitimacy, or consent.
