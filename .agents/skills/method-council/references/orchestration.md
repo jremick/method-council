@@ -1,4 +1,4 @@
-# Codex orchestration
+# Method Council orchestration
 
 Read this reference before a standard or intensive run, or before using
 subagents. It describes outcomes and constraints; use the current host's native
@@ -14,8 +14,9 @@ files, or decide the aggregate status.
 
 ## Execution paths
 
-The default is one GPT path through the Codex subscription. For an authorised
-multi-model run, use `run.execution_plan.assignments` as the source of truth.
+The default is one model path through the current host. Codex with a ChatGPT
+subscription is the most tested path. For an authorised multi-model run, use
+`run.execution_plan.assignments` as the source of truth.
 Every selected method appears exactly once. Each result must echo its assigned
 execution fields; the coordinator host is not a valid substitute.
 
@@ -84,7 +85,7 @@ pass may explain convergence or divergence but cannot alter those derived
 values, invent evidence references, or discard a dissenting valid result.
 
 Validate the final report, then run
-`uv run --frozen method-council verify-run <run-dir>` to bind
+`method-council verify-run <run-dir>` to bind
 the report to the selected methods, result bytes, evidence, derived status, and
 correlation state. If repair is possible without changing evidence, allow one
 structural repair. Otherwise return the non-passing validation state and the

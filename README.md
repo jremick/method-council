@@ -20,19 +20,28 @@
 
 ## Quick start
 
-The tested setup uses Codex with a ChatGPT subscription. Install
-[Git](https://git-scm.com/) and [uv](https://docs.astral.sh/uv/), then run:
+Install [Git](https://git-scm.com/) and [uv](https://docs.astral.sh/uv/), then
+run:
 
 ```bash
 git clone https://github.com/jremick/method-council.git
 cd method-council
-uv sync --frozen --all-groups
-uv run --frozen method-council validate
+python3 scripts/install.py
+method-council validate
 ```
 
-Open the cloned folder in Codex. The included
-[Method Council skill](skill/method-council/SKILL.md) will be available as
-`$method-council`.
+The installer adds the portable CLI plus personal skills for Codex and Claude
+Code. Use `python3 scripts/install.py --codex` or `--claude-code` to install only
+one skill. Use `--force` when replacing an older copy.
+
+- In Codex, invoke `$method-council`.
+- In Claude Code, invoke `/method-council`.
+- For Claude or Cowork account upload, build a ZIP with
+  `python3 scripts/package_skill.py`, then upload the generated file from
+  Customize > Skills.
+
+See [Installation](docs/INSTALLATION.md) for upgrades, project-only use,
+uninstall steps, and current host limits.
 
 For example:
 
@@ -57,9 +66,9 @@ You can also ask for a specific kind of help:
 - “Clarify what ‘safe enough’ means here and test the edge cases.”
 - “Show which values and affected people this design may be overlooking.”
 
-The checkout keeps the skill, method catalogue, and validation tools together.
-A standalone packaged install is not available yet. The method files are
-model-neutral, but other AI providers have not received the same testing.
+The CLI includes the method catalogue and can run from any project. The method
+files and skill follow a host-neutral Agent Skills structure. Codex remains the
+most tested host; other hosts have less execution evidence.
 
 ## What Method Council is
 
@@ -125,8 +134,9 @@ remain incomplete rather than inventing people's views.
 
 The methods are the council members. Models are optional execution paths.
 
-- **Easy default:** one GPT runs each method in Codex. These passes are marked
-  `CORRELATED` because they may share the same model blind spots.
+- **Easy default:** the current AI tool runs each method with its default model.
+  These passes are marked `CORRELATED` because they may share the same model
+  blind spots. Codex with GPT is the most tested path.
 - **Preferred when available:** assign passes to different supported provider
   models. Useful disagreement can expose model-specific blind spots, but it is
   still not independent proof or a vote for the truth.
@@ -169,7 +179,10 @@ Method Council is a public alpha:
   screen. The other 16 are explicitly unevaluated.
 - No method has yet passed the planned blinded baseline comparison and
   independent practitioner review.
-- Claude and Gemini adapter contracts exist only as disabled previews.
+- The portable CLI and project skill are install-tested outside the source
+  checkout. Claude Code and Claude account skill execution remain less tested
+  than Codex.
+- Automated Claude and Gemini provider adapters remain disabled previews.
 
 Use it for experiments, reviews, and learning. Do not treat it as the sole
 authority for a high-stakes decision.
@@ -185,7 +198,12 @@ authority for a high-stakes decision.
 - [Method evaluation](evals/METHOD_EVALS.md) — what has and has not been tested
 - [Confidence plan](evals/CONFIDENCE_PLAN.md) — the next blinded evaluations
 - [Source register](docs/SOURCES.md) — where the methods came from
+- [Installation](docs/INSTALLATION.md) — Codex, Claude Code, Claude/Cowork, and
+  project-only setup
 - [Codex workflow](docs/CODEX_WORKFLOW.md) — the tested subscription path
+- [Claude workflow](docs/CLAUDE_WORKFLOW.md) — supported skill surfaces and
+  current limits
+- [Compatibility](docs/COMPATIBILITY.md) — evidence by host and execution mode
 - [Architecture](docs/ARCHITECTURE.md) — contracts and trust boundaries
 
 ## Contributing, security, and license

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synchronize the canonical Method Council skill into Codex discovery scope."""
+"""Synchronize the canonical skill into Codex and Claude Code project scopes."""
 
 from __future__ import annotations
 
@@ -8,13 +8,24 @@ import hashlib
 import json
 import sys
 from pathlib import Path
-from typing import Final
+from typing import Final, NamedTuple
 
-GENERATOR_ID: Final = "method-council-codex-skill-sync"
-GENERATOR_VERSION: Final = "0.1.0"
+GENERATOR_ID: Final = "method-council-agent-skill-sync"
+GENERATOR_VERSION: Final = "0.2.0"
 SOURCE_RELATIVE: Final = Path("skill/method-council")
-TARGET_RELATIVE: Final = Path(".agents/skills/method-council")
 METADATA_NAME: Final = ".projection.json"
+
+
+class ProjectionTarget(NamedTuple):
+    path: Path
+    kind: str
+
+
+TARGETS: Final = (
+    ProjectionTarget(Path(".agents/skills/method-council"), "codex-skill-projection"),
+    ProjectionTarget(Path(".claude/skills/method-council"), "claude-code-skill-projection"),
+)
+TARGET_RELATIVE: Final = TARGETS[0].path
 
 
 class ProjectionError(RuntimeError):
@@ -53,12 +64,12 @@ def _canonical_digest(files: dict[str, bytes]) -> str:
     return f"sha256:{digest.hexdigest()}"
 
 
-def _metadata(files: dict[str, bytes]) -> bytes:
+def _metadata(files: dict[str, bytes], target: ProjectionTarget) -> bytes:
     document = {
         "schema_version": "0.1.0",
-        "kind": "codex-skill-projection",
+        "kind": target.kind,
         "source": SOURCE_RELATIVE.as_posix(),
-        "target": TARGET_RELATIVE.as_posix(),
+        "target": target.path.as_posix(),
         "canonical_input_digest": _canonical_digest(files),
         "generator_id": GENERATOR_ID,
         "generator_version": GENERATOR_VERSION,
@@ -67,21 +78,21 @@ def _metadata(files: dict[str, bytes]) -> bytes:
     return (json.dumps(document, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
 
-def expected_projection(root: Path) -> dict[str, bytes]:
+def expected_projection(root: Path, target: ProjectionTarget = TARGETS[0]) -> dict[str, bytes]:
     """Return the complete, content-bound projection for ``root``."""
 
     source = root / SOURCE_RELATIVE
     files = _canonical_files(source)
-    return {**files, METADATA_NAME: _metadata(files)}
+    return {**files, METADATA_NAME: _metadata(files, target)}
 
 
-def _target_files(target: Path) -> dict[str, bytes]:
+def _target_files(target: Path, target_relative: Path = TARGET_RELATIVE) -> dict[str, bytes]:
     if target.is_symlink():
-        raise ProjectionError(f"projection target must not be a symbolic link: {TARGET_RELATIVE}")
+        raise ProjectionError(f"projection target must not be a symbolic link: {target_relative}")
     if not target.exists():
         return {}
     if not target.is_dir():
-        raise ProjectionError(f"projection target is not a directory: {TARGET_RELATIVE}")
+        raise ProjectionError(f"projection target is not a directory: {target_relative}")
 
     files: dict[str, bytes] = {}
     for path in sorted(target.rglob("*")):
@@ -94,9 +105,9 @@ def _target_files(target: Path) -> dict[str, bytes]:
     return files
 
 
-def projection_issues(root: Path) -> list[str]:
-    expected = expected_projection(root)
-    actual = _target_files(root / TARGET_RELATIVE)
+def projection_issues(root: Path, target: ProjectionTarget = TARGETS[0]) -> list[str]:
+    expected = expected_projection(root, target)
+    actual = _target_files(root / target.path, target.path)
     issues: list[str] = []
 
     missing = sorted(set(expected) - set(actual))
@@ -108,10 +119,10 @@ def projection_issues(root: Path) -> list[str]:
     return issues
 
 
-def sync_projection(root: Path) -> None:
-    expected = expected_projection(root)
-    target = root / TARGET_RELATIVE
-    actual = _target_files(target)
+def sync_projection(root: Path, projection: ProjectionTarget = TARGETS[0]) -> None:
+    expected = expected_projection(root, projection)
+    target = root / projection.path
+    actual = _target_files(target, projection.path)
     target.mkdir(parents=True, exist_ok=True)
 
     for relative in sorted(set(actual) - set(expected), reverse=True):
@@ -136,8 +147,19 @@ def sync_projection(root: Path) -> None:
         temporary.replace(path)
 
 
+def _all_issues(root: Path) -> list[str]:
+    return [
+        f"{target.path}:{issue}" for target in TARGETS for issue in projection_issues(root, target)
+    ]
+
+
+def sync_projections(root: Path) -> None:
+    for target in TARGETS:
+        sync_projection(root, target)
+
+
 def _emit(mode: str, valid: bool, issues: list[str], root: Path) -> None:
-    expected = expected_projection(root)
+    expected = expected_projection(root, TARGETS[0])
     metadata = json.loads(expected[METADATA_NAME])
     print(
         json.dumps(
@@ -145,7 +167,7 @@ def _emit(mode: str, valid: bool, issues: list[str], root: Path) -> None:
                 "mode": mode,
                 "valid": valid,
                 "source": SOURCE_RELATIVE.as_posix(),
-                "target": TARGET_RELATIVE.as_posix(),
+                "targets": [target.path.as_posix() for target in TARGETS],
                 "canonical_input_digest": metadata["canonical_input_digest"],
                 "generator_id": GENERATOR_ID,
                 "generator_version": GENERATOR_VERSION,
@@ -159,7 +181,7 @@ def _emit(mode: str, valid: bool, issues: list[str], root: Path) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Synchronize or check the generated repo-local Codex skill projection."
+        description="Synchronize or check repo-local Codex and Claude Code skill projections."
     )
     parser.add_argument("mode", choices=("sync", "check"))
     return parser
@@ -170,8 +192,8 @@ def main(argv: list[str] | None = None) -> int:
     root = _repo_root()
     try:
         if args.mode == "sync":
-            sync_projection(root)
-        issues = projection_issues(root)
+            sync_projections(root)
+        issues = _all_issues(root)
     except (OSError, ProjectionError, ValueError) as exc:
         print(json.dumps({"mode": args.mode, "valid": False, "error": str(exc)}, sort_keys=True))
         return 2

@@ -27,6 +27,22 @@ dev = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/method_council"]
 
+[tool.hatch.build.targets.wheel.force-include]
+"methods" = "method_council/_catalog/methods"
+"profiles" = "method_council/_catalog/profiles"
+"schemas" = "method_council/_catalog/schemas"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/method_council",
+  "/methods",
+  "/profiles",
+  "/schemas",
+  "/README.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+
 [tool.pytest.ini_options]
 addopts = "-ra"
 testpaths = ["tests"]

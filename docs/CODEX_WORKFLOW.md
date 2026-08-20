@@ -7,16 +7,17 @@ runs. All five reproduce as valid `INCOMPLETE / CORRELATED` evidence.
 
 Method Council is designed first for Codex users who are already signed in
 through a ChatGPT subscription. From the repository, install and validate the
-locked environment:
+portable CLI and user skill:
 
 ```bash
-uv sync --frozen --all-groups
-uv run --frozen method-council validate
-uv run --frozen python scripts/sync_codex_skill.py check
+python3 scripts/install.py --codex
+method-council validate
 ```
 
-The checked-in project skill is available at `.agents/skills/method-council`.
-Invoke it in a Codex task with a natural-language request such as:
+The checked-in project skill remains available at
+`.agents/skills/method-council`. The personal installer writes the same skill to
+`~/.agents/skills/method-council`. Invoke it in a Codex task with a
+natural-language request such as:
 
 ```text
 Use $method-council to review this release decision with standard rigor.

@@ -5,8 +5,11 @@ description: Apply multiple sourced methodologies to analyse, investigate, decid
 
 # Method Council
 
-Use methods as procedures, never as simulated people. The simple default is
-native Codex using the current ChatGPT subscription and one GPT execution path.
+Use methods as procedures, never as simulated people. The simple default is the
+current AI tool and its default model. Codex with a ChatGPT subscription is the
+most tested host. Claude Code and other tools can apply the same skill and
+deterministic contracts, but they have less host-specific evaluation.
+
 When the host supports it and the user authorises it, prefer assigning some
 method passes to different provider models because useful disagreement can
 expose model-specific blind spots. Do not call that independent proof.
@@ -18,6 +21,22 @@ mode.
 
 Method Council produces analysis and a checkpoint. It does not itself authorise
 external writes, purchases, publication, or other consequential action.
+
+## Check the runtime
+
+Before starting a run, execute:
+
+```text
+method-council --version
+method-council validate
+```
+
+Run commands from the project that contains the question and evidence. The
+installed CLI supplies the catalogue and schemas; run files remain in the
+current project. If the command is unavailable, read
+[references/hosts.md](references/hosts.md). A managed host with the bundled
+catalogue may use the documented instruction-only fallback, but it must return
+`INCOMPLETE` and must not simulate deterministic validation.
 
 ## Establish the run
 
@@ -59,7 +78,7 @@ that can change the conclusion; method count is not a quality measure.
 Run the deterministic route check before delegating any pass:
 
 ```text
-uv run --frozen method-council route --activity <activity> --rigor <rigor> --method <id> ... [--require-challenge]
+method-council route --activity <activity> --rigor <rigor> --method <id> ... [--require-challenge]
 ```
 
 The checker owns known IDs, activity fit, catalog state, count, uniqueness,
@@ -75,7 +94,7 @@ method. For private or ad hoc questions, pass the question on standard input so
 the raw text is not written to the run bundle:
 
 ```text
-uv run --frozen method-council prepare runs/<run-id> --activity <activity> --rigor <rigor> --method <id> ...
+method-council prepare runs/<run-id> --activity <activity> --rigor <rigor> --method <id> ... --adapter <host>
 ```
 
 The command reads standard input unless `--question-file` is supplied. Use a
@@ -119,7 +138,7 @@ For `standard` and `intensive` runs, or whenever subagents are used, read
 - Validate every returned artifact before it can contribute:
 
 ```text
-uv run --frozen method-council check --schema method-result --run runs/<run-id>/run.json <result-path>
+method-council check --schema method-result --run runs/<run-id>/run.json <result-path>
 ```
 
 One repair attempt is permitted only for a structurally malformed response when
@@ -135,7 +154,7 @@ conditions—not to force consensus.
 Derive primary status and the method ledger from checked artifacts:
 
 ```text
-uv run --frozen method-council aggregate <method-result> ...
+method-council aggregate <method-result> ...
 ```
 
 Deterministic status precedence is `FAIL > ERROR > INCOMPLETE > PASS`.
@@ -149,8 +168,8 @@ dissent, checkpoint indicators, method ledger, routing conditions, and
 limitations. Validate the report, then verify the complete content-bound run:
 
 ```text
-uv run --frozen method-council check --schema report <report-path>
-uv run --frozen method-council verify-run runs/<run-id>
+method-council check --schema report <report-path>
+method-council verify-run runs/<run-id>
 ```
 
 `verify-run` is authoritative for exact method coverage, run/evidence binding,

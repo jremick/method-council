@@ -81,8 +81,8 @@ templates:
 skill_source: "skill/method-council"
 skill_projection:
   target: ".agents/skills/method-council"
-  generator_id: "method-council-codex-skill-sync"
-  generator_version: "0.1.0"
+  generator_id: "method-council-agent-skill-sync"
+  generator_version: "0.2.0"
   metadata: ".agents/skills/method-council/.projection.json"
 generated_targets:
   - "SKILL.md"

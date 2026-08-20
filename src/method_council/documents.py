@@ -40,12 +40,54 @@ def load_document(path: Path) -> Any:
 
 
 def repository_root(start: Path) -> Path:
-    """Find the closest parent containing the canonical ``schemas`` directory."""
+    """Find the closest parent containing a complete Method Council catalogue."""
 
     candidate = start.resolve()
     if candidate.is_file():
         candidate = candidate.parent
     for directory in (candidate, *candidate.parents):
-        if (directory / "schemas").is_dir():
+        if all(
+            (
+                (directory / "schemas" / "method.schema.json").is_file(),
+                (directory / "methods").is_dir(),
+                (directory / "profiles").is_dir(),
+            )
+        ):
             return directory
     raise DocumentError(f"could not locate repository root from {start}")
+
+
+def packaged_catalog_root() -> Path:
+    """Return the catalogue bundled in an installed Method Council package."""
+
+    root = Path(__file__).resolve().parent / "_catalog"
+    if all(
+        (
+            (root / "schemas" / "method.schema.json").is_file(),
+            (root / "methods").is_dir(),
+            (root / "profiles").is_dir(),
+        )
+    ):
+        return root
+    raise DocumentError("installed Method Council package has no bundled catalogue")
+
+
+def catalog_root(start: Path | None = None) -> Path:
+    """Prefer a nearby source checkout, then use the installed catalogue."""
+
+    try:
+        return repository_root(start or Path.cwd())
+    except DocumentError:
+        return packaged_catalog_root()
+
+
+def workspace_root(start: Path | None = None) -> Path:
+    """Find the current Git worktree root, or use the starting directory."""
+
+    candidate = (start or Path.cwd()).resolve()
+    if candidate.is_file():
+        candidate = candidate.parent
+    for directory in (candidate, *candidate.parents):
+        if (directory / ".git").exists():
+            return directory
+    return candidate

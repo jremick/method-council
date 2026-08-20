@@ -58,6 +58,7 @@ def prepare_run(
     external_api_calls: bool,
     correlation_group: str | None,
     execution_plan: Mapping[str, Any] | None = None,
+    catalog_root: Path | None = None,
 ) -> dict[str, Any]:
     """Create a bounded run scaffold without persisting the raw question."""
 
@@ -161,7 +162,8 @@ def prepare_run(
     }
     if execution_plan is not None:
         run["execution_plan"] = dict(execution_plan)
-    schema_issues = SchemaRegistry(root / "schemas").validate(run, "run")
+    schema_root = (catalog_root or root).resolve()
+    schema_issues = SchemaRegistry(schema_root / "schemas").validate(run, "run")
     if schema_issues:
         return {
             "valid": False,
@@ -408,12 +410,13 @@ def _validate_execution_plan(run: Mapping[str, Any], issues: list[Issue]) -> Non
         )
 
 
-def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
+def verify_run(run_dir: Path, *, root: Path, catalog_root: Path | None = None) -> dict[str, Any]:
     """Recompute run completeness, digests, status, and report binding."""
 
     root = root.resolve()
     run_dir = _under_root(root, run_dir)
-    registry = SchemaRegistry(root / "schemas")
+    catalogue = (catalog_root or root).resolve()
+    registry = SchemaRegistry(catalogue / "schemas")
     issues: list[Issue] = []
     run_path = run_dir / "run.json"
     run, _ = _load_object(run_path, "run.manifest-invalid", issues)
@@ -462,7 +465,7 @@ def verify_run(run_dir: Path, *, root: Path) -> dict[str, Any]:
             )
 
     try:
-        catalog = load_catalog(root, registry)
+        catalog = load_catalog(catalogue, registry)
     except (OSError, ValueError) as exc:
         issues.append(Issue("run.catalog-error", str(exc), "methods"))
         catalog = Catalog()

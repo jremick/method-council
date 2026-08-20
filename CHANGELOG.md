@@ -10,6 +10,12 @@ prerelease labels.
 
 ### Added
 
+- Portable wheel catalogue data and cross-project CLI operation outside the
+  Method Council source checkout.
+- Personal installers for Codex and Claude Code, a checked-in Claude Code
+  project skill, and a deterministic Claude/Cowork account-skill ZIP builder.
+- Host-specific fallback rules that keep skill-only managed sessions
+  `INCOMPLETE` when deterministic validation is unavailable.
 - Eight source-backed, unevaluated preview methods: Reflexive Thematic Analysis,
   Speech-Act Analysis, Rights and Proportionality Review, Capability and
   Distribution Review, Theory of Change, Adaptive Management, Human-Centred
@@ -35,6 +41,8 @@ prerelease labels.
 
 ### Changed
 
+- The canonical skill is host-neutral, uses the installed CLI, and is projected
+  into both `.agents/skills/` and `.claude/skills/`.
 - The README quick start now begins with the tested installation path and uses
   list formatting for the method-family catalogue.
 - The method evaluation report now lists catalogue methods without specimens as

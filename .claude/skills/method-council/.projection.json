@@ -9,8 +9,8 @@
   ],
   "generator_id": "method-council-agent-skill-sync",
   "generator_version": "0.2.0",
-  "kind": "codex-skill-projection",
+  "kind": "claude-code-skill-projection",
   "schema_version": "0.1.0",
   "source": "skill/method-council",
-  "target": ".agents/skills/method-council"
+  "target": ".claude/skills/method-council"
 }

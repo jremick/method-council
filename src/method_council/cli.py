@@ -5,12 +5,18 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from typing import Any
 
 from method_council.acceptance import verify_acceptance
 from method_council.catalog import load_catalog, validate_repository
-from method_council.documents import DocumentError, load_document, repository_root
+from method_council.documents import (
+    DocumentError,
+    catalog_root,
+    load_document,
+    workspace_root,
+)
 from method_council.evidence import file_digest
 from method_council.issues import Issue
 from method_council.release import verify_release_manifest
@@ -25,20 +31,33 @@ def _emit(payload: dict[str, Any]) -> None:
     print(json.dumps(payload, indent=2, sort_keys=True))
 
 
-def _root(value: str | None, start: Path | None = None) -> Path:
+def _catalog_root(value: str | None, start: Path | None = None) -> Path:
     if value:
         return Path(value).resolve()
-    return repository_root(start or Path.cwd())
+    return catalog_root(start)
+
+
+def _workspace_root(value: str | None, start: Path | None = None) -> Path:
+    if value:
+        return Path(value).resolve()
+    return workspace_root(start)
+
+
+def _package_version() -> str:
+    try:
+        return version("method-council")
+    except PackageNotFoundError:
+        return "0+unknown"
 
 
 def _validate_command(args: argparse.Namespace) -> int:
-    result = validate_repository(_root(args.root))
+    result = validate_repository(_catalog_root(args.root))
     _emit(result)
     return 0 if result["valid"] else 1
 
 
 def _route_command(args: argparse.Namespace) -> int:
-    root = _root(args.root)
+    root = _catalog_root(args.root)
     catalog = load_catalog(root)
     result = validate_route(
         catalog,
@@ -54,7 +73,7 @@ def _route_command(args: argparse.Namespace) -> int:
 
 def _check_command(args: argparse.Namespace) -> int:
     document_path = Path(args.document).resolve()
-    root = _root(args.root, document_path)
+    root = _catalog_root(args.root, document_path)
     registry = SchemaRegistry(root / "schemas")
     try:
         document = load_document(document_path)
@@ -109,7 +128,7 @@ def _check_command(args: argparse.Namespace) -> int:
 
 def _aggregate_command(args: argparse.Namespace) -> int:
     result_paths = [Path(result_name).resolve() for result_name in args.results]
-    root = _root(args.root, result_paths[0])
+    root = _catalog_root(args.root, result_paths[0])
     registry = SchemaRegistry(root / "schemas")
     claimed_results: list[tuple[Path, dict[str, Any]]] = []
     issues: list[Issue] = []
@@ -231,7 +250,8 @@ def _aggregate_command(args: argparse.Namespace) -> int:
 
 
 def _prepare_command(args: argparse.Namespace) -> int:
-    root = _root(args.root)
+    root = _workspace_root(args.root)
+    catalogue = _catalog_root(args.catalog_root, root)
     question_path = Path(args.question_file).resolve() if args.question_file else None
     question = question_path.read_text(encoding="utf-8") if question_path else sys.stdin.read()
     run_dir = Path(args.run_dir)
@@ -257,7 +277,7 @@ def _prepare_command(args: argparse.Namespace) -> int:
         root=root,
         run_dir=run_dir,
         question=question,
-        catalog=load_catalog(root),
+        catalog=load_catalog(catalogue),
         profile_id=args.profile,
         activity=args.activity,
         rigor=args.rigor,
@@ -273,23 +293,25 @@ def _prepare_command(args: argparse.Namespace) -> int:
         external_api_calls=args.external_api_calls,
         correlation_group=args.correlation_group,
         execution_plan=execution_plan,
+        catalog_root=catalogue,
     )
     _emit(result)
     return 0 if result["valid"] else 1
 
 
 def _verify_run_command(args: argparse.Namespace) -> int:
-    root = _root(args.root, Path(args.run_dir))
+    root = _workspace_root(args.root)
+    catalogue = _catalog_root(args.catalog_root, root)
     run_dir = Path(args.run_dir)
     if not run_dir.is_absolute():
         run_dir = root / run_dir
-    result = verify_run(run_dir, root=root)
+    result = verify_run(run_dir, root=root, catalog_root=catalogue)
     _emit(result)
     return 0 if result["valid"] else 1
 
 
 def _verify_acceptance_command(args: argparse.Namespace) -> int:
-    root = _root(args.root, Path(args.bundle_dir))
+    root = _catalog_root(args.root, Path(args.bundle_dir))
     bundle_dir = Path(args.bundle_dir)
     if not bundle_dir.is_absolute():
         bundle_dir = root / bundle_dir
@@ -302,7 +324,7 @@ def _verify_release_command(args: argparse.Namespace) -> int:
     manifest = Path(args.manifest)
     if not manifest.is_absolute():
         manifest = Path.cwd() / manifest
-    root = _root(args.root, manifest)
+    root = _catalog_root(args.root, manifest)
     result = verify_release_manifest(manifest, root=root)
     _emit(result)
     return 0 if result["release_eligible"] else 1
@@ -315,6 +337,7 @@ def build_parser() -> argparse.ArgumentParser:
             "Deterministic validation for Method Council. No command calls a model provider."
         ),
     )
+    parser.add_argument("--version", action="version", version=f"%(prog)s {_package_version()}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate_parser = subparsers.add_parser(
@@ -361,7 +384,12 @@ def build_parser() -> argparse.ArgumentParser:
         "prepare", help="create a content-bound run scaffold without calling a model"
     )
     prepare_parser.add_argument("run_dir", help="new or empty run directory under the repository")
-    prepare_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    prepare_parser.add_argument(
+        "--root", help="workspace root for run files and evidence (auto-detected by default)"
+    )
+    prepare_parser.add_argument(
+        "--catalog-root", help="catalogue root (nearby checkout or installed data by default)"
+    )
     prepare_parser.add_argument("--profile", help="canonical profile id")
     prepare_parser.add_argument("--activity", choices=sorted(ACTIVITIES))
     prepare_parser.add_argument("--rigor", choices=sorted(RIGOR_COUNTS))
@@ -399,7 +427,12 @@ def build_parser() -> argparse.ArgumentParser:
         "verify-run", help="derive a deterministic verdict from a run directory"
     )
     run_parser.add_argument("run_dir", help="run directory containing run.json and artifacts")
-    run_parser.add_argument("--root", help="repository root (auto-detected by default)")
+    run_parser.add_argument(
+        "--root", help="workspace root for run files and evidence (auto-detected by default)"
+    )
+    run_parser.add_argument(
+        "--catalog-root", help="catalogue root (nearby checkout or installed data by default)"
+    )
     run_parser.set_defaults(handler=_verify_run_command)
 
     acceptance_parser = subparsers.add_parser(

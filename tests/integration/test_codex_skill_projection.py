@@ -15,7 +15,10 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL = ROOT / "skill" / "method-council"
-PROJECTION = ROOT / ".agents" / "skills" / "method-council"
+PROJECTIONS = {
+    ROOT / ".agents" / "skills" / "method-council": "codex-skill-projection",
+    ROOT / ".claude" / "skills" / "method-council": "claude-code-skill-projection",
+}
 SYNC_SCRIPT = ROOT / "scripts" / "sync_codex_skill.py"
 WORKFLOW_COMMANDS = (
     "validate",
@@ -66,48 +69,51 @@ def _strings(value: object) -> list[str]:
     return []
 
 
-def test_checked_in_projection_exactly_matches_canonical_skill() -> None:
+@pytest.mark.parametrize(("projection", "kind"), PROJECTIONS.items())
+def test_checked_in_projection_exactly_matches_canonical_skill(projection: Path, kind: str) -> None:
     canonical_files = _files(CANONICAL)
-    projected_files = _files(PROJECTION, exclude={".projection.json"})
+    projected_files = _files(projection, exclude={".projection.json"})
 
     assert projected_files == canonical_files
 
-    metadata = json.loads((PROJECTION / ".projection.json").read_text(encoding="utf-8"))
+    metadata = json.loads((projection / ".projection.json").read_text(encoding="utf-8"))
     assert metadata == {
         "schema_version": "0.1.0",
-        "kind": "codex-skill-projection",
+        "kind": kind,
         "source": "skill/method-council",
-        "target": ".agents/skills/method-council",
+        "target": projection.relative_to(ROOT).as_posix(),
         "canonical_input_digest": _digest(canonical_files),
-        "generator_id": "method-council-codex-skill-sync",
-        "generator_version": "0.1.0",
+        "generator_id": "method-council-agent-skill-sync",
+        "generator_version": "0.2.0",
         "generated_files": sorted(canonical_files),
     }
 
 
 def test_projection_metadata_and_content_have_no_personal_absolute_paths() -> None:
-    metadata = json.loads((PROJECTION / ".projection.json").read_text(encoding="utf-8"))
-    for value in _strings(metadata):
-        assert not Path(value).is_absolute()
+    for projection in PROJECTIONS:
+        metadata = json.loads((projection / ".projection.json").read_text(encoding="utf-8"))
+        for value in _strings(metadata):
+            assert not Path(value).is_absolute()
 
-    forbidden = (str(ROOT), "/Users/", "file://")
-    for relative, content in _files(PROJECTION).items():
-        text = content.decode("utf-8")
-        assert all(marker not in text for marker in forbidden), relative
+        forbidden = (str(ROOT), "/Users/", "file://")
+        for relative, content in _files(projection).items():
+            text = content.decode("utf-8")
+            assert all(marker not in text for marker in forbidden), relative
 
 
-def test_repo_local_codex_workflows_use_locked_uv_invocations() -> None:
+def test_skill_workflows_use_the_portable_installed_command() -> None:
     workflow = "|".join(re.escape(command) for command in WORKFLOW_COMMANDS)
-    bare_invocation = re.compile(
-        rf"(?<!uv run --frozen )(?<![\w$./-])method-council\s+(?:{workflow})\b"
-    )
+    portable_invocation = re.compile(rf"(?<![\w$./-])method-council\s+(?:{workflow})\b")
 
-    for root in (CANONICAL, PROJECTION, ROOT / "adapters" / "codex"):
+    for root in (CANONICAL, *PROJECTIONS, ROOT / "adapters" / "codex"):
+        texts: list[str] = []
         for path in sorted(root.rglob("*")):
             if not path.is_file():
                 continue
             text = path.read_text(encoding="utf-8")
-            assert bare_invocation.search(text) is None, path.relative_to(ROOT)
+            texts.append(text)
+            assert "uv run --frozen method-council" not in text, path.relative_to(ROOT)
+        assert portable_invocation.search("\n".join(texts)) is not None, root.relative_to(ROOT)
 
 
 def test_locked_uv_workflow_command_runs_without_an_activated_environment() -> None:
@@ -137,21 +143,21 @@ def test_sync_is_content_bound_idempotent_and_removes_stale_files(tmp_path: Path
     temporary_source = tmp_path / "skill" / "method-council"
     shutil.copytree(CANONICAL, temporary_source)
 
-    module.sync_projection(tmp_path)
-    first = _files(tmp_path / ".agents" / "skills" / "method-council")
-    module.sync_projection(tmp_path)
-    assert _files(tmp_path / ".agents" / "skills" / "method-council") == first
-    assert module.projection_issues(tmp_path) == []
+    module.sync_projections(tmp_path)
+    first = {target.path: _files(tmp_path / target.path) for target in module.TARGETS}
+    module.sync_projections(tmp_path)
+    assert {target.path: _files(tmp_path / target.path) for target in module.TARGETS} == first
+    assert module._all_issues(tmp_path) == []  # noqa: SLF001 - integration contract
 
     stale = tmp_path / ".agents" / "skills" / "method-council" / "stale.txt"
     stale.write_text("stale\n", encoding="utf-8")
     assert module.projection_issues(tmp_path) == ["stale:stale.txt"]
-    module.sync_projection(tmp_path)
+    module.sync_projections(tmp_path)
     assert not stale.exists()
-    assert module.projection_issues(tmp_path) == []
+    assert module._all_issues(tmp_path) == []  # noqa: SLF001 - integration contract
 
 
-@pytest.mark.parametrize("skill_path", [CANONICAL, PROJECTION])
+@pytest.mark.parametrize("skill_path", [CANONICAL, *PROJECTIONS])
 def test_skill_passes_bundled_quick_validate(skill_path: Path) -> None:
     validator = (
         Path.home()

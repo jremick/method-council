@@ -10,8 +10,8 @@
 - **Value hypothesis:** a small set of source-backed method passes, surrounded
   by deterministic contracts, produces a more inspectable and useful decision
   artifact than persona roleplay or unstructured model debate.
-- **Measurable outcome for the public alpha:** a source-only repository with
-  content-bound run execution and verification, a checked-in Codex skill,
+- **Measurable outcome for the public alpha:** a source repository with
+  content-bound run execution and verification, checked-in Codex and Claude Code skills,
   recorded subscription-backed acceptance tasks, disabled preview adapter
   contracts, original public imagery, and honest compatibility boundaries.
 - **Source of truth:** repository schemas, method records, tests, and evidence
@@ -61,8 +61,8 @@ visibility and GitHub settings require separate live readback after mutation.
 - `verify-run` re-reads evidence and method artifacts, validates exact route
   coverage and host execution metadata, recomputes the ledger and status, and
   rejects forged or mismatched reports.
-- The canonical Codex skill is projected into `.agents/skills/` by a
-  deterministic, content-bound sync helper.
+- The canonical Agent Skill is projected into `.agents/skills/` and
+  `.claude/skills/` by a deterministic, content-bound sync helper.
 - Five real ChatGPT-authenticated Codex runs are recorded. All five are valid
   `INCOMPLETE / CORRELATED` evidence, retaining missing evidence rather than
   laundering under-evidenced passes into PASS.

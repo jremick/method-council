@@ -27,6 +27,6 @@ assumptions, unknowns, dissent, checkpoint indicators, routing limitations, and
 all non-passing conditions. Bind judgments only to existing finding IDs. Do not
 change derived status, invent evidence, force consensus, or expose hidden
 chain-of-thought. The report is provisional until
-`uv run --frozen method-council verify-run {{run_dir}}` validates exact method
+`method-council verify-run {{run_dir}}` validates exact method
 coverage, content digests, ledger parity, derived status, and correlation
 labelling.

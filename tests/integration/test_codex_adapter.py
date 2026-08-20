@@ -97,8 +97,8 @@ def test_adapter_templates_and_canonical_inputs_resolve() -> None:
     }
     assert manifest["skill_projection"] == {
         "target": ".agents/skills/method-council",
-        "generator_id": "method-council-codex-skill-sync",
-        "generator_version": "0.1.0",
+        "generator_id": "method-council-agent-skill-sync",
+        "generator_version": "0.2.0",
         "metadata": ".agents/skills/method-council/.projection.json",
     }
 
@@ -123,4 +123,4 @@ def test_templates_keep_untrusted_data_in_explicit_boundaries() -> None:
         assert "{{external_api_calls}}" in template
         assert "{{correlation_group}}" in template
         assert "CORRELATED" in template
-    assert "uv run --frozen method-council verify-run" in synthesis_task
+    assert "method-council verify-run" in synthesis_task

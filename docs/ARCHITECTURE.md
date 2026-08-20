@@ -2,8 +2,8 @@
 
 ## Summary
 
-Method Council is a host-neutral methodology protocol with a Codex-first
-interaction surface. The model proposes and applies semantic methods;
+Method Council is a host-neutral methodology protocol with Agent Skills for
+Codex and Claude plus a Codex-first evidence base. The model proposes and applies semantic methods;
 deterministic code validates route, structure, evidence, status, and release
 gates.
 
@@ -13,8 +13,8 @@ gates.
 2. **Schemas** — structural contracts for definitions and run artifacts.
 3. **Deterministic core** — semantic validation, routing policy, evidence
    binding, aggregation, and release verification.
-4. **Codex skill** — progressive-disclosure instructions and bounded subagent
-   workflow for a ChatGPT-subscription user.
+4. **Agent skill** — progressive-disclosure instructions for Codex, Claude Code,
+   account upload, and compatible Agent Skills hosts.
 5. **Provider adapters** — optional translations behind capability probes.
 6. **Evaluation harness** — representative, adversarial, and failure fixtures.
 7. **Evidence bundle** — content-bound reports used for later release decisions.
@@ -53,6 +53,8 @@ flowchart LR
 - External provider and write capabilities are deny-by-default.
 - A multi-model plan records assignments but does not itself grant provider
   access, prove authentication, or launch external calls.
+- An imported skill does not prove that its deterministic CLI, host execution,
+  provider authentication, or model observation is available.
 
 ## Failure behavior
 
